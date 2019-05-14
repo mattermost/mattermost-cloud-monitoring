@@ -39,7 +39,7 @@ resource "aws_autoscaling_group" "worker-asg" {
   launch_configuration = "${aws_launch_configuration.worker-lc.id}"
   max_size             = "${var.max_size}"
   min_size             = "${var.min_size}"
-  name                 = "terraform-eks-test"
+  name                 = "${var.deployment_name}-worker-asg"
   vpc_zone_identifier  = ["${var.subnet_ids}"]
 
   tag {

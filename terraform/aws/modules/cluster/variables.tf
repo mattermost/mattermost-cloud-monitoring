@@ -13,3 +13,7 @@ variable "max_size" {}
 variable "min_size" {}
 
 variable "desired_capacity" {}
+
+variable "cidr_blocks" {
+    type = "list"
+}

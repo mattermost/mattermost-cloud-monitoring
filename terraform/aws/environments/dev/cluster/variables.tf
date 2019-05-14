@@ -34,3 +34,24 @@ variable "desired_capacity" {
     default = "1"
     type = "string"
 }
+
+variable "region" {
+    default = "us-east-1"
+    type = "string"
+}
+
+variable "account_id" {
+    default = ""
+    type    = "string"
+}
+
+variable "environment" {
+    default = "dev"
+    type = "string"
+}
+
+variable "cidr_blocks" {
+    default = [""]
+    type = "list"
+    description = "CIDR to allow inbound cluster access"
+}
