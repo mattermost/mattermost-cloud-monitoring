@@ -27,4 +27,3 @@ module "cluster" {
     aws = "aws.deployment"
   }
 }
-

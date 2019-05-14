@@ -1,4 +1,3 @@
-
 resource "aws_iam_role" "deployment-role" {
   name = "${var.deployment_name}-${var.environment}-deployment-role"
 
@@ -22,5 +21,3 @@ resource "aws_iam_role_policy_attachment" "deployment-role-admin-policy" {
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
   role       = "${aws_iam_role.deployment-role.name}"
 }
-
-
