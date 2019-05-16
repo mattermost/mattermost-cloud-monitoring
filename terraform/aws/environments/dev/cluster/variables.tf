@@ -21,7 +21,7 @@ variable "instance_type" {
 }
 
 variable "max_size" {
-    default = "1"
+    default = "3"
     type = "string"
 }
 
@@ -31,7 +31,7 @@ variable "min_size" {
 }
 
 variable "desired_capacity" {
-    default = "1"
+    default = "3"
     type = "string"
 }
 
@@ -54,4 +54,9 @@ variable "cidr_blocks" {
     default = [""]
     type = "list"
     description = "CIDR to allow inbound cluster access"
+}
+
+variable "kubeconfig_dir" {
+    default = "$HOME/generated"
+    type = "string"
 }

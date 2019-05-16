@@ -23,6 +23,7 @@ module "cluster" {
   min_size = "${var.min_size}"
   desired_capacity = "${var.desired_capacity}"
   cidr_blocks = "${var.cidr_blocks}"
+  kubeconfig_dir = "${var.kubeconfig_dir}"
   providers = {
     aws = "aws.deployment"
   }
