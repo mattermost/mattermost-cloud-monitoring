@@ -6,3 +6,5 @@
 *.tfstate.*
 
 **/plan*
+
+*.DS_Store*
