@@ -6,7 +6,7 @@ variable "vpc_id" {
 }
 
 variable "subnet_ids" {
-    default = ["", ""]
+    default = [""]
     type = "list"
 }
 
@@ -21,18 +21,18 @@ variable "instance_type" {
 }
 
 variable "max_size" {
-    default = "1"
-    type = "string"
+    default = 1
+    type = "number"
 }
 
 variable "min_size" {
-    default = "1"
-    type = "string"
+    default = 1
+    type = "number"
 }
 
 variable "desired_capacity" {
-    default = "1"
-    type = "string"
+    default = 1
+    type = "number"
 }
 
 variable "region" {
@@ -41,8 +41,8 @@ variable "region" {
 }
 
 variable "account_id" {
-    default = ""
-    type    = "string"
+    default = 12345678
+    type = "number"
 }
 
 variable "environment" {
