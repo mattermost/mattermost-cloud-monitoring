@@ -7,8 +7,6 @@ resource "helm_release" "prometheus" {
     "${file("../../../../../chart-values/prometheus_values.yaml")}"
   ]
   depends_on = [
-    "kubernetes_cluster_role_binding.tiller", 
-    "kubernetes_service_account.tiller",
     "kubernetes_namespace.monitoring"
   ]
 }

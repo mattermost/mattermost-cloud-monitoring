@@ -6,7 +6,7 @@ variable "vpc_id" {
 }
 
 variable "subnet_ids" {
-    default = ["", ""]
+    default = [""]
     type = "list"
 }
 
@@ -58,5 +58,10 @@ variable "cidr_blocks" {
 
 variable "kubeconfig_dir" {
     default = "$HOME/generated"
+    type = "string"
+}
+
+variable "volume_size" {
+    default = "50"
     type = "string"
 }

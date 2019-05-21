@@ -19,3 +19,7 @@ variable "cidr_blocks" {
 }
 
 variable "kubeconfig_dir" {}
+
+variable "account_id" {}
+
+variable "volume_size"{}

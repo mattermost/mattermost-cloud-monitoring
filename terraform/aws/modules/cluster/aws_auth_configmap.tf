@@ -1,11 +1,3 @@
-data "aws_eks_cluster_auth" "cluster_auth" {
-  name = "${var.deployment_name}"
-}
-
-data "aws_eks_cluster" "cluster" {
-  name = "${var.deployment_name}"
-}
-
 resource "kubernetes_config_map" "aws_auth_configmap" {
   metadata {
     name      = "aws-auth"
@@ -20,4 +12,9 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
       - system:nodes
   YAML
   }
+  depends_on = [
+    "aws_eks_cluster.cluster",
+    "null_resource.cluster_services",
+    "aws_autoscaling_group.worker-asg"
+  ]
 }

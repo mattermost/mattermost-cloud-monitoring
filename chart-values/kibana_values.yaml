@@ -70,9 +70,9 @@ ingress:
     # - localhost.localdomain/kibana
   annotations:
     kubernetes.io/ingress.class: nginx
-  #   kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
   tls:
-    - secretName: kibana-example-tls
+    - secretName: kibana-server-tls
       hosts:
         - kibana-central.mattermost.com
 

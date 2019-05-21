@@ -87,13 +87,14 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+
   labels: {}
   path: /
   hosts:
     - grafana-central.mattermost.com
   tls:
-   - secretName: grafana-example-tls
+   - secretName: grafana-server-tls
      hosts:
        - grafana-central.mattermost.com
 

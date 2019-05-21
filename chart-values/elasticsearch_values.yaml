@@ -114,14 +114,15 @@ client:
     enabled: true
     # user: NAME
     # password: PASSWORD
-    annotations: {}
+    annotations: 
       kubernetes.io/ingress.class: nginx
+      certmanager.k8s.io/cluster-issuer: letsencrypt-prod
       # kubernetes.io/tls-acme: "true"
     path: /
     hosts:
       - elasticsearch-central.mattermost.com
-    tls: []
-     - secretName: elasticsearch-example-tls
+    tls: 
+     - secretName: elasticsearch-server-tls
        hosts:
          - elasticsearch-central.mattermost.com
 

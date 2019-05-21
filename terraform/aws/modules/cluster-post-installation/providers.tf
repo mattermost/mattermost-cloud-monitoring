@@ -1,3 +1,15 @@
+data "helm_repository" "stable" {
+    name = "stable"
+    url  = "https://kubernetes-charts.storage.googleapis.com"
+}
+
+data "aws_eks_cluster_auth" "cluster_auth" {
+  name = "${var.deployment_name}"
+}
+
+data "aws_eks_cluster" "cluster" {
+  name = "${var.deployment_name}"
+}
 
 provider "kubernetes" {
   host                   = "${data.aws_eks_cluster.cluster.endpoint}"
@@ -9,8 +21,8 @@ provider "kubernetes" {
 
 provider "helm" {
   install_tiller  = true
-  service_account = "${kubernetes_service_account.tiller.metadata.0.name}"
-  namespace       = "${kubernetes_service_account.tiller.metadata.0.namespace}"
+  service_account = "terraform-tiller"
+  namespace       = "kube-system"
   tiller_image    = "gcr.io/kubernetes-helm/tiller:v${var.tiller_version}"
   kubernetes {
     config_path            = "${var.kubeconfig_dir}/kubeconfig"

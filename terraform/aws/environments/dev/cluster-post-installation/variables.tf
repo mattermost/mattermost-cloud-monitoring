@@ -28,4 +28,3 @@ variable "kubeconfig_dir" {
     default = "$HOME/generated"
     type = "string"
 }
-
