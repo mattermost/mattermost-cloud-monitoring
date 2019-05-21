@@ -7,4 +7,3 @@ resource "helm_release" "nginx" {
     "kubernetes_namespace.network"
   ]
 }
-
