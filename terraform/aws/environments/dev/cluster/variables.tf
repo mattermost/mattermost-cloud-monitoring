@@ -26,8 +26,8 @@ variable "max_size" {
 }
 
 variable "min_size" {
-    default = "1"
-    type = "string"
+    default = 1
+    type = "number"
 }
 
 variable "desired_capacity" {
@@ -41,8 +41,8 @@ variable "region" {
 }
 
 variable "account_id" {
-    default = ""
-    type    = "string"
+    default = 12345678
+    type = "number"
 }
 
 variable "environment" {
