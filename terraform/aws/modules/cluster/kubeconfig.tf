@@ -14,7 +14,7 @@ resource "null_resource" "cluster_services" {
     command = <<LOCAL_EXEC
       mkdir "${var.kubeconfig_dir}"
       touch "${var.kubeconfig_dir}/kubeconfig"
-      echo $KUBECONFIG_DATA | base64 -D > "${var.kubeconfig_dir}/kubeconfig"
+      echo $KUBECONFIG_DATA | base64 --decode > "${var.kubeconfig_dir}/kubeconfig"
     LOCAL_EXEC
     environment {
       KUBECONFIG_DATA = "${base64encode(data.template_file.kubeconfig.rendered)}"
