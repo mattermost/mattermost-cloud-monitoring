@@ -28,6 +28,10 @@ resource "aws_launch_configuration" "worker-lc" {
   security_groups             = ["${aws_security_group.worker-sg.id}"]
   user_data_base64            = "${base64encode(local.worker-userdata)}"
 
+  root_block_device {
+    volume_size = "${var.volume_size}"
+  }
+
   lifecycle {
     create_before_destroy = true
   }

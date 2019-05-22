@@ -17,3 +17,9 @@ variable "desired_capacity" {}
 variable "cidr_blocks" {
     type = "list"
 }
+
+variable "kubeconfig_dir" {}
+
+variable "account_id" {}
+
+variable "volume_size"{}
