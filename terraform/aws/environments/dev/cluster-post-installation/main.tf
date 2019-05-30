@@ -17,7 +17,6 @@ provider "aws" {
 module "cluster-post-installation" {
   source = "../../../modules/cluster-post-installation"
   deployment_name = "${var.deployment_name}"
-  account_id = "${var.account_id}"
   region = "${var.region}"
   tiller_version = "${var.tiller_version}"
   kubeconfig_dir = "${var.kubeconfig_dir}"

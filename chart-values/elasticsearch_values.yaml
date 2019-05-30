@@ -111,7 +111,7 @@ client:
     minAvailable: 1
     # maxUnavailable: 1
   ingress:
-    enabled: true
+    enabled: false
     # user: NAME
     # password: PASSWORD
     annotations: 
@@ -120,11 +120,11 @@ client:
       # kubernetes.io/tls-acme: "true"
     path: /
     hosts:
-      - elasticsearch-central.mattermost.com
+      - elasticsearch.example.com
     tls: 
      - secretName: elasticsearch-server-tls
        hosts:
-         - elasticsearch-central.mattermost.com
+         - elasticsearch.example.com
 
 master:
   name: master

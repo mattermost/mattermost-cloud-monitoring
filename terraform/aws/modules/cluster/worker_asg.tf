@@ -27,6 +27,7 @@ resource "aws_launch_configuration" "worker-lc" {
   name_prefix                 = "${var.deployment_name}"
   security_groups             = ["${aws_security_group.worker-sg.id}"]
   user_data_base64            = "${base64encode(local.worker-userdata)}"
+  associate_public_ip_address = false
 
   root_block_device {
     volume_size = "${var.volume_size}"
@@ -44,11 +45,11 @@ resource "aws_autoscaling_group" "worker-asg" {
   max_size             = "${var.max_size}"
   min_size             = "${var.min_size}"
   name                 = "${var.deployment_name}-worker-asg"
-  vpc_zone_identifier  = ["${var.subnet_ids}"]
+  vpc_zone_identifier  = ["${var.private_subnet_ids}"]
 
   tag {
     key                 = "Name"
-    value               = "${var.deployment_name}"
+    value               = "${var.deployment_name}-worker"
     propagate_at_launch = true
   }
 

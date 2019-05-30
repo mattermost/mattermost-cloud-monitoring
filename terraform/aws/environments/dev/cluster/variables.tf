@@ -1,11 +1,15 @@
-
 variable "vpc_id" {
     default = ""
     type    = "string"
 
 }
 
-variable "subnet_ids" {
+variable "public_subnet_ids" {
+    default = [""]
+    type = "list"
+}
+
+variable "private_subnet_ids" {
     default = [""]
     type = "list"
 }

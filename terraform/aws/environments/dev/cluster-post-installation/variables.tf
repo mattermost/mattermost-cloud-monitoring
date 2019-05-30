@@ -4,11 +4,6 @@ variable "deployment_name" {
     type = "string"
 }
 
-variable "account_id" {
-    default = ""
-    type    = "string"
-}
-
 variable "region" {
     default = "us-east-1"
     type = "string"
@@ -16,11 +11,6 @@ variable "region" {
 
 variable "tiller_version" {
     default = "2.13.1"
-    type = "string"
-}
-
-variable "grafana_version" {
-    default = ""
     type = "string"
 }
 
