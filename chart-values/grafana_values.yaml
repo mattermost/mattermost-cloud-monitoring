@@ -88,15 +88,16 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
-
+    nginx.ingress.kubernetes.io/auth-url: "https://auth.example.com/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://auth.example.com/oauth2/start?rd=https://$host$request_uri"
   labels: {}
   path: /
   hosts:
-    - grafana-central.mattermost.com
+    - grafana.example.com
   tls:
    - secretName: grafana-server-tls
      hosts:
-       - grafana-central.mattermost.com
+       - grafana.example.com
 
 resources: {}
 #  limits:
@@ -225,9 +226,10 @@ extraVolumeMounts: []
 
 ## Pass the plugins you want installed as a list.
 ##
-plugins: []
-  # - digrich-bubblechart-panel
-  # - grafana-clock-panel
+plugins: 
+  - digrich-bubblechart-panel
+  - grafana-clock-panel
+  - grafana-piechart-panel
 
 ## Configure grafana datasources
 ## ref: http://docs.grafana.org/administration/provisioning/#datasources
@@ -328,6 +330,7 @@ grafana.ini:
     mode: console
   grafana_net:
     url: https://grafana.net
+
 ## LDAP Authentication can be enabled with the following values on grafana.ini
 ## NOTE: Grafana will fail to start if the value for ldap.toml is invalid
   # auth.ldap:

@@ -66,15 +66,16 @@ service:
 ingress:
   enabled: true
   hosts:
-    - kibana-central.mattermost.com
-    # - localhost.localdomain/kibana
+    - kibana.example.com
   annotations:
     kubernetes.io/ingress.class: nginx
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/auth-url: "https://auth.example.com/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://auth.example.com/oauth2/start?rd=https://$host$request_uri"
   tls:
     - secretName: kibana-server-tls
       hosts:
-        - kibana-central.mattermost.com
+        - kibana.example.com
 
 serviceAccount:
   # Specifies whether a service account should be created

@@ -111,21 +111,7 @@ client:
     minAvailable: 1
     # maxUnavailable: 1
   ingress:
-    enabled: true
-    # user: NAME
-    # password: PASSWORD
-    annotations: 
-      kubernetes.io/ingress.class: nginx
-      certmanager.k8s.io/cluster-issuer: letsencrypt-prod
-      # kubernetes.io/tls-acme: "true"
-    path: /
-    hosts:
-      - elasticsearch-central.mattermost.com
-    tls: 
-     - secretName: elasticsearch-server-tls
-       hosts:
-         - elasticsearch-central.mattermost.com
-
+    enabled: false
 master:
   name: master
   exposeHttp: false

@@ -50,7 +50,7 @@ variable "account_id" {
 }
 
 variable "environment" {
-    default = "dev"
+    default = "test"
     type = "string"
 }
 

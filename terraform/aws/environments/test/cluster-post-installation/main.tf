@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 0.11"
   backend "s3" {
-    bucket = "terraform-cloud-monitoring-state-bucket-dev"
+    bucket = "terraform-cloud-monitoring-state-bucket-test"
     key    = "central-monitoring-cluster-post-installation"
     region = "us-east-1"
   }
