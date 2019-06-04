@@ -112,20 +112,16 @@ client:
     # maxUnavailable: 1
   ingress:
     enabled: false
-    # user: NAME
-    # password: PASSWORD
-    annotations: 
-      kubernetes.io/ingress.class: nginx
-      certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
     path: /
     hosts:
-      - elasticsearch.example.com
-    tls: 
-     - secretName: elasticsearch-server-tls
-       hosts:
-         - elasticsearch.example.com
-
+      - chart-example.local
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
 master:
   name: master
   exposeHttp: false
