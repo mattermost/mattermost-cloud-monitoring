@@ -1,6 +1,6 @@
 resource "helm_release" "elasticsearch" {
   name       = "mattermost-cm-elasticsearch"
-  namespace  = "monitoring"
+  namespace  = "logging"
   repository = "${data.helm_repository.stable.metadata.0.name}"
   chart      = "stable/elasticsearch"
   values = [
