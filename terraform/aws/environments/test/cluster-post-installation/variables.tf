@@ -1,6 +1,6 @@
 
 variable "deployment_name" {
-    default = "mattermost-central-monitoring-cluster"
+    default = "mattermost-central-command-control"
     type = "string"
 }
 
