@@ -5,7 +5,7 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
   }
   data {
       mapRoles = <<YAML
-  - rolearn: "arn:aws:iam::${var.account_id}:role/mattermost-central-monitoring-cluster-worker-role"
+  - rolearn: "arn:aws:iam::${var.account_id}:role/${var.deployment_name}-worker-role"
     username: system:node:{{EC2PrivateDNSName}}
     groups:
       - system:bootstrappers
