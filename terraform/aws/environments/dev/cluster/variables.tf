@@ -15,7 +15,7 @@ variable "private_subnet_ids" {
 }
 
 variable "deployment_name" {
-    default = "mattermost-central-monitoring-cluster"
+    default = "mattermost-central-command-control"
     type = "string"
 }
 
