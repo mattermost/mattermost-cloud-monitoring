@@ -1,5 +1,5 @@
-resource "helm_release" "kibana" {
-  name       = "mattermost-cm-kibana"
+resource "helm_release" "fluentd" {
+  name       = "mattermost-cm-fluentd"
   namespace  = "logging"
   repository = "${data.helm_repository.stable.metadata.0.name}"
   chart      = "stable/fluentd-elasticsearch"
