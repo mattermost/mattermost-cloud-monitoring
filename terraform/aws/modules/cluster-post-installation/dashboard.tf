@@ -3,7 +3,7 @@ resource "kubernetes_secret" "kubernetes-dashboard-certs" {
     name = "kubernetes-dashboard-certs"
     namespace = "kube-system"
     labels {
-    "k8s-app" = "kubernetes-dashboard"
+      k8s-app = "kubernetes-dashboard"
     }
   }
   type = "Opaque"
@@ -14,9 +14,12 @@ resource "kubernetes_service_account" "kubernetes-dashboard-svc-acc" {
     name = "kubernetes-dashboard"
     namespace = "kube-system"
     labels {
-      "k8s-app" = "kubernetes-dashboard"
+      k8s-app = "kubernetes-dashboard"
     }
   }
+  depends_on = [
+    "kubernetes_secret.kubernetes-dashboard-certs"
+  ]
 }
 
 resource "kubernetes_role" "kubernetes-dashboard-role" {
@@ -24,7 +27,7 @@ resource "kubernetes_role" "kubernetes-dashboard-role" {
     name = "kubernetes-dashboard-minimal"
     namespace = "kube-system"
     labels {
-      "k8s-app" = "kubernetes-dashboard"
+      k8s-app = "kubernetes-dashboard"
     }
   }
 
@@ -68,6 +71,9 @@ resource "kubernetes_role" "kubernetes-dashboard-role" {
     resource_names = ["heapster", "http:heapster:", "https:heapster:"]
     verbs = ["get"]
   }
+  depends_on = [
+    "kubernetes_service_account.kubernetes-dashboard-svc-acc"
+  ]
 }
 
 resource "kubernetes_role_binding" "kubernetes-dashboard-rolebinding" {
@@ -75,7 +81,7 @@ resource "kubernetes_role_binding" "kubernetes-dashboard-rolebinding" {
     name = "kubernetes-dashboard-minimal"
     namespace = "kube-system"
     labels {
-      "k8s-app" = "kubernetes-dashboard"
+      k8s-app = "kubernetes-dashboard"
     }
   }
   role_ref {
@@ -88,6 +94,10 @@ resource "kubernetes_role_binding" "kubernetes-dashboard-rolebinding" {
       name = "kubernetes-dashboard"
       namespace = "kube-system"
   }
+  depends_on = [
+    "kubernetes_role.kubernetes-dashboard-role",
+    "kubernetes_service_account.kubernetes-dashboard-svc-acc"
+  ]
 }
 
 resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
@@ -95,7 +105,7 @@ resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
     name = "kubernetes-dashboard"
     namespace = "kube-system"
     labels {
-      "k8s-app" = "kubernetes-dashboard"
+      k8s-app = "kubernetes-dashboard"
     }
   }
 
@@ -104,14 +114,14 @@ resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
 
     selector {
       match_labels {
-        "k8s-app" = "kubernetes-dashboard"
+        k8s-app = "kubernetes-dashboard"
       }
     }
 
     template {
       metadata {
         labels {
-          "k8s-app" = "kubernetes-dashboard"
+          k8s-app = "kubernetes-dashboard"
         }
       }
 
@@ -135,7 +145,8 @@ resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
           liveness_probe {
             http_get {
               path = "/"
-              port = 843
+              port = 8443
+              scheme = "HTTPS"
             }
             initial_delay_seconds = 30
             period_seconds        = 30
@@ -160,6 +171,12 @@ resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
       }
     }
   }
+  depends_on = [
+    "kubernetes_secret.kubernetes-dashboard-certs",
+    "kubernetes_role_binding.kubernetes-dashboard-rolebinding",
+    "kubernetes_role.kubernetes-dashboard-role",
+    "kubernetes_service_account.kubernetes-dashboard-svc-acc"
+  ]
 }
 
 resource "kubernetes_service" "kubernetes-dashboard-svc" {
@@ -217,16 +234,20 @@ resource "kubernetes_deployment" "heapster-deployment" {
       }
 
       spec {
+        service_account_name = "heapster"
         container {
           image = "k8s.gcr.io/heapster-amd64:v1.5.4"
           name  = "heapster"
           image_pull_policy = "IfNotPresent"
           command = ["/heapster", "--source=kubernetes:https://kubernetes.default", "--sink=influxdb:http://monitoring-influxdb.kube-system.svc:8086"]
         }
-        service_account_name = "heapster"
       }
     }
   }
+  depends_on = [
+    "kubernetes_service_account.heapster-svc-acc",
+    "kubernetes_role_binding.heapster-rolebinding"
+  ]
 }
 
 resource "kubernetes_service" "heapster-svc" {
@@ -265,6 +286,9 @@ resource "kubernetes_role_binding" "heapster-rolebinding" {
       name = "heapster"
       namespace = "kube-system"
   }
+  depends_on = [
+    "kubernetes_service_account.heapster-svc-acc"
+  ]
 }
 
 resource "kubernetes_deployment" "monitoring-influxdb-deployment" {
@@ -357,4 +381,7 @@ resource "kubernetes_role_binding" "eks-admin-rolebinding" {
       name = "eks-admin"
       namespace = "kube-system"
   }
+  depends_on = [
+    "kubernetes_service_account.eks-admin-svc-acc"
+  ]
 }
