@@ -226,7 +226,7 @@ extraVolumeMounts: []
 
 ## Pass the plugins you want installed as a list.
 ##
-plugins: 
+plugins:
   - digrich-bubblechart-panel
   - grafana-clock-panel
   - grafana-piechart-panel

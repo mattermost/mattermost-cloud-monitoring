@@ -16,7 +16,7 @@ resource "helm_release" "certmanager" {
   repository = "${data.helm_repository.jetstack.metadata.0.name}"
   chart      = "jetstack/cert-manager"
   depends_on = [
-    "null_resource.certmanagercrds"  
+    "null_resource.certmanagercrds"
     ]
 }
 
@@ -27,6 +27,6 @@ resource "null_resource" "clusterissuer" {
     LOCAL_EXEC
   }
   depends_on = [
-    "helm_release.certmanager"  
+    "helm_release.certmanager"
     ]
 }

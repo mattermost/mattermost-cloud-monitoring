@@ -43,7 +43,7 @@ image:
 
 extraArgs:
   provider: github
-  github-org: "" 
+  github-org: ""
   github-team: ""
   email-domain: "*"
   upstream: "file:///dev/null"
