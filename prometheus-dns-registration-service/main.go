@@ -71,58 +71,69 @@ func main() {
 }
 
 func handler() {
-
 	hostedZoneID := os.Getenv("HOSTED_ZONE_ID")
+	if len(hostedZoneID) == 0 {
+		log.Fatal("HOSTED_ZONE_ID environment variable is not set.")
+		return
+	}
 	clusterName := os.Getenv("CLUSTER_NAME")
+	if len(clusterName) == 0 {
+		log.Fatal("CLUSTER_NAME environment variable is not set.")
+		return
+	}
 	configMapName := os.Getenv("CONFIG_MAP_NAME")
+	if len(configMapName) == 0 {
+		log.Fatal("CONFIG_MAP_NAME environment variable is not set.")
+		return
+	}
 
 	log.Info("Getting the k8s client")
 	clientSet, err := k8sClient(clusterName)
 	if err != nil {
-		log.Fatal(err)
+		log.WithError(err).Fatal("Unable to get the k8s client")
 	}
 	log.Info("Successfully got the k8s client")
 
 	log.Info("Getting Prometheus server configmap")
 	configMap, err := clientSet.CoreV1().ConfigMaps("monitoring").Get(configMapName, metav1.GetOptions{})
 	if err != nil {
-		log.Fatalf("Unable to get the Prometheus server configmap, %v", err)
+		log.WithError(err).Fatal("Unable to get the Prometheus server configmap")
 	}
 	log.Info("Successfully got the Prometheus server configmap")
 
 	data := (configMap.Data["prometheus.yml"])
-	C := config{}
+	configStructure := config{}
 	log.Info("Decoding configmap data into structure")
-	C, err = decodeConfig(data, C)
+	configDecoded, err := decodeConfig(data, configStructure)
 	if err != nil {
-		log.Fatalf("Unable to decode into struct, %v", err)
+		log.WithError(err).Fatal("Unable to decode into struct")
 	}
 	log.Info("Successfully decoded configmap data into structure")
 
 	log.Info("Getting existing Route53 records")
 	targets, err := getRoute53Records(hostedZoneID)
 	if err != nil {
-		log.Fatal(err)
+		log.WithError(err).Fatal("Unable to get the existing Route53 records")
 	}
 
-	dataNew, err := updateTargets(C, targets)
+	dataNew, err := updateTargets(configDecoded, targets)
 	if err != nil {
-		log.Fatal(err)
+		log.WithError(err).Fatal("Unable to update the targets with new ones.")
 	}
 	configMap.Data["prometheus.yml"] = string([]byte(dataNew))
 
 	_, err = clientSet.CoreV1().ConfigMaps("monitoring").Update(configMap)
 	if err != nil {
-		log.Fatal(err)
+		log.WithError(err).Fatal("Unable to update Prometheus server configmap")
 	}
 	log.Info("Successfully updated Prometheus server configmap")
 }
 
 // updateTargets is used to replace existing configmap Prometheus targets with new ones
-func updateTargets(C config, targets []string) ([]byte, error) {
+func updateTargets(configData config, targets []string) ([]byte, error) {
 	log.Info("Replacing existing targets with updated values")
-	C.ScrapeConfigs[0].StaticConfigs[0].Targets = targets
-	data, err := yaml.Marshal(&C)
+	configData.ScrapeConfigs[0].StaticConfigs[0].Targets = targets
+	data, err := yaml.Marshal(&configData)
 	if err != nil {
 		return nil, err
 	}
@@ -140,7 +151,7 @@ func decodeConfig(data string, C config) (config, error) {
 	return C, nil
 }
 
-// k8sClient is used to get the k8s client 
+// k8sClient is used to get the k8s client
 func k8sClient(clusterName string) (*clientset.Clientset, error) {
 	session := newSession()
 
@@ -191,7 +202,6 @@ func (c *clusterConfig) loadConfig() error {
 
 // newClientConfig is used to create the k8s client configuration that will be used for the authenication
 func (c *clusterConfig) newClientConfig() (*clientConfig, error) {
-
 	stsAPI := sts.New(c.Session)
 
 	iamRoleARN, err := checkAuth(stsAPI)
@@ -257,11 +267,11 @@ func checkAuth(stsAPI stsiface.STSAPI) (string, error) {
 		return "", errors.Wrap(err, "checking AWS STS access – cannot get role ARN for current session")
 	}
 	iamRoleARN := *output.Arn
-	log.Debugf("role ARN for the current session is %s", iamRoleARN)
+	log.Debugf("Role ARN for the current session is %s", iamRoleARN)
 	return iamRoleARN, nil
 }
 
-// getUsername get the username out of the AWS Lambda role arn
+// getUsername gets the username out of the AWS Lambda role arn
 func getUsername(iamRoleARN string) string {
 	usernameParts := strings.Split(iamRoleARN, "/")
 	if len(usernameParts) > 1 {
@@ -270,7 +280,7 @@ func getUsername(iamRoleARN string) string {
 	return "iam-root-account"
 }
 
-// withEmbeddedToken create a new AWS token 
+// withEmbeddedToken creates a new AWS token
 func (c *clientConfig) withEmbeddedToken() (*clientConfig, error) {
 	clientConfigCopy := *c
 
@@ -347,7 +357,6 @@ func getRoute53Records(hostedZoneID string) ([]string, error) {
 // getMatchingRecords is used to get only Prometheus related Route53 records.
 func getMatchingRecords(recordSets []*route53.ResourceRecordSet) []string {
 	matchingRecords := []string{}
-	fmt.Println(recordSets)
 	for _, record := range recordSets {
 		if strings.Contains(*record.Name, ".prometheus.internal") {
 			matchingRecords = append(matchingRecords, *record.Name)
