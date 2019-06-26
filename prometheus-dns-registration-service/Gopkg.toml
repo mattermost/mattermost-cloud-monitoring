@@ -1,0 +1,61 @@
+[[constraint]]
+  name = "github.com/aws/aws-sdk-go"
+  version = "1.15.7"
+
+[[constraint]]
+  name = "github.com/kubernetes-sigs/aws-iam-authenticator"
+  revision = "d9bfef19b2b89518465d4fd0bc9a75bd4a8b715e"
+
+[[constraint]]
+  name = "github.com/sirupsen/logrus"
+  version = "1.0.6"
+
+[[override]]
+  branch = "release-1.10"
+  name = "k8s.io/api"
+
+[[constraint]]
+  branch = "release-1.10"
+  name = "k8s.io/apimachinery"
+
+
+[[constraint]]
+  name = "k8s.io/client-go"
+  version = "7.0.0"
+
+[prune]
+  go-tests = true
+  unused-packages = true
+
+[[constraint]]
+  name = "github.com/spf13/cobra"
+  version = "0.0.3"
+
+[[constraint]]
+  name = "github.com/pkg/errors"
+  version = "0.8.0"
+
+[[constraint]]
+  name = "k8s.io/api"
+  branch = "release-1.10"
+
+[[override]]
+  name = "k8s.io/kubernetes"
+  version = "=v1.10.3"
+  # revision = "fc32d2f3698e36b93322a3465f63a14e9f0eaead"
+
+[[override]]
+  name = "github.com/russross/blackfriday"
+  version = "=v1.5.1"
+
+[[override]]
+  name = "k8s.io/apiserver"
+  revision = "f4a9d31325865f18b8023622a564578f079d582b"
+
+[[override]]
+  name = "github.com/docker/docker"
+  branch = "master"
+  
+# [[override]]
+#   name = "github.com/docker/distribution"
+#   revision = "5a4f66b2f897af9cd6bce08e952e622580686f44"
