@@ -69,3 +69,8 @@ variable "volume_size" {
     default = "50"
     type = "string"
 }
+
+variable "private_hosted_zoneid" {
+    default = ""
+    type = "string"
+}
