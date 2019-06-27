@@ -1,12 +1,10 @@
 # Select the environment you want to deploy Central Command Control cluster into.
 ENVIRONMENT = test
 
-
 all: build-app terraform-cluster terraform-post-cluster clean
 
 build-app:
 	$(MAKE) -C ./prometheus-dns-registration-service all
-
 
 terraform-cluster:
 	@echo "Deploying cluster infrastructure"
