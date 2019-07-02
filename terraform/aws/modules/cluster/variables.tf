@@ -26,3 +26,5 @@ variable "kubeconfig_dir" {}
 variable "account_id" {}
 
 variable "volume_size"{}
+
+variable "private_hosted_zoneid"{}

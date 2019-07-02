@@ -27,6 +27,7 @@ module "cluster" {
   kubeconfig_dir = "${var.kubeconfig_dir}"
   account_id = "${var.account_id}"
   volume_size = "${var.volume_size}"
+  private_hosted_zoneid = "${var.private_hosted_zoneid}"
   providers = {
     aws = "aws.deployment"
   }
