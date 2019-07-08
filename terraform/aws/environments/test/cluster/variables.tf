@@ -49,11 +49,6 @@ variable "account_id" {
     type = "string"
 }
 
-variable "environment" {
-    default = "test"
-    type = "string"
-}
-
 variable "cidr_blocks" {
     default = [""]
     type = "list"

@@ -49,11 +49,6 @@ variable "account_id" {
     type = "string"
 }
 
-variable "environment" {
-    default = "dev"
-    type = "string"
-}
-
 variable "cidr_blocks" {
     default = [""]
     type = "list"
@@ -67,5 +62,10 @@ variable "kubeconfig_dir" {
 
 variable "volume_size" {
     default = "50"
+    type = "string"
+}
+
+variable "private_hosted_zoneid" {
+    default = ""
     type = "string"
 }
