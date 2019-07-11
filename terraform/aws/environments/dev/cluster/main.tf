@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.11"
   backend "s3" {
     bucket = "terraform-cloud-monitoring-state-bucket-dev"
-    key    = "central-monitoring-cluster"
+    key    = "mattermost-central-command-control"
     region = "us-east-1"
   }
 }
@@ -27,6 +27,7 @@ module "cluster" {
   kubeconfig_dir = "${var.kubeconfig_dir}"
   account_id = "${var.account_id}"
   volume_size = "${var.volume_size}"
+  private_hosted_zoneid = "${var.private_hosted_zoneid}"
   providers = {
     aws = "aws.deployment"
   }
