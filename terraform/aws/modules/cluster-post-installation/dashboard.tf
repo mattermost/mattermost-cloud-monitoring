@@ -163,6 +163,7 @@ resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
           empty_dir {}
         }
         service_account_name = "kubernetes-dashboard"
+        automount_service_account_token = true
         # not implemented yet
         # tolerations {
         #   key = "node-role.kubernetes.io/master"
@@ -235,6 +236,7 @@ resource "kubernetes_deployment" "heapster-deployment" {
 
       spec {
         service_account_name = "heapster"
+        automount_service_account_token = true
         container {
           image = "k8s.gcr.io/heapster-amd64:v1.5.4"
           name  = "heapster"
