@@ -10,7 +10,7 @@ variable "region" {
 }
 
 variable "tiller_version" {
-    default = "2.13.1"
+    default = "2.14.1"
     type = "string"
 }
 
