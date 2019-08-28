@@ -170,7 +170,8 @@ controller:
     configMapKey: ""
 
   service:
-    annotations: {}
+    annotations: 
+      service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
     labels: {}
     omitClusterIP: false
     clusterIP: ""
@@ -357,8 +358,7 @@ defaultBackend:
   #   memory: 20Mi
 
   service:
-    annotations:
-      service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+    annotations: {}
     omitClusterIP: false
     clusterIP: ""
 
