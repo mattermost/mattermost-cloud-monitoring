@@ -45,15 +45,6 @@ resource "aws_route53_record" "auth" {
   records = ["${data.kubernetes_service.nginx.load_balancer_ingress.0.hostname}"]
 }
 
-#Private records
-resource "aws_route53_record" "prometheus-client" {
-  zone_id = "${var.private_hosted_zoneid}"
-  name    = "client.prometheus"
-  type    = "CNAME"
-  ttl     = "60"
-  records = ["${data.kubernetes_service.nginx-internal.load_balancer_ingress.0.hostname}"]
-}
-
 resource "aws_route53_record" "elasticsearch" {
   zone_id = "${var.private_hosted_zoneid}"
   name    = "elasticsearch"
@@ -67,5 +58,5 @@ resource "aws_route53_record" "provisioner" {
   name    = "provisioner"
   type    = "CNAME"
   ttl     = "60"
-  records = ["${data.kubernetes_service.nginx-internal.load_balancer_ingress.0.hostname}"]
+  records = ["${data.kubernetes_service.nginx.load_balancer_ingress.0.hostname}"]
 }
