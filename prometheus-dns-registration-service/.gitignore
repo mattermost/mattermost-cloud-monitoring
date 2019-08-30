@@ -1,0 +1,6 @@
+# Local .terraform directories
+vendor/*
+main
+main.zip
+
+*.DS_Store*
