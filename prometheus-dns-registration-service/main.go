@@ -116,6 +116,9 @@ func handler() {
 		log.WithError(err).Fatal("Unable to get the existing Route53 records")
 	}
 
+	// Adding the Prometheus Client for the monitoring cluster
+	targets = append(targets, "mattermost-cm-prometheus-client-server.monitoring:80")
+
 	dataNew, err := updateTargets(configDecoded, targets)
 	if err != nil {
 		log.WithError(err).Fatal("Unable to update the targets with new ones.")
