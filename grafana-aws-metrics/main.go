@@ -6,7 +6,6 @@ import (
 	"strings"
 	"time"
 
-	// "github.com/kubernetes-sigs/aws-iam-authenticator/pkg/token"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 
 	"github.com/aws/aws-lambda-go/lambda"
