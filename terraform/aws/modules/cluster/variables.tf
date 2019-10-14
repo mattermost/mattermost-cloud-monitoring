@@ -28,3 +28,5 @@ variable "account_id" {}
 variable "volume_size"{}
 
 variable "private_hosted_zoneid"{}
+
+variable "grafana_lambda_schedule"{}

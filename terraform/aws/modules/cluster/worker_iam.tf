@@ -37,3 +37,22 @@ resource "aws_iam_instance_profile" "worker-instance-profile" {
   name = "${var.deployment_name}-worker-instance-profile"
   role = "${aws_iam_role.worker-role.name}"
 }
+
+resource "aws_iam_role_policy" "grafana-role-assume" {
+  name = "grafana-role-assume-policy"
+  role = "${aws_iam_role.worker-role.id}"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "sts:AssumeRole",
+            "Resource": "${aws_iam_role.grafana_access_role.arn}"
+        }
+    ]
+}
+EOF
+}
