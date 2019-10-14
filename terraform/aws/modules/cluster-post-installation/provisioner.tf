@@ -1,0 +1,368 @@
+resource "kubernetes_namespace" "mattermost_cloud" {
+  metadata {
+    name = "mattermost-cloud"
+  }
+}
+
+resource "kubernetes_deployment" "mattermost_cloud" {
+  metadata {
+    name      = "mattermost-cloud"
+    namespace = "mattermost-cloud"
+
+    labels = {
+      "app.kubernetes.io/component" = "provisioner"
+      "app.kubernetes.io/name" = "mattermost-cloud"
+    }
+  }
+
+  spec {
+    replicas = 1
+
+    selector {
+      match_labels = {
+        "app.kubernetes.io/component" = "provisioner"
+        "app.kubernetes.io/name" = "mattermost-cloud"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          "app.kubernetes.io/component" = "provisioner"
+          "app.kubernetes.io/name" = "mattermost-cloud"
+        }
+      }
+
+      spec {
+        volume {
+          name = "cluster-persistent-storage"
+
+          persistent_volume_claim {
+            claim_name = "cluster-pv-claim"
+          }
+        }
+
+        volume {
+          name = "mattermost-cloud-ssh-volume"
+
+          secret {
+            secret_name = "mattermost-cloud-ssh-secret"
+          }
+        }
+
+        volume {
+          name = "mattermost-cloud-tmp-volume"
+        }
+
+        volume {
+          name = "mattermost-cloud-helm-volume"
+        }
+
+        init_container {
+          name  = "init-database"
+          image = "${var.mattermost_cloud_image}"
+          args  = ["schema", "migrate", "--database", "$(DATABASE)"]
+
+          env {
+            name = "DATABASE"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "DATABASE"
+              }
+            }
+          }
+
+          image_pull_policy = "Always"
+        }
+
+        init_container {
+          name    = "volume-mount-hack"
+          image   = "busybox:latest"
+          command = ["sh", "-c", "chown -R 10001:10001 /mattermost-cloud/clusters && rm -rf /mattermost-cloud/clusters/*"]
+
+          volume_mount {
+            name       = "cluster-persistent-storage"
+            mount_path = "/mattermost-cloud/clusters/"
+          }
+
+          image_pull_policy = "IfNotPresent"
+        }
+
+        container {
+          name  = "mattermost-cloud"
+          image = "${var.mattermost_cloud_image}"
+          args  = ["server", "--debug", "true", "--state-store", "mattermost-kops-state-test", "--route53-id", "$(ROUTE53_ID)", "--certificate-aws-arn", "$(CERTIFICATE_AWS_ARN)", "--private-route53-id", "$(PRIVATE_ROUTE53_ID)", "--private-dns", "$(PRIVATE_DNS)", "--private-subnets", "$(PRIVATE_SUBNETS)", "--public-subnets", "$(PUBLIC_SUBNETS)", "--database", "$(DATABASE)"]
+
+          port {
+            name           = "api"
+            container_port = 8075
+          }
+
+          env {
+            name = "AWS_SECRET_ACCESS_KEY"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "AWS_SECRET_ACCESS_KEY"
+              }
+            }
+          }
+
+          env {
+            name = "AWS_ACCESS_KEY_ID"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "AWS_ACCESS_KEY_ID"
+              }
+            }
+          }
+
+          env {
+            name = "AWS_DEFAULT_REGION"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "AWS_REGION"
+              }
+            }
+          }
+
+          env {
+            name = "AWS_REGION"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "AWS_REGION"
+              }
+            }
+          }
+
+          env {
+            name = "DATABASE"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "DATABASE"
+              }
+            }
+          }
+
+          env {
+            name = "ROUTE53_ID"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "ROUTE53_ID"
+              }
+            }
+          }
+
+          env {
+            name = "PRIVATE_ROUTE53_ID"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "PRIVATE_ROUTE53_ID"
+              }
+            }
+          }
+
+          env {
+            name = "PRIVATE_DNS"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "PRIVATE_DNS"
+              }
+            }
+          }
+
+          env {
+            name = "PRIVATE_SUBNETS"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "PRIVATE_SUBNETS"
+              }
+            }
+          }
+
+          env {
+            name = "PUBLIC_SUBNETS"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "PUBLIC_SUBNETS"
+              }
+            }
+          }
+
+          env {
+            name = "CERTIFICATE_AWS_ARN"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "CERTIFICATE_AWS_ARN"
+              }
+            }
+          }
+
+          volume_mount {
+            name       = "cluster-persistent-storage"
+            mount_path = "/mattermost-cloud/clusters/"
+          }
+
+          volume_mount {
+            name       = "mattermost-cloud-ssh-volume"
+            mount_path = "/.ssh"
+          }
+
+          volume_mount {
+            name       = "mattermost-cloud-tmp-volume"
+            mount_path = "/tmp"
+          }
+
+          volume_mount {
+            name       = "mattermost-cloud-helm-volume"
+            mount_path = "/.helm"
+          }
+
+          image_pull_policy = "Always"
+        }
+      }
+    }
+
+    strategy {
+      type = "RollingUpdate"
+
+      rolling_update {
+        max_unavailable = "1"
+      }
+    }
+
+    revision_history_limit = 2
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "cluster_pv_claim" {
+  metadata {
+    name      = "cluster-pv-claim"
+    namespace = "mattermost-cloud"
+
+    labels = {
+      "app.kubernetes.io/component" = "provisioner"
+      "app.kubernetes.io/name" = "mattermost-cloud"
+    }
+  }
+
+  spec {
+    access_modes = ["ReadWriteOnce"]
+
+    resources {
+      requests = {
+        storage = "50Gi"
+      }
+    }
+  }
+}
+
+resource "kubernetes_ingress" "mattermost_cloud_ingress" {
+  metadata {
+    name      = "mattermost-cloud"
+    namespace = "mattermost-cloud"
+
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx-internal"
+    }
+  }
+
+  spec {
+    rule {
+      host = "${var.mattermost_cloud_ingress}"
+
+      http {
+        path {
+          path = "/"
+
+          backend {
+            service_name = "mattermost-cloud-service"
+            service_port = "8075"
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_secret" "mattermost_cloud_ssh_secret" {
+  metadata {
+    name      = "mattermost-cloud-ssh-secret"
+    namespace = "mattermost-cloud"
+  }
+
+  data = {
+    id_rsa = "${var.mattermost_cloud_secret_ssh_private}"
+    "id_rsa.pub" = "${var.mattermost_cloud_secret_ssh_public}"
+  }
+
+  type = "Opaque"
+}
+
+resource "kubernetes_secret" "mattermost_cloud_secret" {
+  metadata {
+    name      = "mattermost-cloud-secret"
+    namespace = "mattermost-cloud"
+  }
+
+  data = {
+    AWS_ACCESS_KEY_ID = "${var.mattermost_cloud_secrets_aws_access_key}"
+    AWS_SECRET_ACCESS_KEY = "${var.mattermost_cloud_secrets_aws_secret_key}"
+    AWS_REGION = "${var.mattermost_cloud_secrets_aws_region}"
+    CERTIFICATE_AWS_ARN = "${var.mattermost_cloud_secrets_certificate_aws_arn}"
+    DATABASE = "${var.mattermost_cloud_secrets_database}"
+    PRIVATE_DNS = "${var.mattermost_cloud_secrets_private_dns}"
+    PRIVATE_ROUTE53_ID = "${var.mattermost_cloud_secrets_private_route53_id}"
+    PRIVATE_SUBNETS = "${var.mattermost_cloud_secrets_private_subnets}"
+    PUBLIC_SUBNETS = "${var.mattermost_cloud_secrets_public_subnets}"
+    ROUTE53_ID = "${var.mattermost_cloud_secrets_route53_id}"
+  }
+
+  type = "Opaque"
+}
+
+resource "kubernetes_service" "mattermost_cloud_service" {
+  metadata {
+    name      = "mattermost-cloud-service"
+    namespace = "mattermost-cloud"
+  }
+
+  spec {
+    port {
+      name        = "api"
+      port        = 8075
+      target_port = "api"
+    }
+
+    selector = {
+      "app.kubernetes.io/component" = "provisioner"
+      "app.kubernetes.io/name" = "mattermost-cloud"
+    }
+
+    type = "ClusterIP"
+  }
+}
+
