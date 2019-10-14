@@ -28,6 +28,7 @@ module "cluster" {
   account_id = "${var.account_id}"
   volume_size = "${var.volume_size}"
   private_hosted_zoneid = "${var.private_hosted_zoneid}"
+  grafana_lambda_schedule = "${var.grafana_lambda_schedule}"
   providers = {
     aws = "aws.deployment"
   }
