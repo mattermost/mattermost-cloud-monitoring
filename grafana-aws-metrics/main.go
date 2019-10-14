@@ -42,19 +42,19 @@ func handler() {
 	log.Info("Getting existing ELB limits")
 	err := getSetELBLimits()
 	if err != nil {
-		log.WithError(err).Fatal("Unable to get the existing ELB limits and set the CloudWatch metric data")
+		log.WithError(err).Error("Unable to get the existing ELB limits and set the CloudWatch metric data")
 	}
 
 	log.Info("Getting number of existing ELBs")
 	err = getSetCurrentNumberOfElbs()
 	if err != nil {
-		log.WithError(err).Fatal("Unable to get the number of existing ELBs and set the CloudWatch metric data")
+		log.WithError(err).Error("Unable to get the number of existing ELBs and set the CloudWatch metric data")
 	}
 
 	log.Info("Getting existing Subnets")
 	err = getSubnetIPs()
 	if err != nil {
-		log.WithError(err).Fatal("Unable to get the number of existing Subnets and set the CloudWatch metric data")
+		log.WithError(err).Error("Unable to get the number of existing Subnets and set the CloudWatch metric data")
 	}
 }
 
