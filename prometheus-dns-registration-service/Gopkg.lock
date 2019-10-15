@@ -2,7 +2,7 @@
 
 
 [[projects]]
-  digest = "1:019196f2ac870c197938d739cf0cdd4b78a39dc5c533021ed39899e390d34cd7"
+  digest = "1:f72cb64e41191cfd2298306e1966b494ed0a66cd3b709025a4e662727016fe7e"
   name = "github.com/aws/aws-lambda-go"
   packages = [
     "lambda",
@@ -11,8 +11,8 @@
     "lambdacontext",
   ]
   pruneopts = "UT"
-  revision = "4c210d7623089d36b6bb6febf5a5e553bf73fbfb"
-  version = "v1.11.1"
+  revision = "e5086e5a7e53f7039034fa29008221760b04ff79"
+  version = "v1.13.2"
 
 [[projects]]
   digest = "1:03985209952da08ae5c190d0b3d2cf7fbe1d3e5a91492f7c4b68eebe9eb509f6"

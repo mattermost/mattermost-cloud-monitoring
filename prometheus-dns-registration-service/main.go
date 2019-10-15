@@ -47,6 +47,9 @@ type config struct {
 		ScrapeInterval string `yaml:"scrape_interval"`
 		StaticConfigs  []struct {
 			Targets []string `yaml:"targets"`
+			Labels  struct {
+				ClusterID string `yaml:"clusterID"`
+			} `yaml:"labels"`
 		} `yaml:"static_configs"`
 	} `yaml:"scrape_configs"`
 }
@@ -64,6 +67,13 @@ type clientConfig struct {
 	ContextName string
 	roleARN     string
 	sts         stsiface.STSAPI
+}
+
+type staticConfig = struct {
+	Targets []string `yaml:"targets"`
+	Labels  struct {
+		ClusterID string `yaml:"clusterID"`
+	} `yaml:"labels"`
 }
 
 func main() {
@@ -116,9 +126,6 @@ func handler() {
 		log.WithError(err).Fatal("Unable to get the existing Route53 records")
 	}
 
-	// Adding the Prometheus Client for the monitoring cluster
-	targets = append(targets, "mattermost-cm-prometheus-client-server.monitoring:80")
-
 	dataNew, err := updateTargets(configDecoded, targets)
 	if err != nil {
 		log.WithError(err).Fatal("Unable to update the targets with new ones.")
@@ -134,8 +141,30 @@ func handler() {
 
 // updateTargets is used to replace existing configmap Prometheus targets with new ones
 func updateTargets(configData config, targets []string) ([]byte, error) {
+	var staticConfigs []staticConfig
+	var labels struct {
+		ClusterID string `yaml:"clusterID"`
+	}
+	var s staticConfig
+
+	for _, target := range targets {
+		clusterID := strings.Split(target, ".")[0]
+
+		labels.ClusterID = clusterID
+		s.Targets = []string{target}
+		s.Labels = labels
+		staticConfigs = append(staticConfigs, s)
+	}
+
+	// Adding the Prometheus Client for the monitoring cluster
+	labels.ClusterID = "C&C"
+	s.Targets = []string{"mattermost-cm-prometheus-client-server.monitoring:80"}
+	s.Labels = labels
+	staticConfigs = append(staticConfigs, s)
+
 	log.Info("Replacing existing targets with updated values")
-	configData.ScrapeConfigs[0].StaticConfigs[0].Targets = targets
+	configData.ScrapeConfigs[0].StaticConfigs = staticConfigs
+
 	data, err := yaml.Marshal(&configData)
 	if err != nil {
 		return nil, err
