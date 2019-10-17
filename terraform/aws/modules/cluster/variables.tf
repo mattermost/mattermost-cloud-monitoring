@@ -30,3 +30,15 @@ variable "volume_size"{}
 variable "private_hosted_zoneid"{}
 
 variable "grafana_lambda_schedule"{}
+
+variable "provisioner_server" {}
+
+variable "community_webhook" {}
+
+variable "environment" {}
+
+variable "api_gateway_vpc_endpoints" {
+    type = "list"
+}
+
+variable "region" {}

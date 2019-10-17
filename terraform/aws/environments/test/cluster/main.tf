@@ -29,6 +29,11 @@ module "cluster" {
   volume_size = "${var.volume_size}"
   private_hosted_zoneid = "${var.private_hosted_zoneid}"
   grafana_lambda_schedule = "${var.grafana_lambda_schedule}"
+  provisioner_server = "${var.provisioner_server}"
+  community_webhook = "${var.community_webhook}"
+  environment = "${var.environment}"
+  api_gateway_vpc_endpoints = "${var.api_gateway_vpc_endpoints}"
+  region = "${var.region}"
   providers = {
     aws = "aws.deployment"
   }
