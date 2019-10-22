@@ -11,7 +11,7 @@ resource "kubernetes_deployment" "mattermost_cloud" {
 
     labels = {
       "app.kubernetes.io/component" = "provisioner"
-      "app.kubernetes.io/name" = "mattermost-cloud"
+      "app.kubernetes.io/name"      = "mattermost-cloud"
     }
   }
 
@@ -21,7 +21,7 @@ resource "kubernetes_deployment" "mattermost_cloud" {
     selector {
       match_labels = {
         "app.kubernetes.io/component" = "provisioner"
-        "app.kubernetes.io/name" = "mattermost-cloud"
+        "app.kubernetes.io/name"      = "mattermost-cloud"
       }
     }
 
@@ -29,7 +29,7 @@ resource "kubernetes_deployment" "mattermost_cloud" {
       metadata {
         labels = {
           "app.kubernetes.io/component" = "provisioner"
-          "app.kubernetes.io/name" = "mattermost-cloud"
+          "app.kubernetes.io/name"      = "mattermost-cloud"
         }
       }
 
@@ -265,7 +265,7 @@ resource "kubernetes_persistent_volume_claim" "cluster_pv_claim" {
 
     labels = {
       "app.kubernetes.io/component" = "provisioner"
-      "app.kubernetes.io/name" = "mattermost-cloud"
+      "app.kubernetes.io/name"      = "mattermost-cloud"
     }
   }
 
@@ -315,7 +315,7 @@ resource "kubernetes_secret" "mattermost_cloud_ssh_secret" {
   }
 
   data = {
-    id_rsa = "${var.mattermost_cloud_secret_ssh_private}"
+    id_rsa       = "${var.mattermost_cloud_secret_ssh_private}"
     "id_rsa.pub" = "${var.mattermost_cloud_secret_ssh_public}"
   }
 
@@ -329,16 +329,16 @@ resource "kubernetes_secret" "mattermost_cloud_secret" {
   }
 
   data = {
-    AWS_ACCESS_KEY_ID = "${var.mattermost_cloud_secrets_aws_access_key}"
+    AWS_ACCESS_KEY_ID     = "${var.mattermost_cloud_secrets_aws_access_key}"
     AWS_SECRET_ACCESS_KEY = "${var.mattermost_cloud_secrets_aws_secret_key}"
-    AWS_REGION = "${var.mattermost_cloud_secrets_aws_region}"
-    CERTIFICATE_AWS_ARN = "${var.mattermost_cloud_secrets_certificate_aws_arn}"
-    DATABASE = "${var.mattermost_cloud_secrets_database}"
-    PRIVATE_DNS = "${var.mattermost_cloud_secrets_private_dns}"
-    PRIVATE_ROUTE53_ID = "${var.mattermost_cloud_secrets_private_route53_id}"
-    PRIVATE_SUBNETS = "${var.mattermost_cloud_secrets_private_subnets}"
-    PUBLIC_SUBNETS = "${var.mattermost_cloud_secrets_public_subnets}"
-    ROUTE53_ID = "${var.mattermost_cloud_secrets_route53_id}"
+    AWS_REGION            = "${var.mattermost_cloud_secrets_aws_region}"
+    CERTIFICATE_AWS_ARN   = "${var.mattermost_cloud_secrets_certificate_aws_arn}"
+    DATABASE              = "postgres://${var.db_username}:${var.db_password}@${data.provisioner_db_endpoint}:${data.provisioner_db_port}/${var.db_name}"
+    PRIVATE_DNS           = "${var.mattermost_cloud_secrets_private_dns}"
+    PRIVATE_ROUTE53_ID    = "${var.mattermost_cloud_secrets_private_route53_id}"
+    PRIVATE_SUBNETS       = "${var.mattermost_cloud_secrets_private_subnets}"
+    PUBLIC_SUBNETS        = "${var.mattermost_cloud_secrets_public_subnets}"
+    ROUTE53_ID            = "${var.mattermost_cloud_secrets_route53_id}"
   }
 
   type = "Opaque"
@@ -359,7 +359,7 @@ resource "kubernetes_service" "mattermost_cloud_service" {
 
     selector = {
       "app.kubernetes.io/component" = "provisioner"
-      "app.kubernetes.io/name" = "mattermost-cloud"
+      "app.kubernetes.io/name"      = "mattermost-cloud"
     }
 
     type = "ClusterIP"
