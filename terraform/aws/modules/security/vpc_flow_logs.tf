@@ -1,9 +1,9 @@
 resource "aws_flow_log" "cloud_vpc" {
-  count = "${length(var.vpc_ids)}"
-  iam_role_arn    = "${aws_iam_role.vpc_flow_logs_role.arn}"
-  log_destination = "${aws_cloudwatch_log_group.vpc_flow_logs_cw_group.arn}"
+  count = length(var.vpc_ids)
+  iam_role_arn    = aws_iam_role.vpc_flow_logs_role.arn
+  log_destination = aws_cloudwatch_log_group.vpc_flow_logs_cw_group.arn
   traffic_type    = "ALL"
-  vpc_id          = "${var.vpc_ids[count.index]}"
+  vpc_id          = var.vpc_ids[count.index]
 }
 
 resource "aws_cloudwatch_log_group" "vpc_flow_logs_cw_group" {
@@ -32,7 +32,7 @@ EOF
 
 resource "aws_iam_role_policy" "vpc_flow_logs_policy" {
   name = "VPCFlowLogsPolicy"
-  role = "${aws_iam_role.vpc_flow_logs_role.id}"
+  role = aws_iam_role.vpc_flow_logs_role.id
 
   policy = <<EOF
 {

@@ -8,8 +8,8 @@ resource "kubernetes_secret" "grafana-cert" {
   }
 
   data = {
-    "tls.crt" = "${var.grafana_tls_crt}"
-    "tls.key" = "${var.grafana_tls_key}"
+    "tls.crt" = var.grafana_tls_crt
+    "tls.key" = var.grafana_tls_key
   }
 
   type = "kubernetes.io/tls"
@@ -25,8 +25,8 @@ resource "kubernetes_secret" "prometheus-cert" {
   }
 
   data = {
-    "tls.crt" = "${var.prometheus_tls_crt}"
-    "tls.key" = "${var.prometheus_tls_key}"
+    "tls.crt" = var.prometheus_tls_crt
+    "tls.key" = var.prometheus_tls_key
   }
 
   type = "kubernetes.io/tls"
@@ -42,8 +42,8 @@ resource "kubernetes_secret" "kibana-cert" {
   }
 
   data = {
-    "tls.crt" = "${var.kibana_tls_crt}"
-    "tls.key" = "${var.kibana_tls_key}"
+    "tls.crt" = var.kibana_tls_crt
+    "tls.key" = var.kibana_tls_key
   }
 
   type = "kubernetes.io/tls"

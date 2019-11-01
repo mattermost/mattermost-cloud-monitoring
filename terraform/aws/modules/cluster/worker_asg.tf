@@ -20,17 +20,16 @@ USERDATA
 }
 
 resource "aws_launch_configuration" "worker-lc" {
-  associate_public_ip_address = true
-  iam_instance_profile        = "${aws_iam_instance_profile.worker-instance-profile.name}"
-  image_id                    = "${data.aws_ami.eks-worker.id}"
-  instance_type               = "${var.instance_type}"
-  name_prefix                 = "${var.deployment_name}"
-  security_groups             = ["${aws_security_group.worker-sg.id}"]
+  iam_instance_profile        = aws_iam_instance_profile.worker-instance-profile.name
+  image_id                    = data.aws_ami.eks-worker.id
+  instance_type               = var.instance_type
+  name_prefix                 = var.deployment_name
+  security_groups             = [aws_security_group.worker-sg.id]
   user_data_base64            = "${base64encode(local.worker-userdata)}"
   associate_public_ip_address = false
 
   root_block_device {
-    volume_size = "${var.volume_size}"
+    volume_size = var.volume_size
   }
 
   lifecycle {
@@ -40,12 +39,12 @@ resource "aws_launch_configuration" "worker-lc" {
 
 
 resource "aws_autoscaling_group" "worker-asg" {
-  desired_capacity     = "${var.desired_capacity}"
-  launch_configuration = "${aws_launch_configuration.worker-lc.id}"
-  max_size             = "${var.max_size}"
-  min_size             = "${var.min_size}"
+  desired_capacity     = var.desired_capacity
+  launch_configuration = aws_launch_configuration.worker-lc.id
+  max_size             = var.max_size
+  min_size             = var.min_size
   name                 = "${var.deployment_name}-worker-asg"
-  vpc_zone_identifier  = ["${var.private_subnet_ids}"]
+  vpc_zone_identifier  = flatten(var.private_subnet_ids)
   termination_policies = ["OldestLaunchConfiguration"]
 
   tag {

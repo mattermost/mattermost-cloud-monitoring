@@ -1,11 +1,8 @@
 variable "vpc_id" {}
 
-variable "public_subnet_ids" {
-    type = "list"
-}
-variable "private_subnet_ids" {
-    type = "list"
-}
+variable "public_subnet_ids" {}
+
+variable "private_subnet_ids" {}
 
 variable "deployment_name" {}
 
@@ -17,9 +14,7 @@ variable "min_size" {}
 
 variable "desired_capacity" {}
 
-variable "cidr_blocks" {
-    type = "list"
-}
+variable "cidr_blocks" {}
 
 variable "kubeconfig_dir" {}
 
@@ -37,8 +32,6 @@ variable "community_webhook" {}
 
 variable "environment" {}
 
-variable "api_gateway_vpc_endpoints" {
-    type = "list"
-}
+variable "api_gateway_vpc_endpoints" {}
 
 variable "region" {}

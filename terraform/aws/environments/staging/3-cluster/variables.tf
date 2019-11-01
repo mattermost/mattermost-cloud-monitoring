@@ -6,12 +6,12 @@ variable "vpc_id" {
 
 variable "public_subnet_ids" {
     default = [""]
-    type = "list"
+    type = list(string)
 }
 
 variable "private_subnet_ids" {
     default = [""]
-    type = "list"
+    type = list(string)
 }
 
 variable "deployment_name" {
@@ -20,22 +20,22 @@ variable "deployment_name" {
 }
 
 variable "instance_type" {
-    default = "t2.medium"
+    default = "t2.large"
     type = "string"
 }
 
 variable "max_size" {
-    default = "3"
+    default = "8"
     type = "string"
 }
 
 variable "min_size" {
-    default = "1"
+    default = "6"
     type = "string"
 }
 
 variable "desired_capacity" {
-    default = "3"
+    default = "6"
     type = "string"
 }
 
@@ -49,9 +49,14 @@ variable "account_id" {
     type = "string"
 }
 
+variable "environment" {
+    default = "staging"
+    type = "string"
+}
+
 variable "cidr_blocks" {
     default = [""]
-    type = "list"
+    type = list(string)
     description = "CIDR to allow inbound cluster access"
 }
 
@@ -68,4 +73,25 @@ variable "volume_size" {
 variable "private_hosted_zoneid" {
     default = ""
     type = "string"
+}
+
+variable "grafana_lambda_schedule" {
+    default = "rate(1 hour)"
+    type = "string"
+}
+
+variable "provisioner_server" {
+    default = ""
+    type = "string"
+}
+
+variable "community_webhook" {
+    default = ""
+    type = "string"
+}
+
+variable "api_gateway_vpc_endpoints" {
+    default = [""]
+    type = list(string)
+    description = "VPC endpoints of mattermost-cloud-core and mattermost-core VPCs"
 }

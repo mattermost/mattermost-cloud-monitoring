@@ -1,7 +1,7 @@
 terraform {
-  required_version = ">= 0.11"
+  required_version = ">= 0.12"
   backend "s3" {
-    bucket = "terraform-cloud-monitoring-state-bucket-staging"
+    bucket = "terraform-cloud-monitoring-state-bucket-test"
     key    = "mattermost-security"
     region = "us-east-1"
   }
@@ -9,14 +9,14 @@ terraform {
 
 
 provider "aws" {
-  region = "${var.region}"
+  region = var.region
   alias  = "deployment"
 }
 
 module "security" {
   source = "../../../modules/security"
-  environment = "${var.environment}"
-  vpc_ids = "${var.vpc_ids}"
+  environment = var.environment
+  vpc_ids = var.vpc_ids
   providers = {
     aws = "aws.deployment"
   }
