@@ -2,7 +2,7 @@ resource "kubernetes_secret" "kubernetes-dashboard-certs" {
   metadata {
     name = "kubernetes-dashboard-certs"
     namespace = "kube-system"
-    labels {
+    labels = {
       k8s-app = "kubernetes-dashboard"
     }
   }
@@ -13,7 +13,7 @@ resource "kubernetes_service_account" "kubernetes-dashboard-svc-acc" {
   metadata {
     name = "kubernetes-dashboard"
     namespace = "kube-system"
-    labels {
+    labels = {
       k8s-app = "kubernetes-dashboard"
     }
   }
@@ -26,7 +26,7 @@ resource "kubernetes_role" "kubernetes-dashboard-role" {
   metadata {
     name = "kubernetes-dashboard-minimal"
     namespace = "kube-system"
-    labels {
+    labels = {
       k8s-app = "kubernetes-dashboard"
     }
   }
@@ -80,7 +80,7 @@ resource "kubernetes_role_binding" "kubernetes-dashboard-rolebinding" {
   metadata {
     name = "kubernetes-dashboard-minimal"
     namespace = "kube-system"
-    labels {
+    labels = {
       k8s-app = "kubernetes-dashboard"
     }
   }
@@ -104,7 +104,7 @@ resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
   metadata {
     name = "kubernetes-dashboard"
     namespace = "kube-system"
-    labels {
+    labels = {
       k8s-app = "kubernetes-dashboard"
     }
   }
@@ -113,14 +113,14 @@ resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
     replicas = 1
 
     selector {
-      match_labels {
+      match_labels = {
         k8s-app = "kubernetes-dashboard"
       }
     }
 
     template {
       metadata {
-        labels {
+        labels = {
           k8s-app = "kubernetes-dashboard"
         }
       }
@@ -184,13 +184,13 @@ resource "kubernetes_service" "kubernetes-dashboard-svc" {
   metadata {
     name      = "kubernetes-dashboard"
     namespace = "kube-system"
-    labels {
-      "k8s-app" = "kubernetes-dashboard"
+    labels = {
+      k8s-app = "kubernetes-dashboard"
     }
   }
   spec {
-    selector {
-      "k8s-app" = "kubernetes-dashboard"
+    selector = {
+      k8s-app = "kubernetes-dashboard"
     }
     port {
       port        = 443
@@ -210,9 +210,9 @@ resource "kubernetes_deployment" "heapster-deployment" {
   metadata {
     name = "heapster"
     namespace = "kube-system"
-    labels {
-      "task" = "monitoring"
-      "k8s-app" = "heapster"
+    labels = {
+      task = "monitoring"
+      k8s-app = "heapster"
     }
   }
 
@@ -220,17 +220,17 @@ resource "kubernetes_deployment" "heapster-deployment" {
     replicas = 1
 
     selector {
-      match_labels {
-        "task" = "monitoring"
-        "k8s-app" = "heapster"
+      match_labels = {
+        task = "monitoring"
+        k8s-app = "heapster"
       }
     }
 
     template {
       metadata {
-        labels {
-          "task" = "monitoring"
-          "k8s-app" = "heapster"
+        labels = {
+          task = "monitoring"
+          k8s-app = "heapster"
         }
       }
 
@@ -256,15 +256,15 @@ resource "kubernetes_service" "heapster-svc" {
   metadata {
     name      = "heapster"
     namespace = "kube-system"
-    labels {
-      "task" = "monitoring"
+    labels = {
+      task = "monitoring"
       "kubernetes.io/cluster-service" = "true"
       "kubernetes.io/name" =  "Heapster"
     }
   }
   spec {
-    selector {
-      "k8s-app" = "heapster"
+    selector = {
+      k8s-app = "heapster"
     }
     port {
       port        = 80
@@ -297,9 +297,9 @@ resource "kubernetes_deployment" "monitoring-influxdb-deployment" {
   metadata {
     name = "monitoring-influxdb"
     namespace = "kube-system"
-    labels {
-      "task" = "monitoring"
-      "k8s-app" = "influxdb"
+    labels = {
+      task = "monitoring"
+      k8s-app = "influxdb"
     }
   }
 
@@ -307,17 +307,17 @@ resource "kubernetes_deployment" "monitoring-influxdb-deployment" {
     replicas = 1
 
     selector {
-      match_labels {
-        "task" = "monitoring"
-        "k8s-app" = "influxdb"
+      match_labels = {
+        task = "monitoring"
+        k8s-app = "influxdb"
       }
     }
 
     template {
       metadata {
-        labels {
-          "task" = "monitoring"
-          "k8s-app" = "influxdb"
+        labels = {
+          task = "monitoring"
+          k8s-app = "influxdb"
         }
       }
 
@@ -344,15 +344,15 @@ resource "kubernetes_service" "monitoring-influxdb-svc" {
   metadata {
     name      = "monitoring-influxdb"
     namespace = "kube-system"
-    labels {
-      "task" = "monitoring"
+    labels = {
+      task = "monitoring"
       "kubernetes.io/cluster-service" = "true"
       "kubernetes.io/name" =  "monitoring-influxdb"
     }
   }
   spec {
-    selector {
-      "k8s-app" = "influxdb"
+    selector = {
+      k8s-app = "influxdb"
     }
     port {
       port        = 8086

@@ -20,27 +20,27 @@ POLICY
 
 resource "aws_iam_role_policy_attachment" "worker-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = "${aws_iam_role.worker-role.name}"
+  role       = aws_iam_role.worker-role.name
 }
 
 resource "aws_iam_role_policy_attachment" "worker-AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = "${aws_iam_role.worker-role.name}"
+  role       = aws_iam_role.worker-role.name
 }
 
 resource "aws_iam_role_policy_attachment" "worker-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = "${aws_iam_role.worker-role.name}"
+  role       = aws_iam_role.worker-role.name
 }
 
 resource "aws_iam_instance_profile" "worker-instance-profile" {
   name = "${var.deployment_name}-worker-instance-profile"
-  role = "${aws_iam_role.worker-role.name}"
+  role = aws_iam_role.worker-role.name
 }
 
 resource "aws_iam_role_policy" "grafana-role-assume" {
   name = "grafana-role-assume-policy"
-  role = "${aws_iam_role.worker-role.id}"
+  role = aws_iam_role.worker-role.id
 
   policy = <<EOF
 {

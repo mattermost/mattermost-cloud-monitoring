@@ -1,5 +1,3 @@
 variable "environment" {}
 
-variable "vpc_ids" {
-    type = "list"
-}
+variable "vpc_ids" {}

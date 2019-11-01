@@ -20,7 +20,7 @@ EOF
 
 resource "aws_iam_role_policy" "grafana_metrics_lambda_policy" {
   name = "grafana_metrics_lambda_policy"
-  role = "${aws_iam_role.grafana_lambda_role.id}"
+  role = aws_iam_role.grafana_lambda_role.id
 
   policy = <<EOF
 {
@@ -63,7 +63,7 @@ EOF
 
 resource "aws_iam_role_policy" "grafana_access_policy" {
   name = "grafana_access_policy"
-  role = "${aws_iam_role.grafana_access_role.id}"
+  role = aws_iam_role.grafana_access_role.id
 
   policy = <<EOF
 {
@@ -88,30 +88,30 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRoleGrafana" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  role       = "${aws_iam_role.grafana_lambda_role.name}"
+  role       = aws_iam_role.grafana_lambda_role.name
 }
 
 resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRoleGrafana" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
-  role       = "${aws_iam_role.grafana_lambda_role.name}"
+  role       = aws_iam_role.grafana_lambda_role.name
 }
 
 resource "aws_lambda_function" "grafana_aws_metrics" {
   filename      = "../../../../../grafana-aws-metrics/main.zip"
   function_name = "grafana-aws-metrics"
-  role          = "${aws_iam_role.grafana_lambda_role.arn}"
+  role          = aws_iam_role.grafana_lambda_role.arn
   handler       = "main"
   timeout       = 120
   source_code_hash = "${filebase64sha256("../../../../../grafana-aws-metrics/main.zip")}"
   runtime = "go1.x"
   vpc_config {
-    subnet_ids = ["${var.private_subnet_ids}"],
-    security_group_ids = ["${aws_security_group.grafana_lambda_sg.id}"]
+    subnet_ids = flatten(var.private_subnet_ids)
+    security_group_ids = [aws_security_group.grafana_lambda_sg.id]
   }
 
   environment {
     variables = {
-      VPC_ID = "${var.vpc_id}",
+      VPC_ID = var.vpc_id,
     }
   } 
 }
@@ -119,7 +119,7 @@ resource "aws_lambda_function" "grafana_aws_metrics" {
 resource "aws_security_group" "grafana_lambda_sg" {
   name        = "${var.deployment_name}-grafana-lambda-sg"
   description = "Grafana AWS Metrics Lambda"
-  vpc_id      = "${var.vpc_id}"
+  vpc_id      = var.vpc_id
 
   egress {
     from_port   = 0
@@ -136,19 +136,19 @@ resource "aws_security_group" "grafana_lambda_sg" {
 resource "aws_cloudwatch_event_rule" "grafana_aws_metrics" {
     name = "grafana-aws-metrics"
     description = "Runs based on the schedule expression"
-    schedule_expression = "${var.grafana_lambda_schedule}"
+    schedule_expression = var.grafana_lambda_schedule
 }
 
 resource "aws_cloudwatch_event_target" "grafana_aws_metrics" {
-    rule = "${aws_cloudwatch_event_rule.grafana_aws_metrics.name}"
+    rule = aws_cloudwatch_event_rule.grafana_aws_metrics.name
     target_id = "grafana-aws-metrics"
-    arn = "${aws_lambda_function.grafana_aws_metrics.arn}"
+    arn = aws_lambda_function.grafana_aws_metrics.arn
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch_to_call_grafana_aws_metrics" {
     statement_id = "AllowExecutionFromCloudWatch"
     action = "lambda:InvokeFunction"
-    function_name = "${aws_lambda_function.grafana_aws_metrics.function_name}"
+    function_name = aws_lambda_function.grafana_aws_metrics.function_name
     principal = "events.amazonaws.com"
-    source_arn = "${aws_cloudwatch_event_rule.grafana_aws_metrics.arn}"
+    source_arn = aws_cloudwatch_event_rule.grafana_aws_metrics.arn
 }

@@ -11,5 +11,5 @@ variable "environment" {
 
 variable "vpc_ids" {
     default = [""]
-    type = "list"
+    type = list(string)
 }
