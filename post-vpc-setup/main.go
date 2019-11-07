@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"os"
+	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -98,7 +99,25 @@ func attachToTransitGateway(vpcID, transitGatewayID string) error {
 	}
 
 	if len(subnetResults.Subnets) == 0 {
-		return errors.New("VPC has no subnets")
+		wait := 120
+		log.Infof("Waiting up to %d seconds for Subnets to get created...", wait)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Duration(wait)*time.Second)
+		defer cancel()
+		for {
+			subnetResults, err = svc.DescribeSubnets(subnetInput)
+			if err != nil {
+				return err
+			}
+			if len(subnetResults.Subnets) != 0 {
+				log.Infof("Subnets created in VPC - %s", vpcID)
+				break
+			}
+			select {
+			case <-ctx.Done():
+				return errors.Wrap(ctx.Err(), "timed out waiting for Subnets to get created")
+			case <-time.After(10 * time.Second):
+			}
+		}
 	}
 
 	subnetIDs := make([]*string, len(subnetResults.Subnets))
@@ -121,6 +140,12 @@ func attachToTransitGateway(vpcID, transitGatewayID string) error {
 
 	return nil
 }
+
+// func dettachFromTransitGateway(vpcID, transitGatewayID string) error {}
+
+// func addRouteTableRecord{}
+
+// func enableVPCFlowLogs{}
 
 func main() {
 	lambda.Start(postVPCCreation)
