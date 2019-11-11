@@ -1,0 +1,49 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "aws_region": "",
+    "eks_base_image": "",
+    "instance_type": "",
+    "eks_version": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{ user `aws_access_key` }}",
+      "secret_key": "{{ user `aws_secret_key` }}",
+      "region": "{{ user `aws_region`}}",
+      "source_ami": "{{ user `eks_base_image` }}",
+      "instance_type": "{{ user `instance_type` }}",
+      "ssh_username": "ec2-user",
+      "ami_name": "mattermost-cloud-kops-{{ user `eks_version` }}-{{ isotime | clean_resource_name }}",
+      "tags": {
+        "created": "{{ timestamp }}",
+        "Base_AMI_Name": "{{ .SourceAMIName }}"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "echo 'sleeping for 30 seconds...'",
+        "sleep 30",
+        "sudo yum update -y",
+        "sudo yum upgrade -y"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "resolv.conf",
+      "destination": "/tmp/resolv.conf"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo mv /etc/resolv.conf /etc/resolv.conf.bak",
+        "sudo mv /tmp/resolv.conf /etc/resolv.conf"
+      ]
+    }
+  ]
+}
