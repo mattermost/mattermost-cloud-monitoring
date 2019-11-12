@@ -14,7 +14,7 @@ provider "aws" {
 }
 
 module "cluster" {
-  source = "../../../modules/cluster"
+  source = "../../../../modules/cluster"
   public_subnet_ids = [var.public_subnet_ids]
   private_subnet_ids = [var.private_subnet_ids]
   vpc_id      = var.vpc_id

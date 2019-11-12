@@ -58,12 +58,12 @@ resource "aws_iam_role_policy_attachment" "AmazonRoute53ReadOnlyAccess" {
 
 
 resource "aws_lambda_function" "prometheus_registration" {
-  filename      = "../../../../../prometheus-dns-registration-service/main.zip"
+  filename      = "../../../../../../prometheus-dns-registration-service/main.zip"
   function_name = "prometheus-dns-registration-service"
   role          = aws_iam_role.lambda_role.arn
   handler       = "main"
   timeout       = 120
-  source_code_hash = "${filebase64sha256("../../../../../prometheus-dns-registration-service/main.zip")}"
+  source_code_hash = "${filebase64sha256("../../../../../../prometheus-dns-registration-service/main.zip")}"
   runtime = "go1.x"
   vpc_config {
     subnet_ids = flatten([var.private_subnet_ids])

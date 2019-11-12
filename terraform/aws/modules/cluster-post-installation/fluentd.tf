@@ -4,6 +4,6 @@ resource "helm_release" "fluentd" {
   repository = data.helm_repository.stable.metadata.0.name
   chart      = "stable/fluentd-elasticsearch"
   values = [
-    "${file("../../../../../chart-values/fluentd-elasticsearch_values.yaml")}"
+    "${file("../../../../../../chart-values/fluentd-elasticsearch_values.yaml")}"
   ]
 }

@@ -5,6 +5,6 @@ resource "helm_release" "elasticsearch" {
   chart      = "stable/elasticsearch"
   timeout    = 600
   values = [
-    "${file("../../../../../chart-values/elasticsearch_values.yaml")}"
+    "${file("../../../../../../chart-values/elasticsearch_values.yaml")}"
   ]
 }

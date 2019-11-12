@@ -5,7 +5,7 @@ resource "helm_release" "prometheus-client" {
   chart      = "stable/prometheus"
   wait       = false
   values = [
-    "${file("../../../../../chart-values/prometheus-client_values.yaml")}"
+    "${file("../../../../../../chart-values/prometheus-client_values.yaml")}"
   ]
   depends_on = [
     "kubernetes_namespace.monitoring"
