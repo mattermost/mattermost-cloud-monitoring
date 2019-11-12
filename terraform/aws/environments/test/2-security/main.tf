@@ -16,7 +16,6 @@ provider "aws" {
 module "security" {
   source = "../../../modules/security"
   environment = var.environment
-  vpc_ids = var.vpc_ids
   providers = {
     aws = "aws.deployment"
   }

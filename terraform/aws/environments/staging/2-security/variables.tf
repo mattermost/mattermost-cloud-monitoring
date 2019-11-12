@@ -8,8 +8,3 @@ variable "environment" {
     default = "staging"
     type = "string"
 }
-
-variable "vpc_ids" {
-    default = [""]
-    type = list(string)
-}

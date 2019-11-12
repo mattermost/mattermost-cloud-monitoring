@@ -1,9 +1,11 @@
+data "aws_vpcs" "vpcs" {}
+
 resource "aws_flow_log" "cloud_vpc" {
-  count = length(var.vpc_ids)
+  count = length(data.aws_vpcs.vpcs.ids)
   iam_role_arn    = aws_iam_role.vpc_flow_logs_role.arn
   log_destination = aws_cloudwatch_log_group.vpc_flow_logs_cw_group.arn
   traffic_type    = "ALL"
-  vpc_id          = var.vpc_ids[count.index]
+  vpc_id          = element(data.aws_vpcs.vpcs.ids[*], count.index)
 }
 
 resource "aws_cloudwatch_log_group" "vpc_flow_logs_cw_group" {
