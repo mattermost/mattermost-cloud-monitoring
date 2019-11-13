@@ -16,13 +16,15 @@ provider "aws" {
 
 
 module "subnet_setup" {
-  source = "../../../../modules/subnet-setup"
+  source = "../../../../modules/subnet-and-networking"
   vpc_cidrs = var.vpc_cidrs
   vpc_azs = var.vpc_azs
   environment = var.environment
   name = "mattermost-cloud-${var.environment}-provisioning"
   transit_gateway_id = var.transit_gateway_id
   transit_gtw_route_destination = var.transit_gtw_route_destination
+  account_id = var.account_id
+  region = var.region
   tags = {
     Owner = "cloud-team"
     Terraform = "true"
