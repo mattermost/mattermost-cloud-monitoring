@@ -13,7 +13,8 @@ resource "aws_subnet" "private_1a" {
   availability_zone = var.vpc_azs[0]
   tags = merge(
     {
-      "Name" = format("%s-%s-private-1a", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-private-1a", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "private"
     },
     var.tags
   )
@@ -27,7 +28,8 @@ resource "aws_subnet" "private_1b" {
   availability_zone = var.vpc_azs[1]
   tags = merge(
     {
-      "Name" = format("%s-%s-private-1b", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-private-1b", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "private"
     },
     var.tags
   )
@@ -41,7 +43,8 @@ resource "aws_subnet" "private_1c" {
   availability_zone = var.vpc_azs[2]
   tags = merge(
     {
-      "Name" = format("%s-%s-private-1c", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-private-1c", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "private"
     },
     var.tags
   )
@@ -55,7 +58,8 @@ resource "aws_subnet" "private_1d" {
   availability_zone = var.vpc_azs[3]
   tags = merge(
     {
-      "Name" = format("%s-%s-private-1d", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-private-1d", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "private"
     },
     var.tags
   )
@@ -69,7 +73,8 @@ resource "aws_subnet" "private_1e" {
   availability_zone = var.vpc_azs[4]
   tags = merge(
     {
-      "Name" = format("%s-%s-private-1e", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-private-1e", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "private"
     },
     var.tags
   )
@@ -83,7 +88,8 @@ resource "aws_subnet" "private_1f" {
   availability_zone = var.vpc_azs[5]
   tags = merge(
     {
-      "Name" = format("%s-%s-private-1f", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-private-1f", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "private"
     },
     var.tags
   )
@@ -97,7 +103,8 @@ resource "aws_subnet" "public_1a" {
   availability_zone = var.vpc_azs[0]
   tags = merge(
     {
-      "Name" = format("%s-%s-public-1a", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-public-1a", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "public"
     },
     var.tags
   )
@@ -110,7 +117,8 @@ resource "aws_subnet" "public_1b" {
   availability_zone = var.vpc_azs[1]
   tags = merge(
     {
-      "Name" = format("%s-%s-public-1b", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-public-1b", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "public"
     },
     var.tags
   )
@@ -124,7 +132,8 @@ resource "aws_subnet" "public_1c" {
   availability_zone = var.vpc_azs[2]
   tags = merge(
     {
-      "Name" = format("%s-%s-public-1c", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-public-1c", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "public"
     },
     var.tags
   )
@@ -138,7 +147,8 @@ resource "aws_subnet" "public_1d" {
   availability_zone = var.vpc_azs[3]
   tags = merge(
     {
-      "Name" = format("%s-%s-public-1d", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-public-1d", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "public"
     },
     var.tags
   )
@@ -152,7 +162,8 @@ resource "aws_subnet" "public_1e" {
   availability_zone = var.vpc_azs[4]
   tags = merge(
     {
-      "Name" = format("%s-%s-public-1e", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-public-1e", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "public"
     },
     var.tags
   )
@@ -166,7 +177,8 @@ resource "aws_subnet" "public_1f" {
   availability_zone = var.vpc_azs[5]
   tags = merge(
     {
-      "Name" = format("%s-%s-public-1f", var.name, join("", split(".", split("/", each.value)[0])))
+      "Name" = format("%s-%s-public-1f", var.name, join("", split(".", split("/", each.value)[0]))),
+      "SubnetType" = "public"
     },
     var.tags
   )

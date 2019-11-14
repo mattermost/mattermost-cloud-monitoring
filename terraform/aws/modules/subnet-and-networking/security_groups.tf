@@ -6,7 +6,8 @@ resource "aws_security_group" "master_sg" {
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
   tags = merge(
     {
-     "Name" = format("%s-%s-master-sg", var.name, join("", split(".", split("/", each.value)[0])))
+     "Name" = format("%s-%s-master-sg", var.name, join("", split(".", split("/", each.value)[0]))),
+     "NodeType" = "master"
     },
     var.tags
   )
@@ -20,7 +21,8 @@ resource "aws_security_group" "worker_sg" {
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
   tags = merge(
     {
-     "Name" = format("%s-%s-worker-sg", var.name, join("", split(".", split("/", each.value)[0])))
+     "Name" = format("%s-%s-worker-sg", var.name, join("", split(".", split("/", each.value)[0]))),
+     "NodeType" = "worker"
     },
     var.tags
   )
