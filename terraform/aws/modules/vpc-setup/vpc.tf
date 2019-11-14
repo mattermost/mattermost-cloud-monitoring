@@ -7,7 +7,8 @@ resource "aws_vpc" "vpc_creation" {
   tags = merge(
     {
       "Name" = format("%s-%s", var.name, join("", split(".", split("/", each.value)[0]))),
-      "Available" = "true"
+      "Available" = "true",
+      "CloudClusterID" = "none"
       "Size" = split("/", each.value)[1]
     },
     var.tags
@@ -16,6 +17,7 @@ resource "aws_vpc" "vpc_creation" {
     ignore_changes = [
       # Ignore changes to tag Available
       tags["Available"],
+      tags["CloudClusterID"]
     ]
   }
 }
