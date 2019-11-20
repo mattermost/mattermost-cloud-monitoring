@@ -48,4 +48,3 @@ variable "kibana_tls_key"{
     default = ""
     type = "string"
 }
-

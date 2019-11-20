@@ -97,12 +97,12 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRoleGrafan
 }
 
 resource "aws_lambda_function" "grafana_aws_metrics" {
-  filename      = "../../../../../grafana-aws-metrics/main.zip"
+  filename      = "../../../../../../grafana-aws-metrics/main.zip"
   function_name = "grafana-aws-metrics"
   role          = aws_iam_role.grafana_lambda_role.arn
   handler       = "main"
   timeout       = 120
-  source_code_hash = "${filebase64sha256("../../../../../grafana-aws-metrics/main.zip")}"
+  source_code_hash = "${filebase64sha256("../../../../../../grafana-aws-metrics/main.zip")}"
   runtime = "go1.x"
   vpc_config {
     subnet_ids = flatten(var.private_subnet_ids)

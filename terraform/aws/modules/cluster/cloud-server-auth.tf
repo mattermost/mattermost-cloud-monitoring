@@ -29,12 +29,12 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRole" {
 }
 
 resource "aws_lambda_function" "cloud_server_auth" {
-  filename      = "../../../../../cloud-server-auth/cloud-server-auth.zip"
+  filename      = "../../../../../../cloud-server-auth/cloud-server-auth.zip"
   function_name = "cloud-server-auth"
   role          = aws_iam_role.auth_lambda_role.arn
   handler       = "cloud-server-auth"
   timeout       = 180
-  source_code_hash = "${filebase64sha256("../../../../../cloud-server-auth/cloud-server-auth.zip")}"
+  source_code_hash = "${filebase64sha256("../../../../../../cloud-server-auth/cloud-server-auth.zip")}"
   runtime = "go1.x"
   vpc_config {
     subnet_ids = flatten(var.private_subnet_ids)

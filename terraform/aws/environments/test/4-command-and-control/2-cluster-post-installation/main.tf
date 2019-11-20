@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 0.12"
   backend "s3" {
-    bucket = "terraform-cloud-monitoring-state-bucket-staging"
+    bucket = "terraform-cloud-monitoring-state-bucket-test"
     key    = "mattermost-central-command-control-post-installation"
     region = "us-east-1"
   }
@@ -15,7 +15,7 @@ provider "aws" {
 
 
 module "cluster-post-installation" {
-  source = "../../../modules/cluster-post-installation"
+  source = "../../../../modules/cluster-post-installation"
   deployment_name = var.deployment_name
   region = var.region
   tiller_version = var.tiller_version
