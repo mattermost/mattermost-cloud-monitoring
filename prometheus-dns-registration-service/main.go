@@ -36,7 +36,15 @@ type config struct {
 		ScrapeInterval     string `yaml:"scrape_interval"`
 		ScrapeTimeOut      string `yaml:"scrape_timeout"`
 	} `yaml:"global"`
-	RuleFiles     []string `yaml:"rule_files"`
+	RuleFiles []string `yaml:"rule_files"`
+	Alerting  []struct {
+		Alertmanagers []struct {
+			Scheme        string `yaml:"scheme"`
+			StaticConfigs []struct {
+				Targets []string `yaml:"targets"`
+			} `yaml:"static_configs"`
+		} `yaml:"alertmanagers"`
+	} `yaml:"alerting"`
 	ScrapeConfigs []struct {
 		HonorLabels bool   `yaml:"honor_labels"`
 		JobName     string `yaml:"job_name"`
