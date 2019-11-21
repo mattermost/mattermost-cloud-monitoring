@@ -28,3 +28,8 @@ variable "transit_gtw_route_destination" {
     type = string
     description = "The destination of the transit gateway route table entry"
 }
+
+variable "account_id" {
+    default = ""
+    type = string
+}
