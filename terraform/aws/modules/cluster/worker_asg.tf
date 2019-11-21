@@ -1,16 +1,4 @@
 ###########» Worker Node AutoScaling Group###########
-
-data "aws_ami" "eks-worker" {
-  filter {
-    name   = "name"
-    values = ["amazon-eks-node-${aws_eks_cluster.cluster.version}-v*"]
-  }
-
-  most_recent = true
-  owners      = ["602401143452"] # Amazon EKS AMI Account ID
-}
-
-
 locals {
   worker-userdata = <<USERDATA
 #!/bin/bash
@@ -21,7 +9,7 @@ USERDATA
 
 resource "aws_launch_configuration" "worker-lc" {
   iam_instance_profile        = aws_iam_instance_profile.worker-instance-profile.name
-  image_id                    = data.aws_ami.eks-worker.id
+  image_id                    = var.eks_ami_id
   instance_type               = var.instance_type
   name_prefix                 = var.deployment_name
   security_groups             = [aws_security_group.worker-sg.id]
