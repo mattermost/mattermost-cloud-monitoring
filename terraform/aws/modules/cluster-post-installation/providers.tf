@@ -3,6 +3,11 @@ data "helm_repository" "stable" {
     url  = "https://kubernetes-charts.storage.googleapis.com"
 }
 
+data "helm_repository" "kiwigrid" {
+    name = "kiwigrid"
+    url  = "https://kiwigrid.github.io"
+}
+
 data "aws_eks_cluster_auth" "cluster_auth" {
   name = var.deployment_name
 }
