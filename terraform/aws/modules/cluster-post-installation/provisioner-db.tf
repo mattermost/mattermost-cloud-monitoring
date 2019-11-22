@@ -2,16 +2,25 @@ provider "aws" {
   region = var.region
 }
 
+data "terraform_remote_state" "cluster" {
+  backend = "s3"
+  config = {
+    bucket   = "terraform-cloud-monitoring-state-bucket-${var.environment}"
+    key      = "mattermost-central-command-control"
+    region   = "us-east-1"
+  }
+}
+
 resource "aws_security_group" "cec_to_postgress" {
   name        = "cec_to_postgress"
   description = "Allow K8s C&C to access RDS Postgres"
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = var.cidr_block_cec_cluster
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = data.terraform_remote_state.cluster.outputs.workers_security_group
   }
 
   egress {
@@ -19,6 +28,15 @@ resource "aws_security_group" "cec_to_postgress" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_db_subnet_group" "subnets_db" {
+  name       = "cloud_db_subnetgroup"
+  subnet_ids = var.private_subnets
+
+  tags = {
+    Name = "Cloud DB subnet group"
   }
 }
 
@@ -37,7 +55,7 @@ resource "aws_db_instance" "provisioner" {
   apply_immediately           = true
   backup_retention_period     = var.db_backup_retention_period
   backup_window               = var.db_backup_window
-  db_subnet_group_name        = var.db_subnet_group_name
+  db_subnet_group_name        = aws_db_subnet_group.subnets_db
   vpc_security_group_ids      = [aws_security_group.cec_to_postgress.id]
   deletion_protection         = true
   snapshot_identifier         = "provisioner"

@@ -35,10 +35,9 @@ module "cluster-post-installation" {
   db_password = var.db_password
   db_backup_retention_period = var.db_backup_retention_period
   db_backup_window = var.db_backup_window
-  db_subnet_group_name = var.db_subnet_group_name
-  cidr_block_cec_cluster = var.cidr_block_cec_cluster
   db_maintenance_window = var.db_maintenance_window
   vpc_id = var.vpc_id
+  private_subnets = var.private_subnets
   mattermost_cloud_image = var.mattermost_cloud_image
   mattermost_cloud_ingress = var.mattermost_cloud_ingress
   snapshot_identifier = var.snapshot_identifier
@@ -49,7 +48,6 @@ module "cluster-post-installation" {
   mattermost_cloud_secrets_aws_secret_key = var.mattermost_cloud_secrets_aws_secret_key
   mattermost_cloud_secrets_aws_region = var.mattermost_cloud_secrets_aws_region
   mattermost_cloud_secrets_certificate_aws_arn = var.mattermost_cloud_secrets_certificate_aws_arn
-  mattermost_cloud_secrets_database = var.mattermost_cloud_secrets_database
   mattermost_cloud_secrets_private_dns = var.mattermost_cloud_secrets_private_dns
   mattermost_cloud_secrets_private_route53_id = var.mattermost_cloud_secrets_private_route53_id
   mattermost_cloud_secrets_private_subnets = var.mattermost_cloud_secrets_private_subnets

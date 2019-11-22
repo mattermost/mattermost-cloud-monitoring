@@ -25,13 +25,11 @@ variable "db_backup_retention_period" {}
 
 variable "db_backup_window" {}
 
-variable "db_subnet_group_name" {}
-
-variable "cidr_block_cec_cluster" {}
-
 variable "db_maintenance_window" {}
 
 variable "vpc_id" {}
+
+variable "private_subnets" {}
 
 variable "mattermost_cloud_image" {}
 
@@ -52,8 +50,6 @@ variable "mattermost_cloud_secrets_aws_secret_key" {}
 variable "mattermost_cloud_secrets_aws_region" {}
 
 variable "mattermost_cloud_secrets_certificate_aws_arn" {}
-
-variable "mattermost_cloud_secrets_database" {}
 
 variable "mattermost_cloud_secrets_private_dns" {}
 

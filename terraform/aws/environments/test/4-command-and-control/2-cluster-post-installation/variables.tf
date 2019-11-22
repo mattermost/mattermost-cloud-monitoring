@@ -54,6 +54,10 @@ variable "db_identifier" {
   default = "cloud-test"
 }
 
+variable "private_subnets" {
+  type = list(string)
+}
+
 variable "allocated_db_storage" {
   description = "The allocated storage in gigabytes for the DB"
   type        = string
@@ -100,18 +104,6 @@ variable "db_backup_window" {
   default     = "02:12-02:42"
 }
 
-variable "db_subnet_group_name" {
-  description = "Name of DB subnet group. DB instance will be created in the VPC associated with the DB subnet group. If unspecified, will be created in the default VPC"
-  type        = string
-  default     = ""
-}
-
-variable "cidr_block_cec_cluster" {
-  description = "the CIDR block for the C&C EKS cluster"
-  type        = string
-  default     = ""
-}
-
 variable "db_maintenance_window" {
   description = "The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00'"
   type        = string
@@ -153,8 +145,6 @@ variable "mattermost_cloud_secrets_aws_region" {
 }
 
 variable "mattermost_cloud_secrets_certificate_aws_arn" {}
-
-variable "mattermost_cloud_secrets_database" {}
 
 variable "mattermost_cloud_secrets_private_dns" {}
 
