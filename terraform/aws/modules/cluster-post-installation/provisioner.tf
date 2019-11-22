@@ -60,7 +60,7 @@ resource "kubernetes_deployment" "mattermost_cloud" {
 
         init_container {
           name  = "init-database"
-          image = "${var.mattermost_cloud_image}"
+          image = var.mattermost_cloud_image
           args  = ["schema", "migrate", "--database", "$(DATABASE)"]
 
           env {
@@ -92,7 +92,7 @@ resource "kubernetes_deployment" "mattermost_cloud" {
 
         container {
           name  = "mattermost-cloud"
-          image = "${var.mattermost_cloud_image}"
+          image = var.mattermost_cloud_image
           args  = ["server", "--debug", "true", "--state-store", "mattermost-kops-state-test", "--route53-id", "$(ROUTE53_ID)", "--certificate-aws-arn", "$(CERTIFICATE_AWS_ARN)", "--private-route53-id", "$(PRIVATE_ROUTE53_ID)", "--private-dns", "$(PRIVATE_DNS)", "--private-subnets", "$(PRIVATE_SUBNETS)", "--public-subnets", "$(PUBLIC_SUBNETS)", "--database", "$(DATABASE)"]
 
           port {
@@ -292,7 +292,7 @@ resource "kubernetes_ingress" "mattermost_cloud_ingress" {
 
   spec {
     rule {
-      host = "${var.mattermost_cloud_ingress}"
+      host = var.mattermost_cloud_ingress
 
       http {
         path {
@@ -315,8 +315,8 @@ resource "kubernetes_secret" "mattermost_cloud_ssh_secret" {
   }
 
   data = {
-    id_rsa       = "${var.mattermost_cloud_secret_ssh_private}"
-    "id_rsa.pub" = "${var.mattermost_cloud_secret_ssh_public}"
+    id_rsa       = var.mattermost_cloud_secret_ssh_private
+    "id_rsa.pub" = var.mattermost_cloud_secret_ssh_public
   }
 
   type = "Opaque"
@@ -329,16 +329,16 @@ resource "kubernetes_secret" "mattermost_cloud_secret" {
   }
 
   data = {
-    AWS_ACCESS_KEY_ID     = "${var.mattermost_cloud_secrets_aws_access_key}"
-    AWS_SECRET_ACCESS_KEY = "${var.mattermost_cloud_secrets_aws_secret_key}"
-    AWS_REGION            = "${var.mattermost_cloud_secrets_aws_region}"
-    CERTIFICATE_AWS_ARN   = "${var.mattermost_cloud_secrets_certificate_aws_arn}"
-    DATABASE              = "postgres://${var.db_username}:${var.db_password}@${data.provisioner_db_endpoint}:${data.provisioner_db_port}/${var.db_name}"
-    PRIVATE_DNS           = "${var.mattermost_cloud_secrets_private_dns}"
-    PRIVATE_ROUTE53_ID    = "${var.mattermost_cloud_secrets_private_route53_id}"
-    PRIVATE_SUBNETS       = "${var.mattermost_cloud_secrets_private_subnets}"
-    PUBLIC_SUBNETS        = "${var.mattermost_cloud_secrets_public_subnets}"
-    ROUTE53_ID            = "${var.mattermost_cloud_secrets_route53_id}"
+    AWS_ACCESS_KEY_ID     = var.mattermost_cloud_secrets_aws_access_key
+    AWS_SECRET_ACCESS_KEY = var.mattermost_cloud_secrets_aws_secret_key
+    AWS_REGION            = var.mattermost_cloud_secrets_aws_region
+    CERTIFICATE_AWS_ARN   = var.mattermost_cloud_secrets_certificate_aws_arn
+    DATABASE              = "postgres://${var.db_username}:${var.db_password}@${aws_db_instance.provisioner.endpoint}:${aws_db_instance.provisioner.port}/${var.db_name
+    PRIVATE_DNS           = var.mattermost_cloud_secrets_private_dns
+    PRIVATE_ROUTE53_ID    = var.mattermost_cloud_secrets_private_route53_id
+    PRIVATE_SUBNETS       = var.mattermost_cloud_secrets_private_subnets
+    PUBLIC_SUBNETS        = var.mattermost_cloud_secrets_public_subnets
+    ROUTE53_ID            = var.mattermost_cloud_secrets_route53_id
   }
 
   type = "Opaque"
