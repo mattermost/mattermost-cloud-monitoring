@@ -1,0 +1,29 @@
+variable "environment" {}
+
+variable "vpn_cidr" {}
+
+variable "vpc_id" {}
+
+variable "private_subnet_ids" {}
+
+variable "es_instance_type" {}
+
+variable "es_volume_size" {}
+
+variable "instance_count" {}
+
+variable "dedicated_master_threshold" {}
+
+variable "dedicated_master_type" {}
+
+variable "es_zone_awareness" {}
+
+variable "es_zone_awareness_count" {}
+
+variable "domain_name" {}
+
+variable "es_version" {}
+
+variable "mattermost_network" {}
+
+variable "private_hosted_zoneid" {}

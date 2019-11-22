@@ -3,18 +3,23 @@ data "helm_repository" "stable" {
     url  = "https://kubernetes-charts.storage.googleapis.com"
 }
 
+data "helm_repository" "kiwigrid" {
+    name = "kiwigrid"
+    url  = "https://kiwigrid.github.io"
+}
+
 data "aws_eks_cluster_auth" "cluster_auth" {
-  name = "${var.deployment_name}"
+  name = var.deployment_name
 }
 
 data "aws_eks_cluster" "cluster" {
-  name = "${var.deployment_name}"
+  name = var.deployment_name
 }
 
 provider "kubernetes" {
-  host                   = "${data.aws_eks_cluster.cluster.endpoint}"
+  host                   = data.aws_eks_cluster.cluster.endpoint
   cluster_ca_certificate = "${base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)}"
-  token                  = "${data.aws_eks_cluster_auth.cluster_auth.token}"
+  token                  = data.aws_eks_cluster_auth.cluster_auth.token
   load_config_file       = false
   config_path            = "${var.kubeconfig_dir}/kubeconfig"
 }
@@ -26,9 +31,9 @@ provider "helm" {
   tiller_image    = "gcr.io/kubernetes-helm/tiller:v${var.tiller_version}"
   kubernetes {
     config_path            = "${var.kubeconfig_dir}/kubeconfig"
-    host                   = "${data.aws_eks_cluster.cluster.endpoint}"
+    host                   = data.aws_eks_cluster.cluster.endpoint
     cluster_ca_certificate = "${base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)}"
-    token                  = "${data.aws_eks_cluster_auth.cluster_auth.token}"
+    token                  = data.aws_eks_cluster_auth.cluster_auth.token
     load_config_file       = false
   }
 }

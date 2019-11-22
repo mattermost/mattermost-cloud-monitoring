@@ -63,3 +63,14 @@ variable "mattermost_cloud_secrets_public_subnets" {}
 
 variable "mattermost_cloud_secrets_route53_id" {}
 
+variable "grafana_tls_crt" {}
+
+variable "grafana_tls_key" {}
+
+variable "prometheus_tls_crt" {}
+
+variable "prometheus_tls_key" {}
+
+variable "kibana_tls_crt" {}
+
+variable "kibana_tls_key" {}
