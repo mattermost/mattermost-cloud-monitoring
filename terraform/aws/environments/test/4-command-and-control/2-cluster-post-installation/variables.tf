@@ -138,6 +138,8 @@ variable "snapshot_identifier" {
   type        = string
 }
 
+variable "mattermost-cloud-namespace" {}
+
 variable "mattermost_cloud_secret_ssh_private" {}
 
 variable "mattermost_cloud_secret_ssh_public" {}

@@ -39,6 +39,8 @@ variable "mattermost_cloud_ingress" {}
 
 variable "snapshot_identifier" {}
 
+variable "mattermost-cloud-namespace" {}
+
 variable "mattermost_cloud_secret_ssh_private" {}
 
 variable "mattermost_cloud_secret_ssh_public" {}

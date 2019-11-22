@@ -1,13 +1,13 @@
 resource "kubernetes_namespace" "mattermost_cloud" {
   metadata {
-    name = "mattermost-cloud"
+    name = var.mattermost-cloud-namespace
   }
 }
 
 resource "kubernetes_deployment" "mattermost_cloud" {
   metadata {
     name      = "mattermost-cloud"
-    namespace = "mattermost-cloud"
+    namespace = var.mattermost-cloud-namespace
 
     labels = {
       "app.kubernetes.io/component" = "provisioner"
@@ -16,7 +16,7 @@ resource "kubernetes_deployment" "mattermost_cloud" {
   }
 
   spec {
-    replicas = 1
+    replicas = 3
 
     selector {
       match_labels = {
@@ -261,7 +261,7 @@ resource "kubernetes_deployment" "mattermost_cloud" {
 resource "kubernetes_persistent_volume_claim" "cluster_pv_claim" {
   metadata {
     name      = "cluster-pv-claim"
-    namespace = "mattermost-cloud"
+    namespace = var.mattermost-cloud-namespace
 
     labels = {
       "app.kubernetes.io/component" = "provisioner"
@@ -283,7 +283,7 @@ resource "kubernetes_persistent_volume_claim" "cluster_pv_claim" {
 resource "kubernetes_ingress" "mattermost_cloud_ingress" {
   metadata {
     name      = "mattermost-cloud"
-    namespace = "mattermost-cloud"
+    namespace = var.mattermost-cloud-namespace
 
     annotations = {
       "kubernetes.io/ingress.class" = "nginx-internal"
@@ -311,7 +311,7 @@ resource "kubernetes_ingress" "mattermost_cloud_ingress" {
 resource "kubernetes_secret" "mattermost_cloud_ssh_secret" {
   metadata {
     name      = "mattermost-cloud-ssh-secret"
-    namespace = "mattermost-cloud"
+    namespace = var.mattermost-cloud-namespace
   }
 
   data = {
@@ -325,7 +325,7 @@ resource "kubernetes_secret" "mattermost_cloud_ssh_secret" {
 resource "kubernetes_secret" "mattermost_cloud_secret" {
   metadata {
     name      = "mattermost-cloud-secret"
-    namespace = "mattermost-cloud"
+    namespace = var.mattermost-cloud-namespace
   }
 
   data = {
@@ -347,7 +347,7 @@ resource "kubernetes_secret" "mattermost_cloud_secret" {
 resource "kubernetes_service" "mattermost_cloud_service" {
   metadata {
     name      = "mattermost-cloud-service"
-    namespace = "mattermost-cloud"
+    namespace = var.mattermost-cloud-namespace
   }
 
   spec {
@@ -365,4 +365,3 @@ resource "kubernetes_service" "mattermost_cloud_service" {
     type = "ClusterIP"
   }
 }
-
