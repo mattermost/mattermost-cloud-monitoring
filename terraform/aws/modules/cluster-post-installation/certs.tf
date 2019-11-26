@@ -1,9 +1,9 @@
 resource "kubernetes_secret" "grafana-cert" {
   metadata {
-    name = "grafana-server-tls"
+    name      = "grafana-server-tls"
     namespace = "monitoring"
     labels = {
-        "certmanager.k8s.io/certificate-name" = "grafana-server-tls"
+      "certmanager.k8s.io/certificate-name" = "grafana-server-tls"
     }
   }
 
@@ -17,10 +17,10 @@ resource "kubernetes_secret" "grafana-cert" {
 
 resource "kubernetes_secret" "prometheus-cert" {
   metadata {
-    name = "prometheus-server-tls"
+    name      = "prometheus-server-tls"
     namespace = "monitoring"
     labels = {
-        "certmanager.k8s.io/certificate-name" = "prometheus-server-tls"
+      "certmanager.k8s.io/certificate-name" = "prometheus-server-tls"
     }
   }
 
@@ -34,10 +34,10 @@ resource "kubernetes_secret" "prometheus-cert" {
 
 resource "kubernetes_secret" "kibana-cert" {
   metadata {
-    name = "kibana-server-tls"
+    name      = "kibana-server-tls"
     namespace = "logging"
     labels = {
-        "certmanager.k8s.io/certificate-name" = "kibana-server-tls"
+      "certmanager.k8s.io/certificate-name" = "kibana-server-tls"
     }
   }
 

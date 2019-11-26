@@ -1,6 +1,6 @@
 resource "kubernetes_secret" "kubernetes-dashboard-certs" {
   metadata {
-    name = "kubernetes-dashboard-certs"
+    name      = "kubernetes-dashboard-certs"
     namespace = "kube-system"
     labels = {
       k8s-app = "kubernetes-dashboard"
@@ -11,20 +11,20 @@ resource "kubernetes_secret" "kubernetes-dashboard-certs" {
 
 resource "kubernetes_service_account" "kubernetes-dashboard-svc-acc" {
   metadata {
-    name = "kubernetes-dashboard"
+    name      = "kubernetes-dashboard"
     namespace = "kube-system"
     labels = {
       k8s-app = "kubernetes-dashboard"
     }
   }
   depends_on = [
-    "kubernetes_secret.kubernetes-dashboard-certs"
+    kubernetes_secret.kubernetes-dashboard-certs
   ]
 }
 
 resource "kubernetes_role" "kubernetes-dashboard-role" {
   metadata {
-    name = "kubernetes-dashboard-minimal"
+    name      = "kubernetes-dashboard-minimal"
     namespace = "kube-system"
     labels = {
       k8s-app = "kubernetes-dashboard"
@@ -34,75 +34,75 @@ resource "kubernetes_role" "kubernetes-dashboard-role" {
   rule {
     # Allow Dashboard to create 'kubernetes-dashboard-key-holder' secret.
     api_groups = [""]
-    resources = ["secrets"]
-    verbs = ["create"]
+    resources  = ["secrets"]
+    verbs      = ["create"]
   }
   rule {
     # Allow Dashboard to create 'kubernetes-dashboard-settings' config map.
     api_groups = [""]
-    resources = ["configmaps"]
-    verbs = ["create"]
+    resources  = ["configmaps"]
+    verbs      = ["create"]
   }
   rule {
     # Allow Dashboard to get, update and delete Dashboard exclusive secrets.
-    api_groups = [""]
-    resources = ["secrets"]
+    api_groups     = [""]
+    resources      = ["secrets"]
     resource_names = ["kubernetes-dashboard-key-holder", "kubernetes-dashboard-certs"]
-    verbs = ["get", "update", "delete"]
+    verbs          = ["get", "update", "delete"]
   }
   rule {
     # Allow Dashboard to get and update 'kubernetes-dashboard-settings' config map.
-    api_groups = [""]
-    resources = ["configmaps"]
+    api_groups     = [""]
+    resources      = ["configmaps"]
     resource_names = ["kubernetes-dashboard-settings"]
-    verbs = ["get", "update"]
+    verbs          = ["get", "update"]
   }
   rule {
     # Allow Dashboard to get metrics from heapster.
-    api_groups = [""]
-    resources = ["services"]
+    api_groups     = [""]
+    resources      = ["services"]
     resource_names = ["heapster"]
-    verbs = ["proxy"]
+    verbs          = ["proxy"]
   }
   rule {
     # Allow Dashboard to get metrics from heapster.
-    api_groups = [""]
-    resources = ["services/proxy"]
+    api_groups     = [""]
+    resources      = ["services/proxy"]
     resource_names = ["heapster", "http:heapster:", "https:heapster:"]
-    verbs = ["get"]
+    verbs          = ["get"]
   }
   depends_on = [
-    "kubernetes_service_account.kubernetes-dashboard-svc-acc"
+    kubernetes_service_account.kubernetes-dashboard-svc-acc
   ]
 }
 
 resource "kubernetes_role_binding" "kubernetes-dashboard-rolebinding" {
   metadata {
-    name = "kubernetes-dashboard-minimal"
+    name      = "kubernetes-dashboard-minimal"
     namespace = "kube-system"
     labels = {
       k8s-app = "kubernetes-dashboard"
     }
   }
   role_ref {
-      api_group = "rbac.authorization.k8s.io"
-      kind = "Role"
-      name = "kubernetes-dashboard-minimal"
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "Role"
+    name      = "kubernetes-dashboard-minimal"
   }
   subject {
-      kind = "ServiceAccount"
-      name = "kubernetes-dashboard"
-      namespace = "kube-system"
+    kind      = "ServiceAccount"
+    name      = "kubernetes-dashboard"
+    namespace = "kube-system"
   }
   depends_on = [
-    "kubernetes_role.kubernetes-dashboard-role",
-    "kubernetes_service_account.kubernetes-dashboard-svc-acc"
+    kubernetes_role.kubernetes-dashboard-role,
+    kubernetes_service_account.kubernetes-dashboard-svc-acc
   ]
 }
 
 resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
   metadata {
-    name = "kubernetes-dashboard"
+    name      = "kubernetes-dashboard"
     namespace = "kube-system"
     labels = {
       k8s-app = "kubernetes-dashboard"
@@ -131,7 +131,7 @@ resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
           name  = "kubernetes-dashboard"
           port {
             container_port = 8443
-            protocol = "TCP"
+            protocol       = "TCP"
           }
           args = ["--auto-generate-certificates"]
           volume_mount {
@@ -144,8 +144,8 @@ resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
           }
           liveness_probe {
             http_get {
-              path = "/"
-              port = 8443
+              path   = "/"
+              port   = 8443
               scheme = "HTTPS"
             }
             initial_delay_seconds = 30
@@ -162,7 +162,7 @@ resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
           name = "tmp-volume"
           empty_dir {}
         }
-        service_account_name = "kubernetes-dashboard"
+        service_account_name            = "kubernetes-dashboard"
         automount_service_account_token = true
         # not implemented yet
         # tolerations {
@@ -173,10 +173,10 @@ resource "kubernetes_deployment" "kubernetes-dashboard-deployment" {
     }
   }
   depends_on = [
-    "kubernetes_secret.kubernetes-dashboard-certs",
-    "kubernetes_role_binding.kubernetes-dashboard-rolebinding",
-    "kubernetes_role.kubernetes-dashboard-role",
-    "kubernetes_service_account.kubernetes-dashboard-svc-acc"
+    kubernetes_secret.kubernetes-dashboard-certs,
+    kubernetes_role_binding.kubernetes-dashboard-rolebinding,
+    kubernetes_role.kubernetes-dashboard-role,
+    kubernetes_service_account.kubernetes-dashboard-svc-acc
   ]
 }
 
@@ -201,17 +201,17 @@ resource "kubernetes_service" "kubernetes-dashboard-svc" {
 
 resource "kubernetes_service_account" "heapster-svc-acc" {
   metadata {
-    name = "heapster"
+    name      = "heapster"
     namespace = "kube-system"
   }
 }
 
 resource "kubernetes_deployment" "heapster-deployment" {
   metadata {
-    name = "heapster"
+    name      = "heapster"
     namespace = "kube-system"
     labels = {
-      task = "monitoring"
+      task    = "monitoring"
       k8s-app = "heapster"
     }
   }
@@ -221,7 +221,7 @@ resource "kubernetes_deployment" "heapster-deployment" {
 
     selector {
       match_labels = {
-        task = "monitoring"
+        task    = "monitoring"
         k8s-app = "heapster"
       }
     }
@@ -229,26 +229,26 @@ resource "kubernetes_deployment" "heapster-deployment" {
     template {
       metadata {
         labels = {
-          task = "monitoring"
+          task    = "monitoring"
           k8s-app = "heapster"
         }
       }
 
       spec {
-        service_account_name = "heapster"
+        service_account_name            = "heapster"
         automount_service_account_token = true
         container {
-          image = "k8s.gcr.io/heapster-amd64:v1.5.4"
-          name  = "heapster"
+          image             = "k8s.gcr.io/heapster-amd64:v1.5.4"
+          name              = "heapster"
           image_pull_policy = "IfNotPresent"
-          command = ["/heapster", "--source=kubernetes:https://kubernetes.default", "--sink=influxdb:http://monitoring-influxdb.kube-system.svc:8086"]
+          command           = ["/heapster", "--source=kubernetes:https://kubernetes.default", "--sink=influxdb:http://monitoring-influxdb.kube-system.svc:8086"]
         }
       }
     }
   }
   depends_on = [
-    "kubernetes_service_account.heapster-svc-acc",
-    "kubernetes_role_binding.heapster-rolebinding"
+    kubernetes_service_account.heapster-svc-acc,
+    kubernetes_role_binding.heapster-rolebinding
   ]
 }
 
@@ -257,9 +257,9 @@ resource "kubernetes_service" "heapster-svc" {
     name      = "heapster"
     namespace = "kube-system"
     labels = {
-      task = "monitoring"
+      task                            = "monitoring"
       "kubernetes.io/cluster-service" = "true"
-      "kubernetes.io/name" =  "Heapster"
+      "kubernetes.io/name"            = "Heapster"
     }
   }
   spec {
@@ -275,30 +275,30 @@ resource "kubernetes_service" "heapster-svc" {
 
 resource "kubernetes_role_binding" "heapster-rolebinding" {
   metadata {
-    name = "heapster"
+    name      = "heapster"
     namespace = "kube-system"
   }
   role_ref {
-      api_group = "rbac.authorization.k8s.io"
-      kind = "ClusterRole"
-      name = "system:heapster"
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "system:heapster"
   }
   subject {
-      kind = "ServiceAccount"
-      name = "heapster"
-      namespace = "kube-system"
+    kind      = "ServiceAccount"
+    name      = "heapster"
+    namespace = "kube-system"
   }
   depends_on = [
-    "kubernetes_service_account.heapster-svc-acc"
+    kubernetes_service_account.heapster-svc-acc
   ]
 }
 
 resource "kubernetes_deployment" "monitoring-influxdb-deployment" {
   metadata {
-    name = "monitoring-influxdb"
+    name      = "monitoring-influxdb"
     namespace = "kube-system"
     labels = {
-      task = "monitoring"
+      task    = "monitoring"
       k8s-app = "influxdb"
     }
   }
@@ -308,7 +308,7 @@ resource "kubernetes_deployment" "monitoring-influxdb-deployment" {
 
     selector {
       match_labels = {
-        task = "monitoring"
+        task    = "monitoring"
         k8s-app = "influxdb"
       }
     }
@@ -316,15 +316,15 @@ resource "kubernetes_deployment" "monitoring-influxdb-deployment" {
     template {
       metadata {
         labels = {
-          task = "monitoring"
+          task    = "monitoring"
           k8s-app = "influxdb"
         }
       }
 
       spec {
         container {
-          image = "k8s.gcr.io/heapster-influxdb-amd64:v1.5.2"
-          name  = "influxdb"
+          image             = "k8s.gcr.io/heapster-influxdb-amd64:v1.5.2"
+          name              = "influxdb"
           image_pull_policy = "IfNotPresent"
           volume_mount {
             mount_path = "/data"
@@ -345,9 +345,9 @@ resource "kubernetes_service" "monitoring-influxdb-svc" {
     name      = "monitoring-influxdb"
     namespace = "kube-system"
     labels = {
-      task = "monitoring"
+      task                            = "monitoring"
       "kubernetes.io/cluster-service" = "true"
-      "kubernetes.io/name" =  "monitoring-influxdb"
+      "kubernetes.io/name"            = "monitoring-influxdb"
     }
   }
   spec {
@@ -363,27 +363,27 @@ resource "kubernetes_service" "monitoring-influxdb-svc" {
 
 resource "kubernetes_service_account" "eks-admin-svc-acc" {
   metadata {
-    name = "eks-admin"
+    name      = "eks-admin"
     namespace = "kube-system"
   }
 }
 
 resource "kubernetes_role_binding" "eks-admin-rolebinding" {
   metadata {
-    name = "eks-admin"
+    name      = "eks-admin"
     namespace = "kube-system"
   }
   role_ref {
-      api_group = "rbac.authorization.k8s.io"
-      kind = "ClusterRole"
-      name = "cluster-admin"
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
   }
   subject {
-      kind = "ServiceAccount"
-      name = "eks-admin"
-      namespace = "kube-system"
+    kind      = "ServiceAccount"
+    name      = "eks-admin"
+    namespace = "kube-system"
   }
   depends_on = [
-    "kubernetes_service_account.eks-admin-svc-acc"
+    kubernetes_service_account.eks-admin-svc-acc
   ]
 }

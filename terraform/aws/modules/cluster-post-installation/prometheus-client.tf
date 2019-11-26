@@ -8,6 +8,6 @@ resource "helm_release" "prometheus-client" {
     "${file("../../../../../../chart-values/prometheus-client_values.yaml")}"
   ]
   depends_on = [
-    "kubernetes_namespace.monitoring"
+    kubernetes_namespace.monitoring
   ]
 }
