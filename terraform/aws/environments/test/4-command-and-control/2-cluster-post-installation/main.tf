@@ -16,6 +16,7 @@ provider "aws" {
 
 module "cluster-post-installation" {
   source = "../../../../modules/cluster-post-installation"
+  environment = var.environment
   deployment_name = var.deployment_name
   region = var.region
   tiller_version = var.tiller_version
@@ -50,11 +51,9 @@ module "cluster-post-installation" {
   mattermost_cloud_secrets_certificate_aws_arn = var.mattermost_cloud_secrets_certificate_aws_arn
   mattermost_cloud_secrets_private_dns = var.mattermost_cloud_secrets_private_dns
   mattermost_cloud_secrets_private_route53_id = var.mattermost_cloud_secrets_private_route53_id
-  mattermost_cloud_secrets_private_subnets = var.mattermost_cloud_secrets_private_subnets
-  mattermost_cloud_secrets_public_subnets = var.mattermost_cloud_secrets_public_subnets
   mattermost_cloud_secrets_route53_id = var.mattermost_cloud_secrets_route53_id
 
   providers = {
-    aws = "aws.post-deployment"
+    aws = aws.post-deployment
   }
 }

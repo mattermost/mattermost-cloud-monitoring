@@ -1,3 +1,4 @@
+variable "environment" {}
 
 variable "deployment_name" {}
 
@@ -54,10 +55,6 @@ variable "mattermost_cloud_secrets_certificate_aws_arn" {}
 variable "mattermost_cloud_secrets_private_dns" {}
 
 variable "mattermost_cloud_secrets_private_route53_id" {}
-
-variable "mattermost_cloud_secrets_private_subnets" {}
-
-variable "mattermost_cloud_secrets_public_subnets" {}
 
 variable "mattermost_cloud_secrets_route53_id" {}
 

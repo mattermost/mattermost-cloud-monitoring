@@ -101,13 +101,13 @@ variable "db_backup_retention_period" {
 variable "db_backup_window" {
   description = "The daily time range (in UTC) during which automated backups are created if they are enabled. Example: '09:46-10:16'. Must not overlap with maintenance_window"
   type        = string
-  default     = "02:12-02:42"
+  default     = "12:01-12:31"
 }
 
 variable "db_maintenance_window" {
   description = "The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00'"
   type        = string
-  default     = "Sun:01:00-Sun:03:00"
+  default     = "Sun:02:00-Sun:04:00"
 }
 
 
@@ -149,10 +149,6 @@ variable "mattermost_cloud_secrets_certificate_aws_arn" {}
 variable "mattermost_cloud_secrets_private_dns" {}
 
 variable "mattermost_cloud_secrets_private_route53_id" {}
-
-variable "mattermost_cloud_secrets_private_subnets" {}
-
-variable "mattermost_cloud_secrets_public_subnets" {}
 
 variable "mattermost_cloud_secrets_route53_id" {}
 
