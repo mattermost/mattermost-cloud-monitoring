@@ -7,6 +7,6 @@ resource "helm_release" "grafana" {
     "${file("../../../../../../chart-values/grafana_values.yaml")}"
   ]
   depends_on = [
-    "kubernetes_namespace.monitoring"
+    kubernetes_namespace.monitoring
   ]
 }

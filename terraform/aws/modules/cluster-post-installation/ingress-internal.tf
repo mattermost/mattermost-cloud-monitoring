@@ -7,6 +7,6 @@ resource "helm_release" "nginx-internal" {
     "${file("../../../../../../chart-values/nginx-internal_values.yaml")}"
   ]
   depends_on = [
-    "kubernetes_namespace.network"
+    kubernetes_namespace.network
   ]
 }

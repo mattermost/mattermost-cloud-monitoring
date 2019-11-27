@@ -7,6 +7,6 @@ resource "helm_release" "prometheus" {
     "${file("../../../../../../chart-values/prometheus_values.yaml")}"
   ]
   depends_on = [
-    "kubernetes_namespace.monitoring"
+    kubernetes_namespace.monitoring
   ]
 }
