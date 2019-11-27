@@ -42,7 +42,7 @@ variable "es_volume_size" {
 
 variable "instance_count" {
     type = "string"
-    default = "2"
+    default = "3"
 }
 
 variable "dedicated_master_type" {
@@ -62,7 +62,7 @@ variable "es_zone_awareness" {
 
 variable "es_zone_awareness_count" {
     type = "string"
-    default = "2" #Not used unless awareness set to true
+    default = "3" #Not used unless awareness set to true
 }
 
 variable "es_version" {

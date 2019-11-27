@@ -1,7 +1,7 @@
 data "terraform_remote_state" "network" {
   backend = "s3"
   config = {
-    bucket   = "terraform-cloud-monitoring-state-bucket-test"
+    bucket   = "terraform-cloud-monitoring-state-bucket-${var.environment}"
     key      = "mattermost-network"
     region   = "us-east-1"
   }

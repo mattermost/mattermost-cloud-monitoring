@@ -95,3 +95,9 @@ variable "api_gateway_vpc_endpoints" {
     type = list(string)
     description = "VPC endpoints of mattermost-cloud-core and mattermost-core VPCs"
 }
+
+variable "eks_ami_id" {
+    default = ""
+    type = "string"
+    description = "Custom AMI ID to use for EKS workers"
+}

@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 0.12"
   backend "s3" {
-    bucket = "terraform-cloud-monitoring-state-bucket-test"
+    bucket = "terraform-cloud-monitoring-state-bucket-staging"
     key    = "mattermost-network-provisioning-subnets"
     region = "us-east-1"
   }
@@ -12,7 +12,6 @@ provider "aws" {
   region = var.region
   alias  = "deployment"
 }
-
 
 
 module "subnet_setup" {

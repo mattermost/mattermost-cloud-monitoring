@@ -1,5 +1,5 @@
 variable "environment" {
-    default = "test"
+    default = "staging"
     type = "string"
 }
 
