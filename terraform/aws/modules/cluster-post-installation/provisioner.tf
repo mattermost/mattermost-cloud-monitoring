@@ -56,12 +56,10 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
 
         volume {
           name     = "mattermost-cloud-tmp-volume"
-          emptyDir = {}
         }
 
         volume {
           name     = "mattermost-cloud-helm-volume"
-          emptyDir = {}
         }
 
         init_container {
@@ -242,7 +240,9 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
   }
 
   depends_on = [
-    aws_db_instance.provisioner
+    aws_db_instance.provisioner,
+    kubernetes_secret.mattermost_cloud_secret,
+    kubernetes_secret.mattermost_cloud_ssh_secret
   ]
 }
 
@@ -287,7 +287,6 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
 
         volume {
           name     = "mattermost-cloud-tmp-volume"
-          emptyDir = {}
         }
 
         init_container {
@@ -445,7 +444,9 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
   }
 
   depends_on = [
-    aws_db_instance.provisioner
+    aws_db_instance.provisioner,
+    kubernetes_secret.mattermost_cloud_secret,
+    kubernetes_secret.mattermost_cloud_ssh_secret
   ]
 }
 
@@ -481,7 +482,7 @@ resource "kubernetes_ingress" "mattermost_cloud_ingress" {
     namespace = var.mattermost-cloud-namespace
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx-internal"
+      "kubernetes.io/ingress.class" = "nginx"
     }
   }
 
