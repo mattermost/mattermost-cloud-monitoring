@@ -32,6 +32,8 @@ variable "vpc_id" {}
 
 variable "private_subnets" {}
 
+variable "storage_encrypted" {}
+
 variable "mattermost_cloud_image" {}
 
 variable "mattermost_cloud_ingress" {}

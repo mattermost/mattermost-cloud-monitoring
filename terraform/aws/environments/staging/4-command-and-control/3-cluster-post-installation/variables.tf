@@ -1,3 +1,7 @@
+variable "environment" {
+    default = "staging"
+    type = string
+}
 
 variable "deployment_name" {
     default = "mattermost-central-command-control"
@@ -47,6 +51,11 @@ variable "kibana_tls_crt"{
 variable "kibana_tls_key"{
     default = ""
     type = string
+}
+
+variable "storage_encrypted" {
+  type = bool
+  default = true
 }
 
 variable "db_identifier" {

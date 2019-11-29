@@ -41,6 +41,7 @@ module "cluster-post-installation" {
   mattermost_cloud_image = var.mattermost_cloud_image
   mattermost_cloud_ingress = var.mattermost_cloud_ingress
   snapshot_identifier = var.snapshot_identifier
+  storage_encrypted = var.storage_encrypted
   mattermost-cloud-namespace = var.mattermost-cloud-namespace
   mattermost_cloud_secret_ssh_private = var.mattermost_cloud_secret_ssh_private
   mattermost_cloud_secret_ssh_public = var.mattermost_cloud_secret_ssh_public
