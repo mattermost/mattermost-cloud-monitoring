@@ -9,7 +9,7 @@ resource "aws_subnet" "private_1a" {
   for_each = toset(var.vpc_cidrs)
 
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[0], 3, 0)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[0], 2, 0)
   availability_zone = var.vpc_azs[0]
   tags = merge(
     {
@@ -24,7 +24,7 @@ resource "aws_subnet" "private_1b" {
   for_each = toset(var.vpc_cidrs)
 
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[0], 3, 1)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[0], 2, 1)
   availability_zone = var.vpc_azs[1]
   tags = merge(
     {
@@ -39,7 +39,7 @@ resource "aws_subnet" "private_1c" {
   for_each = toset(var.vpc_cidrs)
 
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[0], 3, 2)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[0], 2, 2)
   availability_zone = var.vpc_azs[2]
   tags = merge(
     {
@@ -54,7 +54,7 @@ resource "aws_subnet" "private_1d" {
   for_each = toset(var.vpc_cidrs)
 
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[0], 3, 3)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[0], 2, 3)
   availability_zone = var.vpc_azs[3]
   tags = merge(
     {
@@ -69,7 +69,7 @@ resource "aws_subnet" "private_1e" {
   for_each = toset(var.vpc_cidrs)
 
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[0], 3, 4)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 2, 0)
   availability_zone = var.vpc_azs[4]
   tags = merge(
     {
@@ -84,7 +84,7 @@ resource "aws_subnet" "private_1f" {
   for_each = toset(var.vpc_cidrs)
 
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[0], 3, 5)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 2, 1)
   availability_zone = var.vpc_azs[5]
   tags = merge(
     {
@@ -99,7 +99,7 @@ resource "aws_subnet" "public_1a" {
   for_each = toset(var.vpc_cidrs)
 
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 3, 06)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 4, 8)
   availability_zone = var.vpc_azs[0]
   tags = merge(
     {
@@ -113,7 +113,7 @@ resource "aws_subnet" "public_1a" {
 resource "aws_subnet" "public_1b" {
   for_each = toset(var.vpc_cidrs)
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 3, 1)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 4, 9)
   availability_zone = var.vpc_azs[1]
   tags = merge(
     {
@@ -128,7 +128,7 @@ resource "aws_subnet" "public_1c" {
   for_each = toset(var.vpc_cidrs)
 
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 3, 2)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 4, 10)
   availability_zone = var.vpc_azs[2]
   tags = merge(
     {
@@ -143,7 +143,7 @@ resource "aws_subnet" "public_1d" {
   for_each = toset(var.vpc_cidrs)
 
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 3, 3)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 4, 11)
   availability_zone = var.vpc_azs[3]
   tags = merge(
     {
@@ -158,7 +158,7 @@ resource "aws_subnet" "public_1e" {
   for_each = toset(var.vpc_cidrs)
 
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 3, 4)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 4, 12)
   availability_zone = var.vpc_azs[4]
   tags = merge(
     {
@@ -173,7 +173,7 @@ resource "aws_subnet" "public_1f" {
   for_each = toset(var.vpc_cidrs)
   
   vpc_id = data.aws_vpc.vpc_ids[each.value]["id"]
-  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 3, 5)
+  cidr_block = cidrsubnet(cidrsubnets(each.value, 1, 1)[1], 4, 13)
   availability_zone = var.vpc_azs[5]
   tags = merge(
     {

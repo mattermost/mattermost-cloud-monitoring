@@ -16,6 +16,7 @@ provider "aws" {
 
 module "cluster-post-installation" {
   source = "../../../../modules/cluster-post-installation"
+  environment = var.environment
   deployment_name = var.deployment_name
   region = var.region
   tiller_version = var.tiller_version

@@ -33,6 +33,7 @@ module "cluster" {
   community_webhook = var.community_webhook
   environment = var.environment
   api_gateway_vpc_endpoints = var.api_gateway_vpc_endpoints
+  eks_ami_id = var.eks_ami_id
   region = var.region
   providers = {
     aws = "aws.deployment"

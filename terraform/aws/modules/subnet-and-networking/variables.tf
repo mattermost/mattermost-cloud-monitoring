@@ -12,6 +12,4 @@ variable "transit_gtw_route_destination" {}
 
 variable "environment" {}
 
-variable "account_id" {}
-
 variable "region" {}
