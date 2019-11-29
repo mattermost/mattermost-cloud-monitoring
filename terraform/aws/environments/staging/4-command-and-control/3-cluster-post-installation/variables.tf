@@ -1,65 +1,65 @@
 variable "environment" {
-    default = "staging"
-    type = string
+  default = "staging"
+  type    = string
 }
 
 variable "deployment_name" {
-    default = "mattermost-central-command-control"
-    type = string
+  default = "mattermost-central-command-control"
+  type    = string
 }
 
 variable "region" {
-    default = "us-east-1"
-    type = string
+  default = "us-east-1"
+  type    = string
 }
 
 variable "tiller_version" {
-    default = "2.14.1"
-    type = string
+  default = "2.14.1"
+  type    = string
 }
 
 variable "kubeconfig_dir" {
-    default = "$HOME/generated"
-    type = string
+  default = "$HOME/generated"
+  type    = string
 }
 
-variable "grafana_tls_crt"{
-    default = ""
-    type = string
+variable "grafana_tls_crt" {
+  default = ""
+  type    = string
 }
 
-variable "grafana_tls_key"{
-    default = ""
-    type = string
+variable "grafana_tls_key" {
+  default = ""
+  type    = string
 }
 
-variable "prometheus_tls_crt"{
-    default = ""
-    type = string
+variable "prometheus_tls_crt" {
+  default = ""
+  type    = string
 }
 
-variable "prometheus_tls_key"{
-    default = ""
-    type = string
+variable "prometheus_tls_key" {
+  default = ""
+  type    = string
 }
 
-variable "kibana_tls_crt"{
-    default = ""
-    type = string
+variable "kibana_tls_crt" {
+  default = ""
+  type    = string
 }
 
-variable "kibana_tls_key"{
-    default = ""
-    type = string
+variable "kibana_tls_key" {
+  default = ""
+  type    = string
 }
 
 variable "storage_encrypted" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "db_identifier" {
-  type = string
+  type    = string
   default = ""
 }
 
@@ -118,8 +118,8 @@ variable "db_maintenance_window" {
 }
 
 variable "private_subnets" {
-    type    = list(string)
-    default = ["", "", ""]
+  type    = list(string)
+  default = ["", "", ""]
 }
 
 variable "vpc_id" {
@@ -143,28 +143,28 @@ variable "snapshot_identifier" {
 }
 
 variable "mattermost-cloud-namespace" {
-   type    = string
-   default = ""
+  type    = string
+  default = ""
 }
 
 variable "mattermost_cloud_secret_ssh_private" {
-    type    = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "mattermost_cloud_secret_ssh_public" {
-    type    = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "mattermost_cloud_secrets_aws_access_key" {
-    type    = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "mattermost_cloud_secrets_aws_secret_key" {
-    type    = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "mattermost_cloud_secrets_aws_region" {
@@ -172,21 +172,21 @@ variable "mattermost_cloud_secrets_aws_region" {
 }
 
 variable "mattermost_cloud_secrets_certificate_aws_arn" {
-    type    = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "mattermost_cloud_secrets_private_dns" {
-    type    = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "mattermost_cloud_secrets_private_route53_id" {
-    type    = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "mattermost_cloud_secrets_route53_id" {
-    type    = string
-    default = ""
+  type    = string
+  default = ""
 }
