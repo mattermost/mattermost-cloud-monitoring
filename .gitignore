@@ -16,9 +16,13 @@
 *.dll
 *.so
 *.dylib
+cloud-manager/bin/
 
 # Test binary, built with `go test -c`
 *.test
 
 # Dependency directories
 cloud-manager/vendor/
+
+# IDEs
+**/.idea
