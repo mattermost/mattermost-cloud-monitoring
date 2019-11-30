@@ -2,18 +2,18 @@ package providers
 
 import (
 	"fmt"
-
 	"github.com/pkg/errors"
 )
 
-type Provider struct {
-	name string
+type Provider interface {
+	ListClusters() ([]*string, error)
+	GetName() string
 }
 
-func NewProvider(name string) (*Provider, error) {
+func NewProvider(name, profile, region string) (Provider, error) {
 	switch name {
 	case "aws":
-		return NewAwsProvider(name)
+		return NewAwsProvider(name, profile, region)
 	default:
 		return nil, errors.New(fmt.Sprintf("Unsupported provider found: %s", name))
 	}

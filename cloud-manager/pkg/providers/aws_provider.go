@@ -4,21 +4,53 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/eks"
 )
 
-func NewAwsProvider(name string) (*Provider, error) {
-	return &Provider{name: name}, nil
+type awsProvider struct {
+	Provider
+	name    string
+	profile string
+	region  string
+	session *session.Session
 }
 
-func AwsAuthentication(profile, region string) (interface{}, error) {
-	sess, err := session.NewSession(&aws.Config{
+func NewAwsProvider(name, profile, region string) (Provider, error) {
+	authSession, err := newSession(profile, region)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &awsProvider{
+		name:    name,
+		profile: profile,
+		region:  region,
+		session: authSession,
+	}, nil
+}
+
+func newSession(profile, region string) (*session.Session, error) {
+	config := &aws.Config{
 		Region:      aws.String(region),
 		Credentials: credentials.NewSharedCredentials("", profile),
-	})
+	}
 
-	return &sess, err
+	return session.NewSession(config)
 }
 
-func (m *Provider) GetName() string {
+func (m *awsProvider) ListClusters() ([]*string, error) {
+	svc := eks.New(m.session)
+	input := &eks.ListClustersInput{}
+	result, err := svc.ListClusters(input)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result.Clusters, nil
+}
+
+func (m *awsProvider) GetName() string {
 	return m.name
 }
