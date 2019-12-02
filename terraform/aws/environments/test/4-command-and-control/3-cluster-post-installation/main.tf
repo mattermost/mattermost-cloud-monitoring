@@ -37,6 +37,7 @@ module "cluster-post-installation" {
   db_backup_retention_period = var.db_backup_retention_period
   db_backup_window = var.db_backup_window
   db_maintenance_window = var.db_maintenance_window
+  storage_encrypted = var.storage_encrypted
   vpc_id = var.vpc_id
   private_subnets = var.private_subnets
   mattermost_cloud_image = var.mattermost_cloud_image

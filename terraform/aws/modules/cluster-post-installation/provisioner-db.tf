@@ -69,6 +69,7 @@ resource "aws_db_instance" "provisioner" {
   maintenance_window          = var.db_maintenance_window
   publicly_accessible         = false
   snapshot_identifier         = var.snapshot_identifier
+  storage_encrypted           = var.storage_encrypted
 
   tags = {
     Name        = "Provisioner"

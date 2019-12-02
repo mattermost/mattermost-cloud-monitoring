@@ -1,57 +1,66 @@
+variable "environment" {
+    default = "test"
+    type = string
+}
 
 variable "deployment_name" {
     default = "mattermost-central-command-control"
-    type = "string"
+    type = string
 }
 
 variable "region" {
     default = "us-east-1"
-    type = "string"
+    type = string
 }
 
 variable "tiller_version" {
     default = "2.14.1"
-    type = "string"
+    type = string
 }
 
 variable "kubeconfig_dir" {
     default = "$HOME/generated"
-    type = "string"
+    type = string
 }
 
 variable "grafana_tls_crt"{
     default = ""
-    type = "string"
+    type = string
 }
 
 variable "grafana_tls_key"{
     default = ""
-    type = "string"
+    type = string
 }
 
 variable "prometheus_tls_crt"{
     default = ""
-    type = "string"
+    type = string
 }
 
 variable "prometheus_tls_key"{
     default = ""
-    type = "string"
+    type = string
 }
 
 variable "kibana_tls_crt"{
     default = ""
-    type = "string"
+    type = string
 }
 
 variable "kibana_tls_key"{
     default = ""
-    type = "string"
+    type = string
 }
 
 variable "db_identifier" {
   type = string
   default = "cloud-test"
+}
+
+variable "storage_encrypted" {
+  type = bool
+  default = false
 }
 
 variable "private_subnets" {
