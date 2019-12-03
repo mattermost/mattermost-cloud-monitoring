@@ -58,7 +58,7 @@ func (m *awsProvider) GetName() string {
 	return m.name
 }
 
-func (m *awsProvider) ListInstances() ([]*string, error) {
+func (m *awsProvider) ListInstances() (map[string]string, error) {
 	svc := ec2.New(m.session)
 	resp, err := svc.DescribeInstances(nil)
 	if err != nil {
@@ -81,18 +81,13 @@ func (m *awsProvider) ListInstances() ([]*string, error) {
 	if err != nil {
 		return nil, err
 	}
-	var instances []*string
+	dnsNameIDMap := make(map[string]string)
 	for _, reservation := range result.Reservations {
 		for _, instance := range reservation.Instances {
-			for _, tag := range instance.Tags {
-				if *tag.Key == "Name" {
-					fmt.Println(fmt.Sprintf("Name: %s, ID: %s", *tag.Value, *instance.InstanceId))
-					instances = append(instances, instance.InstanceId)
-					break
-				}
-			}
+			dnsNameIDMap[*instance.PrivateDnsName] = *instance.InstanceId
+
 		}
 	}
-	return instances, nil
+	return dnsNameIDMap, nil
 
 }

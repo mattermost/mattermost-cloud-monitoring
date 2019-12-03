@@ -8,7 +8,7 @@ import (
 
 type Provider interface {
 	ListClusters() ([]*string, error)
-	ListInstances() ([]*string, error)
+	ListInstances() (map[string]string, error)
 	GetName() string
 }
 
