@@ -4,20 +4,10 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/providers"
+
+	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/services"
 )
 
-func LogErrorAndExit(e error) {
-	if e != nil {
-		fmt.Println(e.Error())
-		os.Exit(1)
-	}
-}
-
-// func exitErrorf(msg string, args ...interface{}) {
-// 	fmt.Fprintf(os.Stderr, msg+"\n", args...)
-// 	os.Exit(1)
-// }
 func main() {
 	rotateAmis := flag.Bool("rotate-amis", false, "rotate amis command")
 	kubeContextName := flag.String("kube-context", "minikube", "specifies which kube context to use")
