@@ -2,11 +2,13 @@ package providers
 
 import (
 	"fmt"
+
 	"github.com/pkg/errors"
 )
 
 type Provider interface {
 	ListClusters() ([]*string, error)
+	ListInstances() ([]*string, error)
 	GetName() string
 }
 

@@ -1,9 +1,12 @@
 package providers
 
 import (
+	"fmt"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/eks"
 )
 
@@ -53,4 +56,43 @@ func (m *awsProvider) ListClusters() ([]*string, error) {
 
 func (m *awsProvider) GetName() string {
 	return m.name
+}
+
+func (m *awsProvider) ListInstances() ([]*string, error) {
+	svc := ec2.New(m.session)
+	resp, err := svc.DescribeInstances(nil)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println("> Number of reservation sets: ", len(resp.Reservations))
+
+	input := &ec2.DescribeInstancesInput{
+		Filters: []*ec2.Filter{
+			{
+				Name: aws.String("instance-state-name"),
+				Values: []*string{
+					aws.String("running"),
+					aws.String("pending"),
+				},
+			},
+		},
+	}
+	result, err := svc.DescribeInstances(input)
+	if err != nil {
+		return nil, err
+	}
+	var instances []*string
+	for _, reservation := range result.Reservations {
+		for _, instance := range reservation.Instances {
+			for _, tag := range instance.Tags {
+				if *tag.Key == "Name" {
+					fmt.Println(fmt.Sprintf("Name: %s, ID: %s", *tag.Value, *instance.InstanceId))
+					instances = append(instances, instance.InstanceId)
+					break
+				}
+			}
+		}
+	}
+	return instances, nil
+
 }
