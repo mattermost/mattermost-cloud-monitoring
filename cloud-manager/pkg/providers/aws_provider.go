@@ -42,8 +42,8 @@ func newSession(profile, region string) (*session.Session, error) {
 	return session.NewSession(config)
 }
 
-func (m *awsProvider) ListClusters() ([]*string, error) {
-	svc := eks.New(m.session)
+func (ap *awsProvider) ListClusters() ([]*string, error) {
+	svc := eks.New(ap.session)
 	input := &eks.ListClustersInput{}
 	result, err := svc.ListClusters(input)
 
@@ -54,12 +54,12 @@ func (m *awsProvider) ListClusters() ([]*string, error) {
 	return result.Clusters, nil
 }
 
-func (m *awsProvider) GetName() string {
-	return m.name
+func (ap *awsProvider) GetName() string {
+	return ap.name
 }
 
-func (m *awsProvider) ListInstances() (map[string]string, error) {
-	svc := ec2.New(m.session)
+func (ap *awsProvider) ListInstances() (map[string]string, error) {
+	svc := ec2.New(ap.session)
 	resp, err := svc.DescribeInstances(nil)
 	if err != nil {
 		return nil, err
@@ -90,4 +90,19 @@ func (m *awsProvider) ListInstances() (map[string]string, error) {
 	}
 	return dnsNameIDMap, nil
 
+}
+
+func (ap *awsProvider) TerminateInstance(instanceID string) (*ec2.TerminateInstancesOutput, error) {
+	svc := ec2.New(ap.session)
+	input := &ec2.TerminateInstancesInput{
+		InstanceIds: []*string{
+			aws.String(instanceID),
+		},
+	}
+
+	result, err := svc.TerminateInstances(input)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return result, nil
 }
