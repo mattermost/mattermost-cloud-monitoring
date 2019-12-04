@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/providers"
 	"os"
 
 	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/services"
@@ -16,12 +17,20 @@ func main() {
 	RegionName := flag.String("region", "eu-west-1", "specifies which region to use for AWS")
 	flag.Parse()
 
-	kubernetesService, err := services.NewKubernetesService(*kubeContextName)
-
+	cloudProvider, err := providers.NewProvider(
+		*cloudProviderName,
+		*ProfileName,
+		*RegionName,
+	)
+	LogErrorAndExit(err, "Failed to initialize provider")
+	kubernetesService, err := services.NewKubernetesService(*kubeContextName, cloudProvider)
 	LogErrorAndExit(err, "Failed to initialize k8s service")
 
 	if *rotateAmis {
-		kubernetesService.Drain(*cloudProviderName, *ProfileName, *RegionName)
+		err := kubernetesService.Drain()
+		if err != nil {
+			os.Exit(1)
+		}
 	}
 
 }

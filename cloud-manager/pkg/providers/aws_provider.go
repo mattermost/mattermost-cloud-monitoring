@@ -1,13 +1,10 @@
 package providers
 
 import (
-	"fmt"
-
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
-	"github.com/aws/aws-sdk-go/service/eks"
 )
 
 type awsProvider struct {
@@ -42,67 +39,53 @@ func newSession(profile, region string) (*session.Session, error) {
 	return session.NewSession(config)
 }
 
-func (ap *awsProvider) ListClusters() ([]*string, error) {
-	svc := eks.New(ap.session)
-	input := &eks.ListClustersInput{}
-	result, err := svc.ListClusters(input)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return result.Clusters, nil
-}
-
 func (ap *awsProvider) GetName() string {
 	return ap.name
 }
 
-func (ap *awsProvider) ListInstances() (map[string]string, error) {
+func (ap *awsProvider) GetInstance(privateDnsName string) (*ec2.Instance, error) {
 	svc := ec2.New(ap.session)
-	resp, err := svc.DescribeInstances(nil)
-	if err != nil {
-		return nil, err
-	}
-	fmt.Println("> Number of reservation sets: ", len(resp.Reservations))
-
 	input := &ec2.DescribeInstancesInput{
 		Filters: []*ec2.Filter{
 			{
-				Name: aws.String("instance-state-name"),
-				Values: []*string{
-					aws.String("running"),
-					aws.String("pending"),
-				},
+				Name:   aws.String("private-dns-name"),
+				Values: aws.StringSlice([]string{privateDnsName}),
 			},
 		},
 	}
-	result, err := svc.DescribeInstances(input)
+	response, err := svc.DescribeInstances(input)
 	if err != nil {
 		return nil, err
 	}
-	dnsNameIDMap := make(map[string]string)
-	for _, reservation := range result.Reservations {
-		for _, instance := range reservation.Instances {
-			dnsNameIDMap[*instance.PrivateDnsName] = *instance.InstanceId
-
-		}
+	reservations := response.Reservations
+	if len(reservations) == 0 {
+		return nil, nil
 	}
-	return dnsNameIDMap, nil
 
+	instances := reservations[0].Instances
+	if len(instances) == 0 {
+		return nil, nil
+	}
+
+	return instances[0], nil
 }
 
-func (ap *awsProvider) TerminateInstance(instanceID string) (*ec2.TerminateInstancesOutput, error) {
-	svc := ec2.New(ap.session)
-	input := &ec2.TerminateInstancesInput{
-		InstanceIds: []*string{
-			aws.String(instanceID),
-		},
+func (ap *awsProvider) TerminateInstance(instanceName string) (bool, error) {
+	instance, err := ap.GetInstance(instanceName)
+	if err != nil {
+		return false, err
+	}
+	if instance == nil {
+		return false, nil
 	}
 
-	result, err := svc.TerminateInstances(input)
-	if err != nil {
-		fmt.Println(err)
+	svc := ec2.New(ap.session)
+	input := &ec2.TerminateInstancesInput{
+		InstanceIds: []*string{instance.InstanceId},
 	}
-	return result, nil
+	result, terminationErr := svc.TerminateInstances(input)
+	if terminationErr != nil {
+		return false, err
+	}
+	return *result.TerminatingInstances[0].CurrentState.Name == "shutting-down", nil
 }

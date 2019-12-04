@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+	"context"
 
 	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/providers"
 	k8sdrain "github.com/openshift/kubernetes-drain"
@@ -15,12 +16,15 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
+const PodNotReadyKey = "node.kubernetes.io/not-ready"
+
 type Service struct {
 	contextName string
 	client      *kubernetes.Clientset
+	provider    providers.Provider
 }
 
-func NewKubernetesService(contextName string) (*Service, error) {
+func NewKubernetesService(contextName string, provider providers.Provider) (*Service, error) {
 	config, err := clientcmd.BuildConfigFromFlags("", defaultPath())
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("Failed to build k8s config: %s", err.Error()))
@@ -31,7 +35,7 @@ func NewKubernetesService(contextName string) (*Service, error) {
 		return nil, errors.New(fmt.Sprintf("Failed to create k8s client: %s", err.Error()))
 	}
 
-	return &Service{contextName: contextName, client: client}, nil
+	return &Service{contextName: contextName, client: client, provider: provider}, nil
 }
 
 func defaultPath() string {
@@ -45,12 +49,15 @@ func homeDir() string {
 	return os.Getenv("USERPROFILE") // windows
 }
 
-func (s *Service) Drain(cloudProviderName, ProfileName, RegionName string) error {
+func (s *Service) Drain() error {
 	nodeList, err := s.client.CoreV1().Nodes().List(metav1.ListOptions{})
+
 	if err != nil {
 		fmt.Println(fmt.Sprintf("Failed to fetch k8s nodes due to %s", err.Error()))
 		return err
 	}
+	// get instances id map
+	initialNodeSize := len(nodeList.Items)
 
 	for _, item := range nodeList.Items {
 		node := &item
@@ -74,29 +81,59 @@ func (s *Service) Drain(cloudProviderName, ProfileName, RegionName string) error
 		}
 		fmt.Println(fmt.Sprintf("Finish draining node %s", node.GetName()))
 
-		cloudProvider, err := providers.NewProvider(
-			cloudProviderName,
-			ProfileName,
-			RegionName,
-		)
-		result, err := cloudProvider.ListInstances()
+		// teardown ec2 instance
+		fmt.Println(fmt.Sprintf("Going to DELETE: %s", node.GetName()))
+		isTerminated, err := s.provider.TerminateInstance(node.GetName())
 		if err != nil {
+			fmt.Println(fmt.Sprintf("Failed to terminate node %s due to %s", node.GetName(), err.Error()))
+			return err
+		}
+		if !isTerminated {
+			err := errors.New("Termination failed, please check if instance allows termination")
+			fmt.Println(fmt.Sprintf("Failed to terminate node %s due to %s", node.GetName(), err.Error()))
 			return err
 		}
 
-		fmt.Println(result)
-		// teardown ec2 instance
+		isReady, err := s.verifyNew(initialNodeSize)
+		if err != nil {
+			return err
+		}
+		if !isReady {
+			return errors.New("")
+		}
 		// wait for node to be up
 	}
 	return nil
 }
 
-func (s *Service) waitUntilTearDown() {
+// TODO: Does not handle race conditions from async creation of nodes when the script is running
+func (s *Service) verifyNew(initialSize int) (bool, error) {
+	nodeList, err := s.client.CoreV1().Nodes().List(metav1.ListOptions{})
+	if err != nil {
+		return false, err
+	}
 
-}
+	readyNodes := s.filterReadyNodes(nodeList.Items)
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
 
-func (s *Service) verifyNew() {
-
+	for {
+		select {
+		case <-ctx.Done():
+			err := errors.New("Timeout reached, while waiting for nodes to be ready")
+			return false, err
+		default:
+			if len(readyNodes) == initialSize {
+				return true, nil
+			}
+			time.Sleep(5 * time.Second)
+			nodeList, err := s.client.CoreV1().Nodes().List(metav1.ListOptions{})
+			if err != nil {
+				return false, err
+			}
+			readyNodes = s.filterReadyNodes(nodeList.Items)
+		}
+	}
 }
 
 func (s *Service) Log(v ...interface{}) {
@@ -105,4 +142,33 @@ func (s *Service) Log(v ...interface{}) {
 
 func (s *Service) Logf(format string, v ...interface{}) {
 	fmt.Println(fmt.Sprintf(format, v))
+}
+
+func (s *Service) nodeIsReady(node corev1.Node) bool {
+	for _, taint := range node.Spec.Taints {
+		if taint.Key != PodNotReadyKey {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (s *Service) filterReadyNodes(nodes []corev1.Node) []corev1.Node {
+	var readyNodes []corev1.Node
+	for _, node := range nodes {
+		if s.nodeIsReady(node) {
+			readyNodes = append(readyNodes, node)
+		}
+	}
+	return readyNodes
+}
+
+func Find(slice []string, val string) (int, bool) {
+	for i, item := range slice {
+		if item == val {
+			return i, true
+		}
+	}
+	return -1, false
 }
