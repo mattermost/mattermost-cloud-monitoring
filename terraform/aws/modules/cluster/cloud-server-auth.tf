@@ -34,10 +34,10 @@ resource "aws_lambda_function" "cloud_server_auth" {
   role          = aws_iam_role.auth_lambda_role.arn
   handler       = "cloud-server-auth"
   timeout       = 180
-  source_code_hash = "${filebase64sha256("../../../../../../cloud-server-auth/cloud-server-auth.zip")}"
+  source_code_hash = filebase64sha256("../../../../../../cloud-server-auth/cloud-server-auth.zip")
   runtime = "go1.x"
   vpc_config {
-    subnet_ids = flatten(var.private_subnet_ids)
+    subnet_ids = flatten(var.auth_private_subnet_ids)
     security_group_ids = [aws_security_group.auth_lambda_sg.id]
   }
 
@@ -52,7 +52,7 @@ resource "aws_lambda_function" "cloud_server_auth" {
 resource "aws_security_group" "auth_lambda_sg" {
   name        = "${var.deployment_name}-auth-lambda-sg"
   description = "Cloud Server Auth Lambda"
-  vpc_id      = var.vpc_id
+  vpc_id      = var.auth_vpc_id
 
   egress {
     from_port   = 0
@@ -117,8 +117,8 @@ resource "aws_api_gateway_deployment" "cloud_server_auth_deployment" {
   rest_api_id = aws_api_gateway_rest_api.cloud_server_auth.id
   stage_name  = var.environment
   depends_on= [
-      "aws_api_gateway_method.cloud_server_auth_method",
-      "aws_api_gateway_integration.cloud_server_auth_integration"
+      aws_api_gateway_method.cloud_server_auth_method,
+      aws_api_gateway_integration.cloud_server_auth_integration
   ]
 }
 

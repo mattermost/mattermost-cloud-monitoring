@@ -63,7 +63,7 @@ resource "aws_lambda_function" "prometheus_registration" {
   role          = aws_iam_role.lambda_role.arn
   handler       = "main"
   timeout       = 120
-  source_code_hash = "${filebase64sha256("../../../../../../prometheus-dns-registration-service/main.zip")}"
+  source_code_hash = filebase64sha256("../../../../../../prometheus-dns-registration-service/main.zip")
   runtime = "go1.x"
   vpc_config {
     subnet_ids = flatten([var.private_subnet_ids])

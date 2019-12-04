@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 0.12"
   backend "s3" {
-    bucket = "terraform-cloud-monitoring-state-bucket-staging"
+    bucket = "terraform-cloud-monitoring-state-bucket-prod"
     key    = "mattermost-central-command-control"
     region = "us-east-1"
   }
@@ -20,7 +20,7 @@ module "cluster" {
   auth_private_subnet_ids   = [var.auth_private_subnet_ids]
   vpc_id                    = var.vpc_id
   auth_vpc_id               = var.auth_vpc_id
-  deployment_name           = var.deployment_name
+  deployment_name           = "${var.deployment_name}-${var.environment}"
   instance_type             = var.instance_type
   max_size                  = var.max_size
   min_size                  = var.min_size
