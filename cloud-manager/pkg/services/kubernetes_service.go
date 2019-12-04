@@ -50,7 +50,7 @@ func homeDir() string {
 	return os.Getenv("USERPROFILE") // windows
 }
 
-func (s *Service) Drain() error {
+func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool) error {
 	nodeList, err := s.client.CoreV1().Nodes().List(metav1.ListOptions{})
 
 	if err != nil {
@@ -65,11 +65,11 @@ func (s *Service) Drain() error {
 		nodes := []*corev1.Node{node}
 
 		drainOptions := &k8sdrain.DrainOptions{
-			Force:              true,
-			IgnoreDaemonsets:   true,
+			Force:              force,
+			IgnoreDaemonsets:   ignoreDaemonsets,
 			GracePeriodSeconds: 20,
 			Timeout:            10 * time.Second,
-			DeleteLocalData:    false,
+			DeleteLocalData:    deleteLocalData,
 			Namespace:          "default",
 			Logger:             s,
 		}
