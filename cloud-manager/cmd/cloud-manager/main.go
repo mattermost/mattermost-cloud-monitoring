@@ -11,7 +11,7 @@ import (
 
 func main() {
 	rotateAmis := flag.Bool("rotate-amis", false, "rotate amis command")
-	kubeContextName := flag.String("kube-context", "minikube", "specifies which kube context to use")
+	kubeContextName := flag.String("kube-context", "aminikube", "specifies which kube context to use")
 	cloudProviderName := flag.String("cloud-provider", "aws", "specifies the cloud provider for which to run a given command")
 	ProfileName := flag.String("profile", "default", "specifies which profile to use for AWS")
 	RegionName := flag.String("region", "eu-west-1", "specifies which region to use for AWS")
@@ -29,6 +29,7 @@ func main() {
 	if *rotateAmis {
 		err := kubernetesService.Drain()
 		if err != nil {
+			fmt.Println(err.Error())
 			os.Exit(1)
 		}
 	}

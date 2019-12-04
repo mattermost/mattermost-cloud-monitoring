@@ -82,15 +82,14 @@ func (s *Service) Drain() error {
 		fmt.Println(fmt.Sprintf("Finish draining node %s", node.GetName()))
 
 		// teardown ec2 instance
-		fmt.Println(fmt.Sprintf("Going to DELETE: %s", node.GetName()))
+		fmt.Println(fmt.Sprintf("Going to delete: %s", node.GetName()))
 		isTerminated, err := s.provider.TerminateInstance(node.GetName())
 		if err != nil {
-			fmt.Println(fmt.Sprintf("Failed to terminate node %s due to %s", node.GetName(), err.Error()))
+			err := errors.New(fmt.Sprintf("Failed to terminate node %s due to %s", node.GetName(), err.Error()))
 			return err
 		}
 		if !isTerminated {
 			err := errors.New("Termination failed, please check if instance allows termination")
-			fmt.Println(fmt.Sprintf("Failed to terminate node %s due to %s", node.GetName(), err.Error()))
 			return err
 		}
 
@@ -99,9 +98,8 @@ func (s *Service) Drain() error {
 			return err
 		}
 		if !isReady {
-			return errors.New("")
+			return errors.New("Node is not ready")
 		}
-		// wait for node to be up
 	}
 	return nil
 }
@@ -114,7 +112,7 @@ func (s *Service) verifyNew(initialSize int) (bool, error) {
 	}
 
 	readyNodes := s.filterReadyNodes(nodeList.Items)
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
 	defer cancel()
 
 	for {
@@ -162,13 +160,4 @@ func (s *Service) filterReadyNodes(nodes []corev1.Node) []corev1.Node {
 		}
 	}
 	return readyNodes
-}
-
-func Find(slice []string, val string) (int, bool) {
-	for i, item := range slice {
-		if item == val {
-			return i, true
-		}
-	}
-	return -1, false
 }
