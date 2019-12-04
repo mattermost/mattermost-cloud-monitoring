@@ -16,7 +16,8 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
-const PodNotReadyKey = "node.kubernetes.io/not-ready"
+const PodUnschedulable = "node.kubernetes.io/unschedulable"
+
 
 type Service struct {
 	contextName string
@@ -112,6 +113,7 @@ func (s *Service) verifyNew(initialSize int) (bool, error) {
 	}
 
 	readyNodes := s.filterReadyNodes(nodeList.Items)
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
 	defer cancel()
 
@@ -121,15 +123,18 @@ func (s *Service) verifyNew(initialSize int) (bool, error) {
 			err := errors.New("Timeout reached, while waiting for nodes to be ready")
 			return false, err
 		default:
+			fmt.Println(fmt.Sprintf("Nodes ready: %x of %x", len(readyNodes), initialSize))
 			if len(readyNodes) == initialSize {
 				return true, nil
 			}
-			time.Sleep(5 * time.Second)
+			time.Sleep(10 * time.Second)
 			nodeList, err := s.client.CoreV1().Nodes().List(metav1.ListOptions{})
+
 			if err != nil {
 				return false, err
 			}
 			readyNodes = s.filterReadyNodes(nodeList.Items)
+
 		}
 	}
 }
@@ -142,13 +147,27 @@ func (s *Service) Logf(format string, v ...interface{}) {
 	fmt.Println(fmt.Sprintf(format, v))
 }
 
+// check if kubelet status is ready
 func (s *Service) nodeIsReady(node corev1.Node) bool {
-	for _, taint := range node.Spec.Taints {
-		if taint.Key != PodNotReadyKey {
-			return true
+	for _, condition := range node.Status.Conditions {
+		if condition.Type == "Ready" && condition.Reason == "KubeletReady"{
+			return s.nodeIsSchedulable(node.Spec.Taints)
 		}
 	}
+	return false
+}
 
+// check if node has any taints and if true if any taint is for unschedulable
+func (s *Service) nodeIsSchedulable(taints []corev1.Taint) bool {
+	if len(taints) == 0 {
+		return true
+	} else {
+		for _, taint := range taints{
+			if taint.Key != PodUnschedulable {
+				return true
+			}
+		}
+	}
 	return false
 }
 
