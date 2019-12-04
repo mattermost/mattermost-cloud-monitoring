@@ -13,7 +13,7 @@ resource "aws_launch_configuration" "worker-lc" {
   instance_type               = var.instance_type
   name_prefix                 = var.deployment_name
   security_groups             = [aws_security_group.worker-sg.id]
-  user_data_base64            = "${base64encode(local.worker-userdata)}"
+  user_data_base64            = base64encode(local.worker-userdata)
   associate_public_ip_address = false
 
   root_block_device {

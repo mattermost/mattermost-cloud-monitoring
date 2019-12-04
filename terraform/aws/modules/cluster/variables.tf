@@ -1,8 +1,12 @@
 variable "vpc_id" {}
 
+variable "auth_vpc_id" {}
+
 variable "public_subnet_ids" {}
 
 variable "private_subnet_ids" {}
+
+variable "auth_private_subnet_ids" {}
 
 variable "deployment_name" {}
 

@@ -17,7 +17,9 @@ module "cluster" {
   source = "../../../../modules/cluster"
   public_subnet_ids = [var.public_subnet_ids]
   private_subnet_ids = [var.private_subnet_ids]
+  auth_private_subnet_ids   = [var.auth_private_subnet_ids]
   vpc_id      = var.vpc_id
+  auth_vpc_id               = var.auth_vpc_id
   deployment_name = var.deployment_name
   instance_type = var.instance_type
   max_size = var.max_size
@@ -36,6 +38,6 @@ module "cluster" {
   region = var.region
   eks_ami_id = var.eks_ami_id
   providers = {
-    aws = "aws.deployment"
+    aws = aws.deployment
   }
 }

@@ -4,12 +4,22 @@ variable "vpc_id" {
 
 }
 
+variable "auth_vpc_id" {
+  default = ""
+  type    = string
+}
+
 variable "public_subnet_ids" {
-  default = [""]
   type    = list(string)
+  default = [""]
 }
 
 variable "private_subnet_ids" {
+  type    = list(string)
+  default = [""]
+}
+
+variable "auth_private_subnet_ids" {
   default = [""]
   type    = list(string)
 }
@@ -93,7 +103,7 @@ variable "community_webhook" {
 variable "api_gateway_vpc_endpoints" {
   default     = [""]
   type        = list(string)
-  description = "VPC endpoints of mattermost-cloud-core and mattermost-core VPCs"
+  description = "VPC endpoints"
 }
 
 variable "eks_ami_id" {

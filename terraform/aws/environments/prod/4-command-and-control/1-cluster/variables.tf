@@ -60,7 +60,7 @@ variable "account_id" {
 }
 
 variable "environment" {
-    default = "test"
+    default = "prod"
     type = "string"
 }
 
@@ -103,7 +103,7 @@ variable "community_webhook" {
 variable "api_gateway_vpc_endpoints" {
     default = [""]
     type = list(string)
-    description = "VPC endpoints of mattermost-cloud-core, mattermost-core, mattermost and mattermost-test VPCs"
+    description = "VPC endpoints"
 }
 
 variable "eks_ami_id" {
