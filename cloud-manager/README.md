@@ -31,7 +31,13 @@ to run the tool:
     Specifies drain to continue even if there are pods not managed by a ReplicationController, ReplicaSet, Job, DaemonSet or StatefulSet (default true)
 * `-ignore-daemonsets`
     Ignore DaemonSet-managed pods (default true)
-    
+*   `-grace-period int`
+    Time to wait gracefully for pods to evict (default 30 seconds)
+*   `-namespace string`
+    Which namespace to drain pods from. Leave empty for all namespaces.
+*   `-timeout duration`
+    Time to wait for drain of all pods in Seconds need to specified with the suffix `s` i.e. `90s` (default 1m30s)
+
 *  `-help` 
     returns the above information
     
@@ -40,15 +46,11 @@ For EKS with usage of default values:
 
 `./bin/cloud-manager -rotate-amis -kube-context=arn:aws:eks:eu-west-1:012345678901:cluster/clustername`
 
-# ToDo
-* Write tests
-
 # Future improvements
-* Check corner cases on not ready Nodes
 * Argument to delete more than 1 node at a time
 * Addition of credentials usage instead kubeconfig 
-* Add more arguments for DrainOptions
 * Handle race conditions from async creation of nodes when the script is running
 * Remove dependency on `github.com/openshift/kubernetes-drain`
 * Usage of log
 * Usage of different providers (Azure, GCP)
+* Write tests for kubernetes service

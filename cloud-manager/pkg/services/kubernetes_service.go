@@ -49,7 +49,7 @@ func homeDir() string {
 	return os.Getenv("USERPROFILE") // windows
 }
 
-func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool) error {
+func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool, namespace string, gracePeriodSeconds int, timeout time.Duration) error {
 	nodeList, err := s.client.CoreV1().Nodes().List(metav1.ListOptions{})
 
 	if err != nil {
@@ -66,10 +66,10 @@ func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool) error {
 		drainOptions := &k8sdrain.DrainOptions{
 			Force:              force,
 			IgnoreDaemonsets:   ignoreDaemonsets,
-			GracePeriodSeconds: 20,
-			Timeout:            10 * time.Second,
+			GracePeriodSeconds: gracePeriodSeconds,
+			Timeout:            timeout * time.Second,
 			DeleteLocalData:    deleteLocalData,
-			Namespace:          "default",
+			Namespace:          namespace,
 			Logger:             s,
 		}
 
@@ -79,10 +79,9 @@ func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool) error {
 			fmt.Println(fmt.Sprintf("Failed to drain node %s due to %s", node.GetName(), err.Error()))
 			return err
 		}
-		fmt.Println(fmt.Sprintf("Finish draining node %s", node.GetName()))
 
 		// teardown ec2 instance
-		fmt.Println(fmt.Sprintf("Going to delete: %s", node.GetName()))
+		fmt.Println(fmt.Sprintf("Deleting node: %s", node.GetName()))
 		isTerminated, err := s.provider.TerminateInstance(node.GetName())
 		if err != nil {
 			err := errors.New(fmt.Sprintf("Failed to terminate node %s due to %s", node.GetName(), err.Error()))
@@ -126,7 +125,7 @@ func (s *Service) verifyNew(initialSize int) (bool, error) {
 			if len(readyNodes) == initialSize {
 				return true, nil
 			}
-			time.Sleep(10 * time.Second)
+			time.Sleep(15 * time.Second)
 			nodeList, err := s.client.CoreV1().Nodes().List(metav1.ListOptions{})
 
 			if err != nil {
