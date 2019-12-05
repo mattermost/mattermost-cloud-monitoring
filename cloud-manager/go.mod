@@ -9,6 +9,7 @@ require (
 	github.com/imdario/mergo v0.3.8 // indirect
 	github.com/openshift/kubernetes-drain v0.0.0-20190727205423-d20a33f09dbf
 	github.com/pkg/errors v0.8.1
+	github.com/stretchr/testify v1.4.0
 	golang.org/x/crypto v0.0.0-20191202143827-86a70503ff7e // indirect
 	golang.org/x/net v0.0.0-20191126235420-ef20fe5d7933 // indirect
 	golang.org/x/oauth2 v0.0.0-20191122200657-5d9234df094c // indirect

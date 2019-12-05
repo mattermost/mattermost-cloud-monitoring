@@ -1,11 +1,11 @@
 package services
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"path/filepath"
 	"time"
-	"context"
 
 	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/providers"
 	k8sdrain "github.com/openshift/kubernetes-drain"
@@ -17,7 +17,6 @@ import (
 )
 
 const PodUnschedulable = "node.kubernetes.io/unschedulable"
-
 
 type Service struct {
 	contextName string
@@ -150,7 +149,7 @@ func (s *Service) Logf(format string, v ...interface{}) {
 // check if kubelet status is ready
 func (s *Service) nodeIsReady(node corev1.Node) bool {
 	for _, condition := range node.Status.Conditions {
-		if condition.Type == "Ready" && condition.Reason == "KubeletReady"{
+		if condition.Type == "Ready" && condition.Reason == "KubeletReady" {
 			return s.nodeIsSchedulable(node.Spec.Taints)
 		}
 	}
@@ -162,7 +161,7 @@ func (s *Service) nodeIsSchedulable(taints []corev1.Taint) bool {
 	if len(taints) == 0 {
 		return true
 	} else {
-		for _, taint := range taints{
+		for _, taint := range taints {
 			if taint.Key != PodUnschedulable {
 				return true
 			}

@@ -5,28 +5,40 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go/service/ec2/ec2iface"
+	"github.com/pkg/errors"
 )
 
 type awsProvider struct {
 	Provider
-	name    string
-	profile string
-	region  string
-	session *session.Session
+	name      string
+	profile   string
+	region    string
+	ec2Client ec2iface.EC2API
 }
 
-func NewAwsProvider(name, profile, region string) (Provider, error) {
-	authSession, err := newSession(profile, region)
+func NewAwsProvider(name, profile, region string, ec2Service ec2iface.EC2API) (Provider, error) {
+	if name == "" || profile == "" || region == "" {
+		return nil, errors.New("one or all required attributes(name, profile, region) is blank")
+	}
 
-	if err != nil {
-		return nil, err
+	ec2Svc := ec2Service
+
+	if ec2Svc == nil {
+		authSession, err := newSession(profile, region)
+
+		if err != nil {
+			return nil, err
+		}
+
+		ec2Svc = ec2.New(authSession)
 	}
 
 	return &awsProvider{
-		name:    name,
-		profile: profile,
-		region:  region,
-		session: authSession,
+		name:      name,
+		profile:   profile,
+		region:    region,
+		ec2Client: ec2Svc,
 	}, nil
 }
 
@@ -44,7 +56,6 @@ func (ap *awsProvider) GetName() string {
 }
 
 func (ap *awsProvider) GetInstance(privateDnsName string) (*ec2.Instance, error) {
-	svc := ec2.New(ap.session)
 	input := &ec2.DescribeInstancesInput{
 		Filters: []*ec2.Filter{
 			{
@@ -53,7 +64,7 @@ func (ap *awsProvider) GetInstance(privateDnsName string) (*ec2.Instance, error)
 			},
 		},
 	}
-	response, err := svc.DescribeInstances(input)
+	response, err := ap.ec2Client.DescribeInstances(input)
 	if err != nil {
 		return nil, err
 	}
@@ -79,13 +90,18 @@ func (ap *awsProvider) TerminateInstance(instanceName string) (bool, error) {
 		return false, nil
 	}
 
-	svc := ec2.New(ap.session)
 	input := &ec2.TerminateInstancesInput{
 		InstanceIds: []*string{instance.InstanceId},
 	}
-	result, terminationErr := svc.TerminateInstances(input)
+	result, terminationErr := ap.ec2Client.TerminateInstances(input)
 	if terminationErr != nil {
 		return false, err
 	}
-	return *result.TerminatingInstances[0].CurrentState.Name == "shutting-down", nil
+
+	terminatingInstances := result.TerminatingInstances
+	if len(terminatingInstances) == 0 {
+		return false, nil
+	}
+
+	return *terminatingInstances[0].CurrentState.Name == "shutting-down", nil
 }
