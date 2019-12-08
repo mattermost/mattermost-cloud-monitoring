@@ -20,7 +20,7 @@ func main() {
 	deleteLocalData := flag.Bool("delete-local-data", true, "Continue even if there are pods using emptyDir (local data that will be deleted when the node is drained)")
 	namespace := flag.String("namespace", "", "Which namespace to drain pods from. Leave empty for all namespaces.")
 	gracePeriodSeconds := flag.Int("grace-period", 30, "Time to wait gracefully for pods to evict")
-	timeout := flag.Duration(  "timeout", 90 *time.Second, "Time to wait for drain of all pods in Seconds")
+	timeout := flag.Duration("timeout", 90*time.Second, "Time to wait for drain of all pods in Seconds")
 	flag.Parse()
 
 	cloudProvider, err := providers.NewProvider(
