@@ -59,21 +59,21 @@ func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool, namespace
 	// get instances id map
 	initialNodeSize := len(nodeList.Items)
 
+	drainOptions := &k8sdrain.DrainOptions{
+		Force:              force,
+		IgnoreDaemonsets:   ignoreDaemonsets,
+		GracePeriodSeconds: gracePeriodSeconds,
+		Timeout:            timeout * time.Second,
+		DeleteLocalData:    deleteLocalData,
+		Namespace:          namespace,
+		Logger:             s,
+	}
+
 	for _, item := range nodeList.Items {
 		node := &item
 		nodes := []*corev1.Node{node}
 
-		drainOptions := &k8sdrain.DrainOptions{
-			Force:              force,
-			IgnoreDaemonsets:   ignoreDaemonsets,
-			GracePeriodSeconds: gracePeriodSeconds,
-			Timeout:            timeout * time.Second,
-			DeleteLocalData:    deleteLocalData,
-			Namespace:          namespace,
-			Logger:             s,
-		}
-
-		fmt.Println(fmt.Sprintf("Going to start draining node %s", node.GetName()))
+		fmt.Println(fmt.Sprintf("Draining node %s", node.GetName()))
 		err = k8sdrain.Drain(s.client, nodes, drainOptions)
 		if err != nil {
 			fmt.Println(fmt.Sprintf("Failed to drain node %s due to %s", node.GetName(), err.Error()))
