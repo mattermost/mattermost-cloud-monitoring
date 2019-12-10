@@ -52,6 +52,7 @@ module "cluster-post-installation" {
   mattermost_cloud_secrets_private_dns         = var.mattermost_cloud_secrets_private_dns
   mattermost_cloud_secrets_private_route53_id  = var.mattermost_cloud_secrets_private_route53_id
   mattermost_cloud_secrets_route53_id          = var.mattermost_cloud_secrets_route53_id
+  provisioner_user = var.provisioner_user
 
   providers = {
     aws = aws.post-deployment
