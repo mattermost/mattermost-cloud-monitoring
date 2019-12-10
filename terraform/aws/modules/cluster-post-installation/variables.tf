@@ -71,3 +71,5 @@ variable "prometheus_tls_key" {}
 variable "kibana_tls_crt" {}
 
 variable "kibana_tls_key" {}
+
+variable "provisioner_user" {}
