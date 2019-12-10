@@ -16,6 +16,7 @@ func main() {
 	ProfileName := flag.String("profile", "default", "Specifies which profile to use for AWS")
 	RegionName := flag.String("region", "eu-west-1", "Specifies which region to use for AWS")
 	force := flag.Bool("force", true, "Specifies drain to continue even if there are pods not managed by a ReplicationController, ReplicaSet, Job, DaemonSet or StatefulSet")
+	forceTermination := flag.Bool("force-termination", false, "Specifies termination of instances when termination protection is enabled")
 	ignoreDaemonsets := flag.Bool("ignore-daemonsets", true, "Ignore DaemonSet-managed pods")
 	deleteLocalData := flag.Bool("delete-local-data", true, "Continue even if there are pods using emptyDir (local data that will be deleted when the node is drained)")
 	namespace := flag.String("namespace", "", "Which namespace to drain pods from. Leave empty for all namespaces.")
@@ -33,7 +34,7 @@ func main() {
 	LogErrorAndExit(err, "Failed to initialize k8s service")
 
 	if *rotateAmis {
-		err := kubernetesService.Drain(*force, *ignoreDaemonsets, *deleteLocalData, *namespace, *gracePeriodSeconds, *timeout)
+		err := kubernetesService.Drain(*force, *ignoreDaemonsets, *deleteLocalData, *namespace, *gracePeriodSeconds, *timeout, *forceTermination)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)

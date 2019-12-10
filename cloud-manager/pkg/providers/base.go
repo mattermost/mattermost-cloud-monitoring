@@ -8,7 +8,7 @@ import (
 )
 
 type Provider interface {
-	TerminateInstance(string) (bool, error)
+	TerminateInstance(instanceName string, forceTermination bool) (bool, error)
 	GetName() string
 	GetInstance(privateDnsName string) (*ec2.Instance, error)
 }

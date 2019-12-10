@@ -49,7 +49,7 @@ func homeDir() string {
 	return os.Getenv("USERPROFILE") // windows
 }
 
-func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool, namespace string, gracePeriodSeconds int, timeout time.Duration) error {
+func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool, namespace string, gracePeriodSeconds int, timeout time.Duration, forceTermination bool) error {
 	nodeList, err := s.client.CoreV1().Nodes().List(metav1.ListOptions{})
 
 	if err != nil {
@@ -82,13 +82,13 @@ func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool, namespace
 
 		// teardown ec2 instance
 		fmt.Println(fmt.Sprintf("Deleting node: %s", node.GetName()))
-		isTerminated, err := s.provider.TerminateInstance(node.GetName())
+		isTerminated, err := s.provider.TerminateInstance(node.GetName(), forceTermination)
 		if err != nil {
 			err := errors.New(fmt.Sprintf("Failed to terminate node %s due to %s", node.GetName(), err.Error()))
 			return err
 		}
 		if !isTerminated {
-			err := errors.New("Termination failed, please check if instance allows termination")
+			err := errors.New("Termination failed, please check if instance allows termination and/or specify the flag -force-termination")
 			return err
 		}
 

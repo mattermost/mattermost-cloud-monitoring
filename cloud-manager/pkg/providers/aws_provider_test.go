@@ -130,7 +130,7 @@ func TestTerminateInstanceWhenGetInstanceFails(t *testing.T) {
 
 	provider, err := NewAwsProvider("aws", "profile", "region", mockClient)
 	require.NoError(t, err, "creating new aws provider should not error")
-	_, terminateInstanceError := provider.TerminateInstance("test")
+	_, terminateInstanceError := provider.TerminateInstance("test", false)
 	assert.EqualError(t, terminateInstanceError, "Failed to fetch DescribeInstances")
 }
 
@@ -147,7 +147,7 @@ func TestTerminateInstanceWhenInstanceNotFound(t *testing.T) {
 
 	provider, err := NewAwsProvider("aws", "profile", "region", mockClient)
 	require.NoError(t, err, "creating new aws provider should not error")
-	isTerminated, err := provider.TerminateInstance("test")
+	isTerminated, err := provider.TerminateInstance("test", false)
 	require.NoError(t, err, "terminate instance should not fail")
 	assert.False(t, isTerminated, "should not terminate a non existent instance")
 }
@@ -165,7 +165,7 @@ func TestTerminateInstanceWhenTerminatedInstancesAreEmpty(t *testing.T) {
 
 	provider, err := NewAwsProvider("aws", "profile", "region", mockClient)
 	require.NoError(t, err, "creating new aws provider should not error")
-	isTerminated, err := provider.TerminateInstance("test")
+	isTerminated, err := provider.TerminateInstance("test", false)
 	require.NoError(t, err, "terminate instance should not fail")
 	assert.False(t, isTerminated, "should not terminate a non existent instance")
 }
@@ -183,7 +183,7 @@ func TestTerminateInstanceWhenTerminatedInstancesStateIsNotShuttingDown(t *testi
 
 	provider, err := NewAwsProvider("aws", "profile", "region", mockClient)
 	require.NoError(t, err, "creating new aws provider should not error")
-	isTerminated, err := provider.TerminateInstance("test")
+	isTerminated, err := provider.TerminateInstance("test", false)
 	require.NoError(t, err, "terminate instance should not fail")
 	assert.False(t, isTerminated, "should return false when instance state is not shutting-down")
 }
@@ -201,7 +201,8 @@ func TestTerminateInstanceWhenTerminatedInstances(t *testing.T) {
 
 	provider, err := NewAwsProvider("aws", "profile", "region", mockClient)
 	require.NoError(t, err, "creating new aws provider should not error")
-	isTerminated, err := provider.TerminateInstance("test")
+	isTerminated, err := provider.TerminateInstance("test", false)
 	require.NoError(t, err, "terminate instance should not fail")
 	assert.True(t, isTerminated, "should return true when instance state is shutting-down")
 }
+

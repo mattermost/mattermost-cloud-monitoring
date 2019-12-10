@@ -18,11 +18,13 @@ to run the tool:
 ##### Kubernetes Configuration Options
 *   `-kube-context string`
     specifies which kube context to use (default "minikube") 
-##### AWS Configuration Options
+##### AWS Options
 *   `-profile string`
     specifies which profile to use for AWS (default "default")
 *  `-region string`
     specifies which region to use for AWS (default "eu-west-1")
+*   `-force-termination`
+    specifies termination of instances when termination protection is enabled (default false)
     
 ##### Drain Options
 * `-delete-local-data`

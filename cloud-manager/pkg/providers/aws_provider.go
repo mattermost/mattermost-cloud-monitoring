@@ -82,13 +82,21 @@ func (ap *awsProvider) GetInstance(privateDnsName string) (*ec2.Instance, error)
 	return instances[0], nil
 }
 
-func (ap *awsProvider) TerminateInstance(instanceName string) (bool, error) {
+func (ap *awsProvider) TerminateInstance(instanceName string, forceTermination bool) (bool, error) {
 	instance, err := ap.GetInstance(instanceName)
 	if err != nil {
 		return false, err
 	}
 	if instance == nil {
 		return false, nil
+	}
+
+	// Disabling the termination protection if the forceTermination flag is enabled
+	if forceTermination {
+		forceTerminationError := ap.disableTerminationProtection(*instance.InstanceId)
+		if forceTerminationError != nil {
+			return false, err
+		}
 	}
 
 	input := &ec2.TerminateInstancesInput{
@@ -105,4 +113,19 @@ func (ap *awsProvider) TerminateInstance(instanceName string) (bool, error) {
 	}
 
 	return *terminatingInstances[0].CurrentState.Name == "shutting-down", nil
+}
+
+func (ap *awsProvider) disableTerminationProtection(instanceId string) (error) {
+	input := &ec2.ModifyInstanceAttributeInput{
+		DisableApiTermination: &ec2.AttributeBooleanValue{
+			Value: aws.Bool(false),
+		},
+		InstanceId: aws.String(instanceId),
+	}
+
+	_, err := ap.ec2Client.ModifyInstanceAttribute(input)
+	if err != nil {
+		return err
+	}
+	return nil
 }
