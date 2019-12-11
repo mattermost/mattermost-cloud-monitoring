@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"time"
@@ -53,7 +54,7 @@ func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool, namespace
 	nodeList, err := s.client.CoreV1().Nodes().List(metav1.ListOptions{})
 
 	if err != nil {
-		fmt.Println(fmt.Sprintf("Failed to fetch k8s nodes due to %s", err.Error()))
+		log.Println(fmt.Sprintf("Failed to fetch k8s nodes due to %s", err.Error()))
 		return err
 	}
 	// get instances id map
@@ -73,15 +74,15 @@ func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool, namespace
 		node := &item
 		nodes := []*corev1.Node{node}
 
-		fmt.Println(fmt.Sprintf("Draining node %s", node.GetName()))
+		log.Println(fmt.Sprintf("Draining node %s", node.GetName()))
 		err = k8sdrain.Drain(s.client, nodes, drainOptions)
 		if err != nil {
-			fmt.Println(fmt.Sprintf("Failed to drain node %s due to %s", node.GetName(), err.Error()))
+			log.Println(fmt.Sprintf("Failed to drain node %s due to %s", node.GetName(), err.Error()))
 			return err
 		}
 
 		// teardown ec2 instance
-		fmt.Println(fmt.Sprintf("Deleting node: %s", node.GetName()))
+		log.Println(fmt.Sprintf("Deleting node: %s", node.GetName()))
 		isTerminated, err := s.provider.TerminateInstance(node.GetName(), forceTermination)
 		if err != nil {
 			err := errors.New(fmt.Sprintf("Failed to terminate node %s due to %s", node.GetName(), err.Error()))
@@ -121,7 +122,7 @@ func (s *Service) verifyNew(initialSize int) (bool, error) {
 			err := errors.New("Timeout reached, while waiting for nodes to be ready")
 			return false, err
 		default:
-			fmt.Println(fmt.Sprintf("Nodes ready: %x of %x", len(readyNodes), initialSize))
+			log.Println(fmt.Sprintf("Nodes ready: %x of %x", len(readyNodes), initialSize))
 			if len(readyNodes) == initialSize {
 				return true, nil
 			}
@@ -138,11 +139,11 @@ func (s *Service) verifyNew(initialSize int) (bool, error) {
 }
 
 func (s *Service) Log(v ...interface{}) {
-	fmt.Println(v)
+	log.Println(v)
 }
 
 func (s *Service) Logf(format string, v ...interface{}) {
-	fmt.Println(fmt.Sprintf(format, v))
+	log.Println(fmt.Sprintf(format, v))
 }
 
 // check if kubelet status is ready

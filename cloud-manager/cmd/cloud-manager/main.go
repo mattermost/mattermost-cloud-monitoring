@@ -2,9 +2,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/providers"
 	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/services"
+	"log"
 	"os"
 	"time"
 )
@@ -36,7 +36,7 @@ func main() {
 	if *rotateAmis {
 		err := kubernetesService.Drain(*force, *ignoreDaemonsets, *deleteLocalData, *namespace, *gracePeriodSeconds, *timeout, *forceTermination)
 		if err != nil {
-			fmt.Println(err.Error())
+			log.Println(err.Error())
 			os.Exit(1)
 		}
 	}
@@ -44,8 +44,8 @@ func main() {
 
 func LogErrorAndExit(e error, msg string) {
 	if e != nil {
-		fmt.Println(e.Error())
-		fmt.Println(msg)
+		log.Println(e.Error())
+		log.Println(msg)
 		os.Exit(1)
 	}
 }
