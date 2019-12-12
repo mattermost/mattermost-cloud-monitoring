@@ -13,7 +13,10 @@ subnet_ids         = [
     aws_subnet.private_1f[each.value]["id"]
 ]
 
-tags = {
-    DBSubnetGroupType = "provisioning"
-    }
+tags = merge(
+    {
+     "MattermostCloudInstallationDatabase" = "MYSQL/Aurora"
+    },
+    var.tags
+  )
 }
