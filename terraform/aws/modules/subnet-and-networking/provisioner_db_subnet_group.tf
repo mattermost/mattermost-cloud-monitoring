@@ -2,7 +2,7 @@ resource "aws_db_subnet_group" "provisioner_db_subnet_group" {
 
 for_each = toset(var.vpc_cidrs)
 
-name       = "mattermost-provisioner-db-sg-${join("", split(".", split("/", each.value)[0]))}"
+name       = "mattermost-provisioner-db-${data.aws_vpc.vpc_ids[each.value]["id"]}"
   
 subnet_ids         = [
     aws_subnet.private_1a[each.value]["id"],
