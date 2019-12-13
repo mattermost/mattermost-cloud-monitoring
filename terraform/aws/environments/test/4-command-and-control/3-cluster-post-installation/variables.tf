@@ -160,3 +160,5 @@ variable "mattermost_cloud_secrets_private_dns" {}
 variable "mattermost_cloud_secrets_private_route53_id" {}
 
 variable "mattermost_cloud_secrets_route53_id" {}
+
+variable "provisioner_user" {}

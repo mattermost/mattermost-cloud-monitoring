@@ -190,3 +190,5 @@ variable "mattermost_cloud_secrets_route53_id" {
   type    = string
   default = ""
 }
+
+variable "provisioner_user" {}
