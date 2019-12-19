@@ -482,7 +482,7 @@ resource "kubernetes_ingress" "mattermost_cloud_ingress" {
     namespace = var.mattermost-cloud-namespace
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class" = "nginx-internal"
     }
   }
 
