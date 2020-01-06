@@ -111,3 +111,9 @@ variable "eks_ami_id" {
     type = "string"
     description = "Custom AMI ID to use for EKS workers"
 }
+
+variable "key_name" {
+  default = ""  
+  type = "string"
+  description = "The command and control cluster node ssh key"
+}
