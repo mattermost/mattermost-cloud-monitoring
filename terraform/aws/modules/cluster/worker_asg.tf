@@ -15,6 +15,7 @@ resource "aws_launch_configuration" "worker-lc" {
   security_groups             = [aws_security_group.worker-sg.id]
   user_data_base64            = base64encode(local.worker-userdata)
   associate_public_ip_address = false
+  key_name                    = var.key_name
 
   root_block_device {
     volume_size = var.volume_size

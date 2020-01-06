@@ -36,6 +36,7 @@ module "cluster" {
   environment               = var.environment
   api_gateway_vpc_endpoints = var.api_gateway_vpc_endpoints
   eks_ami_id                = var.eks_ami_id
+  key_name                  = var.key_name
   region                    = var.region
   providers = {
     aws = aws.deployment

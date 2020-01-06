@@ -41,3 +41,5 @@ variable "api_gateway_vpc_endpoints" {}
 variable "region" {}
 
 variable "eks_ami_id" {}
+
+variable "key_name" {}
