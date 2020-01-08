@@ -38,13 +38,6 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
       }
 
       spec {
-        volume {
-          name = "cluster-persistent-storage"
-
-          persistent_volume_claim {
-            claim_name = "cluster-pv-claim"
-          }
-        }
 
         volume {
           name = "mattermost-cloud-ssh-volume"
@@ -79,19 +72,6 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
           }
 
           image_pull_policy = "Always"
-        }
-
-        init_container {
-          name    = "volume-mount-hack"
-          image   = "busybox:latest"
-          command = ["sh", "-c", "chown -R 10001:10001 /mattermost-cloud/clusters && rm -rf /mattermost-cloud/clusters/*"]
-
-          volume_mount {
-            name       = "cluster-persistent-storage"
-            mount_path = "/mattermost-cloud/clusters/"
-          }
-
-          image_pull_policy = "IfNotPresent"
         }
 
         container {
@@ -204,11 +184,6 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
           }
 
           volume_mount {
-            name       = "cluster-persistent-storage"
-            mount_path = "/mattermost-cloud/clusters/"
-          }
-
-          volume_mount {
             name       = "mattermost-cloud-ssh-volume"
             mount_path = "/.ssh"
           }
@@ -254,6 +229,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
     labels = {
       "app.kubernetes.io/component" = "provisioner"
       "app.kubernetes.io/name"      = "mattermost-cloud"
+      "app.kubernetes.io/extra"     = "mattermost-cloud-installations"
     }
   }
 
@@ -264,6 +240,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
       match_labels = {
         "app.kubernetes.io/component" = "provisioner"
         "app.kubernetes.io/name"      = "mattermost-cloud"
+        "app.kubernetes.io/extra"     = "mattermost-cloud-installations"
       }
     }
 
@@ -272,6 +249,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
         labels = {
           "app.kubernetes.io/component" = "provisioner"
           "app.kubernetes.io/name"      = "mattermost-cloud"
+          "app.kubernetes.io/extra"     = "mattermost-cloud-installations"
         }
       }
 
@@ -447,32 +425,6 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
     aws_db_instance.provisioner,
     kubernetes_secret.mattermost_cloud_secret,
     kubernetes_secret.mattermost_cloud_ssh_secret
-  ]
-}
-
-resource "kubernetes_persistent_volume_claim" "cluster_pv_claim" {
-  metadata {
-    name      = "cluster-pv-claim"
-    namespace = var.mattermost-cloud-namespace
-
-    labels = {
-      "app.kubernetes.io/component" = "provisioner"
-      "app.kubernetes.io/name"      = "mattermost-cloud"
-    }
-  }
-
-  spec {
-    access_modes = ["ReadWriteOnce"]
-
-    resources {
-      requests = {
-        storage = "50Gi"
-      }
-    }
-  }
-
-  depends_on = [
-    aws_db_instance.provisioner
   ]
 }
 
