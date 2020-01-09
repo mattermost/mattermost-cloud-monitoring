@@ -76,12 +76,12 @@ resource "aws_lambda_function" "prometheus_registration" {
       CONFIG_MAP_NAME = "mattermost-cm-prometheus-server",
       HOSTED_ZONE_ID =  var.private_hosted_zoneid
     }
-  } 
+  }
 }
 
 resource "aws_security_group" "lambda-sg" {
   name        = "${var.deployment_name}-lambda-sg"
-  description = "Prometheys DNS Registration Lambda"
+  description = "Prometheus DNS Registration Lambda"
   vpc_id      = var.vpc_id
 
   egress {

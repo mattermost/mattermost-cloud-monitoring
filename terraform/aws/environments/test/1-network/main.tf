@@ -16,7 +16,7 @@ provider "aws" {
 
 module "shared_services_vpc" {
   source = "github.com/terraform-aws-modules/terraform-aws-vpc"
-  
+
   name = "mattermost-cloud-test-shared-services"
   cidr = var.shared_vpc_cidr
 
@@ -75,7 +75,7 @@ module "bind-server" {
 ##########################################
 # module "command_control_vpc" {
 #   source = "github.com/terraform-aws-modules/terraform-aws-vpc"
-  
+
 #   name = "mattermost-cloud-test-command-control"
 #   cidr = var.command_control_vpc_cidr
 
@@ -107,7 +107,7 @@ module "bind-server" {
 
 # module "auth_vpc" {
 #   source = "github.com/terraform-aws-modules/terraform-aws-vpc"
-  
+
 #   name = "mattermost-cloud-test-auth"
 #   cidr = var.auth_vpc_cidr
 
