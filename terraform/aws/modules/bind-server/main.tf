@@ -83,42 +83,10 @@ resource "aws_autoscaling_lifecycle_hook" "bind_lifecycle_hook" {
   lifecycle_transition   = "autoscaling:EC2_INSTANCE_LAUNCHING"
 }
 
-resource "aws_network_interface" "bind_server_1" {
-  subnet_id       = var.subnet_ids[0]
-  private_ips     = [var.private_ips[0]]
-  security_groups = [aws_security_group.bind_sg.id]
-
-  tags {
-    key   = "BindServer"
-    value = "true"
-  }
-}
-
-resource "aws_network_interface" "bind_server_2" {
-  subnet_id       = var.subnet_ids[1]
-  private_ips     = [var.private_ips[1]]
-  security_groups = [aws_security_group.bind_sg.id]
-
-  tags {
-    key   = "BindServer"
-    value = "true"
-  }
-}
-
-resource "aws_network_interface" "bind_server_3" {
-  subnet_id       = var.subnet_ids[2]
-  private_ips     = [var.private_ips[2]]
-  security_groups = [aws_security_group.bind_sg.id]
-
-  tags {
-    key   = "BindServer"
-    value = "true"
-  }
-}
-
-resource "aws_network_interface" "bind_server_4" {
-  subnet_id       = var.subnet_ids[3]
-  private_ips     = [var.private_ips[3]]
+resource "aws_network_interface" "bind_network_interface" {
+  count = length(var.subnet_ids)
+  subnet_id       = var.subnet_ids[count.index]
+  private_ips     = [var.private_ips[count.index]]
   security_groups = [aws_security_group.bind_sg.id]
 
   tags {
