@@ -8,3 +8,5 @@
 **/plan*
 
 *.DS_Store*
+/bind-server-network-attachment/main
+/bind-server-network-attachment/main.zip
