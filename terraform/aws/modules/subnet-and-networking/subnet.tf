@@ -18,6 +18,11 @@ resource "aws_subnet" "private_1a" {
     },
     var.tags
   )
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 }
 
 resource "aws_subnet" "private_1b" {
@@ -33,6 +38,11 @@ resource "aws_subnet" "private_1b" {
     },
     var.tags
   )
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 }
 
 resource "aws_subnet" "private_1c" {
@@ -48,6 +58,11 @@ resource "aws_subnet" "private_1c" {
     },
     var.tags
   )
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 }
 
 resource "aws_subnet" "private_1d" {
@@ -63,6 +78,11 @@ resource "aws_subnet" "private_1d" {
     },
     var.tags
   )
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 }
 
 resource "aws_subnet" "private_1e" {
@@ -78,6 +98,11 @@ resource "aws_subnet" "private_1e" {
     },
     var.tags
   )
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 }
 
 resource "aws_subnet" "private_1f" {
@@ -93,6 +118,11 @@ resource "aws_subnet" "private_1f" {
     },
     var.tags
   )
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 }
 
 resource "aws_subnet" "public_1a" {
