@@ -26,10 +26,10 @@ resource "aws_security_group" "bind_sg" {
   }
 
   egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
@@ -39,191 +39,90 @@ resource "aws_key_pair" "bind" {
   public_key = var.ssh_key_public
 }
 
-# The instance running the DNS server
-resource "aws_instance" "bind" {
-  count                  = length(compact(var.private_ips))
-  ami                    = var.ami
-  instance_type          = var.instance_type
-  subnet_id              = element(var.subnet_ids, count.index)
-  vpc_security_group_ids = [aws_security_group.bind_sg.id]
-  private_ip             = var.private_ips[count.index]
-  key_name               = aws_key_pair.bind.id
-  iam_instance_profile   = ""
-
-  root_block_device {
-    volume_type = "gp2"
-    volume_size = 8
-  }
-
-  # Instance auto-recovery (see cloudwatch metric alarm below) doesn't support
-  # instances with ephemeral storage, so this disables it.
-  # See https://github.com/hashicorp/terraform/issues/5388#issuecomment-282480864
-  ephemeral_block_device {
-    device_name = "/dev/sdb"
-    no_device   = true
-  }
-
-  ephemeral_block_device {
-    device_name = "/dev/sdc"
-    no_device   = true
-  }
-
-  tags = {
-    Name = length(var.names) == 0 ? format("%s-%02d", var.name, count.index + 1) : var.names[count.index]
-  }
+resource "aws_launch_configuration" "bind_lauch_configuration" {
+  name_prefix   = "${var.name}-"
+  image_id      = var.ami
+  instance_type = var.instance_type
 
   lifecycle {
-    ignore_changes = [key_name]
-  }
-
-  provisioner "remote-exec" {
-    connection {
-      type                = "ssh"
-      host                = self.private_ip
-      user                = var.distro == "ubuntu" ? "ubuntu" : "ec2-user"
-      private_key         = file(var.ssh_key)
-      bastion_host        = var.bastion_host
-      bastion_user        = var.bastion_user
-      bastion_private_key = var.bastion_private_key
-    }
-
-    inline = [
-      var.distro == "ubuntu" ? "sudo apt-get update && sudo apt-get install -y dnsutils bind9utils bind9  && sudo service bind9 start" : "sudo yum install -y bind && sudo service named start && sudo chkconfig named on",
-    ]
+    create_before_destroy = true
   }
 }
 
-data "template_file" "config_root" {
-  template = var.distro == "ubuntu" ? "/etc/bind" : "/etc"
-}
+resource "aws_autoscaling_group" "bind_autoscale" {
+  name                      = "autoscale-bind-server"
+  launch_configuration      = aws_launch_configuration.bind_lauch_configuration.name
+  min_size                  = 3
+  max_size                  = 3
+  desired_capacity          = 3
+  key_name                  = aws_key_pair.bind.name
+  security_groups           = [aws_security_group.bind_sg.id]
+  vpc_zone_identifier       = var.subnet_ids
+  default_cooldown          = 30
+  health_check_grace_period = 30
+  health_check_type         = "EC2"
+  force_delete              = true
+  termination_policies      = "OldestInstance"
 
-data "template_file" "config_owner" {
-  template = var.distro == "ubuntu" ? "root:bind" : "root:named"
-}
-
-# Contains provisioner that is triggered whenever named options are changed.
-resource "null_resource" "bind" {
-  count = length(compact(var.private_ips))
-
-  triggers = {
-    named_conf         = var.named_conf
-    named_conf_options = var.named_conf_options
-    named_conf_local   = var.named_conf_local
-    log_files          = join("|", var.log_files)
-    instance_id        = aws_instance.bind[count.index].id
+  lifecycle {
+    create_before_destroy = true
   }
 
-  connection {
-    type                = "ssh"
-    host                = aws_instance.bind[count.index].private_ip
-    user                = var.distro == "ubuntu" ? "ubuntu" : "ec2-user"
-    private_key         = file(var.ssh_key)
-    bastion_host        = var.bastion_host
-    bastion_user        = var.bastion_user
-    bastion_private_key = var.bastion_private_key
-  }
-
-  provisioner "file" {
-    content     = var.named_conf
-    destination = "/tmp/named.conf"
-  }
-
-  provisioner "file" {
-    content     = var.named_conf_options
-    destination = "/tmp/named.conf.options"
-  }
-
-  provisioner "file" {
-    content     = var.named_conf_local
-    destination = "/tmp/named.conf.local"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "mkdir --parents /tmp/db_records",
-    ]
-  }
-
-  provisioner "file" {
-    source      = var.db_records_folder == "" ? "${path.module}/templates/db_records/" : "${var.db_records_folder}/"
-    destination = "/tmp/db_records"
-  }
-
-  provisioner "remote-exec" {
-    inline = concat([
-      "sudo chown ${data.template_file.config_owner.rendered} /tmp/named.conf",
-      var.named_conf == "//" ? "sudo rm /tmp/named.conf" : join(
-        "",
-        [
-          "sudo mv /tmp/named.conf ",
-          data.template_file.config_root.rendered,
-          "/named.conf",
-        ],
-      ),
-      "sudo chown ${data.template_file.config_owner.rendered} /tmp/named.conf.options",
-      var.named_conf_options == "//" ? "sudo rm /tmp/named.conf.options" : join(
-        "",
-        [
-          "sudo mv /tmp/named.conf.options ",
-          data.template_file.config_root.rendered,
-          "/named.conf.options",
-        ],
-      ),
-      "sudo chown ${data.template_file.config_owner.rendered} /tmp/named.conf.local",
-      var.named_conf_local == "//" ? "sudo rm /tmp/named.conf.local" : join(
-        "",
-        [
-          "sudo mv /tmp/named.conf.local ",
-          data.template_file.config_root.rendered,
-          "/named.conf.local",
-        ],
-      ),
-      "sudo chown -R ${data.template_file.config_owner.rendered} /tmp/db_records/*",
-      var.db_records_folder == "" ? "sudo rm /tmp/db_records/*; sudo rmdir /tmp/db_records" : join(
-        "",
-        [
-          "sudo mv /tmp/db_records/* ",
-          data.template_file.config_root.rendered,
-        ],
-      )],
-      formatlist("sudo mkdir -p \"$(dirname '%s')\"", var.log_files),
-      formatlist("sudo touch \"$(dirname '%s')\"", var.log_files),
-      formatlist("sudo chown bind \"$(dirname '%s')\"", var.log_files),
-      ["sudo killall -HUP named"])
+  tag {
+    key                 = "Name"
+    value               = "Bind-Server"
+    propagate_at_launch = true
   }
 }
 
-# Current AWS region
-data "aws_region" "current" {
+resource "aws_autoscaling_lifecycle_hook" "bind_lifecycle_hook" {
+  name                   = "bind-lifecycle-hook"
+  autoscaling_group_name = aws_autoscaling_group.bind_autoscale.name
+  default_result         = "ABANDON"
+  heartbeat_timeout      = 60
+  lifecycle_transition   = "autoscaling:EC2_INSTANCE_LAUNCHING"
 }
 
-# Lookup the current AWS partition
-data "aws_partition" "current" {
-}
+resource "aws_network_interface" "bind_server_1" {
+  subnet_id       = var.subnet_ids[0]
+  private_ips     = [var.private_ips[0]]
+  security_groups = [aws_security_group.bind_sg.id]
 
-# Cloudwatch alarm that recovers the instance after two minutes of system status check failure
-resource "aws_cloudwatch_metric_alarm" "auto-recover" {
-  count               = length(compact(var.private_ips))
-  alarm_name          = length(var.names) == 0 ? format("%s-%02d", var.name, count.index) : var.names[count.index]
-  metric_name         = "StatusCheckFailed_System"
-  comparison_operator = "GreaterThanThreshold"
-  evaluation_periods  = "2"
-
-  dimensions = {
-    InstanceId = aws_instance.bind[count.index].id
+  tags {
+    key   = "BindServer"
+    value = "true"
   }
+}
 
-  namespace         = "AWS/EC2"
-  period            = "60"
-  statistic         = "Minimum"
-  threshold         = "0"
-  alarm_description = "Auto-recover the instance if the system status check fails for two minutes"
-  alarm_actions = compact(
-    concat(
-      [
-        "arn:${data.aws_partition.current.partition}:automate:${data.aws_region.current.name}:ec2:recover",
-      ],
-      var.alarm_actions,
-    ),
-  )
+resource "aws_network_interface" "bind_server_2" {
+  subnet_id       = var.subnet_ids[1]
+  private_ips     = [var.private_ips[1]]
+  security_groups = [aws_security_group.bind_sg.id]
+
+  tags {
+    key   = "BindServer"
+    value = "true"
+  }
+}
+
+resource "aws_network_interface" "bind_server_3" {
+  subnet_id       = var.subnet_ids[2]
+  private_ips     = [var.private_ips[2]]
+  security_groups = [aws_security_group.bind_sg.id]
+
+  tags {
+    key   = "BindServer"
+    value = "true"
+  }
+}
+
+resource "aws_network_interface" "bind_server_4" {
+  subnet_id       = var.subnet_ids[3]
+  private_ips     = [var.private_ips[3]]
+  security_groups = [aws_security_group.bind_sg.id]
+
+  tags {
+    key   = "BindServer"
+    value = "true"
+  }
 }
