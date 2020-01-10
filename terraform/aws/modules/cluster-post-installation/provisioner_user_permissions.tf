@@ -42,7 +42,7 @@ resource "aws_iam_policy" "rds" {
             ],
             "Resource": [
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster:cloud-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-databases*"
+                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*"
             ]
         },
         {
@@ -55,6 +55,14 @@ resource "aws_iam_policy" "rds" {
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:db:cloud-*",
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster:cloud-*"
             ]
+        },
+        {
+            "Sid": "rds2",
+            "Effect": "Allow",
+            "Action": [
+                "rds:DescribeDBSubnetGroups"
+            ],
+            "Resource": "*"
         }
     ]
 }
