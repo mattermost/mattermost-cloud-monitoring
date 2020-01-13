@@ -77,7 +77,7 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
         container {
           name  = "mattermost-cloud"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "true", "--state-store", "mattermost-kops-state-test", "--route53-id", "$(ROUTE53_ID)", "--certificate-aws-arn", "$(CERTIFICATE_AWS_ARN)", "--private-route53-id", "$(PRIVATE_ROUTE53_ID)", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "true", "--state-store", "mattermost-kops-state-${var.environment}", "--route53-id", "$(ROUTE53_ID)", "--certificate-aws-arn", "$(CERTIFICATE_AWS_ARN)", "--private-route53-id", "$(PRIVATE_ROUTE53_ID)", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
@@ -289,7 +289,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
         container {
           name  = "mattermost-cloud-installations"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "true", "--cluster-supervisor=false", "--state-store", "mattermost-kops-state-test", "--route53-id", "$(ROUTE53_ID)", "--certificate-aws-arn", "$(CERTIFICATE_AWS_ARN)", "--private-route53-id", "$(PRIVATE_ROUTE53_ID)", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "true", "--cluster-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}", "--route53-id", "$(ROUTE53_ID)", "--certificate-aws-arn", "$(CERTIFICATE_AWS_ARN)", "--private-route53-id", "$(PRIVATE_ROUTE53_ID)", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"

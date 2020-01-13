@@ -11,6 +11,10 @@ resource "helm_release" "grafana" {
     value = aws_db_instance.provisioner.endpoint
   }
   depends_on = [
-    kubernetes_namespace.monitoring
+    kubernetes_namespace.monitoring,
+    kubernetes_config_map.account_view,
+    kubernetes_config_map.cluster_view,
+    kubernetes_config_map.installation_view,
+    kubernetes_config_map.alerting
   ]
 }
