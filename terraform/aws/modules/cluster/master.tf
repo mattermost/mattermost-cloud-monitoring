@@ -12,7 +12,7 @@ resource "aws_eks_cluster" "cluster" {
     security_group_ids = [aws_security_group.cluster-sg.id]
     subnet_ids         = flatten([var.public_subnet_ids, var.private_subnet_ids])
     endpoint_private_access = true
-    endpoint_public_access = true
+    endpoint_public_access = false
   }
 
   depends_on = [
