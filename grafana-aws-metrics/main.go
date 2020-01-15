@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -51,11 +50,18 @@ func handler() {
 		log.WithError(err).Error("Unable to get the number of existing ELBs and set the CloudWatch metric data")
 	}
 
-	log.Info("Getting existing Subnets")
-	err = getSubnetIPs()
+	log.Info("Getting number of available VPCs")
+	err = getAvailableVPCs()
 	if err != nil {
-		log.WithError(err).Error("Unable to get the number of existing Subnets and set the CloudWatch metric data")
+		log.WithError(err).Error("Unable to get the number of available VPCs")
 	}
+
+	log.Info("Getting number of provisioning VPCs")
+	err = getProvisioningVPCs()
+	if err != nil {
+		log.WithError(err).Error("Unable to get the number of provisioning VPCs")
+	}
+
 }
 
 // newSession creates a new STS session
@@ -142,23 +148,23 @@ func getSetCurrentNumberOfElbs() error {
 		return err
 	}
 	return nil
-
 }
 
-// getSubnetIPs is used to get the number of available Subnet IPs and set the CW metric data.
-func getSubnetIPs() error {
+// getAvailableVPCs is used to get the live number of available VPCs and set the CW metric data.
+func getAvailableVPCs() error {
 	sess, err := session.NewSession(&aws.Config{})
 	if err != nil {
 		return err
 	}
+
 	svc := ec2.New(sess)
 
-	subnets, err := svc.DescribeSubnets(&ec2.DescribeSubnetsInput{
+	vpcs, err := svc.DescribeVpcs(&ec2.DescribeVpcsInput{
 		Filters: []*ec2.Filter{
 			{
-				Name: aws.String("vpc-id"),
+				Name: aws.String("tag:Available"),
 				Values: []*string{
-					aws.String(os.Getenv(vpcID)),
+					aws.String("true"),
 				},
 			},
 		},
@@ -166,12 +172,40 @@ func getSubnetIPs() error {
 	if err != nil {
 		return err
 	}
-	for _, s := range subnets.Subnets {
-		err = addCWMetricData(*s.SubnetId, float64(*s.AvailableIpAddressCount))
-		if err != nil {
-			return err
-		}
-		log.Info("Setting CloudWatch metric for ", *s.SubnetId)
+	log.Info("Setting CloudWatch metric for AvailableVPCs")
+	err = addCWMetricData("AvailableVPCs", float64(len(vpcs.Vpcs)))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// getProvisioningVPCs is used to get the live number of provisioning VPCs and set the CW metric data.
+func getProvisioningVPCs() error {
+	sess, err := session.NewSession(&aws.Config{})
+	if err != nil {
+		return err
+	}
+
+	svc := ec2.New(sess)
+
+	vpcs, err := svc.DescribeVpcs(&ec2.DescribeVpcsInput{
+		Filters: []*ec2.Filter{
+			{
+				Name: aws.String("tag-key"),
+				Values: []*string{
+					aws.String("Available"),
+				},
+			},
+		},
+	})
+	if err != nil {
+		return err
+	}
+	log.Info("Setting CloudWatch metric for ProvisioningVPCs")
+	err = addCWMetricData("ProvisioningVPCs", float64(len(vpcs.Vpcs)))
+	if err != nil {
+		return err
 	}
 	return nil
 }

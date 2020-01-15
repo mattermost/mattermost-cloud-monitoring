@@ -43,7 +43,8 @@ module "tgw_attachment" {
   subnet_ids = module.shared_services_vpc.private_subnets
   transit_gateway_id = var.transit_gateway_id
   vpc_id = module.shared_services_vpc.vpc_id
-  route_table_id = module.shared_services_vpc.private_route_table_ids[0]
+  private_route_table_id = module.shared_services_vpc.private_route_table_ids[0]
+  public_route_table_id = module.shared_services_vpc.public_route_table_ids[0]
   transit_gtw_route_destination = var.transit_gtw_route_destination
 }
 
