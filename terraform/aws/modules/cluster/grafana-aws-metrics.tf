@@ -31,7 +31,7 @@ resource "aws_iam_role_policy" "grafana_metrics_lambda_policy" {
             "elasticloadbalancing:DescribeAccountLimits",
             "elasticloadbalancing:DescribeLoadBalancers",
             "cloudwatch:PutMetricData",
-            "ec2:DescribeSubnets"
+            "ec2:DescribeVpcs"
         ],
       "Effect": "Allow",
       "Resource": "*"
