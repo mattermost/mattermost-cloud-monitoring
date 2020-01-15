@@ -15,7 +15,8 @@ resource "aws_iam_policy" "route53" {
             "Action": [
                 "route53:ChangeResourceRecordSets",
                 "route53:ListResourceRecordSets",
-                "route53:ListHostedZones"
+                "route53:ListHostedZones",
+                "route53:ListTagsForResource"
             ],
             "Resource": "*"
         }
@@ -212,7 +213,9 @@ resource "aws_iam_policy" "ec2" {
                 "autoscaling:UpdateAutoScalingGroup",
                 "autoscaling:EnableMetricsCollection",
                 "autoscaling:AttachLoadBalancers",
-                "autoscaling:DetachLoadBalancers"
+                "autoscaling:DetachLoadBalancers",
+                "acm:ListCertificates",
+                "acm:ListTagsForCertificate"
             ],
             "Resource": "*"
         }
