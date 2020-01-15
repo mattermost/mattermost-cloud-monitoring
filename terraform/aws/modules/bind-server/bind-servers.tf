@@ -43,7 +43,8 @@ resource "aws_launch_configuration" "bind_lauch_configuration" {
   name_prefix   = "${var.name}-"
   image_id      = var.ami
   instance_type = var.instance_type
-
+  key_name    = "mattermost-cloud-${var.environment}-bind"
+  security_groups           = [aws_security_group.bind_sg.id]
   lifecycle {
     create_before_destroy = true
   }
@@ -55,14 +56,12 @@ resource "aws_autoscaling_group" "bind_autoscale" {
   min_size                  = 3
   max_size                  = 3
   desired_capacity          = 3
-  key_name                  = aws_key_pair.bind.name
-  security_groups           = [aws_security_group.bind_sg.id]
-  vpc_zone_identifier       = var.subnet_ids
+  vpc_zone_identifier       = [var.subnet_ids[0], var.subnet_ids[1], var.subnet_ids[2]]
   default_cooldown          = 30
   health_check_grace_period = 30
   health_check_type         = "EC2"
   force_delete              = true
-  termination_policies      = "OldestInstance"
+  termination_policies      = ["OldestInstance"]
 
   lifecycle {
     create_before_destroy = true
@@ -73,6 +72,11 @@ resource "aws_autoscaling_group" "bind_autoscale" {
     value               = "Bind-Server"
     propagate_at_launch = true
   }
+
+  depends_on = [
+    aws_lambda_function.bind_server_network_attachment,
+    aws_network_interface.bind_network_interface
+  ]
 }
 
 resource "aws_autoscaling_lifecycle_hook" "bind_lifecycle_hook" {
@@ -84,13 +88,12 @@ resource "aws_autoscaling_lifecycle_hook" "bind_lifecycle_hook" {
 }
 
 resource "aws_network_interface" "bind_network_interface" {
-  count = length(var.subnet_ids)
+  count = length(var.subnet_ids)-1
   subnet_id       = var.subnet_ids[count.index]
   private_ips     = [var.private_ips[count.index]]
   security_groups = [aws_security_group.bind_sg.id]
 
-  tags {
-    key   = "BindServer"
-    value = "true"
+  tags = {
+    BindServer = "true"
   }
 }

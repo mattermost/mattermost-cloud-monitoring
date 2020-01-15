@@ -16,8 +16,7 @@ provider "aws" {
 
 module "shared_services_vpc" {
   source = "github.com/terraform-aws-modules/terraform-aws-vpc"
-  
-  name = "mattermost-cloud-test-shared-services"
+  name = "mattermost-cloud-${var.environment}-shared-services"
   cidr = var.shared_vpc_cidr
 
   azs             = var.shared_vpc_azs
@@ -66,7 +65,6 @@ module "bind-server" {
   subnet_ids = module.shared_services_vpc.private_subnets
   private_ips  = var.private_dns_ips
   ssh_key = var.ssh_key
-  named_conf_options = "${file("${path.module}/files/dns/named.conf.options")}"
   providers = {
     aws = aws.deployment
   }
@@ -74,7 +72,6 @@ module "bind-server" {
 
 module "command_control_vpc" {
   source = "github.com/terraform-aws-modules/terraform-aws-vpc"
-  
   name = "mattermost-cloud-${var.environment}-command-control"
   cidr = var.command_control_vpc_cidr
 
@@ -90,6 +87,7 @@ module "command_control_vpc" {
     Owner = "cloud-team"
     Terraform = "true"
     Environment = var.environment
+    "kubernetes.io/cluster/mattermost-central-command-control-prod" = "shared"
   }
   providers = {
     aws = aws.deployment
@@ -108,7 +106,6 @@ module "tgw_attachment_command_control" {
 
 module "auth_vpc" {
   source = "github.com/terraform-aws-modules/terraform-aws-vpc"
-  
   name = "mattermost-cloud-${var.environment}-auth"
   cidr = var.auth_vpc_cidr
 

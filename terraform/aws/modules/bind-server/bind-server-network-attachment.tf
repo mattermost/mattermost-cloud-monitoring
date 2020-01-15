@@ -50,23 +50,22 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole" {
   role       = aws_iam_role.bind_lambda_role.name
 }
 
-
 resource "aws_lambda_function" "bind_server_network_attachment" {
-  filename      = "../../../../../../bind-server-network-attachment/main.zip"
+  filename      = "../../../../../bind-server-network-attachment/main.zip"
   function_name = "bind-server-network-attachment"
   role          = aws_iam_role.bind_lambda_role.arn
   handler       = "main"
   timeout       = 120
-  source_code_hash = filebase64sha256("../../../../../../bind-server-network-attachment/main.zip")
+  source_code_hash = filebase64sha256("../../../../../bind-server-network-attachment/main.zip")
   runtime = "go1.x"
   vpc_config {
-    subnet_ids = flatten([var.private_subnet_ids])
+    subnet_ids = flatten([var.subnet_ids])
     security_group_ids = [aws_security_group.bind_lambda_sg.id]
   }
 }
 
 resource "aws_security_group" "bind_lambda_sg" {
-  name        = "${var.deployment_name}-lambda-sg"
+  name        = "mattermost-bind-lambda-sg"
   description = "Bind Server Network Attachment Lambda"
   vpc_id      = var.vpc_id
 
@@ -78,7 +77,7 @@ resource "aws_security_group" "bind_lambda_sg" {
   }
 
   tags = {
-    Name = "${var.deployment_name}-bind-lambda-sg"
+    Name = "mattermost-bind-lambda-sg"
   }
 }
 

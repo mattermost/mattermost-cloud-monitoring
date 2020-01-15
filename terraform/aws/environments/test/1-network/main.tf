@@ -66,7 +66,6 @@ module "bind-server" {
   subnet_ids = module.shared_services_vpc.private_subnets
   private_ips  = var.private_dns_ips
   ssh_key = var.ssh_key
-  named_conf_options = "${file("${path.module}/files/dns/named.conf.options")}"
   providers = {
     aws = "aws.deployment"
   }
