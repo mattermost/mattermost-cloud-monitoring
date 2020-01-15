@@ -46,7 +46,7 @@ resource "aws_lambda_function" "cloud_server_auth" {
       CLOUD_SERVER = var.provisioner_server,
       MATTERMOST_WEBHOOK = var.community_webhook,
     }
-  } 
+  }
 }
 
 resource "aws_security_group" "auth_lambda_sg" {
