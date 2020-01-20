@@ -104,7 +104,7 @@ variable "vpn_cidr" {
 }
 
 variable "bind_server_ami" {
-    default = "ami-04b9e92b5572fa0d1"
+    default = ""
     type = string
     description = "The AMI of the Bind server, Ubuntu 18.04"
 }
