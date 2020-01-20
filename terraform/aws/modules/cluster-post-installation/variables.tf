@@ -52,13 +52,7 @@ variable "mattermost_cloud_secrets_aws_secret_key" {}
 
 variable "mattermost_cloud_secrets_aws_region" {}
 
-variable "mattermost_cloud_secrets_certificate_aws_arn" {}
-
 variable "mattermost_cloud_secrets_private_dns" {}
-
-variable "mattermost_cloud_secrets_private_route53_id" {}
-
-variable "mattermost_cloud_secrets_route53_id" {}
 
 variable "grafana_tls_crt" {}
 
