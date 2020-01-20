@@ -77,7 +77,7 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
         container {
           name  = "mattermost-cloud"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "true", "--state-store", "mattermost-kops-state-${var.environment}", "--route53-id", "$(ROUTE53_ID)", "--certificate-aws-arn", "$(CERTIFICATE_AWS_ARN)", "--private-route53-id", "$(PRIVATE_ROUTE53_ID)", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "true", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
@@ -140,45 +140,12 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
           }
 
           env {
-            name = "ROUTE53_ID"
-
-            value_from {
-              secret_key_ref {
-                name = "mattermost-cloud-secret"
-                key  = "ROUTE53_ID"
-              }
-            }
-          }
-
-          env {
-            name = "PRIVATE_ROUTE53_ID"
-
-            value_from {
-              secret_key_ref {
-                name = "mattermost-cloud-secret"
-                key  = "PRIVATE_ROUTE53_ID"
-              }
-            }
-          }
-
-          env {
             name = "PRIVATE_DNS"
 
             value_from {
               secret_key_ref {
                 name = "mattermost-cloud-secret"
                 key  = "PRIVATE_DNS"
-              }
-            }
-          }
-
-          env {
-            name = "CERTIFICATE_AWS_ARN"
-
-            value_from {
-              secret_key_ref {
-                name = "mattermost-cloud-secret"
-                key  = "CERTIFICATE_AWS_ARN"
               }
             }
           }
@@ -289,7 +256,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
         container {
           name  = "mattermost-cloud-installations"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "true", "--cluster-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}", "--route53-id", "$(ROUTE53_ID)", "--certificate-aws-arn", "$(CERTIFICATE_AWS_ARN)", "--private-route53-id", "$(PRIVATE_ROUTE53_ID)", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "true", "--cluster-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
@@ -352,45 +319,12 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
           }
 
           env {
-            name = "ROUTE53_ID"
-
-            value_from {
-              secret_key_ref {
-                name = "mattermost-cloud-secret"
-                key  = "ROUTE53_ID"
-              }
-            }
-          }
-
-          env {
-            name = "PRIVATE_ROUTE53_ID"
-
-            value_from {
-              secret_key_ref {
-                name = "mattermost-cloud-secret"
-                key  = "PRIVATE_ROUTE53_ID"
-              }
-            }
-          }
-
-          env {
             name = "PRIVATE_DNS"
 
             value_from {
               secret_key_ref {
                 name = "mattermost-cloud-secret"
                 key  = "PRIVATE_DNS"
-              }
-            }
-          }
-
-          env {
-            name = "CERTIFICATE_AWS_ARN"
-
-            value_from {
-              secret_key_ref {
-                name = "mattermost-cloud-secret"
-                key  = "CERTIFICATE_AWS_ARN"
               }
             }
           }
@@ -470,11 +404,8 @@ resource "kubernetes_secret" "mattermost_cloud_secret" {
     AWS_ACCESS_KEY_ID     = var.mattermost_cloud_secrets_aws_access_key
     AWS_SECRET_ACCESS_KEY = var.mattermost_cloud_secrets_aws_secret_key
     AWS_REGION            = var.mattermost_cloud_secrets_aws_region
-    CERTIFICATE_AWS_ARN   = var.mattermost_cloud_secrets_certificate_aws_arn
     DATABASE              = "postgres://${var.db_username}:${var.db_password}@${aws_db_instance.provisioner.endpoint}/${var.db_name}"
     PRIVATE_DNS           = var.mattermost_cloud_secrets_private_dns
-    PRIVATE_ROUTE53_ID    = var.mattermost_cloud_secrets_private_route53_id
-    ROUTE53_ID            = var.mattermost_cloud_secrets_route53_id
   }
 
   type = "Opaque"
