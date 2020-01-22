@@ -49,7 +49,9 @@ module "cluster-post-installation" {
   mattermost_cloud_secrets_aws_secret_key      = var.mattermost_cloud_secrets_aws_secret_key
   mattermost_cloud_secrets_aws_region          = var.mattermost_cloud_secrets_aws_region
   mattermost_cloud_secrets_private_dns         = var.mattermost_cloud_secrets_private_dns
-  provisioner_user = var.provisioner_user
+  mattermost_cloud_secrets_keep_filestore_data = var.mattermost_cloud_secrets_keep_filestore_data
+  mattermost_cloud_secrets_keep_database_data  = var.mattermost_cloud_secrets_keep_database_data
+  provisioner_user                             = var.provisioner_user
 
   providers = {
     aws = aws.post-deployment

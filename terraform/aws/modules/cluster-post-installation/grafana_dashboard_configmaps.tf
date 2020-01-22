@@ -1,6 +1,6 @@
 resource "kubernetes_config_map" "account_view" {
   metadata {
-    name = "accountview-dashboard"
+    name      = "accountview-dashboard"
     namespace = "monitoring"
     labels = {
       cloud_dashboards = "account_view"
@@ -8,13 +8,13 @@ resource "kubernetes_config_map" "account_view" {
   }
 
   data = {
-    "account_view.json"="${file("../../../../../../grafana-dashboards/account_view.json")}"
+    "account_view.json" = "${file("../../../../../../grafana-dashboards/account_view.json")}"
   }
 }
 
 resource "kubernetes_config_map" "cluster_view" {
   metadata {
-    name = "clusterview-dashboard"
+    name      = "clusterview-dashboard"
     namespace = "monitoring"
     labels = {
       cloud_dashboards = "cluster_view"
@@ -22,14 +22,14 @@ resource "kubernetes_config_map" "cluster_view" {
   }
 
   data = {
-    "cluster_view.json"="${file("../../../../../../grafana-dashboards/cluster_view.json")}"
+    "cluster_view.json" = "${file("../../../../../../grafana-dashboards/cluster_view.json")}"
   }
 }
 
 
 resource "kubernetes_config_map" "installation_view" {
   metadata {
-    name = "installationview-dashboard"
+    name      = "installationview-dashboard"
     namespace = "monitoring"
     labels = {
       cloud_dashboards = "installation_view"
@@ -37,14 +37,14 @@ resource "kubernetes_config_map" "installation_view" {
   }
 
   data = {
-    "installation_view.json"="${file("../../../../../../grafana-dashboards/installation_view.json")}"
+    "installation_view.json" = "${file("../../../../../../grafana-dashboards/installation_view.json")}"
   }
 }
 
 
 resource "kubernetes_config_map" "alerting" {
   metadata {
-    name = "alerting-dashboard"
+    name      = "alerting-dashboard"
     namespace = "monitoring"
     labels = {
       cloud_dashboards = "alerting"
@@ -52,7 +52,7 @@ resource "kubernetes_config_map" "alerting" {
   }
 
   data = {
-    "alerting.json"="${file("../../../../../../grafana-dashboards/alerting.json")}"
+    "alerting.json" = "${file("../../../../../../grafana-dashboards/alerting.json")}"
   }
 }
 

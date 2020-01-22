@@ -48,11 +48,11 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
         }
 
         volume {
-          name     = "mattermost-cloud-tmp-volume"
+          name = "mattermost-cloud-tmp-volume"
         }
 
         volume {
-          name     = "mattermost-cloud-helm-volume"
+          name = "mattermost-cloud-helm-volume"
         }
 
         init_container {
@@ -77,7 +77,7 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
         container {
           name  = "mattermost-cloud"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "true", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "true", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--keep-filestore-data", "$(KEEP_FILESTORE_DATA)", "--keep-database-data", "$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
@@ -146,6 +146,28 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
               secret_key_ref {
                 name = "mattermost-cloud-secret"
                 key  = "PRIVATE_DNS"
+              }
+            }
+          }
+
+          env {
+            name = "KEEP_DATABASE_DATA"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "KEEP_DATABASE_DATA"
+              }
+            }
+          }
+
+          env {
+            name = "KEEP_FILESTORE_DATA"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "KEEP_FILESTORE_DATA"
               }
             }
           }
@@ -231,7 +253,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
         }
 
         volume {
-          name     = "mattermost-cloud-tmp-volume"
+          name = "mattermost-cloud-tmp-volume"
         }
 
         init_container {
@@ -256,7 +278,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
         container {
           name  = "mattermost-cloud-installations"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "true", "--cluster-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "true", "--cluster-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--keep-filestore-data", "$(KEEP_FILESTORE_DATA)", "--keep-database-data", "$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
@@ -325,6 +347,28 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
               secret_key_ref {
                 name = "mattermost-cloud-secret"
                 key  = "PRIVATE_DNS"
+              }
+            }
+          }
+
+          env {
+            name = "KEEP_DATABASE_DATA"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "KEEP_DATABASE_DATA"
+              }
+            }
+          }
+
+          env {
+            name = "KEEP_FILESTORE_DATA"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "KEEP_FILESTORE_DATA"
               }
             }
           }
@@ -406,6 +450,8 @@ resource "kubernetes_secret" "mattermost_cloud_secret" {
     AWS_REGION            = var.mattermost_cloud_secrets_aws_region
     DATABASE              = "postgres://${var.db_username}:${var.db_password}@${aws_db_instance.provisioner.endpoint}/${var.db_name}"
     PRIVATE_DNS           = var.mattermost_cloud_secrets_private_dns
+    KEEP_DATABASE_DATA    = var.mattermost_cloud_secrets_keep_database_data
+    KEEP_FILESTORE_DATA   = var.mattermost_cloud_secrets_keep_filestore_data
   }
 
   type = "Opaque"
