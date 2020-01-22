@@ -48,10 +48,7 @@ module "cluster-post-installation" {
   mattermost_cloud_secrets_aws_access_key      = var.mattermost_cloud_secrets_aws_access_key
   mattermost_cloud_secrets_aws_secret_key      = var.mattermost_cloud_secrets_aws_secret_key
   mattermost_cloud_secrets_aws_region          = var.mattermost_cloud_secrets_aws_region
-  mattermost_cloud_secrets_certificate_aws_arn = var.mattermost_cloud_secrets_certificate_aws_arn
   mattermost_cloud_secrets_private_dns         = var.mattermost_cloud_secrets_private_dns
-  mattermost_cloud_secrets_private_route53_id  = var.mattermost_cloud_secrets_private_route53_id
-  mattermost_cloud_secrets_route53_id          = var.mattermost_cloud_secrets_route53_id
   provisioner_user = var.provisioner_user
 
   providers = {
