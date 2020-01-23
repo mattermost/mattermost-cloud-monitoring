@@ -77,7 +77,7 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
         container {
           name  = "mattermost-cloud"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "true", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--keep-filestore-data", "$(KEEP_FILESTORE_DATA)", "--keep-database-data", "$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
@@ -278,7 +278,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
         container {
           name  = "mattermost-cloud-installations"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "true", "--cluster-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--keep-filestore-data", "$(KEEP_FILESTORE_DATA)", "--keep-database-data", "$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "--cluster-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
