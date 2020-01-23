@@ -171,24 +171,13 @@ variable "mattermost_cloud_secrets_aws_region" {
   default = "us-east-1"
 }
 
-variable "mattermost_cloud_secrets_certificate_aws_arn" {
-  type    = string
-  default = ""
-}
-
 variable "mattermost_cloud_secrets_private_dns" {
   type    = string
   default = ""
 }
 
-variable "mattermost_cloud_secrets_private_route53_id" {
-  type    = string
-  default = ""
-}
+variable "mattermost_cloud_secrets_keep_filestore_data" {}
 
-variable "mattermost_cloud_secrets_route53_id" {
-  type    = string
-  default = ""
-}
+variable "mattermost_cloud_secrets_keep_database_data" {}
 
 variable "provisioner_user" {}

@@ -1,65 +1,65 @@
 variable "environment" {
-    default = "test"
-    type = string
+  default = "test"
+  type    = string
 }
 
 variable "deployment_name" {
-    default = "mattermost-central-command-control"
-    type = string
+  default = "mattermost-central-command-control"
+  type    = string
 }
 
 variable "region" {
-    default = "us-east-1"
-    type = string
+  default = "us-east-1"
+  type    = string
 }
 
 variable "tiller_version" {
-    default = "2.14.1"
-    type = string
+  default = "2.14.1"
+  type    = string
 }
 
 variable "kubeconfig_dir" {
-    default = "$HOME/generated"
-    type = string
+  default = "$HOME/generated"
+  type    = string
 }
 
-variable "grafana_tls_crt"{
-    default = ""
-    type = string
+variable "grafana_tls_crt" {
+  default = ""
+  type    = string
 }
 
-variable "grafana_tls_key"{
-    default = ""
-    type = string
+variable "grafana_tls_key" {
+  default = ""
+  type    = string
 }
 
-variable "prometheus_tls_crt"{
-    default = ""
-    type = string
+variable "prometheus_tls_crt" {
+  default = ""
+  type    = string
 }
 
-variable "prometheus_tls_key"{
-    default = ""
-    type = string
+variable "prometheus_tls_key" {
+  default = ""
+  type    = string
 }
 
-variable "kibana_tls_crt"{
-    default = ""
-    type = string
+variable "kibana_tls_crt" {
+  default = ""
+  type    = string
 }
 
-variable "kibana_tls_key"{
-    default = ""
-    type = string
+variable "kibana_tls_key" {
+  default = ""
+  type    = string
 }
 
 variable "db_identifier" {
-  type = string
+  type    = string
   default = "cloud-test"
 }
 
 variable "storage_encrypted" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -153,12 +153,10 @@ variable "mattermost_cloud_secrets_aws_region" {
   default = "us-east-1"
 }
 
-variable "mattermost_cloud_secrets_certificate_aws_arn" {}
+variable "mattermost_cloud_secrets_keep_filestore_data" {}
+
+variable "mattermost_cloud_secrets_keep_database_data" {}
 
 variable "mattermost_cloud_secrets_private_dns" {}
-
-variable "mattermost_cloud_secrets_private_route53_id" {}
-
-variable "mattermost_cloud_secrets_route53_id" {}
 
 variable "provisioner_user" {}
