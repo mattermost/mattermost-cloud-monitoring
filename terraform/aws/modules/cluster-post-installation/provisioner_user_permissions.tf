@@ -51,7 +51,8 @@ resource "aws_iam_policy" "rds" {
             "Sid": "rds1",
             "Effect": "Allow",
             "Action": [
-                "rds:CreateDBInstance"
+                "rds:CreateDBInstance",
+                "rds:DeleteDBInstance"
             ],
             "Resource": [
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:db:cloud-*",
