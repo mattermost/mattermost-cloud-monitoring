@@ -51,7 +51,8 @@ resource "aws_iam_policy" "rds" {
             "Sid": "rds1",
             "Effect": "Allow",
             "Action": [
-                "rds:CreateDBInstance"
+                "rds:CreateDBInstance",
+                "rds:DeleteDBInstance"
             ],
             "Resource": [
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:db:cloud-*",
@@ -110,9 +111,18 @@ resource "aws_iam_policy" "s3" {
         {
             "Effect": "Allow",
             "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation",
                 "s3:CreateBucket",
                 "s3:PutBucketPublicAccessBlock",
-                "s3:GetBucketPublicAccessBlock"
+                "s3:GetBucketPublicAccessBlock",
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:DeleteObject",
+                "s3:DeleteBucket",
+                "s3:GetObjectVersionAcl"
             ],
             "Resource": "arn:aws:s3:::cloud-*"
         }
