@@ -113,7 +113,13 @@ resource "aws_iam_policy" "s3" {
             "Action": [
                 "s3:CreateBucket",
                 "s3:PutBucketPublicAccessBlock",
-                "s3:GetBucketPublicAccessBlock"
+                "s3:GetBucketPublicAccessBlock",
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:DeleteObject",
+                "s3:GetObjectVersionAcl"
             ],
             "Resource": "arn:aws:s3:::cloud-*"
         }
