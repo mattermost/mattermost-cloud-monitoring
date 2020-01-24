@@ -51,7 +51,7 @@ resource "aws_iam_role" "grafana_access_role" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::${var.account_id}:root"
+        "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
       },
       "Action": "sts:AssumeRole",
       "Condition": {}

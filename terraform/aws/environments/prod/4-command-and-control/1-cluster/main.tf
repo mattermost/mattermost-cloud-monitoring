@@ -27,7 +27,6 @@ module "cluster" {
   desired_capacity          = var.desired_capacity
   cidr_blocks               = var.cidr_blocks
   kubeconfig_dir            = var.kubeconfig_dir
-  account_id                = var.account_id
   volume_size               = var.volume_size
   private_hosted_zoneid     = var.private_hosted_zoneid
   grafana_lambda_schedule   = var.grafana_lambda_schedule
