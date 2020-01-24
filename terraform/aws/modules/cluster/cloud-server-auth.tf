@@ -81,7 +81,7 @@ resource "aws_api_gateway_rest_api" "cloud_server_auth" {
             "Effect": "Deny",
             "Principal": "*",
             "Action": "execute-api:Invoke",
-            "Resource": "arn:aws:execute-api:${var.region}:${var.account_id}:*",
+            "Resource": "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:*",
             "Condition": {
                 "StringNotEquals": {
                     "aws:sourceVpce": ${jsonencode(var.api_gateway_vpc_endpoints)}
@@ -92,7 +92,7 @@ resource "aws_api_gateway_rest_api" "cloud_server_auth" {
             "Effect": "Allow",
             "Principal": "*",
             "Action": "execute-api:Invoke",
-            "Resource": "arn:aws:execute-api:${var.region}:${var.account_id}:*"
+            "Resource": "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:*"
         }
     ]
 }
@@ -156,5 +156,5 @@ resource "aws_lambda_permission" "cloud_server_auth_gateway_permission" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.cloud_server_auth.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${aws_api_gateway_rest_api.cloud_server_auth.id}/*/${aws_api_gateway_method.cloud_server_auth_method.http_method}${aws_api_gateway_resource.cloud_server_auth_resource.path}"
+  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.cloud_server_auth.id}/*/${aws_api_gateway_method.cloud_server_auth_method.http_method}${aws_api_gateway_resource.cloud_server_auth_resource.path}"
 }
