@@ -37,7 +37,7 @@ type config struct {
 		ScrapeTimeOut      string `yaml:"scrape_timeout"`
 	} `yaml:"global"`
 	RuleFiles []string `yaml:"rule_files"`
-	Alerting  []struct {
+	Alerting  struct {
 		Alertmanagers []struct {
 			Scheme        string `yaml:"scheme"`
 			StaticConfigs []struct {
