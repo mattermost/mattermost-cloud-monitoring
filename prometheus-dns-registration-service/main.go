@@ -39,7 +39,7 @@ type config struct {
 	RuleFiles []string `yaml:"rule_files"`
 	Alerting  struct {
 		Alertmanagers []struct {
-			Scheme        string `yaml:"scheme"`
+			Scheme        string `yaml:"scheme,omitempty"`
 			StaticConfigs []struct {
 				Targets []string `yaml:"targets"`
 			} `yaml:"static_configs"`
