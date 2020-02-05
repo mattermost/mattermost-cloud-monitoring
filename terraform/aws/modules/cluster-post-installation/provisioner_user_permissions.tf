@@ -276,7 +276,8 @@ resource "aws_iam_policy" "iam" {
             "Effect": "Allow",
             "Action": [
                 "iam:ListRoles",
-                "iam:ListInstanceProfiles"
+                "iam:ListInstanceProfiles",
+                "iam:ListRolePolicies"
             ],
             "Resource": "*"
         },
