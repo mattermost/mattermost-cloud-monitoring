@@ -16,7 +16,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 1,
+  "iteration": 1582207581399,
   "links": [],
   "panels": [
     {
@@ -945,7 +946,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\nNOW () as time,\ncount(id)\nFROM\ncluster\nWHERE\nstate = 'failed'\n",
+          "rawSql": "SELECT\nNOW () as time,\ncount(id)\nFROM\ncluster\nWHERE\nstate in ('failed','provisioning-failed')\n",
           "refId": "A",
           "select": [
             [
@@ -972,7 +973,7 @@
       "thresholds": "1,2",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Failed Clusters",
+      "title": "Failed or Failed-Provisioning Clusters",
       "transparent": true,
       "type": "singlestat",
       "valueFontSize": "80%",
@@ -2404,7 +2405,7 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {
@@ -2435,5 +2436,5 @@
   "timezone": "",
   "title": "Account View",
   "uid": "aNfjIK2Zk",
-  "version": 10
+  "version": 15
 }

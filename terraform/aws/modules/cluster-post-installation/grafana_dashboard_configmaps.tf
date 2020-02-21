@@ -56,3 +56,18 @@ resource "kubernetes_config_map" "alerting" {
   }
 }
 
+resource "kubernetes_config_map" "uptime" {
+  metadata {
+    name      = "uptimeview-dashboard"
+    namespace = "monitoring"
+    labels = {
+      cloud_dashboards = "uptime_view"
+    }
+  }
+
+  data = {
+    "uptime_view.json" = "${file("../../../../../../grafana-dashboards/uptime_view.json")}"
+  }
+}
+
+

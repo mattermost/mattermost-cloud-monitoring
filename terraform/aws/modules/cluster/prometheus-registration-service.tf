@@ -74,7 +74,9 @@ resource "aws_lambda_function" "prometheus_registration" {
     variables = {
       CLUSTER_NAME = var.deployment_name,
       CONFIG_MAP_NAME = "mattermost-cm-prometheus-server",
-      HOSTED_ZONE_ID =  var.private_hosted_zoneid
+      ENVIRONMENT = var.environment
+      PROMETHEUS_HOSTED_ZONE_ID =  var.prometheus_hosted_zoneid,
+      INSTALLATIONS_HOSTED_ZONE_ID = var.installations_hosted_zoneid
     }
   }
 }
