@@ -51,6 +51,7 @@ type config struct {
 		MetricsPath string `yaml:"metrics_path"`
 		Perams      struct {
 			Match []string `yaml:"match[]"`
+			Module [] string `yaml:"module"`
 		} `yaml:"params"`
 		ScrapeInterval string `yaml:"scrape_interval"`
 		StaticConfigs  []struct {
@@ -59,6 +60,11 @@ type config struct {
 				ClusterID string `yaml:"clusterID"`
 			} `yaml:"labels"`
 		} `yaml:"static_configs"`
+		RelabelConfigs []struct {
+			SourceLabels []string `yaml:"source_labels,omitempty"`
+			TargetLabel string `yaml:"target_label,omitempty"`
+			Replacement string `yaml:"replacement,omitempty"`
+		} `yaml:"relabel_configs"`
 	} `yaml:"scrape_configs"`
 }
 
@@ -84,14 +90,42 @@ type staticConfig = struct {
 	} `yaml:"labels"`
 }
 
+type relabelConfig = struct {
+	SourceLabels []string `yaml:"source_labels,omitempty"`
+	TargetLabel string `yaml:"target_label,omitempty"`
+	Replacement string `yaml:"replacement,omitempty"`
+}
+
+var excludedURLs = []string{
+	"dev.cloud.mattermost.com.",
+	"test.cloud.mattermost.com.",
+	"staging.cloud.mattermost.com.",
+	"prod.cloud.mattermost.com.",
+	"core.cloud.mattermost.com.",
+	"vpn.cloud.mattermost.com.",
+}
+
 func main() {
 	lambda.Start(handler)
 }
 
 func handler() {
-	hostedZoneID := os.Getenv("HOSTED_ZONE_ID")
-	if len(hostedZoneID) == 0 {
-		log.Fatal("HOSTED_ZONE_ID environment variable is not set.")
+	prometheusHostedZoneID := os.Getenv("PROMETHEUS_HOSTED_ZONE_ID")
+	if len(prometheusHostedZoneID) == 0 {
+		log.Fatal("PROMETHEUS_HOSTED_ZONE_ID environment variable is not set.")
+		return
+	}
+	installationsHostedZoneID := os.Getenv("INSTALLATIONS_HOSTED_ZONE_ID")
+	if len(installationsHostedZoneID) == 0 {
+		log.Fatal("INSTALLATIONS_HOSTED_ZONE_ID environment variable is not set.")
+		return
+	}
+	environment := os.Getenv("ENVIRONMENT")
+	if len(environment) == 0 {
+		log.Fatal("ENVIRONMENT environment variable is not set.")
+		return
+	} else if environment != "test" && environment != "staging" && environment != "prod" {
+		log.Fatal("ENVIRONMENT environment variable should be one of test, staging or prod.")
 		return
 	}
 	clusterName := os.Getenv("CLUSTER_NAME")
@@ -128,13 +162,23 @@ func handler() {
 	}
 	log.Info("Successfully decoded configmap data into structure")
 
-	log.Info("Getting existing Route53 records")
-	targets, err := getRoute53Records(hostedZoneID)
+	log.Info("Getting existing Prometheus Route53 records")
+	prometheusRecords, err := getRoute53Records(prometheusHostedZoneID)
 	if err != nil {
-		log.WithError(err).Fatal("Unable to get the existing Route53 records")
+		log.WithError(err).Fatal("Unable to get the existing Prometheus Route53 records")
 	}
+	prometheusTargets := getPrometheusTargets(prometheusRecords.ResourceRecordSets)
 
-	dataNew, err := updateTargets(configDecoded, targets)
+
+	log.Info("Getting existing installations Route53 records")
+	installationsRecords, err := getRoute53Records(installationsHostedZoneID)
+	if err != nil {
+		log.WithError(err).Fatal("Unable to get the existing installations Route53 records")
+	}
+	installationsTargets := getInstallationsTargets(installationsRecords.ResourceRecordSets, environment)
+
+
+	dataNew, err := updateTargets(configDecoded, prometheusTargets, installationsTargets, environment)
 	if err != nil {
 		log.WithError(err).Fatal("Unable to update the targets with new ones.")
 	}
@@ -148,30 +192,67 @@ func handler() {
 }
 
 // updateTargets is used to replace existing configmap Prometheus targets with new ones
-func updateTargets(configData config, targets []string) ([]byte, error) {
-	var staticConfigs []staticConfig
+func updateTargets(configData config, prometheusTargets, installationsTargets []string, environment string) ([]byte, error) {
+	var prometheusStaticConfigs []staticConfig
 	var labels struct {
 		ClusterID string `yaml:"clusterID"`
 	}
 	var s staticConfig
 
-	for _, target := range targets {
+	for _, target := range prometheusTargets {
 		clusterID := strings.Split(target, ".")[0]
 
 		labels.ClusterID = clusterID
 		s.Targets = []string{target}
 		s.Labels = labels
-		staticConfigs = append(staticConfigs, s)
+		prometheusStaticConfigs = append(prometheusStaticConfigs, s)
 	}
 
 	// Adding the Prometheus Client for the monitoring cluster
 	labels.ClusterID = "C&C"
 	s.Targets = []string{"mattermost-cm-prometheus-client-server.monitoring:80"}
 	s.Labels = labels
-	staticConfigs = append(staticConfigs, s)
+	prometheusStaticConfigs = append(prometheusStaticConfigs, s)
 
-	log.Info("Replacing existing targets with updated values")
-	configData.ScrapeConfigs[0].StaticConfigs = staticConfigs
+	log.Info("Replacing existing Prometheus targets with updated values")
+	configData.ScrapeConfigs[0].StaticConfigs = prometheusStaticConfigs
+
+	var installationsStaticConfigs []staticConfig
+	var i staticConfig
+	for _, target := range installationsTargets {
+		if !strings.HasPrefix(target, "_") && !contains(excludedURLs, target){
+			t := fmt.Sprintf("%s/api/v4/system/ping", target)
+			i.Targets = []string{t}
+			installationsStaticConfigs = append(installationsStaticConfigs, i)
+		}
+	}
+	// Adding community targets as they Route53 is defined in other account
+	if environment == "staging" {
+		i.Targets = []string{
+				"community.mattermost.com/api/v4/system/ping",
+				"community-daily.mattermost.com/api/v4/system/ping",
+				"community-release.mattermost.com/api/v4/system/ping",
+			}
+	}
+	installationsStaticConfigs = append(installationsStaticConfigs, i)
+	log.Info("Replacing existing installations targets with updated values")
+	configData.ScrapeConfigs[1].StaticConfigs = installationsStaticConfigs
+	
+	var installationsRelabelConfigs []relabelConfig
+	var r relabelConfig
+ 	r.SourceLabels = []string{"__address__"}
+	r.TargetLabel = "__param_target"
+	installationsRelabelConfigs = append(installationsRelabelConfigs, r)
+
+	r.SourceLabels = []string{"__param_target"}
+	r.TargetLabel = "instance"
+	installationsRelabelConfigs = append(installationsRelabelConfigs, r)
+
+	r.TargetLabel = "__address__"
+	r.Replacement = "mattermost-cm-blackbox-prometheus-blackbox-exporter.monitoring:9115"
+	installationsRelabelConfigs = append(installationsRelabelConfigs, r)
+	
+	configData.ScrapeConfigs[1].RelabelConfigs = installationsRelabelConfigs
 
 	data, err := yaml.Marshal(&configData)
 	if err != nil {
@@ -373,7 +454,7 @@ func (c *clientConfig) newClientSet() (*clientset.Clientset, *rest.Config, error
 }
 
 // getRoute53Records is used to get the existing Route53 Records
-func getRoute53Records(hostedZoneID string) ([]string, error) {
+func getRoute53Records(hostedZoneID string) (*route53.ListResourceRecordSetsOutput, error) {
 	sess, err := session.NewSession(&aws.Config{})
 	if err != nil {
 		return nil, err
@@ -384,24 +465,53 @@ func getRoute53Records(hostedZoneID string) ([]string, error) {
 
 	recordSets, err := svc.ListResourceRecordSets(&route53.ListResourceRecordSetsInput{
 		HostedZoneId: aws.String(hostedZoneID),
+		StartRecordName: aws.String("c"),
+		StartRecordType: aws.String("CNAME"),
 	})
 
 	if err != nil {
 		return nil, err
 	}
-	matchingRecords := getMatchingRecords(recordSets.ResourceRecordSets)
-
-	return matchingRecords, nil
+	return recordSets, nil
 }
 
-// getMatchingRecords is used to get only Prometheus related Route53 records.
-func getMatchingRecords(recordSets []*route53.ResourceRecordSet) []string {
-	matchingRecords := []string{}
+// getPrometheusTargets is used to get only Prometheus related Route53 records.
+func getPrometheusTargets(recordSets []*route53.ResourceRecordSet) []string {
+	prometheusRecords := []string{}
 	for _, record := range recordSets {
 		if strings.Contains(*record.Name, ".prometheus.internal") {
-			matchingRecords = append(matchingRecords, *record.Name)
+			prometheusRecords = append(prometheusRecords, *record.Name)
 		}
 	}
-	log.Info("Returning matching Route53 records")
-	return matchingRecords
+	log.Info("Returning matching Prometheus Route53 records")
+	return prometheusRecords
 }
+
+// getInstallationsargets is used to get only Installation related Route53 records.
+func getInstallationsTargets(recordSets []*route53.ResourceRecordSet, environment string) []string {
+	dnsRecordset := ""
+	if environment == "test" {
+		dnsRecordset = ".test.mattermost.cloud"
+	} else if environment == "staging" {
+		dnsRecordset = ".staging.cloud.mattermost.com"
+	} else if environment == "prod" {
+		dnsRecordset = ".cloud.mattermost.com"
+	}
+	installationsRecords := []string{}
+	for _, record := range recordSets {
+		if strings.Contains(*record.Name, dnsRecordset) {
+			installationsRecords = append(installationsRecords, *record.Name)
+		}
+	}
+	log.Info("Returning matching installation Route53 records")
+	return installationsRecords
+}
+
+func contains(s []string, e string) bool {
+	for _, a := range s {
+	   if a == e {
+		  return true
+	   }
+	}
+	return false
+ }

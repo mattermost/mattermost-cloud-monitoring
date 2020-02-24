@@ -24,7 +24,9 @@ variable "kubeconfig_dir" {}
 
 variable "volume_size"{}
 
-variable "private_hosted_zoneid"{}
+variable "prometheus_hosted_zoneid"{}
+
+variable "installations_hosted_zoneid"{}
 
 variable "grafana_lambda_schedule"{}
 
