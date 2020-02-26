@@ -34,6 +34,13 @@ resource "aws_security_group" "cec_to_postgress" {
     Name    = "Cloud DB SG"
     Created = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
   }
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
 }
 
 resource "aws_db_subnet_group" "subnets_db" {

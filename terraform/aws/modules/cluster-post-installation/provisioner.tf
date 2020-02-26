@@ -202,6 +202,13 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
 
     revision_history_limit = 2
   }
+  
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      spec,
+    ]
+  }
 
   depends_on = [
     aws_db_instance.provisioner,
@@ -399,6 +406,13 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
     revision_history_limit = 2
   }
 
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      spec,
+    ]
+  }
+
   depends_on = [
     aws_db_instance.provisioner,
     kubernetes_secret.mattermost_cloud_secret,
@@ -433,6 +447,13 @@ resource "kubernetes_ingress" "mattermost_cloud_ingress" {
     }
   }
 
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      spec,
+    ]
+  }
+
   depends_on = [
     aws_db_instance.provisioner
   ]
@@ -456,6 +477,14 @@ resource "kubernetes_secret" "mattermost_cloud_secret" {
 
   type = "Opaque"
 
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      data,
+      type,
+    ]
+  }
+
   depends_on = [
     aws_db_instance.provisioner
   ]
@@ -473,6 +502,14 @@ resource "kubernetes_secret" "mattermost_cloud_ssh_secret" {
   }
 
   type = "Opaque"
+
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      data,
+      type,
+    ]
+  }
 
   depends_on = [
     aws_db_instance.provisioner
@@ -498,6 +535,13 @@ resource "kubernetes_service" "mattermost_cloud_service" {
     }
 
     type = "ClusterIP"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      spec,
+    ]
   }
 
   depends_on = [
