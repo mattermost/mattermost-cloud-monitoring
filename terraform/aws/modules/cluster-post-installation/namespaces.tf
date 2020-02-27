@@ -9,3 +9,9 @@ resource "kubernetes_namespace" "network" {
     name = "network"
   }
 }
+
+resource "kubernetes_namespace" "flux" {
+  metadata {
+    name = "flux"
+  }
+}

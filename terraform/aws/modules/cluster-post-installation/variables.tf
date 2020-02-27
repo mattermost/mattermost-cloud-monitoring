@@ -71,3 +71,13 @@ variable "kibana_tls_crt" {}
 variable "kibana_tls_key" {}
 
 variable "provisioner_user" {}
+
+variable "git_url" {}
+
+variable "git_path" {}
+
+variable "git_user" {}
+
+variable "git_email" {}
+
+variable "ssh_known_hosts" {}

@@ -53,7 +53,12 @@ module "cluster-post-installation" {
   mattermost_cloud_secrets_keep_filestore_data = var.mattermost_cloud_secrets_keep_filestore_data
   mattermost_cloud_secrets_keep_database_data  = var.mattermost_cloud_secrets_keep_database_data
   provisioner_user                             = var.provisioner_user
-
+  git_url                                      = var.git_url
+  git_path                                     = var.git_path
+  git_user                                     = var.git_user
+  git_email                                    = var.git_email
+  ssh_known_hosts                              = var.ssh_known_hosts
+                  
   providers = {
     aws = aws.post-deployment
   }
