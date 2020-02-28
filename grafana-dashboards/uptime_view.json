@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 7,
-  "iteration": 1582271987130,
+  "iteration": 1582885955460,
   "links": [],
   "panels": [
     {
@@ -66,7 +66,7 @@
       "pluginVersion": "6.5.2",
       "targets": [
         {
-          "expr": "(sum_over_time(probe_http_status_code{instance=~\"$targets\"}[$__range])/(2*200))/$__range_s*100*60",
+          "expr": "(sum_over_time(probe_http_status_code{instance=~\"$targets\"}[$__range])/(200))/$__range_s*100*60",
           "instant": false,
           "intervalFactor": 1,
           "legendFormat": "{{ instance }}",
@@ -82,6 +82,96 @@
     {
       "aliasColors": {},
       "bars": false,
+      "cacheTimeout": null,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 8,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": true,
+      "targets": [
+        {
+          "expr": "probe_http_status_code{instance=~\"$targets\"} != 200",
+          "legendFormat": "{{ instance }}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Non-200 HTTP Status Codes",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": "500",
+          "min": "-50",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
@@ -91,7 +181,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 12
+        "y": 23
       },
       "hiddenSeries": false,
       "id": 4,
@@ -186,7 +276,7 @@
         "h": 11,
         "w": 14,
         "x": 0,
-        "y": 22
+        "y": 33
       },
       "id": 6,
       "links": [],
@@ -318,7 +408,7 @@
           "preserveFormat": false,
           "rangeMaps": [
             {
-              "from": "2",
+              "from": "1",
               "text": "Online",
               "to": "1000"
             },
@@ -328,13 +418,14 @@
               "to": "0"
             },
             {
-              "from": "1",
+              "from": "0",
               "text": "Pending",
               "to": "1"
             }
           ],
           "sanitize": false,
           "thresholds": [
+            "0",
             "1",
             "2"
           ],
@@ -503,6 +594,7 @@
       "type": "table"
     }
   ],
+  "refresh": "30s",
   "schemaVersion": 21,
   "style": "dark",
   "tags": [],
@@ -538,7 +630,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1d",
     "to": "now"
   },
   "timepicker": {
@@ -558,5 +650,5 @@
   "timezone": "",
   "title": "Uptime View",
   "uid": "yTPc7BwZz",
-  "version": 10
+  "version": 22
 }
