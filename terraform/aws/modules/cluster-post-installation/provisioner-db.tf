@@ -24,6 +24,14 @@ resource "aws_security_group" "cec_to_postgress" {
     security_groups = [data.terraform_remote_state.cluster.outputs.workers_security_group]
   }
 
+  ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    cidr_blocks     = ["10.247.4.47/32"]
+    description     = "CLOUD VPN"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
