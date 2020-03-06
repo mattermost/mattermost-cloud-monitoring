@@ -1,6 +1,6 @@
 variable "vpc_id" {
-    default = ""
-    type    = "string"
+  default = ""
+  type    = "string"
 
 }
 
@@ -10,13 +10,13 @@ variable "auth_vpc_id" {
 }
 
 variable "public_subnet_ids" {
-    type = list(string)
-    default = [""]
+  type    = list(string)
+  default = [""]
 }
 
 variable "private_subnet_ids" {
-    type    = list(string)
-    default = [""]
+  type    = list(string)
+  default = [""]
 }
 
 variable "auth_private_subnet_ids" {
@@ -25,95 +25,113 @@ variable "auth_private_subnet_ids" {
 }
 
 variable "deployment_name" {
-    default = "mattermost-central-command-control"
-    type = "string"
+  default = "mattermost-central-command-control"
+  type    = "string"
 }
 
 variable "instance_type" {
-    default = "t2.large"
-    type = "string"
+  default = "t2.large"
+  type    = "string"
 }
 
 variable "max_size" {
-    default = "8"
-    type = "string"
+  default = "8"
+  type    = "string"
 }
 
 variable "min_size" {
-    default = "6"
-    type = "string"
+  default = "6"
+  type    = "string"
 }
 
 variable "desired_capacity" {
-    default = "6"
-    type = "string"
+  default = "6"
+  type    = "string"
 }
 
 variable "region" {
-    default = "us-east-1"
-    type = "string"
+  default = "us-east-1"
+  type    = "string"
 }
 
 variable "account_id" {
-    default = ""
-    type = "string"
+  default = ""
+  type    = "string"
 }
 
 variable "environment" {
-    default = "prod"
-    type = "string"
+  default = "prod"
+  type    = "string"
 }
 
 variable "cidr_blocks" {
-    default = [""]
-    type = list(string)
-    description = "CIDR to allow inbound cluster access"
+  default     = [""]
+  type        = list(string)
+  description = "CIDR to allow inbound cluster access"
 }
 
 variable "kubeconfig_dir" {
-    default = "$HOME/generated"
-    type = "string"
+  default = "$HOME/generated"
+  type    = "string"
 }
 
 variable "volume_size" {
-    default = "50"
-    type = "string"
+  default = "50"
+  type    = "string"
 }
 
 variable "private_hosted_zoneid" {
-    default = ""
-    type = "string"
+  default = ""
+  type    = "string"
 }
 
 variable "grafana_lambda_schedule" {
-    default = "rate(4 hours)"
-    type = "string"
+  default = "rate(4 hours)"
+  type    = "string"
 }
 
 variable "provisioner_server" {
-    default = ""
-    type = "string"
+  default = ""
+  type    = "string"
 }
 
 variable "community_webhook" {
-    default = ""
-    type = "string"
+  default = ""
+  type    = "string"
 }
 
 variable "api_gateway_vpc_endpoints" {
-    default = [""]
-    type = list(string)
-    description = "VPC endpoints"
+  default     = [""]
+  type        = list(string)
+  description = "VPC endpoints"
 }
 
 variable "eks_ami_id" {
-    default = ""
-    type = "string"
-    description = "Custom AMI ID to use for EKS workers"
+  default     = ""
+  type        = "string"
+  description = "Custom AMI ID to use for EKS workers"
 }
 
 variable "key_name" {
-  default = ""  
-  type = "string"
+  default     = ""
+  type        = "string"
   description = "The command and control cluster node ssh key"
+}
+
+variable "mattermost_hook" {
+  default     = ""
+  type        = "string"
+  description = "The mattermost webhook to post the messages"
+}
+
+variable "opsgenie_apikey" {
+  default     = ""
+  type        = "string"
+  description = "The opsgenie apikey"
+}
+
+variable "opsgenie_scheduler_team" {
+  default     = ""
+  type        = "string"
+  description = "The opsgenie scheduler team uuid"
 }

@@ -113,7 +113,25 @@ variable "eks_ami_id" {
 }
 
 variable "key_name" {
-  default = ""  
-  type = "string"
+  default     = ""
+  type        = "string"
   description = "The command and control cluster node ssh key"
+}
+
+variable "mattermost_hook" {
+  default     = ""
+  type        = "string"
+  description = "The mattermost webhook to post the messages"
+}
+
+variable "opsgenie_apikey" {
+  default     = ""
+  type        = "string"
+  description = "The opsgenie apikey"
+}
+
+variable "opsgenie_scheduler_team" {
+  default     = ""
+  type        = "string"
+  description = "The opsgenie scheduler team uuid"
 }
