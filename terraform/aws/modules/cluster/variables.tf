@@ -22,13 +22,13 @@ variable "cidr_blocks" {}
 
 variable "kubeconfig_dir" {}
 
-variable "volume_size"{}
+variable "volume_size" {}
 
-variable "prometheus_hosted_zoneid"{}
+variable "prometheus_hosted_zoneid" {}
 
-variable "installations_hosted_zoneid"{}
+variable "installations_hosted_zoneid" {}
 
-variable "grafana_lambda_schedule"{}
+variable "grafana_lambda_schedule" {}
 
 variable "provisioner_server" {}
 
@@ -43,3 +43,9 @@ variable "region" {}
 variable "eks_ami_id" {}
 
 variable "key_name" {}
+
+variable "mattermost_hook" {}
+
+variable "opsgenie_apikey" {}
+
+variable "opsgenie_scheduler_team" {}
