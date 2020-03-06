@@ -15,13 +15,13 @@ resource "kubernetes_cluster_role_binding" "tiller" {
     name = "terraform-tiller"
   }
 
-   role_ref {
+  role_ref {
     kind      = "ClusterRole"
     name      = "cluster-admin"
     api_group = "rbac.authorization.k8s.io"
   }
 
-   subject {
+  subject {
     kind = "ServiceAccount"
     name = "terraform-tiller"
 
