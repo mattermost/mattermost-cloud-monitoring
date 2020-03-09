@@ -96,8 +96,9 @@ variable "provisioner_server" {
 }
 
 variable "community_webhook" {
-  default = ""
-  type    = "string"
+  default     = ""
+  type        = "string"
+  description = "The mattermost webhook to post the messages"
 }
 
 variable "api_gateway_vpc_endpoints" {
@@ -116,12 +117,6 @@ variable "key_name" {
   default     = ""
   type        = "string"
   description = "The command and control cluster node ssh key"
-}
-
-variable "mattermost_hook" {
-  default     = ""
-  type        = "string"
-  description = "The mattermost webhook to post the messages"
 }
 
 variable "opsgenie_apikey" {

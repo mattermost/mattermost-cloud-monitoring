@@ -44,8 +44,6 @@ variable "eks_ami_id" {}
 
 variable "key_name" {}
 
-variable "mattermost_hook" {}
-
 variable "opsgenie_apikey" {}
 
 variable "opsgenie_scheduler_team" {}
