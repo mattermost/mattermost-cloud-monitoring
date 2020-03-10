@@ -56,6 +56,7 @@ resource "aws_db_instance" "gitlab" {
   publicly_accessible         = false
   snapshot_identifier         = var.snapshot_identifier
   storage_encrypted           = var.storage_encrypted
+  multi_az                    = var.multi_az
 
   tags = {
     Name        = "Gitlab DB Instance"

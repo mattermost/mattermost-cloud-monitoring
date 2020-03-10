@@ -70,4 +70,5 @@ module "gitlab" {
   gitlab_packages_bucket = var.gitlab_packages_bucket
   gitlab_backup_bucket = var.gitlab_backup_bucket
   gitlab_tmp_bucket = var.gitlab_tmp_bucket
+  multi_az = var.multi_az
 }

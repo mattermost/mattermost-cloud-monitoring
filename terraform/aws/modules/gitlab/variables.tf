@@ -49,3 +49,19 @@ variable "gitlab_security_group" {}
 variable "validation_hosted_zone_id" {}
 
 variable "install_gitlab_runner" {}
+
+variable "gitlab_registry_bucket" {}
+
+variable "gitlab_lfs_bucket" {}
+
+variable "gitlab_artifacts_bucket" {}
+
+variable "gitlab_uploads_bucket" {}
+
+variable "gitlab_packages_bucket" {}
+
+variable "gitlab_backup_bucket" {}
+
+variable "gitlab_tmp_bucket" {}
+
+variable "multi_az" {}

@@ -220,3 +220,8 @@ variable "gitlab_tmp_bucket" {
   type = string
   default = ""
 }
+
+variable "multi_az" {
+  type = bool
+  default = true
+}
