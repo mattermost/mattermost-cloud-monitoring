@@ -63,4 +63,11 @@ module "gitlab" {
   storage_encrypted = var.storage_encrypted
   gitlab_security_group = module.cluster.worker_security_group
   install_gitlab_runner = var.install_gitlab_runner
+  gitlab_registry_bucket = var.gitlab_registry_bucket
+  gitlab_lfs_bucket = var.gitlab_lfs_bucket
+  gitlab_artifacts_bucket = var.gitlab_artifacts_bucket
+  gitlab_uploads_bucket = var.gitlab_uploads_bucket
+  gitlab_packages_bucket = var.gitlab_packages_bucket
+  gitlab_backup_bucket = var.gitlab_backup_bucket
+  gitlab_tmp_bucket = var.gitlab_tmp_bucket
 }

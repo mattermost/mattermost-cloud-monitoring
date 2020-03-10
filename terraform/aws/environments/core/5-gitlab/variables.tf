@@ -185,3 +185,38 @@ variable "install_gitlab_runner" {
   type = bool
   default =  true
 }
+
+variable "gitlab_registry_bucket" {
+  type = string
+  default = ""
+}
+
+variable "gitlab_lfs_bucket" {
+  type = string
+  default = ""
+}
+
+variable "gitlab_artifacts_bucket" {
+  type = string
+  default = ""
+}
+
+variable "gitlab_uploads_bucket" {
+  type = string
+  default = ""
+}
+
+variable "gitlab_packages_bucket" {
+  type = string
+  default = ""
+}
+
+variable "gitlab_backup_bucket" {
+  type = string
+  default = ""
+}
+
+variable "gitlab_tmp_bucket" {
+  type = string
+  default = ""
+}

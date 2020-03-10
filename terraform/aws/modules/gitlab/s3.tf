@@ -1,41 +1,41 @@
 resource "aws_s3_bucket" "gitlab_registry" {
-  bucket = "mattermost-cloud-gitlab-registry-storage"
+  bucket = var.gitlab_registry_bucket
   region = "us-east-1"
   acl    = "private"
 }
 
 resource "aws_s3_bucket" "gitlab_lfs" {
-  bucket = "mattermost-cloud-gitlab-lfs-storage"
+  bucket = var.gitlab_lfs_bucket
   region = "us-east-1"
   acl    = "private"
 }
 
 resource "aws_s3_bucket" "gitlab_artifacts" {
-  bucket = "mattermost-gitlab-artifacts-storage"
+  bucket = var.gitlab_artifacts_bucket
   region = "us-east-1"
   acl    = "private"
 }
 
 resource "aws_s3_bucket" "gitlab_uploads" {
-  bucket = "mattermost-gitlab-uploads-storage"
+  bucket = var.gitlab_uploads_bucket
   region = "us-east-1"
   acl    = "private"
 }
 
 resource "aws_s3_bucket" "gitlab_packages" {
-  bucket = "mattermost-gitlab-packages-storage"
+  bucket = var.gitlab_packages_bucket
   region = "us-east-1"
   acl    = "private"
 }
 
 resource "aws_s3_bucket" "gitlab_backup" {
-  bucket = "mattermost-gitlab-backup-storage"
+  bucket = var.gitlab_backup_bucket
   region = "us-east-1"
   acl    = "private"
 }
 
 resource "aws_s3_bucket" "gitlab_backup_tmp" {
-  bucket = "mattermost-gitlab-tmp-storage"
+  bucket = var.gitlab_tmp_bucket
   region = "us-east-1"
   acl    = "private"
 }

@@ -17,12 +17,12 @@ resource "helm_release" "gitlab" {
     value = var.gitlab_domain
   }
 
-   set {
+  set {
     name = "global.psql.database"
     value = var.db_name
   }
 
-   set {
+  set {
     name = "global.psql.username"
     value = var.db_username
   }
@@ -37,9 +37,44 @@ resource "helm_release" "gitlab" {
     value = aws_acm_certificate.gitlab_cert.arn
   }
 
-   set {
+  set {
     name = "gitlab-runner.install"
     value = var.install_gitlab_runner
+  }
+
+  set {
+    name = "global.registry.bucket"
+    value = var.gitlab_registry_bucket
+  }
+
+  set {
+    name = "global.appConfig.lfs.bucket"
+    value = var.gitlab_lfs_bucket
+  }
+
+  set {
+    name = "global.appConfig.artifacts.bucket"
+    value = var.gitlab_artifacts_bucket
+  }
+
+  set {
+    name = "global.appConfig.uploads.bucket"
+    value = var.gitlab_uploads_bucket
+  }
+
+  set {
+    name = "global.appConfig.packages.bucket"
+    value = var.gitlab_packages_bucket
+  }
+
+  set {
+    name = "global.appConfig.backups.bucket"
+    value = var.gitlab_backup_bucket
+  }
+
+  set {
+    name = "global.appConfig.backups.tmpBucket"
+    value = var.gitlab_tmp_bucket
   }
 
 

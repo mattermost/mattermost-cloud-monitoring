@@ -16,7 +16,7 @@ global:
   minio:
     enabled: false
   registry:
-    bucket: mattermost-cloud-gitlab-registry-storage
+    bucket: ""
   appConfig:
     omniauth:
       enabled: true
@@ -28,28 +28,28 @@ global:
       - secret: gitlab-onelogin
         key: provider
     lfs:
-      bucket: mattermost-cloud-gitlab-lfs-storage
+      bucket: ""
       connection: # https://gitlab.com/gitlab-org/charts/gitlab/blob/master/doc/charts/globals.md#connection
         secret: gitlab-rails-storage
         key: connection
     artifacts:
-      bucket: mattermost-gitlab-artifacts-storage
+      bucket: ""
       connection:
         secret: gitlab-rails-storage
         key: connection
     uploads:
-      bucket: mattermost-gitlab-uploads-storage
+      bucket: ""
       connection:
         secret: gitlab-rails-storage
         key: connection
     packages:
-      bucket: mattermosr-gitlab-packages-storage
+      bucket: ""
       connection:
         secret: gitlab-rails-storage
         key: connection
     backups:
-      bucket: mattermost-gitlab-backup-storage
-      tmpBucket: mattermost-gitlab-tmp-storage
+      bucket: ""
+      tmpBucket: ""
 gitlab:
   task-runner:
     backups:
