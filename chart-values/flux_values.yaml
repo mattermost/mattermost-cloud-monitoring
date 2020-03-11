@@ -1,0 +1,2 @@
+additionalArgs:
+  - --connect=ws://fluxcloud
