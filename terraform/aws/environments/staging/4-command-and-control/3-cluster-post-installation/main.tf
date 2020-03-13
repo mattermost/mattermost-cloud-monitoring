@@ -57,6 +57,9 @@ module "cluster-post-installation" {
   git_user                                     = var.git_user
   git_email                                    = var.git_email
   ssh_known_hosts                              = var.ssh_known_hosts
+  community_hook                               = var.community_hook
+  community_channel                            = var.community_channel
+  flux_git_url                                 = var.flux_git_url
 
   providers = {
     aws = aws.post-deployment

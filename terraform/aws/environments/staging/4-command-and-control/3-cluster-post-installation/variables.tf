@@ -181,3 +181,43 @@ variable "mattermost_cloud_secrets_keep_filestore_data" {}
 variable "mattermost_cloud_secrets_keep_database_data" {}
 
 variable "provisioner_user" {}
+
+variable "git_url" {
+  type    = string
+  default = ""
+}
+
+variable "git_path" {
+  type    = string
+  default = ""
+}
+
+variable "git_user" {
+  type    = string
+  default = ""
+}
+
+variable "git_email" {
+  type    = string
+  default = ""
+}
+
+variable "ssh_known_hosts" {
+  type    = string
+  default = ""
+}
+
+variable "community_hook" {
+  type    = string
+  default = ""
+}
+
+variable "community_channel" {
+  type    = string
+  default = ""
+}
+
+variable "flux_git_url" {
+  type    = string
+  default = ""
+}

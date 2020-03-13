@@ -81,3 +81,11 @@ variable "git_user" {}
 variable "git_email" {}
 
 variable "ssh_known_hosts" {}
+
+variable "community_hook" {}
+
+variable "community_channel" {}
+
+variable "flux_git_url" {}
+
+
