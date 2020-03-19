@@ -38,7 +38,6 @@ module "cluster" {
   eks_ami_id                  = var.eks_ami_id
   key_name                    = var.key_name
   region                      = var.region
-  mattermost_hook             = var.mattermost_hook
   opsgenie_apikey             = var.opsgenie_apikey
   opsgenie_scheduler_team     = var.opsgenie_scheduler_team
   providers = {
