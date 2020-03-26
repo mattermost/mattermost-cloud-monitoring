@@ -1,57 +1,66 @@
+variable "environment" {
+  default = "test"
+  type    = string
+}
 
 variable "deployment_name" {
-    default = "mattermost-central-command-control"
-    type = "string"
+  default = "mattermost-central-command-control"
+  type    = string
 }
 
 variable "region" {
-    default = "us-east-1"
-    type = "string"
+  default = "us-east-1"
+  type    = string
 }
 
 variable "tiller_version" {
-    default = "2.14.1"
-    type = "string"
+  default = "2.14.1"
+  type    = string
 }
 
 variable "kubeconfig_dir" {
-    default = "$HOME/generated"
-    type = "string"
+  default = "$HOME/generated"
+  type    = string
 }
 
-variable "grafana_tls_crt"{
-    default = ""
-    type = "string"
+variable "grafana_tls_crt" {
+  default = ""
+  type    = string
 }
 
-variable "grafana_tls_key"{
-    default = ""
-    type = "string"
+variable "grafana_tls_key" {
+  default = ""
+  type    = string
 }
 
-variable "prometheus_tls_crt"{
-    default = ""
-    type = "string"
+variable "prometheus_tls_crt" {
+  default = ""
+  type    = string
 }
 
-variable "prometheus_tls_key"{
-    default = ""
-    type = "string"
+variable "prometheus_tls_key" {
+  default = ""
+  type    = string
 }
 
-variable "kibana_tls_crt"{
-    default = ""
-    type = "string"
+variable "kibana_tls_crt" {
+  default = ""
+  type    = string
 }
 
-variable "kibana_tls_key"{
-    default = ""
-    type = "string"
+variable "kibana_tls_key" {
+  default = ""
+  type    = string
 }
 
 variable "db_identifier" {
-  type = string
+  type    = string
   default = "cloud-test"
+}
+
+variable "storage_encrypted" {
+  type    = bool
+  default = false
 }
 
 variable "private_subnets" {
@@ -144,10 +153,50 @@ variable "mattermost_cloud_secrets_aws_region" {
   default = "us-east-1"
 }
 
-variable "mattermost_cloud_secrets_certificate_aws_arn" {}
+variable "mattermost_cloud_secrets_keep_filestore_data" {}
+
+variable "mattermost_cloud_secrets_keep_database_data" {}
 
 variable "mattermost_cloud_secrets_private_dns" {}
 
-variable "mattermost_cloud_secrets_private_route53_id" {}
+variable "provisioner_user" {}
 
-variable "mattermost_cloud_secrets_route53_id" {}
+variable "git_url" {
+  type    = string
+  default = ""
+}
+
+variable "git_path" {
+  type    = string
+  default = ""
+}
+
+variable "git_user" {
+  type    = string
+  default = ""
+}
+
+variable "git_email" {
+  type    = string
+  default = ""
+}
+
+variable "ssh_known_hosts" {
+  type    = string
+  default = ""
+}
+
+variable "community_hook" {
+  type    = string
+  default = ""
+}
+
+variable "community_channel" {
+  type    = string
+  default = ""
+}
+
+variable "flux_git_url" {
+  type    = string
+  default = ""
+}

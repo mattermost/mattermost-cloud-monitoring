@@ -24,6 +24,14 @@ resource "aws_security_group" "cec_to_postgress" {
     security_groups = [data.terraform_remote_state.cluster.outputs.workers_security_group]
   }
 
+  ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    cidr_blocks     = ["10.247.4.47/32"]
+    description     = "CLOUD VPN"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -34,6 +42,13 @@ resource "aws_security_group" "cec_to_postgress" {
     Name    = "Cloud DB SG"
     Created = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
   }
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
 }
 
 resource "aws_db_subnet_group" "subnets_db" {
@@ -69,6 +84,7 @@ resource "aws_db_instance" "provisioner" {
   maintenance_window          = var.db_maintenance_window
   publicly_accessible         = false
   snapshot_identifier         = var.snapshot_identifier
+  storage_encrypted           = var.storage_encrypted
 
   tags = {
     Name        = "Provisioner"

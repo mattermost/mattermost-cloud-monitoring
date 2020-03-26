@@ -3,7 +3,7 @@ options {
     forward only;
   # This is the Amazon DNS server, which is always at the VPC's '+2' address
     forwarders {
-        10.243.32.2;
+        <add_ip>;
     };
     dnssec-validation yes;
 
@@ -16,6 +16,6 @@ options {
 zone "internal.test.cloud.mattermost.com." {
     type forward;
     forward only;
-    forwarders { 10.243.32.2; };
+    forwarders { <add_ip>; };
 };
 

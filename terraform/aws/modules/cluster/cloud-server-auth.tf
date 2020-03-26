@@ -29,30 +29,30 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRole" {
 }
 
 resource "aws_lambda_function" "cloud_server_auth" {
-  filename      = "../../../../../../cloud-server-auth/cloud-server-auth.zip"
-  function_name = "cloud-server-auth"
-  role          = aws_iam_role.auth_lambda_role.arn
-  handler       = "cloud-server-auth"
-  timeout       = 180
-  source_code_hash = "${filebase64sha256("../../../../../../cloud-server-auth/cloud-server-auth.zip")}"
-  runtime = "go1.x"
+  filename         = "../../../../../../cloud-server-auth/cloud-server-auth.zip"
+  function_name    = "cloud-server-auth"
+  role             = aws_iam_role.auth_lambda_role.arn
+  handler          = "cloud-server-auth"
+  timeout          = 180
+  source_code_hash = filebase64sha256("../../../../../../cloud-server-auth/cloud-server-auth.zip")
+  runtime          = "go1.x"
   vpc_config {
-    subnet_ids = flatten(var.private_subnet_ids)
+    subnet_ids         = flatten(var.auth_private_subnet_ids)
     security_group_ids = [aws_security_group.auth_lambda_sg.id]
   }
 
   environment {
     variables = {
-      CLOUD_SERVER = var.provisioner_server,
+      CLOUD_SERVER       = var.provisioner_server,
       MATTERMOST_WEBHOOK = var.community_webhook,
     }
-  } 
+  }
 }
 
 resource "aws_security_group" "auth_lambda_sg" {
   name        = "${var.deployment_name}-auth-lambda-sg"
   description = "Cloud Server Auth Lambda"
-  vpc_id      = var.vpc_id
+  vpc_id      = var.auth_vpc_id
 
   egress {
     from_port   = 0
@@ -68,10 +68,10 @@ resource "aws_security_group" "auth_lambda_sg" {
 
 
 resource "aws_api_gateway_rest_api" "cloud_server_auth" {
-  name = "cloud-server-auth"
+  name        = "cloud-server-auth"
   description = "The rest API for Cloud Server Auth"
   endpoint_configuration {
-      types = ["PRIVATE"]
+    types = ["PRIVATE"]
   }
   policy = <<EOF
 {
@@ -81,7 +81,7 @@ resource "aws_api_gateway_rest_api" "cloud_server_auth" {
             "Effect": "Deny",
             "Principal": "*",
             "Action": "execute-api:Invoke",
-            "Resource": "arn:aws:execute-api:${var.region}:${var.account_id}:*",
+            "Resource": "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:*",
             "Condition": {
                 "StringNotEquals": {
                     "aws:sourceVpce": ${jsonencode(var.api_gateway_vpc_endpoints)}
@@ -92,7 +92,7 @@ resource "aws_api_gateway_rest_api" "cloud_server_auth" {
             "Effect": "Allow",
             "Principal": "*",
             "Action": "execute-api:Invoke",
-            "Resource": "arn:aws:execute-api:${var.region}:${var.account_id}:*"
+            "Resource": "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:*"
         }
     ]
 }
@@ -101,30 +101,30 @@ EOF
 
 resource "aws_api_gateway_resource" "cloud_server_auth_resource" {
   rest_api_id = aws_api_gateway_rest_api.cloud_server_auth.id
-  parent_id = aws_api_gateway_rest_api.cloud_server_auth.root_resource_id
-  path_part = "{proxy+}"
+  parent_id   = aws_api_gateway_rest_api.cloud_server_auth.root_resource_id
+  path_part   = "{proxy+}"
 }
 
 resource "aws_api_gateway_method" "cloud_server_auth_method" {
-  rest_api_id = aws_api_gateway_rest_api.cloud_server_auth.id
-  resource_id = aws_api_gateway_resource.cloud_server_auth_resource.id
-  http_method = "ANY"
-  authorization = "NONE"
+  rest_api_id      = aws_api_gateway_rest_api.cloud_server_auth.id
+  resource_id      = aws_api_gateway_resource.cloud_server_auth_resource.id
+  http_method      = "ANY"
+  authorization    = "NONE"
   api_key_required = true
 }
 
 resource "aws_api_gateway_deployment" "cloud_server_auth_deployment" {
   rest_api_id = aws_api_gateway_rest_api.cloud_server_auth.id
   stage_name  = var.environment
-  depends_on= [
-      "aws_api_gateway_method.cloud_server_auth_method",
-      "aws_api_gateway_integration.cloud_server_auth_integration"
+  depends_on = [
+    aws_api_gateway_method.cloud_server_auth_method,
+    aws_api_gateway_integration.cloud_server_auth_integration
   ]
 }
 
 resource "aws_api_gateway_usage_plan" "cloud_server_auth_usageplan" {
-  name         = "cloud-server-auth-usage-plan"
-  description  = "Usage plan for Cloud Server Auth"
+  name        = "cloud-server-auth-usage-plan"
+  description = "Usage plan for Cloud Server Auth"
 
   api_stages {
     api_id = aws_api_gateway_rest_api.cloud_server_auth.id
@@ -143,11 +143,11 @@ resource "aws_api_gateway_usage_plan_key" "cloud_server_auth_api_key" {
 }
 
 resource "aws_api_gateway_integration" "cloud_server_auth_integration" {
-  rest_api_id = aws_api_gateway_rest_api.cloud_server_auth.id
-  resource_id = aws_api_gateway_resource.cloud_server_auth_resource.id
-  http_method = aws_api_gateway_method.cloud_server_auth_method.http_method
-  type = "AWS_PROXY"
-  uri = aws_lambda_function.cloud_server_auth.invoke_arn
+  rest_api_id             = aws_api_gateway_rest_api.cloud_server_auth.id
+  resource_id             = aws_api_gateway_resource.cloud_server_auth_resource.id
+  http_method             = aws_api_gateway_method.cloud_server_auth_method.http_method
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.cloud_server_auth.invoke_arn
   integration_http_method = "POST"
 }
 
@@ -156,5 +156,5 @@ resource "aws_lambda_permission" "cloud_server_auth_gateway_permission" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.cloud_server_auth.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${aws_api_gateway_rest_api.cloud_server_auth.id}/*/${aws_api_gateway_method.cloud_server_auth_method.http_method}${aws_api_gateway_resource.cloud_server_auth_resource.path}"
+  source_arn    = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.cloud_server_auth.id}/*/${aws_api_gateway_method.cloud_server_auth_method.http_method}${aws_api_gateway_resource.cloud_server_auth_resource.path}"
 }

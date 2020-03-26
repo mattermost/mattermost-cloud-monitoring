@@ -38,13 +38,6 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
       }
 
       spec {
-        volume {
-          name = "cluster-persistent-storage"
-
-          persistent_volume_claim {
-            claim_name = "cluster-pv-claim"
-          }
-        }
 
         volume {
           name = "mattermost-cloud-ssh-volume"
@@ -55,11 +48,11 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
         }
 
         volume {
-          name     = "mattermost-cloud-tmp-volume"
+          name = "mattermost-cloud-tmp-volume"
         }
 
         volume {
-          name     = "mattermost-cloud-helm-volume"
+          name = "mattermost-cloud-helm-volume"
         }
 
         init_container {
@@ -81,23 +74,10 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
           image_pull_policy = "Always"
         }
 
-        init_container {
-          name    = "volume-mount-hack"
-          image   = "busybox:latest"
-          command = ["sh", "-c", "chown -R 10001:10001 /mattermost-cloud/clusters && rm -rf /mattermost-cloud/clusters/*"]
-
-          volume_mount {
-            name       = "cluster-persistent-storage"
-            mount_path = "/mattermost-cloud/clusters/"
-          }
-
-          image_pull_policy = "IfNotPresent"
-        }
-
         container {
           name  = "mattermost-cloud"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "true", "--state-store", "mattermost-kops-state-test", "--route53-id", "$(ROUTE53_ID)", "--certificate-aws-arn", "$(CERTIFICATE_AWS_ARN)", "--private-route53-id", "$(PRIVATE_ROUTE53_ID)", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
@@ -160,28 +140,6 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
           }
 
           env {
-            name = "ROUTE53_ID"
-
-            value_from {
-              secret_key_ref {
-                name = "mattermost-cloud-secret"
-                key  = "ROUTE53_ID"
-              }
-            }
-          }
-
-          env {
-            name = "PRIVATE_ROUTE53_ID"
-
-            value_from {
-              secret_key_ref {
-                name = "mattermost-cloud-secret"
-                key  = "PRIVATE_ROUTE53_ID"
-              }
-            }
-          }
-
-          env {
             name = "PRIVATE_DNS"
 
             value_from {
@@ -193,19 +151,25 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
           }
 
           env {
-            name = "CERTIFICATE_AWS_ARN"
+            name = "KEEP_DATABASE_DATA"
 
             value_from {
               secret_key_ref {
                 name = "mattermost-cloud-secret"
-                key  = "CERTIFICATE_AWS_ARN"
+                key  = "KEEP_DATABASE_DATA"
               }
             }
           }
 
-          volume_mount {
-            name       = "cluster-persistent-storage"
-            mount_path = "/mattermost-cloud/clusters/"
+          env {
+            name = "KEEP_FILESTORE_DATA"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "KEEP_FILESTORE_DATA"
+              }
+            }
           }
 
           volume_mount {
@@ -238,6 +202,13 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
 
     revision_history_limit = 2
   }
+  
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      spec,
+    ]
+  }
 
   depends_on = [
     aws_db_instance.provisioner,
@@ -254,6 +225,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
     labels = {
       "app.kubernetes.io/component" = "provisioner"
       "app.kubernetes.io/name"      = "mattermost-cloud"
+      "app.kubernetes.io/extra"     = "mattermost-cloud-installations"
     }
   }
 
@@ -264,6 +236,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
       match_labels = {
         "app.kubernetes.io/component" = "provisioner"
         "app.kubernetes.io/name"      = "mattermost-cloud"
+        "app.kubernetes.io/extra"     = "mattermost-cloud-installations"
       }
     }
 
@@ -272,6 +245,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
         labels = {
           "app.kubernetes.io/component" = "provisioner"
           "app.kubernetes.io/name"      = "mattermost-cloud"
+          "app.kubernetes.io/extra"     = "mattermost-cloud-installations"
         }
       }
 
@@ -286,7 +260,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
         }
 
         volume {
-          name     = "mattermost-cloud-tmp-volume"
+          name = "mattermost-cloud-tmp-volume"
         }
 
         init_container {
@@ -311,7 +285,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
         container {
           name  = "mattermost-cloud-installations"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "true", "--cluster-supervisor=false", "--state-store", "mattermost-kops-state-test", "--route53-id", "$(ROUTE53_ID)", "--certificate-aws-arn", "$(CERTIFICATE_AWS_ARN)", "--private-route53-id", "$(PRIVATE_ROUTE53_ID)", "--private-dns", "$(PRIVATE_DNS)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "--cluster-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}", "--private-dns", "$(PRIVATE_DNS)", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
@@ -374,28 +348,6 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
           }
 
           env {
-            name = "ROUTE53_ID"
-
-            value_from {
-              secret_key_ref {
-                name = "mattermost-cloud-secret"
-                key  = "ROUTE53_ID"
-              }
-            }
-          }
-
-          env {
-            name = "PRIVATE_ROUTE53_ID"
-
-            value_from {
-              secret_key_ref {
-                name = "mattermost-cloud-secret"
-                key  = "PRIVATE_ROUTE53_ID"
-              }
-            }
-          }
-
-          env {
             name = "PRIVATE_DNS"
 
             value_from {
@@ -407,12 +359,23 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
           }
 
           env {
-            name = "CERTIFICATE_AWS_ARN"
+            name = "KEEP_DATABASE_DATA"
 
             value_from {
               secret_key_ref {
                 name = "mattermost-cloud-secret"
-                key  = "CERTIFICATE_AWS_ARN"
+                key  = "KEEP_DATABASE_DATA"
+              }
+            }
+          }
+
+          env {
+            name = "KEEP_FILESTORE_DATA"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "KEEP_FILESTORE_DATA"
               }
             }
           }
@@ -443,36 +406,17 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
     revision_history_limit = 2
   }
 
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      spec,
+    ]
+  }
+
   depends_on = [
     aws_db_instance.provisioner,
     kubernetes_secret.mattermost_cloud_secret,
     kubernetes_secret.mattermost_cloud_ssh_secret
-  ]
-}
-
-resource "kubernetes_persistent_volume_claim" "cluster_pv_claim" {
-  metadata {
-    name      = "cluster-pv-claim"
-    namespace = var.mattermost-cloud-namespace
-
-    labels = {
-      "app.kubernetes.io/component" = "provisioner"
-      "app.kubernetes.io/name"      = "mattermost-cloud"
-    }
-  }
-
-  spec {
-    access_modes = ["ReadWriteOnce"]
-
-    resources {
-      requests = {
-        storage = "50Gi"
-      }
-    }
-  }
-
-  depends_on = [
-    aws_db_instance.provisioner
   ]
 }
 
@@ -482,7 +426,7 @@ resource "kubernetes_ingress" "mattermost_cloud_ingress" {
     namespace = var.mattermost-cloud-namespace
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class" = "nginx-internal"
     }
   }
 
@@ -503,6 +447,13 @@ resource "kubernetes_ingress" "mattermost_cloud_ingress" {
     }
   }
 
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      spec,
+    ]
+  }
+
   depends_on = [
     aws_db_instance.provisioner
   ]
@@ -518,14 +469,21 @@ resource "kubernetes_secret" "mattermost_cloud_secret" {
     AWS_ACCESS_KEY_ID     = var.mattermost_cloud_secrets_aws_access_key
     AWS_SECRET_ACCESS_KEY = var.mattermost_cloud_secrets_aws_secret_key
     AWS_REGION            = var.mattermost_cloud_secrets_aws_region
-    CERTIFICATE_AWS_ARN   = var.mattermost_cloud_secrets_certificate_aws_arn
     DATABASE              = "postgres://${var.db_username}:${var.db_password}@${aws_db_instance.provisioner.endpoint}/${var.db_name}"
     PRIVATE_DNS           = var.mattermost_cloud_secrets_private_dns
-    PRIVATE_ROUTE53_ID    = var.mattermost_cloud_secrets_private_route53_id
-    ROUTE53_ID            = var.mattermost_cloud_secrets_route53_id
+    KEEP_DATABASE_DATA    = var.mattermost_cloud_secrets_keep_database_data
+    KEEP_FILESTORE_DATA   = var.mattermost_cloud_secrets_keep_filestore_data
   }
 
   type = "Opaque"
+
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      data,
+      type,
+    ]
+  }
 
   depends_on = [
     aws_db_instance.provisioner
@@ -544,6 +502,14 @@ resource "kubernetes_secret" "mattermost_cloud_ssh_secret" {
   }
 
   type = "Opaque"
+
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      data,
+      type,
+    ]
+  }
 
   depends_on = [
     aws_db_instance.provisioner
@@ -569,6 +535,13 @@ resource "kubernetes_service" "mattermost_cloud_service" {
     }
 
     type = "ClusterIP"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      spec,
+    ]
   }
 
   depends_on = [

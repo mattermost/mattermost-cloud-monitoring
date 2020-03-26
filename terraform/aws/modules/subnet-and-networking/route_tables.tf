@@ -58,6 +58,15 @@ resource "aws_route" "transit_gateway" {
   depends_on                = [aws_ec2_transit_gateway_vpc_attachment.tgw_attachment]
 }
 
+resource "aws_route" "transit_gateway_public" {
+  for_each = toset(var.vpc_cidrs)
+
+  route_table_id         = aws_route_table.public[each.value]["id"]
+  destination_cidr_block    = var.transit_gtw_route_destination
+  transit_gateway_id = var.transit_gateway_id
+  depends_on                = [aws_ec2_transit_gateway_vpc_attachment.tgw_attachment]
+}
+
 resource "aws_route_table_association" "private_1a" {
   for_each = toset(var.vpc_cidrs)
 
