@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"log"
 	"os"
@@ -24,6 +25,10 @@ func main() {
 	gracePeriodSeconds := flag.Int("grace-period", 30, "Time to wait gracefully for pods to evict")
 	timeout := flag.Duration("timeout", 90*time.Second, "Time to wait for drain of all pods in Seconds")
 	flag.Parse()
+
+	if *gracePeriodSeconds < 0 {
+		LogErrorAndExit(errors.New("InvalidInput"), "grace-period must be a positive integer")
+	}
 
 	cloudProvider, err := providers.NewProvider(
 		*cloudProviderName,
