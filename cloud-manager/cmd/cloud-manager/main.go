@@ -2,11 +2,12 @@ package main
 
 import (
 	"flag"
-	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/providers"
-	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/services"
 	"log"
 	"os"
 	"time"
+
+	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/providers"
+	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/services"
 )
 
 func main() {
@@ -44,8 +45,6 @@ func main() {
 
 func LogErrorAndExit(e error, msg string) {
 	if e != nil {
-		log.Println(e.Error())
-		log.Println(msg)
-		os.Exit(1)
+		log.Fatalf("%s: %s", msg, e)
 	}
 }

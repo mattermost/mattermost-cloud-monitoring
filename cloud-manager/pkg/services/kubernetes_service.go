@@ -28,12 +28,12 @@ type Service struct {
 func NewKubernetesService(contextName string, provider providers.Provider) (*Service, error) {
 	config, err := clientcmd.BuildConfigFromFlags("", defaultPath())
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("Failed to build k8s config: %s", err.Error()))
+		return nil, fmt.Errorf("Failed to build k8s config: %s", err.Error())
 	}
 
 	client, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("Failed to create k8s client: %s", err.Error()))
+		return nil, fmt.Errorf("Failed to create k8s client: %s", err.Error())
 	}
 
 	return &Service{contextName: contextName, client: client, provider: provider}, nil
@@ -54,7 +54,7 @@ func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool, namespace
 	nodeList, err := s.client.CoreV1().Nodes().List(metav1.ListOptions{})
 
 	if err != nil {
-		log.Println(fmt.Sprintf("Failed to fetch k8s nodes due to %s", err.Error()))
+		log.Printf("Failed to fetch k8s nodes due to %s", err.Error())
 		return err
 	}
 	// get instances id map
@@ -74,7 +74,7 @@ func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool, namespace
 		node := &item
 		nodes := []*corev1.Node{node}
 
-		log.Println(fmt.Sprintf("Draining node %s", node.GetName()))
+		log.Printf("Draining node %s", node.GetName())
 		err = k8sdrain.Drain(s.client, nodes, drainOptions)
 		if err != nil {
 			log.Println(fmt.Sprintf("Failed to drain node %s due to %s", node.GetName(), err.Error()))
@@ -89,8 +89,7 @@ func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool, namespace
 			return err
 		}
 		if !isTerminated {
-			err := errors.New("Termination failed, please check if instance allows termination and/or specify the flag -force-termination")
-			return err
+			return errors.New("Termination failed, please check if instance allows termination and/or specify the flag -force-termination")
 		}
 
 		isReady, err := s.verifyNew(initialNodeSize)

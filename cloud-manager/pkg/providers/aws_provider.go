@@ -95,7 +95,7 @@ func (ap *awsProvider) TerminateInstance(instanceName string, forceTermination b
 	if forceTermination {
 		forceTerminationError := ap.disableTerminationProtection(*instance.InstanceId)
 		if forceTerminationError != nil {
-			return false, err
+			return false, forceTerminationError
 		}
 	}
 
@@ -104,7 +104,7 @@ func (ap *awsProvider) TerminateInstance(instanceName string, forceTermination b
 	}
 	result, terminationErr := ap.ec2Client.TerminateInstances(input)
 	if terminationErr != nil {
-		return false, err
+		return false, terminationErr
 	}
 
 	terminatingInstances := result.TerminatingInstances
@@ -115,7 +115,7 @@ func (ap *awsProvider) TerminateInstance(instanceName string, forceTermination b
 	return *terminatingInstances[0].CurrentState.Name == "shutting-down", nil
 }
 
-func (ap *awsProvider) disableTerminationProtection(instanceId string) (error) {
+func (ap *awsProvider) disableTerminationProtection(instanceId string) error {
 	input := &ec2.ModifyInstanceAttributeInput{
 		DisableApiTermination: &ec2.AttributeBooleanValue{
 			Value: aws.Bool(false),
@@ -124,8 +124,5 @@ func (ap *awsProvider) disableTerminationProtection(instanceId string) (error) {
 	}
 
 	_, err := ap.ec2Client.ModifyInstanceAttribute(input)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }

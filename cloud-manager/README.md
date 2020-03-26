@@ -3,7 +3,7 @@ Initially, this tool is built for rotating the kubernetes nodes to deploy a new 
 
 ## Build
 To make the binary run:
-``make build``
+`make build`
 ## Usage
 to run the tool:
 
