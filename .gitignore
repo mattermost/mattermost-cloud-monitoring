@@ -8,6 +8,8 @@
 **/plan*
 
 *.DS_Store*
+/bind-server-network-attachment/main
+/bind-server-network-attachment/main.zip
 
 ### Golang
 # Binaries for programs and plugins
@@ -17,8 +19,6 @@
 *.so
 *.dylib
 cloud-manager/bin/
-/bind-server-network-attachment/main
-/bind-server-network-attachment/main.zip
 
 # Test binary, built with `go test -c`
 *.test
