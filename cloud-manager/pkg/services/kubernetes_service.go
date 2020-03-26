@@ -160,10 +160,14 @@ func (s *Service) nodeIsSchedulable(taints []corev1.Taint) bool {
 	if len(taints) == 0 {
 		return true
 	} else {
+		sumOfUnschedulable := 0
 		for _, taint := range taints {
 			if taint.Key != PodUnschedulable {
-				return true
+				sumOfUnschedulable += 1
 			}
+		}
+		if sumOfUnschedulable > 0 {
+			return true
 		}
 	}
 	return false
