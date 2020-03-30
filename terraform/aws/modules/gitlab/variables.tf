@@ -34,6 +34,8 @@ variable "db_username" {}
 
 variable "db_password" {}
 
+variable "smtp_password" {}
+
 variable "db_backup_retention_period" {}
 
 variable "db_backup_window" {}
