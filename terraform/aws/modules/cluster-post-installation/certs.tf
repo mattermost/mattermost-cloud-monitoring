@@ -21,4 +21,3 @@ resource "aws_route53_record" "wildcard_validation" {
   ttl     = "300"
   records = [aws_acm_certificate.wildcard_cert.domain_validation_options.0.resource_record_value]
 }
-

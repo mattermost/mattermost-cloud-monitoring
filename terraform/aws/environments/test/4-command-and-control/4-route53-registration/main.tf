@@ -15,12 +15,12 @@ provider "aws" {
 
 
 module "route53-registration" {
-  source = "../../../../modules/route53-registration"
-  deployment_name = var.deployment_name
-  kubeconfig_dir = var.kubeconfig_dir
+  source                = "../../../../modules/route53-registration"
+  deployment_name       = var.deployment_name
+  kubeconfig_dir        = var.kubeconfig_dir
   private_hosted_zoneid = var.private_hosted_zoneid
-  public_hosted_zoneid = var.public_hosted_zoneid
+  public_hosted_zoneid  = var.public_hosted_zoneid
   providers = {
-    aws = "aws.route53-registration"
+    aws = aws.route53-registration
   }
 }
