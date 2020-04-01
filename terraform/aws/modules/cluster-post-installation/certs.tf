@@ -1,50 +1,24 @@
-resource "kubernetes_secret" "grafana-cert" {
-  metadata {
-    name      = "grafana-server-tls"
-    namespace = "monitoring"
-    labels = {
-      "certmanager.k8s.io/certificate-name" = "grafana-server-tls"
-    }
-  }
+### AWS ACM wildcard certificate ###
 
-  data = {
-    "tls.crt" = var.grafana_tls_crt
-    "tls.key" = var.grafana_tls_key
-  }
+resource "aws_acm_certificate" "wildcard_cert" {
+  domain_name       = "*.${var.domain}"
+  validation_method = "DNS"
 
-  type = "kubernetes.io/tls"
+  tags = {
+    Name = ".${var.domain}"
+  }
 }
 
-resource "kubernetes_secret" "prometheus-cert" {
-  metadata {
-    name      = "prometheus-server-tls"
-    namespace = "monitoring"
-    labels = {
-      "certmanager.k8s.io/certificate-name" = "prometheus-server-tls"
-    }
-  }
-
-  data = {
-    "tls.crt" = var.prometheus_tls_crt
-    "tls.key" = var.prometheus_tls_key
-  }
-
-  type = "kubernetes.io/tls"
+resource "aws_acm_certificate_validation" "wildcard_cert_validation" {
+  certificate_arn         = aws_acm_certificate.wildcard_cert.arn
+  validation_record_fqdns = [aws_route53_record.wildcard_validation.fqdn]
 }
 
-resource "kubernetes_secret" "kibana-cert" {
-  metadata {
-    name      = "kibana-server-tls"
-    namespace = "logging"
-    labels = {
-      "certmanager.k8s.io/certificate-name" = "kibana-server-tls"
-    }
-  }
-
-  data = {
-    "tls.crt" = var.kibana_tls_crt
-    "tls.key" = var.kibana_tls_key
-  }
-
-  type = "kubernetes.io/tls"
+resource "aws_route53_record" "wildcard_validation" {
+  zone_id = var.validation_acm_zoneid
+  name    = aws_acm_certificate.wildcard_cert.domain_validation_options.0.resource_record_name
+  type    = aws_acm_certificate.wildcard_cert.domain_validation_options.0.resource_record_type
+  ttl     = "300"
+  records = [aws_acm_certificate.wildcard_cert.domain_validation_options.0.resource_record_value]
 }
+
