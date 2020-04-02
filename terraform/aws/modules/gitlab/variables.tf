@@ -67,3 +67,7 @@ variable "gitlab_backup_bucket" {}
 variable "gitlab_tmp_bucket" {}
 
 variable "multi_az" {}
+
+variable "smtp_user_name" {}
+
+variable "smtp_address" {}
