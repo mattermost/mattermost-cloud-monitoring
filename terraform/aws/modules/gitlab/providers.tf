@@ -33,8 +33,8 @@ provider "helm" {
     token                  = data.aws_eks_cluster_auth.cluster_auth.token
     load_config_file       = false
   }
-  version        = "0.10.4"
-  
+  version = "0.10.4"
+
 }
 
 

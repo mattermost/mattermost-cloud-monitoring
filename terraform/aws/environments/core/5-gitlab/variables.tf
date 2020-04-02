@@ -84,7 +84,7 @@ variable "tiller_version" {
 }
 
 variable "gitlab_domain" {
-  default     = ""
+  default = ""
 }
 
 variable "private_hosted_zoneid" {
@@ -152,6 +152,12 @@ variable "db_password" {
   default     = ""
 }
 
+variable "smtp_password" {
+  description = "Password for the smtp. Note that this may show up in logs, and it will be stored in the state file"
+  type        = string
+  default     = ""
+}
+
 variable "db_backup_retention_period" {
   description = "The days to retain backups for"
   type        = number
@@ -182,46 +188,46 @@ variable "storage_encrypted" {
 }
 
 variable "install_gitlab_runner" {
-  type = bool
-  default =  true
+  type    = bool
+  default = true
 }
 
 variable "gitlab_registry_bucket" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "gitlab_lfs_bucket" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "gitlab_artifacts_bucket" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "gitlab_uploads_bucket" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "gitlab_packages_bucket" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "gitlab_backup_bucket" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "gitlab_tmp_bucket" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "multi_az" {
-  type = bool
+  type    = bool
   default = true
 }

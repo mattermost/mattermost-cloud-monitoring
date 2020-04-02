@@ -24,7 +24,7 @@ global:
       blockAutoCreatedUsers: false
       autoLinkLdapUser: true
       autoLinkSamlUser: true
-      providers: 
+      providers:
       - secret: gitlab-onelogin
         key: provider
     lfs:
@@ -50,6 +50,19 @@ global:
     backups:
       bucket: ""
       tmpBucket: ""
+  smtp:
+    enabled: true
+    address: email-smtp.us-east-1.amazonaws.com
+    port: 465
+    user_name: AKIAS7HEDAOQDV2TJNE7
+    ## doc/installation/secrets.md#smtp-password
+    password:
+      secret: gitlab-smtp
+      key: password
+    authentication: "plain"
+    starttls_auto: true
+    openssl_verify_mode: "peer"
+
 gitlab:
   task-runner:
     backups:
@@ -61,11 +74,11 @@ registry:
   storage:
     secret: gitlab-registry-storage
     key: config
-redis: 
+redis:
   cluster:
-    enabled: true   
+    enabled: true
 postgresql:
-  install: false  
+  install: false
 certmanager:
   install: false
 nginx-ingress:
@@ -85,6 +98,5 @@ gitlab-runner:
     image: "alpine:latest"
     privileged: true
 
-  
 
-  
+

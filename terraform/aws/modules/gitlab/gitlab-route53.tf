@@ -1,6 +1,6 @@
 data "kubernetes_service" "gitlab_nginx" {
   metadata {
-    name = "gitlab-nginx-ingress-controller"
+    name      = "gitlab-nginx-ingress-controller"
     namespace = "gitlab"
   }
   depends_on = [

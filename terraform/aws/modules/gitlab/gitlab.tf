@@ -1,13 +1,13 @@
 resource "null_resource" "gitlab_crd" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ${var.kubeconfig_dir}/kubeconfig apply -f https://gitlab.com/gitlab-org/charts/gitlab/raw/${var.gitlab_chart_version}/support/crd.yaml" 
+    command = "kubectl --kubeconfig ${var.kubeconfig_dir}/kubeconfig apply -f https://gitlab.com/gitlab-org/charts/gitlab/raw/${var.gitlab_chart_version}/support/crd.yaml"
   }
 }
 
 resource "helm_release" "gitlab" {
-  name  = "gitlab"
-  chart = "gitlab/gitlab"
-  namespace  = "gitlab"
+  name      = "gitlab"
+  chart     = "gitlab/gitlab"
+  namespace = "gitlab"
   values = [
     "${file("../../../modules/gitlab/chart_values.yaml")}"
   ]
@@ -18,17 +18,17 @@ resource "helm_release" "gitlab" {
   }
 
   set {
-    name = "global.psql.database"
+    name  = "global.psql.database"
     value = var.db_name
   }
 
   set {
-    name = "global.psql.username"
+    name  = "global.psql.username"
     value = var.db_username
   }
 
   set {
-    name = "global.psql.host"
+    name  = "global.psql.host"
     value = aws_db_instance.gitlab.address
   }
 
@@ -38,42 +38,42 @@ resource "helm_release" "gitlab" {
   }
 
   set {
-    name = "gitlab-runner.install"
+    name  = "gitlab-runner.install"
     value = var.install_gitlab_runner
   }
 
   set {
-    name = "global.registry.bucket"
+    name  = "global.registry.bucket"
     value = var.gitlab_registry_bucket
   }
 
   set {
-    name = "global.appConfig.lfs.bucket"
+    name  = "global.appConfig.lfs.bucket"
     value = var.gitlab_lfs_bucket
   }
 
   set {
-    name = "global.appConfig.artifacts.bucket"
+    name  = "global.appConfig.artifacts.bucket"
     value = var.gitlab_artifacts_bucket
   }
 
   set {
-    name = "global.appConfig.uploads.bucket"
+    name  = "global.appConfig.uploads.bucket"
     value = var.gitlab_uploads_bucket
   }
 
   set {
-    name = "global.appConfig.packages.bucket"
+    name  = "global.appConfig.packages.bucket"
     value = var.gitlab_packages_bucket
   }
 
   set {
-    name = "global.appConfig.backups.bucket"
+    name  = "global.appConfig.backups.bucket"
     value = var.gitlab_backup_bucket
   }
 
   set {
-    name = "global.appConfig.backups.tmpBucket"
+    name  = "global.appConfig.backups.tmpBucket"
     value = var.gitlab_tmp_bucket
   }
 
@@ -91,9 +91,10 @@ resource "helm_release" "gitlab" {
     kubernetes_secret.rails_secret,
     kubernetes_secret.registry_secret,
     kubernetes_secret.storage_config_secret,
-    kubernetes_secret.postgres_secret
+    kubernetes_secret.postgres_secret,
+    kubernetes_secret.smtp_secret
   ]
-  
+
   timeout = 1200
 
 }

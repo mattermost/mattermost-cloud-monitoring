@@ -18,7 +18,7 @@ resource "aws_security_group" "gitlab_to_postgress" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name    = "Gitlab Postgress DB Security Group"
+    Name = "Gitlab Postgress DB Security Group"
   }
 }
 
@@ -59,6 +59,6 @@ resource "aws_db_instance" "gitlab" {
   multi_az                    = var.multi_az
 
   tags = {
-    Name        = "Gitlab DB Instance"
+    Name = "Gitlab DB Instance"
   }
 }
