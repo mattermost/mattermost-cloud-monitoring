@@ -231,3 +231,13 @@ variable "multi_az" {
   type    = bool
   default = true
 }
+
+variable "smtp_user_name" {
+  type = string
+  default = ""
+}
+
+variable "smtp_address" {
+  type = string
+  default = ""
+}

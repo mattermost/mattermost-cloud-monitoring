@@ -76,6 +76,16 @@ resource "helm_release" "gitlab" {
     name  = "global.appConfig.backups.tmpBucket"
     value = var.gitlab_tmp_bucket
   }
+  
+  set {
+    name  = "global.smtp.address"
+    value = var.smtp_address
+  }
+
+  set {
+    name  = "global.smtp.user_name"
+    value = var.smtp_user_name
+  }
 
 
   depends_on = [

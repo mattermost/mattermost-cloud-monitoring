@@ -72,4 +72,6 @@ module "gitlab" {
   gitlab_backup_bucket               = var.gitlab_backup_bucket
   gitlab_tmp_bucket                  = var.gitlab_tmp_bucket
   multi_az                           = var.multi_az
+  smtp_user_name                     = var.smtp_user_name
+  smtp_address                       = var.smtp_address
 }
