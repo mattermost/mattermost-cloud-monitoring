@@ -22,23 +22,21 @@ func NewAwsProvider(name, profile, region string, ec2Service ec2iface.EC2API) (P
 		return nil, errors.New("one or all required attributes(name, profile, region) is blank")
 	}
 
-	ec2Svc := ec2Service
-
-	if ec2Svc == nil {
+	if ec2Service == nil {
 		authSession, err := newSession(profile, region)
 
 		if err != nil {
 			return nil, err
 		}
 
-		ec2Svc = ec2.New(authSession)
+		ec2Service = ec2.New(authSession)
 	}
 
 	return &awsProvider{
 		name:      name,
 		profile:   profile,
 		region:    region,
-		ec2Client: ec2Svc,
+		ec2Client: ec2Service,
 	}, nil
 }
 
@@ -82,6 +80,7 @@ func (ap *awsProvider) GetInstance(privateDnsName string) (*ec2.Instance, error)
 	return instances[0], nil
 }
 
+// this function terminates an instance and returns a boolean if the termination was successful or not (true/false)
 func (ap *awsProvider) TerminateInstance(instanceName string, forceTermination bool) (bool, error) {
 	instance, err := ap.GetInstance(instanceName)
 	if err != nil {

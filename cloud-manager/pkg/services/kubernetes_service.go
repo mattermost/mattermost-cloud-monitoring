@@ -77,7 +77,7 @@ func (s *Service) Drain(force, ignoreDaemonsets, deleteLocalData bool, namespace
 		log.Printf("Draining node %s", node.GetName())
 		err = k8sdrain.Drain(s.client, nodes, drainOptions)
 		if err != nil {
-			log.Println(fmt.Sprintf("Failed to drain node %s due to %s", node.GetName(), err.Error()))
+			log.Printf("Failed to drain node %s: %s", node.GetName(), err.Error())
 			return err
 		}
 

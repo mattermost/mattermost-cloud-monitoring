@@ -4,6 +4,7 @@ Initially, this tool is built for rotating the kubernetes nodes to deploy a new 
 ## Build
 To make the binary run:
 `make build`
+
 ## Usage
 to run the tool:
 
@@ -15,9 +16,11 @@ to run the tool:
     specifies the cloud provider for which to run a given command (default "aws")
 *  `-rotate-amis`
     rotate amis command (default false)
+    
 ##### Kubernetes Configuration Options
 *   `-kube-context string`
     specifies which kube context to use (default "minikube") 
+    
 ##### AWS Options
 *   `-profile string`
     specifies which profile to use for AWS (default "default")
