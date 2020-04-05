@@ -10,3 +10,18 @@
 *.DS_Store*
 /bind-server-network-attachment/main
 /bind-server-network-attachment/main.zip
+
+### Golang
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+cloud-manager/bin/
+
+# Test binary, built with `go test -c`
+*.test
+
+# IDEs
+**/.idea
