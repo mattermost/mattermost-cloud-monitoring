@@ -6,7 +6,7 @@ resource "kubernetes_service_account" "tiller" {
 
   automount_service_account_token = true
   depends_on = [
-    "kubernetes_config_map.aws_auth_configmap"
+    kubernetes_config_map.aws_auth_configmap
   ]
 }
 
@@ -15,13 +15,13 @@ resource "kubernetes_cluster_role_binding" "tiller" {
     name = "terraform-tiller"
   }
 
-   role_ref {
+  role_ref {
     kind      = "ClusterRole"
     name      = "cluster-admin"
     api_group = "rbac.authorization.k8s.io"
   }
 
-   subject {
+  subject {
     kind = "ServiceAccount"
     name = "terraform-tiller"
 
@@ -29,7 +29,7 @@ resource "kubernetes_cluster_role_binding" "tiller" {
     namespace = "kube-system"
   }
   depends_on = [
-    "kubernetes_config_map.aws_auth_configmap"
+    kubernetes_config_map.aws_auth_configmap
   ]
 }
 

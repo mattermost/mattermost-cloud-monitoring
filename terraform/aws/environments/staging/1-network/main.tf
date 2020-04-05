@@ -43,7 +43,8 @@ module "tgw_attachment" {
   subnet_ids = module.shared_services_vpc.private_subnets
   transit_gateway_id = var.transit_gateway_id
   vpc_id = module.shared_services_vpc.vpc_id
-  route_table_id = module.shared_services_vpc.private_route_table_ids[0]
+  private_route_table_id = module.shared_services_vpc.private_route_table_ids[0]
+  public_route_table_id = module.shared_services_vpc.public_route_table_ids[0]
   transit_gtw_route_destination = var.transit_gtw_route_destination
 }
 
@@ -65,7 +66,6 @@ module "bind-server" {
   subnet_ids = module.shared_services_vpc.private_subnets
   private_ips  = var.private_dns_ips
   ssh_key = var.ssh_key
-  named_conf_options = "${file("${path.module}/files/dns/named.conf.options")}"
   providers = {
     aws = "aws.deployment"
   }

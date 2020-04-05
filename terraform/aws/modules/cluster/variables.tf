@@ -1,8 +1,12 @@
 variable "vpc_id" {}
 
+variable "auth_vpc_id" {}
+
 variable "public_subnet_ids" {}
 
 variable "private_subnet_ids" {}
+
+variable "auth_private_subnet_ids" {}
 
 variable "deployment_name" {}
 
@@ -18,13 +22,13 @@ variable "cidr_blocks" {}
 
 variable "kubeconfig_dir" {}
 
-variable "account_id" {}
+variable "volume_size" {}
 
-variable "volume_size"{}
+variable "prometheus_hosted_zoneid" {}
 
-variable "private_hosted_zoneid"{}
+variable "installations_hosted_zoneid" {}
 
-variable "grafana_lambda_schedule"{}
+variable "grafana_lambda_schedule" {}
 
 variable "provisioner_server" {}
 
@@ -37,3 +41,9 @@ variable "api_gateway_vpc_endpoints" {}
 variable "region" {}
 
 variable "eks_ami_id" {}
+
+variable "key_name" {}
+
+variable "opsgenie_apikey" {}
+
+variable "opsgenie_scheduler_team" {}
