@@ -1,6 +1,6 @@
 resource "null_resource" "flux_crd" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ${var.kubeconfig_dir}/kubeconfig apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/flux-helm-release-crd.yaml" 
+    command = "kubectl --kubeconfig ${var.kubeconfig_dir}/kubeconfig apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml" 
   }
 }
 
