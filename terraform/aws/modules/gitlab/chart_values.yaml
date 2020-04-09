@@ -84,18 +84,11 @@ certmanager:
 nginx-ingress:
   enabled: true
   controller:
-    scope:
-      enabled: false
-    replicaCount: 2
-    minAvailable: 1
     service:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-backend-protocol: https
         service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
         service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
-  defaultBackend:
-    minAvailable: 1
-    replicaCount: 1
 gitlab-runner:
   install: true
   concurrent: 10
