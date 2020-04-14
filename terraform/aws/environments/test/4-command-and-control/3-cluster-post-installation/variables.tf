@@ -23,36 +23,6 @@ variable "kubeconfig_dir" {
   type    = string
 }
 
-variable "grafana_tls_crt" {
-  default = ""
-  type    = string
-}
-
-variable "grafana_tls_key" {
-  default = ""
-  type    = string
-}
-
-variable "prometheus_tls_crt" {
-  default = ""
-  type    = string
-}
-
-variable "prometheus_tls_key" {
-  default = ""
-  type    = string
-}
-
-variable "kibana_tls_crt" {
-  default = ""
-  type    = string
-}
-
-variable "kibana_tls_key" {
-  default = ""
-  type    = string
-}
-
 variable "db_identifier" {
   type    = string
   default = "cloud-test"
@@ -199,4 +169,16 @@ variable "community_channel" {
 variable "flux_git_url" {
   type    = string
   default = ""
+}
+
+variable "domain" {
+  type        = string
+  default     = ""
+  description = "domain name to create a wildcard certificate in acm"
+}
+
+variable "validation_acm_zoneid" {
+  type        = string
+  default     = ""
+  description = "public zone id to create ACM certificate validations for private Route53 zones"
 }

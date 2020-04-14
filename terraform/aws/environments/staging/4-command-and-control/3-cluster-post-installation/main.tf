@@ -5,6 +5,9 @@ terraform {
     key    = "mattermost-central-command-control-post-installation"
     region = "us-east-1"
   }
+  required_providers {
+    helm = "~> 0.10"
+  }
 }
 
 provider "aws" {
@@ -20,12 +23,6 @@ module "cluster-post-installation" {
   region                                       = var.region
   tiller_version                               = var.tiller_version
   kubeconfig_dir                               = var.kubeconfig_dir
-  grafana_tls_crt                              = var.grafana_tls_crt
-  grafana_tls_key                              = var.grafana_tls_key
-  prometheus_tls_crt                           = var.prometheus_tls_crt
-  prometheus_tls_key                           = var.prometheus_tls_key
-  kibana_tls_crt                               = var.kibana_tls_crt
-  kibana_tls_key                               = var.kibana_tls_key
   db_identifier                                = var.db_identifier
   allocated_db_storage                         = var.allocated_db_storage
   db_engine_version                            = var.db_engine_version
@@ -60,6 +57,8 @@ module "cluster-post-installation" {
   community_hook                               = var.community_hook
   community_channel                            = var.community_channel
   flux_git_url                                 = var.flux_git_url
+  validation_acm_zoneid                        = var.validation_acm_zoneid
+  domain                                       = var.domain
 
   providers = {
     aws = aws.post-deployment

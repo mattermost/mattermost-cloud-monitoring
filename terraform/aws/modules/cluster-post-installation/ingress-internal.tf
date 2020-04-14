@@ -9,4 +9,8 @@ resource "helm_release" "nginx-internal" {
   depends_on = [
     kubernetes_namespace.network
   ]
+  set_string {
+    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
+    value = aws_acm_certificate.wildcard_cert.arn
+  }
 }
