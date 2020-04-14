@@ -76,7 +76,7 @@ resource "helm_release" "gitlab" {
     name  = "global.appConfig.backups.tmpBucket"
     value = var.gitlab_tmp_bucket
   }
-  
+
   set {
     name  = "global.smtp.address"
     value = var.smtp_address
