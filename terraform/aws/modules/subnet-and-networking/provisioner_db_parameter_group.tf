@@ -5,7 +5,7 @@ resource "aws_db_parameter_group" "db_parameter_group" {
 
   tags = merge(
     {
-     "MattermostCloudInstallationDatabase" = "MYSQL/Aurora"
+      "MattermostCloudInstallationDatabase" = "MYSQL/Aurora"
     },
     var.tags
   )
@@ -14,16 +14,16 @@ resource "aws_db_parameter_group" "db_parameter_group" {
 resource "aws_rds_cluster_parameter_group" "cluster_parameter_group" {
 
   name   = "mattermost-provisioner-rds-cluster-pg"
-  family      = "aurora-mysql5.7"
+  family = "aurora-mysql5.7"
 
   parameter {
     apply_method = "pending-reboot"
-    name  = "binlog_format"
-    value = "MIXED"
+    name         = "binlog_format"
+    value        = "MIXED"
   }
   tags = merge(
     {
-     "MattermostCloudInstallationDatabase" = "MYSQL/Aurora"
+      "MattermostCloudInstallationDatabase" = "MYSQL/Aurora"
     },
     var.tags
   )

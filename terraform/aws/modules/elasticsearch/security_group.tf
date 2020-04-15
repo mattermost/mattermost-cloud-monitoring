@@ -11,7 +11,7 @@ resource "aws_security_group" "es_sg" {
     cidr_blocks = var.mattermost_network
   }
 
-   ingress {
+  ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -19,9 +19,9 @@ resource "aws_security_group" "es_sg" {
   }
 
   egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }

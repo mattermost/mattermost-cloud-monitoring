@@ -1,13 +1,13 @@
 resource "null_resource" "flux_crd" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ${var.kubeconfig_dir}/kubeconfig apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml" 
+    command = "kubectl --kubeconfig ${var.kubeconfig_dir}/kubeconfig apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml"
   }
 }
 
 resource "helm_release" "flux" {
-  name  = "mattermost-cm-flux"
-  chart = "fluxcd/flux"
-  namespace  = "flux"
+  name      = "mattermost-cm-flux"
+  chart     = "fluxcd/flux"
+  namespace = "flux"
   values = [
     "${file("../../../../../../chart-values/flux_values.yaml")}"
   ]
@@ -55,7 +55,7 @@ resource "helm_release" "flux" {
 
 resource "kubernetes_service" "flux_provisioner_service" {
   metadata {
-    name = "fluxcloud"
+    name      = "fluxcloud"
     namespace = "flux"
   }
   spec {
@@ -63,7 +63,7 @@ resource "kubernetes_service" "flux_provisioner_service" {
       name = "fluxcloud"
     }
     port {
-      protocol = "TCP"
+      protocol    = "TCP"
       port        = 80
       target_port = 3032
     }
@@ -75,7 +75,7 @@ resource "kubernetes_service" "flux_provisioner_service" {
 
 resource "kubernetes_deployment" "flux_provisioner_deployment" {
   metadata {
-    name = "fluxcloud"
+    name      = "fluxcloud"
     namespace = "flux"
   }
 
@@ -103,40 +103,40 @@ resource "kubernetes_deployment" "flux_provisioner_deployment" {
           run_as_user = "999"
         }
         container {
-          name = "fluxcloud"
-          image = "justinbarrick/fluxcloud:v0.3.9"
+          name              = "fluxcloud"
+          image             = "justinbarrick/fluxcloud:v0.3.9"
           image_pull_policy = "IfNotPresent"
           port {
             container_port = "3032"
           }
 
           env {
-              name = "SLACK_URL"
-              value = var.community_hook
+            name  = "SLACK_URL"
+            value = var.community_hook
           }
           env {
-              name = "SLACK_CHANNEL"
-              value = var.community_channel
+            name  = "SLACK_CHANNEL"
+            value = var.community_channel
           }
           env {
-              name = "SLACK_USERNAME"
-              value = "Flux Deployer"
+            name  = "SLACK_USERNAME"
+            value = "Flux Deployer"
           }
           env {
-              name = "SLACK_ICON_EMOJI"
-              value = ":heart:"
+            name  = "SLACK_ICON_EMOJI"
+            value = ":heart:"
           }
           env {
-              name = "GITHUB_URL"
-              value = var.flux_git_url
+            name  = "GITHUB_URL"
+            value = var.flux_git_url
           }
           env {
-              name = "LISTEN_ADDRESS"
-              value = ":3032"
+            name  = "LISTEN_ADDRESS"
+            value = ":3032"
           }
         }
-       }
-     }
+      }
+    }
   }
   depends_on = [
     helm_release.flux
