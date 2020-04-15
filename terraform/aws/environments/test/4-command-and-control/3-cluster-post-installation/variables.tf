@@ -171,14 +171,111 @@ variable "flux_git_url" {
   default = ""
 }
 
-variable "domain" {
-  type        = string
-  default     = ""
-  description = "domain name to create a wildcard certificate in acm"
+########################### Customer Web Server ################################ 
+
+variable "cws_name" {
+  type    = string
+  default = "customer_web_server"
 }
 
-variable "validation_acm_zoneid" {
+variable "git_image_url" {
+  type    = string
+  default = ""
+}
+
+variable "git_cws_token" {
+  type    = string
+  default = ""
+}
+
+variable "cws_db_identifier" {
+  type    = string
+  default = ""
+}
+
+variable "cws_storage_encrypted" {
+  type    = bool
+  default = true
+}
+
+variable "cws_allocated_db_storage" {
+  description = "Customer Web Server - The allocated storage in gigabytes for the DB"
   type        = string
-  default     = ""
-  description = "public zone id to create ACM certificate validations for private Route53 zones"
+}
+
+variable "cws_db_engine_version" {
+  description = "Customer Web Server - The engine version to use"
+  type        = string
+  default     = "11.5"
+}
+
+variable "cws_db_instance_class" {
+  description = "Customer Web Server - The instance type of the RDS instance"
+  type        = string
+  default     = "db.t2.medium"
+}
+
+variable "cws_db_name" {
+  description = "Customer Web Server - The DB name to create. If omitted, no database is created initially"
+  type        = string
+  default     = "cws"
+}
+
+variable "cws_db_username" {
+  description = "Customer Web Server - Username for the master DB user"
+  type        = string
+  default     = "mmcws"
+}
+
+variable "cws_db_password" {
+  description = "Customer Web Server - Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file"
+  type        = string
+}
+
+variable "cws_db_backup_retention_period" {
+  description = "Customer Web Server - The days to retain backups for"
+  type        = number
+  default     = 7
+}
+
+variable "cws_db_backup_window" {
+  description = "Customer Web Server - The daily time range (in UTC) during which automated backups are created if they are enabled. Example: '09:46-10:16'. Must not overlap with maintenance_window"
+  type        = string
+  default     = "12:01-12:31"
+}
+
+variable "cws_db_maintenance_window" {
+  description = "Customer Web Server - The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00'"
+  type        = string
+  default     = "Sun:02:00-Sun:04:00"
+}
+
+variable "cws_ingress" {
+  type    = string
+  default = ""
+}
+
+variable "mattermost_cws_stripe_key" {
+  type    = string
+  default = ""
+}
+
+variable "cws_image_version" {
+  type    = string
+  default = "latest"
+}
+
+variable "internal_registry" {
+  type    = string
+  default = ""
+}
+
+variable "pub_domain" {
+  type    = string
+  default = ""
+}
+
+variable "cloud_vpn_cidr" {
+  type    = string
+  default = ""
 }

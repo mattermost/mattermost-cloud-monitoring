@@ -60,8 +60,43 @@ module "cluster-post-installation" {
   flux_git_url                                 = var.flux_git_url
   validation_acm_zoneid                        = var.validation_acm_zoneid
   domain                                       = var.domain
+  cloud_vpn_cidr                               = var.cloud_vpn_cidr
+
 
   providers = {
     aws = aws.post-deployment
   }
+}
+
+module "customer_web_server" {
+  source                         = "../../../../modules/customer-web-server"
+  environment                    = var.environment
+  cws_name                       = var.cws_name
+  region                         = var.region
+  deployment_name                = var.deployment_name
+  tiller_version                 = var.tiller_version
+  kubeconfig_dir                 = var.kubeconfig_dir
+  vpc_id                         = var.vpc_id
+  private_subnets                = var.private_subnets
+  git_image_url                  = var.git_image_url
+  git_user                       = var.git_user
+  git_email                      = var.git_email
+  git_cws_token                  = var.git_cws_token
+  cws_db_identifier              = var.cws_db_identifier
+  cws_allocated_db_storage       = var.cws_allocated_db_storage
+  cws_db_engine_version          = var.cws_db_engine_version
+  cws_db_instance_class          = var.cws_db_instance_class
+  cws_db_name                    = var.cws_db_name
+  cws_db_username                = var.cws_db_username
+  cws_db_password                = var.cws_db_password
+  cws_db_backup_retention_period = var.cws_db_backup_retention_period
+  cws_db_backup_window           = var.cws_db_backup_window
+  cws_db_maintenance_window      = var.cws_db_maintenance_window
+  cws_storage_encrypted          = var.cws_storage_encrypted
+  cws_ingress                    = var.cws_ingress
+  mattermost_cws_stripe_key      = var.mattermost_cws_stripe_key
+  cws_image_version              = var.cws_image_version
+  internal_registry              = var.internal_registry
+  pub_domain                     = var.pub_domain
+  cloud_vpn_cidr                 = var.cloud_vpn_cidr
 }

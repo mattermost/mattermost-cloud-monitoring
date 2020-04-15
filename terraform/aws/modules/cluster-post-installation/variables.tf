@@ -80,3 +80,4 @@ variable "domain" {}
 
 variable "validation_acm_zoneid" {}
 
+variable "cloud_vpn_cidr" {}
