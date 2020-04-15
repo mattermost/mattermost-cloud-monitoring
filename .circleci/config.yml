@@ -11,7 +11,7 @@ executors:
 
 jobs:
   push-lambda:
-    executor: 
+    executor:
       name: default
     parameters:
       lambda_function:
@@ -24,7 +24,7 @@ jobs:
         type: string
     steps:
       - checkout
-      - run: 
+      - run:
           command: |
             cd lambda-functions/<< parameters.lambda_function >>
             make
@@ -32,6 +32,13 @@ jobs:
           from: /go/src/github.com/mattermost/mattermost-cloud-monitoring/lambda-functions/<< parameters.lambda_function >>/<< parameters.zip_file_name >>
           to: s3://<< parameters.bucket_name >>/mattermost-cloud/<< parameters.lambda_function >>/<< parameters.file_dir >>
           arguments: --acl public-read --cache-control "no-cache"
+
+  terraform-fmt:
+    docker:
+      - image: hashicorp/terraform:0.12.24
+    steps:
+      - checkout
+      - run: terraform fmt --list=true -write=false -recursive -check=true
 
 workflows:
   version: 2
@@ -46,7 +53,7 @@ workflows:
           filters:
             branches:
               only:
-                - master 
+                - master
       - push-lambda:
           file_dir: $(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
           bucket_name: releases.mattermost.com
@@ -56,7 +63,7 @@ workflows:
           filters:
             branches:
               only:
-                - master 
+                - master
       - push-lambda:
           file_dir: $(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
           bucket_name: releases.mattermost.com
@@ -66,7 +73,7 @@ workflows:
           filters:
             branches:
               only:
-                - master 
+                - master
       - push-lambda:
           file_dir: $(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
           bucket_name: releases.mattermost.com
@@ -99,6 +106,11 @@ workflows:
                 - master
   push-branch:
     jobs:
+      - terraform-fmt:
+          filters:
+            branches:
+              ignore:
+                - master
       - push-lambda:
           file_dir: commit/${CIRCLE_SHA1}/
           bucket_name: pr-builds.mattermost.com
@@ -148,7 +160,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - master       
+                - master
       - push-lambda:
           file_dir: commit/${CIRCLE_SHA1}/
           bucket_name: pr-builds.mattermost.com
