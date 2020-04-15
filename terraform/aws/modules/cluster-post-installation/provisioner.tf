@@ -202,7 +202,7 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
 
     revision_history_limit = 2
   }
-  
+
   lifecycle {
     ignore_changes = [
       metadata,

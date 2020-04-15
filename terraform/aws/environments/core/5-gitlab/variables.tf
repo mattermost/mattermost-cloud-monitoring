@@ -233,11 +233,11 @@ variable "multi_az" {
 }
 
 variable "smtp_user_name" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "smtp_address" {
-  type = string
+  type    = string
   default = ""
 }

@@ -12,9 +12,9 @@ resource "aws_security_group" "worker-sg" {
   }
 
   tags = map(
-     "Name", "${var.deployment_name}-worker-sg",
-     "kubernetes.io/cluster/${var.deployment_name}", "owned",
-    )
+    "Name", "${var.deployment_name}-worker-sg",
+    "kubernetes.io/cluster/${var.deployment_name}", "owned",
+  )
 }
 
 resource "aws_security_group_rule" "worker-sg-ingress-self" {

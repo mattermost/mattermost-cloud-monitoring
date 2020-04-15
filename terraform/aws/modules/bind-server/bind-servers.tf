@@ -40,11 +40,11 @@ resource "aws_key_pair" "bind" {
 }
 
 resource "aws_launch_configuration" "bind_lauch_configuration" {
-  name_prefix   = "${var.name}-"
-  image_id      = var.ami
-  instance_type = var.instance_type
-  key_name    = "mattermost-cloud-${var.environment}-bind"
-  security_groups           = [aws_security_group.bind_sg.id]
+  name_prefix     = "${var.name}-"
+  image_id        = var.ami
+  instance_type   = var.instance_type
+  key_name        = "mattermost-cloud-${var.environment}-bind"
+  security_groups = [aws_security_group.bind_sg.id]
   lifecycle {
     create_before_destroy = true
   }
@@ -88,7 +88,7 @@ resource "aws_autoscaling_lifecycle_hook" "bind_lifecycle_hook" {
 }
 
 resource "aws_network_interface" "bind_network_interface" {
-  count = length(var.subnet_ids)-1
+  count           = length(var.subnet_ids) - 1
   subnet_id       = var.subnet_ids[count.index]
   private_ips     = [var.private_ips[count.index]]
   security_groups = [aws_security_group.bind_sg.id]

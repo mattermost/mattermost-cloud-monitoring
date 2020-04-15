@@ -16,20 +16,20 @@ provider "aws" {
 
 module "shared_services_vpc" {
   source = "github.com/terraform-aws-modules/terraform-aws-vpc"
-  name = "mattermost-cloud-${var.environment}-shared-services"
-  cidr = var.shared_vpc_cidr
+  name   = "mattermost-cloud-${var.environment}-shared-services"
+  cidr   = var.shared_vpc_cidr
 
   azs             = var.shared_vpc_azs
   private_subnets = var.shared_vpc_private_subnets_cidrs
   public_subnets  = var.shared_vpc_public_subnets_cidrs
 
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  enable_nat_gateway   = true
+  single_nat_gateway   = true
   enable_dns_hostnames = true
 
   tags = {
-    Owner = "cloud-team"
-    Terraform = "true"
+    Owner       = "cloud-team"
+    Terraform   = "true"
     Environment = var.environment
   }
   providers = {
@@ -38,12 +38,12 @@ module "shared_services_vpc" {
 }
 
 module "tgw_attachment" {
-  source  = "../../../modules/transit-gateway"
-  subnet_ids = module.shared_services_vpc.private_subnets
-  transit_gateway_id = var.transit_gateway_id
-  vpc_id = module.shared_services_vpc.vpc_id
-  private_route_table_id = module.shared_services_vpc.private_route_table_ids[0]
-  public_route_table_id = module.shared_services_vpc.public_route_table_ids[0]
+  source                        = "../../../modules/transit-gateway"
+  subnet_ids                    = module.shared_services_vpc.private_subnets
+  transit_gateway_id            = var.transit_gateway_id
+  vpc_id                        = module.shared_services_vpc.vpc_id
+  private_route_table_id        = module.shared_services_vpc.private_route_table_ids[0]
+  public_route_table_id         = module.shared_services_vpc.public_route_table_ids[0]
   transit_gtw_route_destination = var.transit_gtw_route_destination
 }
 
@@ -54,17 +54,17 @@ resource "aws_route53_zone_association" "shared_services_association" {
 
 
 module "bind-server" {
-  source  = "../../../modules/bind-server"
-  name = "dns"
-  ami = var.bind_server_ami
-  environment = var.environment
+  source         = "../../../modules/bind-server"
+  name           = "dns"
+  ami            = var.bind_server_ami
+  environment    = var.environment
   ssh_key_public = var.ssh_key_public
-  vpc_id = module.shared_services_vpc.vpc_id
-  cidr_blocks = var.bind_cidr_blocks
-  vpn_cidr = var.vpn_cidr
-  subnet_ids = module.shared_services_vpc.private_subnets
-  private_ips  = var.private_dns_ips
-  ssh_key = var.ssh_key
+  vpc_id         = module.shared_services_vpc.vpc_id
+  cidr_blocks    = var.bind_cidr_blocks
+  vpn_cidr       = var.vpn_cidr
+  subnet_ids     = module.shared_services_vpc.private_subnets
+  private_ips    = var.private_dns_ips
+  ssh_key        = var.ssh_key
   providers = {
     aws = aws.deployment
   }
@@ -72,21 +72,21 @@ module "bind-server" {
 
 module "command_control_vpc" {
   source = "github.com/terraform-aws-modules/terraform-aws-vpc"
-  name = "mattermost-cloud-${var.environment}-command-control"
-  cidr = var.command_control_vpc_cidr
+  name   = "mattermost-cloud-${var.environment}-command-control"
+  cidr   = var.command_control_vpc_cidr
 
   azs             = var.command_control_vpc_azs
   private_subnets = var.command_control_vpc_private_subnets_cidrs
   public_subnets  = var.command_control_vpc_public_subnets_cidrs
 
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  enable_nat_gateway   = true
+  single_nat_gateway   = true
   enable_dns_hostnames = true
 
   tags = {
-    Owner = "cloud-team"
-    Terraform = "true"
-    Environment = var.environment
+    Owner                                                           = "cloud-team"
+    Terraform                                                       = "true"
+    Environment                                                     = var.environment
     "kubernetes.io/cluster/mattermost-central-command-control-prod" = "shared"
   }
   providers = {
@@ -95,31 +95,31 @@ module "command_control_vpc" {
 }
 
 module "tgw_attachment_command_control" {
-  source  = "../../../modules/transit-gateway"
-  subnet_ids = module.command_control_vpc.private_subnets
-  transit_gateway_id = var.transit_gateway_id
-  vpc_id = module.command_control_vpc.vpc_id
-  private_route_table_id = module.command_control_vpc.private_route_table_ids[0]
-  public_route_table_id = module.command_control_vpc.public_route_table_ids[0]
+  source                        = "../../../modules/transit-gateway"
+  subnet_ids                    = module.command_control_vpc.private_subnets
+  transit_gateway_id            = var.transit_gateway_id
+  vpc_id                        = module.command_control_vpc.vpc_id
+  private_route_table_id        = module.command_control_vpc.private_route_table_ids[0]
+  public_route_table_id         = module.command_control_vpc.public_route_table_ids[0]
   transit_gtw_route_destination = var.transit_gtw_route_destination
 }
 
 module "auth_vpc" {
   source = "github.com/terraform-aws-modules/terraform-aws-vpc"
-  name = "mattermost-cloud-${var.environment}-auth"
-  cidr = var.auth_vpc_cidr
+  name   = "mattermost-cloud-${var.environment}-auth"
+  cidr   = var.auth_vpc_cidr
 
   azs             = var.auth_vpc_azs
   private_subnets = var.auth_vpc_private_subnets_cidrs
   public_subnets  = var.auth_vpc_public_subnets_cidrs
 
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  enable_nat_gateway   = true
+  single_nat_gateway   = true
   enable_dns_hostnames = true
 
   tags = {
-    Owner = "cloud-team"
-    Terraform = "true"
+    Owner       = "cloud-team"
+    Terraform   = "true"
     Environment = var.environment
   }
   providers = {
@@ -128,12 +128,12 @@ module "auth_vpc" {
 }
 
 module "tgw_attachment_auth" {
-  source  = "../../../modules/transit-gateway"
-  subnet_ids = module.auth_vpc.private_subnets
-  transit_gateway_id = var.transit_gateway_id
-  vpc_id = module.auth_vpc.vpc_id
-  private_route_table_id = module.auth_vpc.private_route_table_ids[0]
-  public_route_table_id = module.auth_vpc.public_route_table_ids[0]
+  source                        = "../../../modules/transit-gateway"
+  subnet_ids                    = module.auth_vpc.private_subnets
+  transit_gateway_id            = var.transit_gateway_id
+  vpc_id                        = module.auth_vpc.vpc_id
+  private_route_table_id        = module.auth_vpc.private_route_table_ids[0]
+  public_route_table_id         = module.auth_vpc.public_route_table_ids[0]
   transit_gtw_route_destination = var.transit_gtw_route_destination
 }
 

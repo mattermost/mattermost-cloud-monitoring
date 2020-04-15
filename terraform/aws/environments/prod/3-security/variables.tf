@@ -1,10 +1,10 @@
 
 variable "region" {
-    default = "us-east-1"
-    type = string
+  default = "us-east-1"
+  type    = string
 }
 
 variable "environment" {
-    default = "prod"
-    type = string
+  default = "prod"
+  type    = string
 }

@@ -14,17 +14,17 @@ provider "aws" {
 }
 
 module "vpc_setup" {
-  source = "../../../../modules/vpc-setup"
-  environment = var.environment
-  vpc_cidrs = var.vpc_cidrs
-  vpc_azs = var.vpc_azs
-  name = "mattermost-cloud-${var.environment}-provisioning"
+  source               = "../../../../modules/vpc-setup"
+  environment          = var.environment
+  vpc_cidrs            = var.vpc_cidrs
+  vpc_azs              = var.vpc_azs
+  name                 = "mattermost-cloud-${var.environment}-provisioning"
   enable_dns_hostnames = true
   tags = {
-      Owner = "cloud-team"
-      Terraform = "true"
-      Environment = var.environment
-      Purpose = "provisioning"
+    Owner       = "cloud-team"
+    Terraform   = "true"
+    Environment = var.environment
+    Purpose     = "provisioning"
   }
   providers = {
     aws = "aws.deployment"

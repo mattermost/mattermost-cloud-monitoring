@@ -18,7 +18,7 @@ variable "cidr_blocks" {}
 
 variable "kubeconfig_dir" {}
 
-variable "volume_size"{}
+variable "volume_size" {}
 
 variable "environment" {}
 
