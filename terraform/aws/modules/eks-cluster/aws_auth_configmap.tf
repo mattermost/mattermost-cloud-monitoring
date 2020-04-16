@@ -4,7 +4,7 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     namespace = "kube-system"
   }
   data = {
-      mapRoles = <<YAML
+    mapRoles = <<YAML
   - rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role"
     username: system:node:{{EC2PrivateDNSName}}
     groups:

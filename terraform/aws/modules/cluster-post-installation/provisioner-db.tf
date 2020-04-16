@@ -25,11 +25,11 @@ resource "aws_security_group" "cec_to_postgress" {
   }
 
   ingress {
-    from_port       = 5432
-    to_port         = 5432
-    protocol        = "tcp"
-    cidr_blocks     = ["10.247.4.47/32"]
-    description     = "CLOUD VPN"
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["10.247.4.47/32"]
+    description = "CLOUD VPN"
   }
 
   egress {

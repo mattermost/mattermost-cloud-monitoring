@@ -51,6 +51,7 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole" {
 }
 
 resource "aws_lambda_function" "bind_server_network_attachment" {
+<<<<<<< HEAD
   s3_bucket        = "releases.mattermost.com"
   s3_key           = "mattermost-cloud/bind-server-network-attachment/master/main.zip"
   function_name = "bind-server-network-attachment"
@@ -58,8 +59,17 @@ resource "aws_lambda_function" "bind_server_network_attachment" {
   handler       = "main"
   timeout       = 120
   runtime = "go1.x"
+=======
+  filename         = "../../../../../bind-server-network-attachment/main.zip"
+  function_name    = "bind-server-network-attachment"
+  role             = aws_iam_role.bind_lambda_role.arn
+  handler          = "main"
+  timeout          = 120
+  source_code_hash = filebase64sha256("../../../../../bind-server-network-attachment/main.zip")
+  runtime          = "go1.x"
+>>>>>>> master
   vpc_config {
-    subnet_ids = flatten([var.subnet_ids])
+    subnet_ids         = flatten([var.subnet_ids])
     security_group_ids = [aws_security_group.bind_lambda_sg.id]
   }
 }
@@ -82,9 +92,9 @@ resource "aws_security_group" "bind_lambda_sg" {
 }
 
 resource "aws_cloudwatch_event_rule" "autoscaling_bind_updates" {
-    name = "bind-server-autoscaling"
-    description = "Runs when a new EC2 is launched in the autoscaling group"
-    event_pattern = <<PATTERN
+  name          = "bind-server-autoscaling"
+  description   = "Runs when a new EC2 is launched in the autoscaling group"
+  event_pattern = <<PATTERN
     {
       "source": [
         "aws.autoscaling"
@@ -102,15 +112,15 @@ resource "aws_cloudwatch_event_rule" "autoscaling_bind_updates" {
 }
 
 resource "aws_cloudwatch_event_target" "bind_server_autoscaling" {
-    rule = aws_cloudwatch_event_rule.autoscaling_bind_updates.name
-    target_id = "bind-server-autoscaling"
-    arn = aws_lambda_function.bind_server_network_attachment.arn
+  rule      = aws_cloudwatch_event_rule.autoscaling_bind_updates.name
+  target_id = "bind-server-autoscaling"
+  arn       = aws_lambda_function.bind_server_network_attachment.arn
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch_to_call_bind" {
-    statement_id = "AllowExecutionFromCloudWatch"
-    action = "lambda:InvokeFunction"
-    function_name = aws_lambda_function.bind_server_network_attachment.function_name
-    principal = "events.amazonaws.com"
-    source_arn = aws_cloudwatch_event_rule.autoscaling_bind_updates.arn
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.bind_server_network_attachment.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.autoscaling_bind_updates.arn
 }

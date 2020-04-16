@@ -25,3 +25,9 @@ cloud-manager/bin/
 
 # IDEs
 **/.idea
+
+**/vendor/**
+
+**/*.zip
+
+**/main
