@@ -6,11 +6,11 @@ resource "aws_vpc" "vpc_creation" {
   enable_dns_hostnames = var.enable_dns_hostnames
   tags = merge(
     {
-      "Name" = format("%s-%s", var.name, join("", split(".", split("/", each.value)[0]))),
-      "Available" = "true",
-      "CloudClusterID" = "none",
+      "Name"              = format("%s-%s", var.name, join("", split(".", split("/", each.value)[0]))),
+      "Available"         = "true",
+      "CloudClusterID"    = "none",
       "CloudClusterOwner" = "none",
-      "Size" = split("/", each.value)[1]
+      "Size"              = split("/", each.value)[1]
     },
     var.tags
   )

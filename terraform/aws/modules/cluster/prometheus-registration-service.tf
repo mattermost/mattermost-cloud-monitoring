@@ -58,13 +58,13 @@ resource "aws_iam_role_policy_attachment" "AmazonRoute53ReadOnlyAccess" {
 
 
 resource "aws_lambda_function" "prometheus_registration" {
-  s3_bucket        = "releases.mattermost.com"
-  s3_key           = "mattermost-cloud/prometheus-dns-registration-service/master/main.zip"
-  function_name    = "prometheus-dns-registration-service"
-  role             = aws_iam_role.lambda_role.arn
-  handler          = "main"
-  timeout          = 120
-  runtime          = "go1.x"
+  s3_bucket     = "releases.mattermost.com"
+  s3_key        = "mattermost-cloud/prometheus-dns-registration-service/master/main.zip"
+  function_name = "prometheus-dns-registration-service"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "main"
+  timeout       = 120
+  runtime       = "go1.x"
   vpc_config {
     subnet_ids         = flatten([var.private_subnet_ids])
     security_group_ids = [aws_security_group.lambda-sg.id]
