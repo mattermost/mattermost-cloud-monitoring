@@ -47,12 +47,12 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole_alert" {
 }
 
 resource "aws_lambda_function" "alert_elb_cloudwatch_alarm" {
-  filename         = "../../../../../../alert-elb-cloudwatch-alarm/main.zip"
+  s3_bucket        = "releases.mattermost.com"
+  s3_key           = "mattermost-cloud/alert-elb-cloudwatch-alarm/master/main.zip"
   function_name    = "receive-elb-cloudwatch-alarm"
   role             = aws_iam_role.lambda_role_receive_elb_cloudwatch_alarm.arn
   handler          = "main"
   timeout          = 120
-  source_code_hash = filebase64sha256("../../../../../../alert-elb-cloudwatch-alarm/main.zip")
   runtime          = "go1.x"
 
   environment {
@@ -145,12 +145,12 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole_create" {
 }
 
 resource "aws_lambda_function" "create_elb_cloudwatch_alarm" {
-  filename         = "../../../../../../create-elb-cloudwatch-alarm/main.zip"
+  s3_bucket        = "releases.mattermost.com"
+  s3_key           = "mattermost-cloud/create-elb-cloudwatch-alarm/master/main.zip"
   function_name    = "create-elb-cloudwatch-alarm"
   role             = aws_iam_role.lambda_role_create_elb_cloudwatch_alarm.arn
   handler          = "main"
   timeout          = 120
-  source_code_hash = filebase64sha256("../../../../../../create-elb-cloudwatch-alarm/main.zip")
   runtime          = "go1.x"
 
   environment {
