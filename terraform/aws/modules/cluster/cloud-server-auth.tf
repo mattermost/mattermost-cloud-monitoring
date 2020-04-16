@@ -29,13 +29,13 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRole" {
 }
 
 resource "aws_lambda_function" "cloud_server_auth" {
-  filename         = "../../../../../../cloud-server-auth/cloud-server-auth.zip"
-  function_name    = "cloud-server-auth"
-  role             = aws_iam_role.auth_lambda_role.arn
-  handler          = "cloud-server-auth"
-  timeout          = 180
-  source_code_hash = filebase64sha256("../../../../../../cloud-server-auth/cloud-server-auth.zip")
-  runtime          = "go1.x"
+  s3_bucket     = "releases.mattermost.com"
+  s3_key        = "mattermost-cloud/cloud-server-auth/master/cloud-server-auth.zip"
+  function_name = "cloud-server-auth"
+  role          = aws_iam_role.auth_lambda_role.arn
+  handler       = "cloud-server-auth"
+  timeout       = 180
+  runtime       = "go1.x"
   vpc_config {
     subnet_ids         = flatten(var.auth_private_subnet_ids)
     security_group_ids = [aws_security_group.auth_lambda_sg.id]
