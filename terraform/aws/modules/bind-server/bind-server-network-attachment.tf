@@ -51,7 +51,6 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole" {
 }
 
 resource "aws_lambda_function" "bind_server_network_attachment" {
-<<<<<<< HEAD
   s3_bucket        = "releases.mattermost.com"
   s3_key           = "mattermost-cloud/bind-server-network-attachment/master/main.zip"
   function_name = "bind-server-network-attachment"
@@ -59,15 +58,6 @@ resource "aws_lambda_function" "bind_server_network_attachment" {
   handler       = "main"
   timeout       = 120
   runtime = "go1.x"
-=======
-  filename         = "../../../../../bind-server-network-attachment/main.zip"
-  function_name    = "bind-server-network-attachment"
-  role             = aws_iam_role.bind_lambda_role.arn
-  handler          = "main"
-  timeout          = 120
-  source_code_hash = filebase64sha256("../../../../../bind-server-network-attachment/main.zip")
-  runtime          = "go1.x"
->>>>>>> master
   vpc_config {
     subnet_ids         = flatten([var.subnet_ids])
     security_group_ids = [aws_security_group.bind_lambda_sg.id]
