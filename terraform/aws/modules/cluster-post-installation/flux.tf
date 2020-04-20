@@ -9,7 +9,7 @@ resource "helm_release" "flux" {
   chart     = "fluxcd/flux"
   namespace = "flux"
   values = [
-    "${file("../../../../../chart-values/flux_values.yaml")}"
+    "${file("../../../../chart-values/flux_values.yaml")}"
   ]
 
   set {

@@ -4,6 +4,6 @@ resource "helm_release" "fluent_bit" {
   repository = data.helm_repository.stable.metadata.0.name
   chart      = "stable/fluent-bit"
   values = [
-    "${file("../../../../../chart-values/fluent-bit_values.yaml")}"
+    "${file("../../../../chart-values/fluent-bit_values.yaml")}"
   ]
 }
