@@ -279,3 +279,8 @@ variable "cloud_vpn_cidr" {
   type    = string
   default = ""
 }
+
+variable "public_hosted_zoneid" {
+  default = ""
+  type    = string
+}
