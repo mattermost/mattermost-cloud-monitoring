@@ -55,3 +55,5 @@ variable "internal_registry" {}
 variable "pub_domain" {}
 
 variable "cloud_vpn_cidr" {}
+
+variable "public_hosted_zoneid" {}

@@ -389,3 +389,18 @@ resource "kubernetes_service" "customer_web_server" {
   ]
 }
 
+data "kubernetes_service" "nginx-public" {
+  metadata {
+    name      = "mattermost-cm-nginx-public-nginx-ingress-controller"
+    namespace = "network-public"
+  }
+}
+
+resource "aws_route53_record" "customer_web_server" {
+  zone_id = var.public_hosted_zoneid
+  name    = "portal"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [data.kubernetes_service.nginx-public.load_balancer_ingress.0.hostname]
+}
+

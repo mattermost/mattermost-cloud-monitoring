@@ -12,11 +12,6 @@ variable "kubeconfig_dir" {
   type    = string
 }
 
-variable "public_hosted_zoneid" {
-  default = ""
-  type    = string
-}
-
 variable "private_hosted_zoneid" {
   default = ""
   type    = string

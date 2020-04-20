@@ -99,4 +99,6 @@ module "customer_web_server" {
   internal_registry              = var.internal_registry
   pub_domain                     = var.pub_domain
   cloud_vpn_cidr                 = var.cloud_vpn_cidr
+  public_hosted_zoneid           = var.public_hosted_zoneid
+
 }
