@@ -338,6 +338,33 @@ resource "aws_iam_policy" "iam" {
 EOF
 }
 
+resource "aws_iam_policy" "kms" {
+  name        = "mattermost-provisioner-kms-policy"
+  path        = "/"
+  description = "KMS permissions for provisioner user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "kms0",
+            "Effect": "Allow",
+            "Action": [
+                "kms:CreateKey",
+                "kms:Describe*",
+                "kms:List*",
+                "kms:Get*",
+                "kms:ScheduleKeyDeletion",
+                "kms:CreateAlias"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
 resource "aws_iam_user_policy_attachment" "attach_route53" {
   user       = var.provisioner_user
   policy_arn = aws_iam_policy.route53.arn
@@ -371,4 +398,9 @@ resource "aws_iam_user_policy_attachment" "attach_vpc" {
 resource "aws_iam_user_policy_attachment" "attach_iam" {
   user       = var.provisioner_user
   policy_arn = aws_iam_policy.iam.arn
+}
+
+resource "aws_iam_user_policy_attachment" "attach_kms" {
+  user       = var.provisioner_user
+  policy_arn = aws_iam_policy.kms.arn
 }

@@ -59,6 +59,7 @@ module "cluster-post-installation" {
   flux_git_url                                 = var.flux_git_url
   validation_acm_zoneid                        = var.validation_acm_zoneid
   domain                                       = var.domain
+  cloud_vpn_cidr                               = var.cloud_vpn_cidr
 
   providers = {
     aws = aws.post-deployment

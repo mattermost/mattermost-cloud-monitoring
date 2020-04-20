@@ -203,3 +203,8 @@ variable "validation_acm_zoneid" {
   default     = ""
   description = "public zone id to create ACM certificate validations for private Route53 zones"
 }
+
+variable "cloud_vpn_cidr" {
+  type    = string
+  default = ""
+}
