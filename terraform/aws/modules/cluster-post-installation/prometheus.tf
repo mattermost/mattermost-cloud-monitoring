@@ -4,7 +4,7 @@ resource "helm_release" "prometheus" {
   repository = data.helm_repository.stable.metadata.0.name
   chart      = "stable/prometheus"
   values = [
-    "${file("../../../../../../chart-values/prometheus_values.yaml")}"
+    "${file("../../../../../chart-values/prometheus_values.yaml")}"
   ]
   depends_on = [
     kubernetes_namespace.monitoring

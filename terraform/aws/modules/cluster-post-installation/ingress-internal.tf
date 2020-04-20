@@ -4,7 +4,7 @@ resource "helm_release" "nginx-internal" {
   repository = data.helm_repository.stable.metadata.0.name
   chart      = "stable/nginx-ingress"
   values = [
-    "${file("../../../../../../chart-values/nginx-internal_values.yaml")}"
+    "${file("../../../../../chart-values/nginx-internal_values.yaml")}"
   ]
   depends_on = [
     kubernetes_namespace.network
