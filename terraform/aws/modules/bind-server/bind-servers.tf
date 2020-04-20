@@ -36,6 +36,7 @@ resource "aws_security_group" "bind_sg" {
       ingress,
       egress,
     ]
+  }
 }
 
 # The ssh keypair created for the bind server
