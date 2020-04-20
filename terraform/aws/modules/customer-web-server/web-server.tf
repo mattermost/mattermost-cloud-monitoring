@@ -108,7 +108,7 @@ resource "helm_release" "nginx-public" {
   repository = data.helm_repository.stable.metadata.0.name
   chart      = "stable/nginx-ingress"
   values = [
-    "${file("../../../../../../chart-values/nginx-public_values.yaml")}"
+    "${file("../../../../chart-values/nginx-public_values.yaml")}"
   ]
   set_string {
     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
