@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_log_group" "es_group" {
-  name = "elasticsearch-logs-group"
+  name              = "elasticsearch-logs-group"
   retention_in_days = 90
 
   tags = {
