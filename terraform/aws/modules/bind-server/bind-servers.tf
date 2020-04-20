@@ -31,6 +31,11 @@ resource "aws_security_group" "bind_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  lifecycle {
+    ignore_changes = [
+      ingress,
+      egress,
+    ]
 }
 
 # The ssh keypair created for the bind server

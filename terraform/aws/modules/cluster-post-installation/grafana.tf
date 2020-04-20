@@ -4,7 +4,7 @@ resource "helm_release" "grafana" {
   repository = data.helm_repository.stable.metadata.0.name
   chart      = "stable/grafana"
   values = [
-    "${file("../../../../../../chart-values/grafana_values.yaml")}"
+    "${file("../../../../../chart-values/grafana_values.yaml")}"
   ]
   set_string {
     name  = "datasources.datasources\\.yaml.datasources[1].url"
