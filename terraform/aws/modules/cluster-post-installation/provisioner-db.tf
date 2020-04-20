@@ -28,7 +28,7 @@ resource "aws_security_group" "cec_to_postgress" {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = ["10.247.4.47/32"]
+    cidr_blocks = var.cloud_vpn_cidr
     description = "CLOUD VPN"
   }
 
