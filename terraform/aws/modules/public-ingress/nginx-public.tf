@@ -15,7 +15,7 @@ resource "helm_release" "public_nginx" {
   chart     = "stable/nginx-ingress"
   namespace = "nginx-public"
   values = [
-    "${file("../../../modules/public-ingress/nginx_values.yaml")}"
+    "${file(var.nginx_chart_values_directory)}"
   ]
 
   set {
