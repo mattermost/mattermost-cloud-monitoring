@@ -17,3 +17,8 @@ variable "atlantis_hostname" {}
 variable "aws_secretname" {}
 
 variable "private_hosted_zoneid" {}
+
+variable "atlantis_chart_values_directory" {}
+
+variable "nginx_internal_chart_values_directory" {}
+
