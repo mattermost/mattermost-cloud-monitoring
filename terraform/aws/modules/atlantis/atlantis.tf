@@ -9,7 +9,7 @@ resource "helm_release" "atlantis" {
   chart     = "stable/atlantis"
   namespace = "atlantis"
   values = [
-    "${file("../../../modules/atlantis/chart_values.yaml")}"
+    "${file(var.atlantis_chart_values_directory)}"
   ]
 
   set {
