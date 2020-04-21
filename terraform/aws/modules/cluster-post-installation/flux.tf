@@ -104,27 +104,31 @@ resource "kubernetes_deployment" "flux_provisioner_deployment" {
         }
         container {
           name              = "fluxcloud"
-          image             = "justinbarrick/fluxcloud:v0.3.9"
+          image             = "ctadeu/fluxcloud:v0.3.9-mattermost"
           image_pull_policy = "IfNotPresent"
           port {
             container_port = "3032"
           }
 
           env {
-            name  = "SLACK_URL"
+            name  = "MATTERMOST_URL"
             value = var.community_hook
           }
           env {
-            name  = "SLACK_CHANNEL"
+            name  = "EXPORTER_TYPE"
+            value = "mattermost"
+          }
+          env {
+            name  = "MATTERMOST_CHANNEL"
             value = var.community_channel
           }
           env {
-            name  = "SLACK_USERNAME"
-            value = "Flux Deployer"
+            name  = "MATTERMOST_USERNAME"
+            value = "Flux Deployer Provisioner"
           }
           env {
-            name  = "SLACK_ICON_EMOJI"
-            value = ":heart:"
+            name  = "MATTERMOST_ICON_URL"
+            value = "https://user-images.githubusercontent.com/27962005/35868977-0d5f85f6-0b2c-11e8-9fa8-8e4eaf35161a.png"
           }
           env {
             name  = "GITHUB_URL"
