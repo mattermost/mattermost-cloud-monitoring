@@ -71,3 +71,5 @@ variable "multi_az" {}
 variable "smtp_user_name" {}
 
 variable "smtp_address" {}
+
+variable "gitlab_chart_values_directory" {}
