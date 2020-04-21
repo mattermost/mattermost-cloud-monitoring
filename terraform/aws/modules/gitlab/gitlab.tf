@@ -9,7 +9,7 @@ resource "helm_release" "gitlab" {
   chart     = "gitlab/gitlab"
   namespace = "gitlab"
   values = [
-    "${file("../../../modules/gitlab/chart_values.yaml")}"
+    "${file(var.gitlab_chart_values_directory)}"
   ]
 
   set {
