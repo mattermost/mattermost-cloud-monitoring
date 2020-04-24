@@ -39,3 +39,5 @@ variable "cidr_blocks" {}
 variable "environment" {}
 
 variable "ssh_key_public" {}
+
+variable "teleport_cidr" {}

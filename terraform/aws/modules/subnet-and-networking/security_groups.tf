@@ -4,6 +4,14 @@ resource "aws_security_group" "master_sg" {
   name        = format("%s-%s-master-sg", var.name, join("", split(".", split("/", each.value)[0])))
   description = "Master Nodes Security Group"
   vpc_id      = data.aws_vpc.vpc_ids[each.value]["id"]
+
+  ingress {
+    from_port   = 3022
+    to_port     = 3022
+    protocol    = "tcp"
+    cidr_blocks = var.teleport_cidr
+  }
+
   tags = merge(
     {
       "Name"     = format("%s-%s-master-sg", var.name, join("", split(".", split("/", each.value)[0]))),
@@ -19,6 +27,14 @@ resource "aws_security_group" "worker_sg" {
   name        = format("%s-%s-worker-sg", var.name, join("", split(".", split("/", each.value)[0])))
   description = "Worker Nodes Security Group"
   vpc_id      = data.aws_vpc.vpc_ids[each.value]["id"]
+
+  ingress {
+    from_port   = 3022
+    to_port     = 3022
+    protocol    = "tcp"
+    cidr_blocks = var.teleport_cidr
+  }
+
   tags = merge(
     {
       "Name"     = format("%s-%s-worker-sg", var.name, join("", split(".", split("/", each.value)[0]))),

@@ -16,10 +16,6 @@ variable "cws_name" {}
 
 variable "git_image_url" {}
 
-variable "git_user" {}
-
-variable "git_email" {}
-
 variable "git_cws_token" {}
 
 variable "cws_db_identifier" {}
@@ -57,3 +53,20 @@ variable "pub_domain" {}
 variable "cloud_vpn_cidr" {}
 
 variable "public_hosted_zoneid" {}
+
+
+variable "git_url" {}
+
+variable "git_path" {}
+
+variable "git_user" {}
+
+variable "git_email" {}
+
+variable "ssh_known_hosts" {}
+
+variable "community_hook" {}
+
+variable "community_channel" {}
+
+variable "flux_git_url_cws" {}

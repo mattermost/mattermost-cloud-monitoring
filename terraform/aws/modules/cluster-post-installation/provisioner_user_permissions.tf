@@ -366,6 +366,35 @@ resource "aws_iam_policy" "kms" {
 EOF
 }
 
+resource "aws_iam_policy" "tag" {
+  name        = "mattermost-provisioner-tag-policy"
+  path        = "/"
+  description = "Resource Group Tagging permissions for provisioner user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "tag0",
+            "Effect": "Allow",
+            "Action": [
+                "tag:GetResources",
+                "tag:GetTagKeys",
+                "tag:GetTagValues"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_user_policy_attachment" "attach_tag" {
+  user       = var.provisioner_user
+  policy_arn = aws_iam_policy.tag.arn
+}
+
 resource "aws_iam_user_policy_attachment" "attach_route53" {
   user       = var.provisioner_user
   policy_arn = aws_iam_policy.route53.arn

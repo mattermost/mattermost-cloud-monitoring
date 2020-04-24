@@ -161,6 +161,12 @@ resource "kubernetes_secret" "registry_customer_web_server" {
   depends_on = [
     kubernetes_namespace.customer_web_server
   ]
+
+  lifecycle {
+    ignore_changes = [
+      data,
+    ]
+  }
 }
 
 
