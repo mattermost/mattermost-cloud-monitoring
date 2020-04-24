@@ -356,7 +356,8 @@ resource "aws_iam_policy" "kms" {
                 "kms:List*",
                 "kms:Get*",
                 "kms:ScheduleKeyDeletion",
-                "kms:CreateAlias"
+                "kms:CreateAlias",
+                "kms:TagResource"
             ],
             "Resource": "*"
         }
