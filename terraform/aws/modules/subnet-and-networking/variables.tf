@@ -13,3 +13,6 @@ variable "transit_gtw_route_destination" {}
 variable "environment" {}
 
 variable "region" {}
+
+variable "teleport_cidr" {}
+

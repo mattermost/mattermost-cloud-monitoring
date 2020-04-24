@@ -25,6 +25,13 @@ resource "aws_security_group" "bind_sg" {
     cidr_blocks = var.vpn_cidr
   }
 
+  ingress {
+    from_port   = 3022
+    to_port     = 3022
+    protocol    = "tcp"
+    cidr_blocks = var.teleport_cidr
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
