@@ -47,3 +47,5 @@ variable "key_name" {}
 variable "opsgenie_apikey" {}
 
 variable "opsgenie_scheduler_team" {}
+
+variable "teleport_cidr" {}
