@@ -42,8 +42,6 @@ variable "cws_storage_encrypted" {}
 
 variable "cws_ingress" {}
 
-variable "mattermost_cws_stripe_key" {}
-
 variable "cws_image_version" {}
 
 variable "internal_registry" {}
@@ -57,7 +55,7 @@ variable "public_hosted_zoneid" {}
 
 variable "git_url" {}
 
-variable "git_path" {}
+variable "git_path_cws" {}
 
 variable "git_user" {}
 
@@ -70,3 +68,7 @@ variable "community_hook" {}
 variable "community_channel" {}
 
 variable "flux_git_url_cws" {}
+
+variable "cws_payment_url" {}
+
+variable "cws_payment_token" {}

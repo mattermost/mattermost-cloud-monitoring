@@ -4,10 +4,16 @@ resource "null_resource" "flux_crd" {
   }
 }
 
+resource "kubernetes_namespace" "flux_cws" {
+  metadata {
+    name = "flux-cws"
+  }
+}
+
 resource "helm_release" "flux" {
   name      = "mattermost-cm-flux-cws"
   chart     = "fluxcd/flux"
-  namespace = "flux"
+  namespace = kubernetes_namespace.flux_cws.id
   values = [
     "${file("../../../../chart-values/flux_cws_values.yaml")}"
   ]
@@ -19,7 +25,7 @@ resource "helm_release" "flux" {
 
   set {
     name  = "git.path"
-    value = var.git_path
+    value = var.git_path_cws
   }
 
   set {
@@ -60,7 +66,7 @@ resource "helm_release" "flux" {
 resource "kubernetes_service" "flux_provisioner_service" {
   metadata {
     name      = "fluxcloud-cws"
-    namespace = "flux"
+    namespace = kubernetes_namespace.flux_cws.id
   }
   spec {
     selector = {
@@ -80,7 +86,7 @@ resource "kubernetes_service" "flux_provisioner_service" {
 resource "kubernetes_deployment" "flux_provisioner_deployment" {
   metadata {
     name      = "fluxcloud-cws"
-    namespace = "flux"
+    namespace = kubernetes_namespace.flux_cws.id
   }
 
   spec {
