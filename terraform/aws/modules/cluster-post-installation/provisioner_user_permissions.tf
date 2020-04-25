@@ -369,7 +369,7 @@ EOF
 resource "aws_iam_policy" "tag" {
   name        = "mattermost-provisioner-tag-policy"
   path        = "/"
-  description = "Resource Group Tagging permissions for provisioner user"
+  description = "Resource Groups Tagging permissions for provisioner user"
 
   policy = <<EOF
 {
@@ -382,6 +382,28 @@ resource "aws_iam_policy" "tag" {
                 "tag:GetResources",
                 "tag:GetTagKeys",
                 "tag:GetTagValues"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "sts" {
+  name        = "mattermost-provisioner-sts-policy"
+  path        = "/"
+  description = "Security Token Service permissions for provisioner user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "sts0",
+            "Effect": "Allow",
+            "Action": [
+                "sts:GetCallerIdentity",
             ],
             "Resource": "*"
         }
