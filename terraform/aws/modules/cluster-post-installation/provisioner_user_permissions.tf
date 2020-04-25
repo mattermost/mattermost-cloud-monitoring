@@ -456,3 +456,8 @@ resource "aws_iam_user_policy_attachment" "attach_kms" {
   user       = var.provisioner_user
   policy_arn = aws_iam_policy.kms.arn
 }
+
+resource "aws_sts_user_policy_attachment" "attach_sts" {
+  user       = var.provisioner_user
+  policy_sts = aws_iam_policy.sts.arn
+}
