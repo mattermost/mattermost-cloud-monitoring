@@ -391,55 +391,55 @@ EOF
 }
 
 resource "aws_iam_user_policy_attachment" "attach_tag" {
-  for_each = toset(var.provisioner_users)
-  user       = var.provisioner_users
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.tag.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_route53" {
-  for_each = toset(var.provisioner_users)
-  user       = var.provisioner_users
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.route53.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_rds" {
-  for_each = toset(var.provisioner_users)
-  user       = var.provisioner_users
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.rds.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_s3" {
-  for_each = toset(var.provisioner_users)
-  user       = var.provisioner_users
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.s3.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_secrets_manager" {
-  for_each = toset(var.provisioner_users)
-  user       = var.provisioner_users
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.secrets_manager.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_ec2" {
-  for_each = toset(var.provisioner_users)
-  user       = var.provisioner_users
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.ec2.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_vpc" {
-  for_each = toset(var.provisioner_users)
+  for_each   = toset(var.provisioner_users)
   user       = var.provisioner_users
   policy_arn = aws_iam_policy.vpc.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_iam" {
-  for_each = toset(var.provisioner_users)
-  user       = var.provisioner_users
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.iam.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_kms" {
-  for_each = toset(var.provisioner_users)
-  user       = var.provisioner_users
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.kms.arn
 }
