@@ -4,13 +4,6 @@ resource "aws_security_group" "worker-sg" {
   description = "Security group for all workers in the cluster"
   vpc_id      = var.vpc_id
 
-  ingress {
-    from_port   = 3022
-    to_port     = 3022
-    protocol    = "tcp"
-    cidr_blocks = var.teleport_cidr
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
@@ -22,6 +15,16 @@ resource "aws_security_group" "worker-sg" {
     "Name", "${var.deployment_name}-worker-sg",
     "kubernetes.io/cluster/${var.deployment_name}", "owned",
   )
+}
+
+resource "aws_security_group_rule" "worker-teleport" {
+  description       = "Allow teleport access to workers"
+  cidr_blocks       = var.teleport_cidr
+  from_port         = 3022
+  protocol          = "tcp"
+  security_group_id = aws_security_group.worker-sg.id
+  to_port           = 3022
+  type              = "ingress"
 }
 
 resource "aws_security_group_rule" "worker-sg-ingress-self" {
