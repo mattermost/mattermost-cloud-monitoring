@@ -351,13 +351,20 @@ resource "aws_iam_policy" "kms" {
             "Sid": "kms0",
             "Effect": "Allow",
             "Action": [
-                "kms:CreateKey",
+                "kms:Create*",
                 "kms:Describe*",
+                "kms:Enable*",
                 "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
                 "kms:Get*",
+                "kms:Delete*",
+                "kms:TagResource",
+                "kms:UntagResource",
                 "kms:ScheduleKeyDeletion",
-                "kms:CreateAlias",
-                "kms:TagResource"
+                "kms:CancelKeyDeletion"
             ],
             "Resource": "*"
         }
