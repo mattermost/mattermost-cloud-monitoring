@@ -58,7 +58,7 @@ variable "mattermost_cloud_secrets_keep_filestore_data" {}
 
 variable "mattermost_cloud_secrets_keep_database_data" {}
 
-variable "provisioner_user" {}
+variable "provisioner_users" {}
 
 variable "git_url" {}
 
