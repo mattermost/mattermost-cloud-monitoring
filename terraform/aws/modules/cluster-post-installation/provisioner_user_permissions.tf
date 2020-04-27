@@ -351,13 +351,20 @@ resource "aws_iam_policy" "kms" {
             "Sid": "kms0",
             "Effect": "Allow",
             "Action": [
-                "kms:CreateKey",
+                "kms:Create*",
                 "kms:Describe*",
+                "kms:Enable*",
                 "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
                 "kms:Get*",
+                "kms:Delete*",
+                "kms:TagResource",
+                "kms:UntagResource",
                 "kms:ScheduleKeyDeletion",
-                "kms:CreateAlias",
-                "kms:TagResource"
+                "kms:CancelKeyDeletion"
             ],
             "Resource": "*"
         }
@@ -366,42 +373,80 @@ resource "aws_iam_policy" "kms" {
 EOF
 }
 
+resource "aws_iam_policy" "tag" {
+  name        = "mattermost-provisioner-tag-policy"
+  path        = "/"
+  description = "Resource Group Tagging permissions for provisioner user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "tag0",
+            "Effect": "Allow",
+            "Action": [
+                "tag:GetResources",
+                "tag:GetTagKeys",
+                "tag:GetTagValues"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_user_policy_attachment" "attach_tag" {
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
+  policy_arn = aws_iam_policy.tag.arn
+}
+
 resource "aws_iam_user_policy_attachment" "attach_route53" {
-  user       = var.provisioner_user
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.route53.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_rds" {
-  user       = var.provisioner_user
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.rds.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_s3" {
-  user       = var.provisioner_user
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.s3.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_secrets_manager" {
-  user       = var.provisioner_user
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.secrets_manager.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_ec2" {
-  user       = var.provisioner_user
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.ec2.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_vpc" {
-  user       = var.provisioner_user
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.vpc.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_iam" {
-  user       = var.provisioner_user
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.iam.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_kms" {
-  user       = var.provisioner_user
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
   policy_arn = aws_iam_policy.kms.arn
 }
