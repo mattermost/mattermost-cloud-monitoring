@@ -5,13 +5,6 @@ resource "aws_security_group" "cluster-sg" {
   description = "Cluster communication with worker nodes"
   vpc_id      = var.vpc_id
 
-  ingress {
-    from_port   = 3022
-    to_port     = 3022
-    protocol    = "tcp"
-    cidr_blocks = var.teleport_cidr
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
@@ -24,6 +17,15 @@ resource "aws_security_group" "cluster-sg" {
   }
 }
 
+resource "aws_security_group_rule" "master-teleport" {
+  cidr_blocks       = var.teleport_cidr
+  description       = "Allow teleport access to master"
+  from_port         = 3022
+  protocol          = "tcp"
+  security_group_id = aws_security_group.cluster-sg.id
+  to_port           = 3022
+  type              = "ingress"
+}
 
 resource "aws_security_group_rule" "cluster-ingress-workstation-https" {
   cidr_blocks       = var.cidr_blocks

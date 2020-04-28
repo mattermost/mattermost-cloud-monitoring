@@ -5,13 +5,6 @@ resource "aws_security_group" "master_sg" {
   description = "Master Nodes Security Group"
   vpc_id      = data.aws_vpc.vpc_ids[each.value]["id"]
 
-  ingress {
-    from_port   = 3022
-    to_port     = 3022
-    protocol    = "tcp"
-    cidr_blocks = var.teleport_cidr
-  }
-
   tags = merge(
     {
       "Name"     = format("%s-%s-master-sg", var.name, join("", split(".", split("/", each.value)[0]))),
@@ -27,13 +20,6 @@ resource "aws_security_group" "worker_sg" {
   name        = format("%s-%s-worker-sg", var.name, join("", split(".", split("/", each.value)[0])))
   description = "Worker Nodes Security Group"
   vpc_id      = data.aws_vpc.vpc_ids[each.value]["id"]
-
-  ingress {
-    from_port   = 3022
-    to_port     = 3022
-    protocol    = "tcp"
-    cidr_blocks = var.teleport_cidr
-  }
 
   tags = merge(
     {
@@ -84,6 +70,17 @@ resource "aws_security_group_rule" "master_ingress_worker" {
   type                     = "ingress"
 }
 
+resource "aws_security_group_rule" "master_ingress_teleport" {
+  for_each = toset(var.vpc_cidrs)
+
+  type              = "ingress"
+  from_port         = 3022
+  to_port           = 3022
+  protocol          = "tcp"
+  cidr_blocks       = var.teleport_cidr
+  security_group_id = aws_security_group.master_sg[each.value]["id"]
+}
+
 # Worker Rules
 resource "aws_security_group_rule" "worker_egress" {
   for_each = toset(var.vpc_cidrs)
@@ -119,6 +116,17 @@ resource "aws_security_group_rule" "worker_ingress_master" {
   security_group_id        = aws_security_group.worker_sg[each.value]["id"]
   to_port                  = 0
   type                     = "ingress"
+}
+
+resource "aws_security_group_rule" "worker_ingress_teleport" {
+  for_each = toset(var.vpc_cidrs)
+
+  type              = "ingress"
+  from_port         = 3022
+  to_port           = 3022
+  protocol          = "tcp"
+  cidr_blocks       = var.teleport_cidr
+  security_group_id = aws_security_group.worker_sg[each.value]["id"]
 }
 
 # DB Rules
