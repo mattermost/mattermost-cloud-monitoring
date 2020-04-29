@@ -213,6 +213,7 @@ resource "aws_iam_policy" "ec2" {
                 "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
                 "elasticloadbalancing:AttachLoadBalancerToSubnets",
                 "elasticloadbalancing:AddTags",
+                "elasticloadbalancing:DeleteTargetGroup",
                 "autoscaling:CreateLaunchConfiguration",
                 "autoscaling:DescribeTags",
                 "autoscaling:DescribeLaunchConfigurations",
