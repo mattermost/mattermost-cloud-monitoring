@@ -95,7 +95,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::mattermost-kops-state-${var.environment}"
+            "Resource": "arn:aws:s3:::mattermost-kops-state-${var.environment}-*"
         },
         {
             "Effect": "Allow",
@@ -107,7 +107,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:DeleteObject",
                 "s3:GetObjectVersionAcl"
             ],
-            "Resource": "arn:aws:s3:::mattermost-kops-state-${var.environment}/*"
+            "Resource": "arn:aws:s3:::mattermost-kops-state-${var.environment}-*/*"
         },
         {
             "Effect": "Allow",
@@ -213,6 +213,7 @@ resource "aws_iam_policy" "ec2" {
                 "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
                 "elasticloadbalancing:AttachLoadBalancerToSubnets",
                 "elasticloadbalancing:AddTags",
+                "elasticloadbalancing:DeleteTargetGroup",
                 "autoscaling:CreateLaunchConfiguration",
                 "autoscaling:DescribeTags",
                 "autoscaling:DescribeLaunchConfigurations",
