@@ -18,6 +18,7 @@ global:
   registry:
     bucket: ""
   appConfig:
+  
     omniauth:
       enabled: true
       allowSingleSignOn: ['saml']
