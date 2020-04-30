@@ -110,16 +110,6 @@ resource "helm_release" "nginx-public" {
   values = [
     "${file("../../../../chart-values/nginx-public_values.yaml")}"
   ]
-  set_string {
-    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
-    value = data.aws_acm_certificate.wildcard_public_cert.arn
-  }
-}
-
-data "aws_acm_certificate" "wildcard_public_cert" {
-  domain      = "*.${var.pub_domain}"
-  types       = ["AMAZON_ISSUED"]
-  most_recent = true
 }
 
 #################### Kubernetes - Customer Web Server ###########################
@@ -165,6 +155,7 @@ resource "kubernetes_secret" "registry_customer_web_server" {
   lifecycle {
     ignore_changes = [
       data,
+      metadata
     ]
   }
 }
@@ -424,6 +415,10 @@ data "kubernetes_service" "nginx-public" {
     name      = "mattermost-cm-nginx-public-nginx-ingress-controller"
     namespace = "network-public"
   }
+  # # Depends_on should be enabled on the first run of CWS deployment
+  # depends_on = [
+  #   helm_release.nginx-public,
+  # ]
 }
 
 resource "aws_route53_record" "customer_web_server" {
@@ -432,5 +427,62 @@ resource "aws_route53_record" "customer_web_server" {
   type    = "CNAME"
   ttl     = "60"
   records = [data.kubernetes_service.nginx-public.load_balancer_ingress.0.hostname]
+  # # Depends_on should be enabled on the first run of CWS deployment
+  # depends_on = [
+  #   helm_release.nginx-public,
+  # ]
 }
 
+################################ Cert-manager  #################################
+
+resource "kubernetes_namespace" "cert_manager" {
+  metadata {
+    name = "cert-manager"
+  }
+}
+
+data "helm_repository" "jetstack" {
+  name = "jetstack"
+  url  = "https://charts.jetstack.io"
+}
+
+resource "null_resource" "certmanagercrds" {
+  provisioner "local-exec" {
+    command = "kubectl --kubeconfig ${var.kubeconfig_dir}/kubeconfig apply --validate=false -f ${path.module}/templates/crds.yaml"
+  }
+  depends_on = [
+    kubernetes_namespace.cert_manager,
+  ]
+}
+
+resource "helm_release" "certmanager" {
+  name       = "cert-manager"
+  namespace  = kubernetes_namespace.cert_manager.id
+  repository = data.helm_repository.jetstack.metadata.0.name
+  chart      = "jetstack/cert-manager"
+  version    = "v0.14.2"
+  values = [
+    "${file("../../../../chart-values/cert-manager_values.yaml")}"
+  ]
+  depends_on = [
+    null_resource.certmanagercrds
+  ]
+}
+
+resource "null_resource" "delay" {
+  provisioner "local-exec" {
+    command = "sleep 60"
+  }
+  depends_on = [
+    helm_release.certmanager
+  ]
+}
+
+resource "null_resource" "clusterissuer" {
+  provisioner "local-exec" {
+    command = "kubectl --kubeconfig ${var.kubeconfig_dir}/kubeconfig create -f ${path.module}/templates/letsencrypt-clusterissuer-prod.yaml"
+  }
+  depends_on = [
+    null_resource.delay
+  ]
+}
