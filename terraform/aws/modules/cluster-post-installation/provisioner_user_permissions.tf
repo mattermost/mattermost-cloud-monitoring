@@ -145,6 +145,7 @@ resource "aws_iam_policy" "secrets_manager" {
             "Sid": "secrets0",
             "Effect": "Allow",
             "Action": [
+                "secretsmanager:TagResource",
                 "secretsmanager:CreateSecret",
                 "secretsmanager:DeleteSecret",
                 "secretsmanager:GetSecretValue"
