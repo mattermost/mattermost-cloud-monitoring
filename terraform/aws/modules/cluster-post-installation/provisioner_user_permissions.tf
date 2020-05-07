@@ -64,7 +64,9 @@ resource "aws_iam_policy" "rds" {
             "Sid": "rds2",
             "Effect": "Allow",
             "Action": [
-                "rds:DescribeDBSubnetGroups"
+                "rds:DescribeDBSubnetGroups",
+                "rds:DescribeDBClusters",
+                "rds:AddTagsToResource"
             ],
             "Resource": "*"
         }
@@ -95,7 +97,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::mattermost-kops-state-${var.environment}-*"
+            "Resource": "arn:aws:s3:::*"
         },
         {
             "Effect": "Allow",
@@ -107,7 +109,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:DeleteObject",
                 "s3:GetObjectVersionAcl"
             ],
-            "Resource": "arn:aws:s3:::mattermost-kops-state-${var.environment}-*/*"
+            "Resource": "arn:aws:s3:::*"
         },
         {
             "Effect": "Allow",
