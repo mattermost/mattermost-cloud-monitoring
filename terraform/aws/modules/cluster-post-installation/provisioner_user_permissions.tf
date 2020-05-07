@@ -40,8 +40,7 @@ resource "aws_iam_policy" "rds" {
             "Effect": "Allow",
             "Action": [
                 "rds:CreateDBCluster",
-                "rds:DeleteDBCluster",
-                "rds:DescribeDBClusters"
+                "rds:DeleteDBCluster"
             ],
             "Resource": [
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster:cloud-*",
