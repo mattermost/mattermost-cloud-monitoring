@@ -64,7 +64,9 @@ resource "aws_iam_policy" "rds" {
             "Sid": "rds2",
             "Effect": "Allow",
             "Action": [
-                "rds:DescribeDBSubnetGroups"
+                "rds:DescribeDBSubnetGroups",
+                "rds:DescribeDBClusters",
+                "rds:AddTagsToResource"
             ],
             "Resource": "*"
         }
@@ -85,6 +87,8 @@ resource "aws_iam_policy" "s3" {
         {
             "Effect": "Allow",
             "Action": [
+                "s3:GetObject",
+                "s3:GetBucketLocation",
                 "s3:ListAllMyBuckets"
             ],
             "Resource": "arn:aws:s3:::*"
@@ -145,7 +149,6 @@ resource "aws_iam_policy" "secrets_manager" {
             "Sid": "secrets0",
             "Effect": "Allow",
             "Action": [
-                "secretsmanager:TagResource",
                 "secretsmanager:CreateSecret",
                 "secretsmanager:DeleteSecret",
                 "secretsmanager:GetSecretValue"
@@ -214,7 +217,6 @@ resource "aws_iam_policy" "ec2" {
                 "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
                 "elasticloadbalancing:AttachLoadBalancerToSubnets",
                 "elasticloadbalancing:AddTags",
-                "elasticloadbalancing:DeleteTargetGroup",
                 "autoscaling:CreateLaunchConfiguration",
                 "autoscaling:DescribeTags",
                 "autoscaling:DescribeLaunchConfigurations",
@@ -353,20 +355,13 @@ resource "aws_iam_policy" "kms" {
             "Sid": "kms0",
             "Effect": "Allow",
             "Action": [
-                "kms:Create*",
+                "kms:CreateKey",
                 "kms:Describe*",
-                "kms:Enable*",
                 "kms:List*",
-                "kms:Put*",
-                "kms:Update*",
-                "kms:Revoke*",
-                "kms:Disable*",
                 "kms:Get*",
-                "kms:Delete*",
-                "kms:TagResource",
-                "kms:UntagResource",
                 "kms:ScheduleKeyDeletion",
-                "kms:CancelKeyDeletion"
+                "kms:CreateAlias",
+                "kms:TagResource"
             ],
             "Resource": "*"
         }
@@ -378,7 +373,7 @@ EOF
 resource "aws_iam_policy" "tag" {
   name        = "mattermost-provisioner-tag-policy"
   path        = "/"
-  description = "Resource Group Tagging permissions for provisioner user"
+  description = "Resource Groups Tagging permissions for provisioner user"
 
   policy = <<EOF
 {
@@ -399,56 +394,69 @@ resource "aws_iam_policy" "tag" {
 EOF
 }
 
+resource "aws_iam_policy" "sts" {
+  name        = "mattermost-provisioner-sts-policy"
+  path        = "/"
+  description = "Security Token Service permissions for provisioner user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "sts0",
+            "Effect": "Allow",
+            "Action": [
+                "sts:GetCallerIdentity",
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
 resource "aws_iam_user_policy_attachment" "attach_tag" {
-  for_each   = toset(var.provisioner_users)
-  user       = each.value
+  user       = var.provisioner_user
   policy_arn = aws_iam_policy.tag.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_route53" {
-  for_each   = toset(var.provisioner_users)
-  user       = each.value
+  user       = var.provisioner_user
   policy_arn = aws_iam_policy.route53.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_rds" {
-  for_each   = toset(var.provisioner_users)
-  user       = each.value
+  user       = var.provisioner_user
   policy_arn = aws_iam_policy.rds.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_s3" {
-  for_each   = toset(var.provisioner_users)
-  user       = each.value
+  user       = var.provisioner_user
   policy_arn = aws_iam_policy.s3.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_secrets_manager" {
-  for_each   = toset(var.provisioner_users)
-  user       = each.value
+  user       = var.provisioner_user
   policy_arn = aws_iam_policy.secrets_manager.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_ec2" {
-  for_each   = toset(var.provisioner_users)
-  user       = each.value
+  user       = var.provisioner_user
   policy_arn = aws_iam_policy.ec2.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_vpc" {
-  for_each   = toset(var.provisioner_users)
-  user       = each.value
+  user       = var.provisioner_user
   policy_arn = aws_iam_policy.vpc.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_iam" {
-  for_each   = toset(var.provisioner_users)
-  user       = each.value
+  user       = var.provisioner_user
   policy_arn = aws_iam_policy.iam.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_kms" {
-  for_each   = toset(var.provisioner_users)
-  user       = each.value
+  user       = var.provisioner_user
   policy_arn = aws_iam_policy.kms.arn
 }
