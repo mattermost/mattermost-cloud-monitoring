@@ -416,9 +416,9 @@ data "kubernetes_service" "nginx-public" {
     namespace = "network-public"
   }
   # Depends_on should be enabled on the first run of CWS deployment
-  depends_on = [
-    helm_release.nginx-public,
-  ]
+  # depends_on = [
+  #   helm_release.nginx-public,
+  # ]
 }
 
 resource "aws_route53_record" "customer_web_server" {
@@ -428,9 +428,9 @@ resource "aws_route53_record" "customer_web_server" {
   ttl     = "60"
   records = [data.kubernetes_service.nginx-public.load_balancer_ingress.0.hostname]
   # Depends_on should be enabled on the first run of CWS deployment
-  depends_on = [
-    helm_release.nginx-public,
-  ]
+  # depends_on = [
+  #   helm_release.nginx-public,
+  # ]
 }
 
 ################################ Cert-manager  #################################
