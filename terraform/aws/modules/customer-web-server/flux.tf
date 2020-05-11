@@ -53,11 +53,6 @@ resource "helm_release" "flux" {
     value = "true"
   }
 
-  # set_string {
-  #   name  = "additionalArgs"
-  #   value = "--connect=ws://fluxcloud-cws"
-  # }
-
   depends_on = [
     null_resource.flux_crd
   ]

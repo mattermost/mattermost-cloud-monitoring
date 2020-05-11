@@ -136,13 +136,13 @@ resource "kubernetes_secret" "registry_customer_web_server" {
     ".dockercfg" = <<EOF
  {
       "${var.internal_registry}": {
-        "username": "${var.git_user}", 
-        "password": "${var.git_cws_token}", 
-        "email": "${var.git_email}", 
+        "username": "${var.git_user}",
+        "password": "${var.git_cws_token}",
+        "email": "${var.git_email}",
         "auth": "${base64encode(format("%s:%s", var.git_user, var.git_cws_token))}"
       }
     }
-    
+
     EOF
   }
 
@@ -415,10 +415,10 @@ data "kubernetes_service" "nginx-public" {
     name      = "mattermost-cm-nginx-public-nginx-ingress-controller"
     namespace = "network-public"
   }
-  # # Depends_on should be enabled on the first run of CWS deployment
-  # depends_on = [
-  #   helm_release.nginx-public,
-  # ]
+  # Depends_on should be enabled on the first run of CWS deployment
+  depends_on = [
+    helm_release.nginx-public,
+  ]
 }
 
 resource "aws_route53_record" "customer_web_server" {
@@ -427,10 +427,10 @@ resource "aws_route53_record" "customer_web_server" {
   type    = "CNAME"
   ttl     = "60"
   records = [data.kubernetes_service.nginx-public.load_balancer_ingress.0.hostname]
-  # # Depends_on should be enabled on the first run of CWS deployment
-  # depends_on = [
-  #   helm_release.nginx-public,
-  # ]
+  # Depends_on should be enabled on the first run of CWS deployment
+  depends_on = [
+    helm_release.nginx-public,
+  ]
 }
 
 ################################ Cert-manager  #################################
