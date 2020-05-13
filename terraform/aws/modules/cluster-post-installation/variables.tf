@@ -81,3 +81,15 @@ variable "domain" {}
 variable "validation_acm_zoneid" {}
 
 variable "cloud_vpn_cidr" {}
+
+variable "mattermost_cloud_dbfactory_image" {}
+
+variable "mattermost_cloud_dbfactory_ingress" {}
+
+variable "mattermost_cloud_database_factory_secrets_aws_access_key" {}
+
+variable "mattermost_cloud_database_factory_secrets_aws_secret_key" {}
+
+variable "mattermost_cloud_database_factory_secrets_aws_region" {}
+
+variable "database_factory_users" {}
