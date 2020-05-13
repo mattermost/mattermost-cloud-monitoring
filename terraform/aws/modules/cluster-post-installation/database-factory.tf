@@ -98,13 +98,13 @@ resource "kubernetes_deployment" "mattermost_cloud_database_factory" {
     revision_history_limit = 2
   }
 
-# Will be added in the future when managed by flux
-#   lifecycle {
-#     ignore_changes = [
-#       metadata,
-#       spec,
-#     ]
-#   }
+  # Will be added in the future when managed by flux
+  #   lifecycle {
+  #     ignore_changes = [
+  #       metadata,
+  #       spec,
+  #     ]
+  #   }
 
   depends_on = [
     kubernetes_secret.mattermost_cloud_secret,
@@ -138,13 +138,13 @@ resource "kubernetes_ingress" "mattermost_cloud_database_factory_ingress" {
     }
   }
 
-# Will be added in the future when managed by flux
-#   lifecycle {
-#     ignore_changes = [
-#       metadata,
-#       spec,
-#     ]
-#   }
+  # Will be added in the future when managed by flux
+  #   lifecycle {
+  #     ignore_changes = [
+  #       metadata,
+  #       spec,
+  #     ]
+  #   }
 }
 
 resource "kubernetes_secret" "mattermost_cloud_database_factory_secret" {
@@ -161,14 +161,14 @@ resource "kubernetes_secret" "mattermost_cloud_database_factory_secret" {
 
   type = "Opaque"
 
-# Will be added in the future when managed by flux
-#   lifecycle {
-#     ignore_changes = [
-#       metadata,
-#       data,
-#       type,
-#     ]
-#   }
+  # Will be added in the future when managed by flux
+  #   lifecycle {
+  #     ignore_changes = [
+  #       metadata,
+  #       data,
+  #       type,
+  #     ]
+  #   }
 }
 
 resource "kubernetes_service" "mattermost_cloud_database_factory_service" {
@@ -192,12 +192,12 @@ resource "kubernetes_service" "mattermost_cloud_database_factory_service" {
     type = "ClusterIP"
   }
 
-# Will be added in the future when managed by flux
-#   lifecycle {
-#     ignore_changes = [
-#       metadata,
-#       spec,
-#     ]
-#   }
+  # Will be added in the future when managed by flux
+  #   lifecycle {
+  #     ignore_changes = [
+  #       metadata,
+  #       spec,
+  #     ]
+  #   }
 
 }

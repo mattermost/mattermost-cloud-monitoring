@@ -226,8 +226,8 @@ EOF
 }
 
 resource "aws_iam_user_policy_attachment" "attach_rds_db_factory" {
-  for_each   = toset(var.database_factory_users)
-  user       = each.value
+  for_each = toset(var.database_factory_users)
+  user     = each.value
 
   policy_arn = aws_iam_policy.rds_db_factory.arn
 }
