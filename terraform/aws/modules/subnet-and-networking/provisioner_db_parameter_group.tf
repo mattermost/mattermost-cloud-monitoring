@@ -27,7 +27,7 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group" {
     name         = "binlog_format"
     value        = "MIXED"
   }
-  
+
   parameter {
     apply_method = "immediate"
     name         = "max_connections"
