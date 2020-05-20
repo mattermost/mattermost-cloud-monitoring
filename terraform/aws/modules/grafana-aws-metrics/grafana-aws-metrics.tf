@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_role" "grafana_lambda_role" {
   name = "grafana_metrics_lambda_role"
 
@@ -155,4 +157,23 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_grafana_aws_metrics" 
   function_name = aws_lambda_function.grafana_aws_metrics.function_name
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.grafana_aws_metrics.arn
+}
+
+resource "aws_iam_role_policy" "grafana-role-assume" {
+  name = "grafana-role-assume-policy"
+  role = var.worker-role
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "sts:AssumeRole",
+            "Resource": "${aws_iam_role.grafana_access_role.arn}"
+        }
+    ]
+}
+EOF
 }
