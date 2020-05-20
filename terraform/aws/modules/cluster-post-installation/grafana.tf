@@ -15,6 +15,7 @@ resource "helm_release" "grafana" {
     kubernetes_config_map.account_view,
     kubernetes_config_map.cluster_view,
     kubernetes_config_map.installation_view,
-    kubernetes_config_map.alerting
+    kubernetes_config_map.alerting,
+    kubernetes_config_map.account_monitoring
   ]
 }

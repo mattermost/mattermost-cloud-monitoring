@@ -70,4 +70,16 @@ resource "kubernetes_config_map" "uptime" {
   }
 }
 
+resource "kubernetes_config_map" "account_monitoring" {
+  metadata {
+    name      = "accountmonitoring-dashboard"
+    namespace = "monitoring"
+    labels = {
+      cloud_dashboards = "account_monitoring"
+    }
+  }
 
+  data = {
+    "acoount_monitoring.json" = "${file("../../../../grafana-dashboards/account_monitoring.json")}"
+  }
+}

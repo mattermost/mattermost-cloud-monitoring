@@ -2,7 +2,7 @@
 
 
 [[projects]]
-  digest = "1:f72cb64e41191cfd2298306e1966b494ed0a66cd3b709025a4e662727016fe7e"
+  digest = "1:d92a0c10fb57de8742c33500c2fd96bd202fcafd14cb247d5185578f86b276fb"
   name = "github.com/aws/aws-lambda-go"
   packages = [
     "lambda",
@@ -11,11 +11,11 @@
     "lambdacontext",
   ]
   pruneopts = "UT"
-  revision = "e5086e5a7e53f7039034fa29008221760b04ff79"
-  version = "v1.13.2"
+  revision = "18b606949c45bc923e421d7ea891d6d02a34f7dd"
+  version = "v1.16.0"
 
 [[projects]]
-  digest = "1:3ea1748d5d74d279425c79b6328060e2f99c97eb89227d8157633ee61fab4a2b"
+  digest = "1:d9675649a9ffe9f4ff4b66e660afbddb24c4b4c032d7d5ac18cc6e65ec802933"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -37,6 +37,7 @@
     "aws/session",
     "aws/signer/v4",
     "internal/ini",
+    "internal/s3err",
     "internal/sdkio",
     "internal/sdkmath",
     "internal/sdkrand",
@@ -44,14 +45,23 @@
     "internal/shareddefaults",
     "private/protocol",
     "private/protocol/ec2query",
+    "private/protocol/eventstream",
+    "private/protocol/eventstream/eventstreamapi",
     "private/protocol/json/jsonutil",
+    "private/protocol/jsonrpc",
     "private/protocol/query",
     "private/protocol/query/queryutil",
     "private/protocol/rest",
+    "private/protocol/restxml",
     "private/protocol/xml/xmlutil",
+    "service/autoscaling",
     "service/cloudwatch",
     "service/ec2",
     "service/elb",
+    "service/elbv2",
+    "service/rds",
+    "service/s3",
+    "service/servicequotas",
     "service/sts",
     "service/sts/stsiface",
   ]
@@ -148,9 +158,14 @@
     "github.com/aws/aws-sdk-go/aws",
     "github.com/aws/aws-sdk-go/aws/credentials/stscreds",
     "github.com/aws/aws-sdk-go/aws/session",
+    "github.com/aws/aws-sdk-go/service/autoscaling",
     "github.com/aws/aws-sdk-go/service/cloudwatch",
     "github.com/aws/aws-sdk-go/service/ec2",
     "github.com/aws/aws-sdk-go/service/elb",
+    "github.com/aws/aws-sdk-go/service/elbv2",
+    "github.com/aws/aws-sdk-go/service/rds",
+    "github.com/aws/aws-sdk-go/service/s3",
+    "github.com/aws/aws-sdk-go/service/servicequotas",
     "github.com/aws/aws-sdk-go/service/sts",
     "github.com/aws/aws-sdk-go/service/sts/stsiface",
     "github.com/pkg/errors",
