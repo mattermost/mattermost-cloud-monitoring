@@ -245,7 +245,8 @@ func checkVPCScaling(dbClusters *resourcegroupstaggingapi.GetResourcesOutput, vp
 		if err != nil {
 			return false, errors.Wrap(err, "failed tο change tag counter value into integer")
 		}
-		if counterInt >= os.Getenv("CounterLimit") {
+		counterLimit, err := strconv.Atoi(os.Getenv("CounterLimit"))
+		if counterInt >= counterLimit {
 			limitCheck++
 		}
 	}
