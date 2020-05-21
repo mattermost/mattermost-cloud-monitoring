@@ -45,7 +45,7 @@ func (attachment *MMAttachment) AddField(field MMField) *MMAttachment {
 	return attachment
 }
 
-func send(webhookURL string, payload MMSlashResponse) {
+func send(webhookURL string, payload MMSlashResponse) error {
 	marshalContent, _ := json.Marshal(payload)
 	var jsonStr = []byte(marshalContent)
 	req, err := http.NewRequest("POST", webhookURL, bytes.NewBuffer(jsonStr))
@@ -55,7 +55,8 @@ func send(webhookURL string, payload MMSlashResponse) {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer resp.Body.Close()
+	return nil
 }

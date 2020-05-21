@@ -39,19 +39,28 @@ func handler() {
 	err := checkEnvVariables()
 	if err != nil {
 		log.WithError(err).Error("Environment variables were not set")
-		sendMattermostErrorNotification(err, "The Database Factory horizontal scaling Lambda failed.")
+		err = sendMattermostErrorNotification(err, "The Database Factory horizontal scaling Lambda failed.")
+		if err != nil {
+			log.WithError(err).Error("Failed to send Mattermost error notification")
+		}
 		return
 	}
 	vpcList, err := getVPCs()
 	if err != nil {
 		log.WithError(err).Error("Unable to get VPCs")
-		sendMattermostErrorNotification(err, "The Database Factory horizontal scaling Lambda failed.")
+		err = sendMattermostErrorNotification(err, "The Database Factory horizontal scaling Lambda failed.")
+		if err != nil {
+			log.WithError(err).Error("Failed to send Mattermost error notification")
+		}
 		return
 	}
 	_, err = checkDBClustersScaling(vpcList)
 	if err != nil {
 		log.WithError(err).Error("Unable to check DB cluster scaling")
-		sendMattermostErrorNotification(err, "The Database Factory horizontal scaling Lambda failed.")
+		err = sendMattermostErrorNotification(err, "The Database Factory horizontal scaling Lambda failed.")
+		if err != nil {
+			log.WithError(err).Error("Failed to send Mattermost error notification")
+		}
 		return
 	}
 }
@@ -222,7 +231,10 @@ func requestDeployCluster(vpc string) error {
 	if err != nil {
 		return errors.Wrap(err, "failed tο unmarshal database factory request")
 	}
-	sendMattermostNotification(databaseFactoryRequest, "A new RDS Cluster was successfully requested in the Database Factory.")
+	err = sendMattermostNotification(databaseFactoryRequest, "A new RDS Cluster was successfully requested in the Database Factory.")
+	if err != nil {
+		return errors.Wrap(err, "failed tο send Mattermost notification")
+	}
 	log.Infof("The request was posted successfully %s", string(body))
 
 	return nil
@@ -264,7 +276,7 @@ func checkVPCScaling(dbClusters *resourcegroupstaggingapi.GetResourcesOutput, vp
 	return false, nil
 }
 
-func sendMattermostNotification(databaseFactoryRequest DatabaseFactoryRequest, message string) {
+func sendMattermostNotification(databaseFactoryRequest DatabaseFactoryRequest, message string) error {
 
 	attachment := []MMAttachment{}
 	attach := MMAttachment{
@@ -287,10 +299,14 @@ func sendMattermostNotification(databaseFactoryRequest DatabaseFactoryRequest, m
 		IconURL:     "https://cdn2.iconfinder.com/data/icons/amazon-aws-stencils/100/Non-Service_Specific_copy__AWS_Cloud-128.png",
 		Attachments: attachment,
 	}
-	send(os.Getenv("MattermostNotificationsHook"), payload)
+	err := send(os.Getenv("MattermostNotificationsHook"), payload)
+	if err != nil {
+		return errors.Wrap(err, "failed tο send Mattermost request payload")
+	}
+	return nil
 }
 
-func sendMattermostErrorNotification(errorMessage error, message string) {
+func sendMattermostErrorNotification(errorMessage error, message string) error {
 
 	attachment := []MMAttachment{}
 	attach := MMAttachment{
@@ -307,5 +323,9 @@ func sendMattermostErrorNotification(errorMessage error, message string) {
 		IconURL:     "https://cdn2.iconfinder.com/data/icons/amazon-aws-stencils/100/Non-Service_Specific_copy__AWS_Cloud-128.png",
 		Attachments: attachment,
 	}
-	send(os.Getenv("MattermostAlertsHook"), payload)
+	err := send(os.Getenv("MattermostAlertsHook"), payload)
+	if err != nil {
+		return errors.Wrap(err, "failed tο send Mattermost error payload")
+	}
+	return nil
 }
