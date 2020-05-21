@@ -20,6 +20,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// DatabaseFactoryRequest is used to unmarshal database factory request that will be used for Mattermost notifications
 type DatabaseFactoryRequest struct {
 	VPCID                 string `json:"vpcID"`
 	Environment           string `json:"environment"`
@@ -278,7 +279,7 @@ func sendMattermostNotification(databaseFactoryRequest DatabaseFactoryRequest, m
 
 	payload := MMSlashResponse{
 		Username:    "Database Factory",
-		IconUrl:     "https://cdn2.iconfinder.com/data/icons/amazon-aws-stencils/100/Non-Service_Specific_copy__AWS_Cloud-128.png",
+		IconURL:     "https://cdn2.iconfinder.com/data/icons/amazon-aws-stencils/100/Non-Service_Specific_copy__AWS_Cloud-128.png",
 		Attachments: attachment,
 	}
 	send(os.Getenv("MattermostNotificationsHook"), payload)
@@ -298,7 +299,7 @@ func sendMattermostErrorNotification(errorMessage error, message string) {
 
 	payload := MMSlashResponse{
 		Username:    "Database Factory",
-		IconUrl:     "https://cdn2.iconfinder.com/data/icons/amazon-aws-stencils/100/Non-Service_Specific_copy__AWS_Cloud-128.png",
+		IconURL:     "https://cdn2.iconfinder.com/data/icons/amazon-aws-stencils/100/Non-Service_Specific_copy__AWS_Cloud-128.png",
 		Attachments: attachment,
 	}
 	send(os.Getenv("MattermostAlertsHook"), payload)
