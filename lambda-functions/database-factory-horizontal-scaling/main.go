@@ -186,11 +186,16 @@ func checkDBClustersScaling(vpcList []string) ([]string, error) {
 }
 
 func requestDeployCluster(vpc string) error {
+	applyBool, err := strconv.ParseBool(os.Getenv("TerraformApply"))
+	if err != nil {
+		return errors.Wrap(err, "failed to parse bool from TerraformApply string")
+	}
+
 	requestBody, err := json.Marshal(map[string]interface{}{
 		"vpcID":                 vpc,
 		"environment":           os.Getenv("Environment"),
 		"stateStore":            os.Getenv("StateStore"),
-		"apply":                 os.Getenv("TerraformApply"),
+		"apply":                 applyBool,
 		"instanceType":          os.Getenv("DBInstanceType"),
 		"backupRetentionPeriod": os.Getenv("BackupRetentionPeriod"),
 	})
