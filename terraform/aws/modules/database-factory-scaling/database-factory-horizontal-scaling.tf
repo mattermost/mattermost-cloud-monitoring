@@ -52,8 +52,8 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRoleDBFact
 }
 
 resource "aws_lambda_function" "database_factory_horizontal_scaling" {
-  s3_bucket     = var.s3_bucket
-  s3_key        = var.s3_key
+  s3_bucket     = var.lambda_s3_bucket
+  s3_key        = var.lambda_s3_key
   function_name = "database-factory-horizontal-scaling"
   role          = aws_iam_role.database_factory_horizontal_scaling_lambda_role.arn
   handler       = "main"
