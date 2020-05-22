@@ -6,7 +6,7 @@ variable "rds_multitenant_dbcluster_tag_purpose" {}
 
 variable "rds_multitenant_dbcluster_tag_database_type" {}
 
-variable "counter_limit" {}
+variable "max_allowed_installations" {}
 
 variable "environment" {}
 

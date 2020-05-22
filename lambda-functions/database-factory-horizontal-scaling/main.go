@@ -66,38 +66,34 @@ func handler() {
 }
 
 func checkEnvVariables() error {
-	if os.Getenv("RDSMultitenantDBClusterNamePrefix") == "" {
-		return errors.Errorf("Environment variable RDSMultitenantDBClusterNamePrefix was not set")
+	var envVariables = []string{
+		"RDSMultitenantDBClusterNamePrefix",
+		"RDSMultitenantDBClusterTagPurpose",
+		"RDSMultitenantDBClusterTagDatabaseType",
+		"MaxAllowedInstallations",
+		"Environment",
+		"DBInstanceType",
+		"TerraformApply",
+		"BackupRetentionPeriod",
+		"DatabaseFactoryEndpoint",
+		"MattermostNotificationsHook",
+		"MattermostAlertsHook",
+		"StateStore",
 	}
-	if os.Getenv("RDSMultitenantDBClusterTagPurpose") == "" {
-		return errors.Errorf("Environment variable RDSMultitenantDBClusterTagPurpose was not set")
+
+	for _, envVar := range envVariables {
+		if os.Getenv(envVar) == "" {
+			return errors.Errorf("Environment variable %s was not set", envVar)
+		}
 	}
-	if os.Getenv("RDSMultitenantDBClusterTagDatabaseType") == "" {
-		return errors.Errorf("Environment variable RDSMultitenantDBClusterTagDatabaseType was not set")
+
+	_, err := strconv.ParseBool(os.Getenv("TerraformApply"))
+	if err != nil {
+		return errors.Wrap(err, "failed to parse bool from TerraformApply string")
 	}
-	if os.Getenv("CounterLimit") == "" {
-		return errors.Errorf("Environment variable CounterLimit was not set")
-	}
-	if os.Getenv("Environment") == "" {
-		return errors.Errorf("Environment variable Environment was not set")
-	}
-	if os.Getenv("DBInstanceType") == "" {
-		return errors.Errorf("Environment variable DBInstanceType was not set")
-	}
-	if os.Getenv("TerraformApply") == "" {
-		return errors.Errorf("Environment variable TerraformApply was not set")
-	}
-	if os.Getenv("BackupRetentionPeriod") == "" {
-		return errors.Errorf("Environment variable BackupRetentionPeriod was not set")
-	}
-	if os.Getenv("DatabaseFactoryEndpoint") == "" {
-		return errors.Errorf("Environment variable DatabaseFactoryEndpoint was not set")
-	}
-	if os.Getenv("MattermostNotificationsHook") == "" {
-		return errors.Errorf("Environment variable MattermostNotificationsHook was not set")
-	}
-	if os.Getenv("MattermostAlertsHook") == "" {
-		return errors.Errorf("Environment variable MattermostAlertsHook was not set")
+	_, err = strconv.Atoi(os.Getenv("MaxAllowedInstallations"))
+	if err != nil {
+		return errors.Wrap(err, "failed to parse integer from CounterLimit string")
 	}
 	return nil
 }
@@ -142,6 +138,9 @@ func getVPCs() ([]string, error) {
 		next = vpcs.NextToken
 
 	}
+	if len(vpcList) == 0 {
+		return nil, errors.Errorf("VPC describe returned an empty list")
+	}
 	return vpcList, nil
 
 }
@@ -176,11 +175,11 @@ func checkDBClustersScaling(vpcList []string) ([]string, error) {
 			return nil, errors.Wrap(err, "failed to get available multitenant DB clusters")
 		}
 		if len(dbClusters.ResourceTagMappingList) > 0 {
-			bool, err := checkVPCScaling(dbClusters, vpc)
+			needsScaling, err := checkVPCScaling(dbClusters, vpc)
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to check if cluster scaling is needed")
 			}
-			if bool {
+			if needsScaling {
 				log.Infof("Initiating new RDS cluster deployment in vpc (%s)", vpc)
 				err = requestDeployCluster(vpc)
 				if err != nil {
@@ -195,10 +194,7 @@ func checkDBClustersScaling(vpcList []string) ([]string, error) {
 }
 
 func requestDeployCluster(vpc string) error {
-	applyBool, err := strconv.ParseBool(os.Getenv("TerraformApply"))
-	if err != nil {
-		return errors.Wrap(err, "failed to parse bool from TerraformApply string")
-	}
+	applyBool, _ := strconv.ParseBool(os.Getenv("TerraformApply"))
 
 	requestBody, err := json.Marshal(map[string]interface{}{
 		"vpcID":                 vpc,
@@ -241,8 +237,10 @@ func requestDeployCluster(vpc string) error {
 }
 
 func checkVPCScaling(dbClusters *resourcegroupstaggingapi.GetResourcesOutput, vpc string) (bool, error) {
-	var currentClusters int
-	var limitCheck int
+	var deployedClusters int
+	var clustersOverLimit int
+	maxAllowedInstallations, _ := strconv.Atoi(os.Getenv("MaxAllowedInstallations"))
+
 	for _, cluster := range dbClusters.ResourceTagMappingList {
 		var counter *string
 		clusterARN, err := arn.Parse(*cluster.ResourceARN)
@@ -253,44 +251,42 @@ func checkVPCScaling(dbClusters *resourcegroupstaggingapi.GetResourcesOutput, vp
 			log.Warnf("Provisioner skipped RDS resource (%s) because name does not have a correct multitenant database prefix (%s)", clusterARN.Resource, os.Getenv("RDSMultitenantDBClusterNamePrefix"))
 			continue
 		}
-		currentClusters++
+		deployedClusters++
 		for _, tag := range cluster.Tags {
 			if *tag.Key == "Counter" && tag.Value != nil {
 				counter = tag.Value
 			}
 		}
-		counterInt, err := strconv.Atoi(*counter)
+		currentDeployedInstallations, err := strconv.Atoi(*counter)
 		if err != nil {
 			return false, errors.Wrap(err, "failed tο change tag counter value into integer")
 		}
-		counterLimit, err := strconv.Atoi(os.Getenv("CounterLimit"))
-		if counterInt >= counterLimit {
-			limitCheck++
+		if currentDeployedInstallations >= maxAllowedInstallations {
+			clustersOverLimit++
 		}
 	}
-	if currentClusters == limitCheck {
-		log.Infof("The VPC (%s) has %v deployed RDS Clusters and scaling is needed", vpc, currentClusters)
+	if deployedClusters == clustersOverLimit {
+		log.Infof("The VPC (%s) has %d deployed RDS Clusters and scaling is needed", vpc, deployedClusters)
 		return true, nil
 	}
-	log.Infof("The VPC (%s) has %v deployed RDS Clusters and no scaling is needed", vpc, currentClusters)
+	log.Infof("The VPC (%s) has %d deployed RDS Clusters and no scaling is needed", vpc, deployedClusters)
 	return false, nil
 }
 
 func sendMattermostNotification(databaseFactoryRequest DatabaseFactoryRequest, message string) error {
-
 	attachment := []MMAttachment{}
 	attach := MMAttachment{
 		Color: "#006400",
 	}
 
-	attach = *attach.AddField(MMField{Title: message, Short: false})
-	attach = *attach.AddField(MMField{Title: "VPCID", Value: databaseFactoryRequest.VPCID, Short: true})
-	attach = *attach.AddField(MMField{Title: "Environment", Value: databaseFactoryRequest.Environment, Short: true})
-	attach = *attach.AddField(MMField{Title: "StateStore", Value: databaseFactoryRequest.StateStore, Short: true})
-	attach = *attach.AddField(MMField{Title: "Apply", Value: strconv.FormatBool(databaseFactoryRequest.Apply), Short: true})
-	attach = *attach.AddField(MMField{Title: "InstanceType", Value: databaseFactoryRequest.InstanceType, Short: true})
-	attach = *attach.AddField(MMField{Title: "BackupRetentionPeriod", Value: databaseFactoryRequest.BackupRetentionPeriod, Short: true})
-	attach = *attach.AddField(MMField{Title: "ClusterID", Value: databaseFactoryRequest.ClusterID, Short: true})
+	attach = *attach.AddField(MMField{Title: message, Short: false}).
+		AddField(MMField{Title: "VPCID", Value: databaseFactoryRequest.VPCID, Short: true}).
+		AddField(MMField{Title: "Environment", Value: databaseFactoryRequest.Environment, Short: true}).
+		AddField(MMField{Title: "StateStore", Value: databaseFactoryRequest.StateStore, Short: true}).
+		AddField(MMField{Title: "Apply", Value: strconv.FormatBool(databaseFactoryRequest.Apply), Short: true}).
+		AddField(MMField{Title: "InstanceType", Value: databaseFactoryRequest.InstanceType, Short: true}).
+		AddField(MMField{Title: "BackupRetentionPeriod", Value: databaseFactoryRequest.BackupRetentionPeriod, Short: true}).
+		AddField(MMField{Title: "ClusterID", Value: databaseFactoryRequest.ClusterID, Short: true})
 
 	attachment = append(attachment, attach)
 
@@ -307,14 +303,13 @@ func sendMattermostNotification(databaseFactoryRequest DatabaseFactoryRequest, m
 }
 
 func sendMattermostErrorNotification(errorMessage error, message string) error {
-
 	attachment := []MMAttachment{}
 	attach := MMAttachment{
 		Color: "#FF0000",
 	}
 
-	attach = *attach.AddField(MMField{Title: message, Short: false})
-	attach = *attach.AddField(MMField{Title: "Error Message", Value: errorMessage.Error(), Short: false})
+	attach = *attach.AddField(MMField{Title: message, Short: false}).
+		AddField(MMField{Title: "Error Message", Value: errorMessage.Error(), Short: false})
 
 	attachment = append(attachment, attach)
 

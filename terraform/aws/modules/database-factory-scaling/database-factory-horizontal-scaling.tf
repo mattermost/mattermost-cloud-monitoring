@@ -69,7 +69,7 @@ resource "aws_lambda_function" "database_factory_horizontal_scaling" {
       RDSMultitenantDBClusterNamePrefix      = var.rds_multitenant_dbcluster_name_prefix,
       RDSMultitenantDBClusterTagPurpose      = var.rds_multitenant_dbcluster_tag_purpose,
       RDSMultitenantDBClusterTagDatabaseType = var.rds_multitenant_dbcluster_tag_database_type,
-      CounterLimit                           = var.counter_limit,
+      MaxAllowedInstallations                = var.max_allowed_installations,
       Environment                            = var.environment,
       StateStore                             = var.state_store,
       DBInstanceType                         = var.db_instance_type,
