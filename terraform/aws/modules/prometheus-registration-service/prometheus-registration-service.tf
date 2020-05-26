@@ -1,26 +1,6 @@
-resource "aws_iam_role" "lambda_role" {
-  name = "iam_for_lambda"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-}
-
 resource "aws_iam_role_policy" "EKSAccess" {
   name = "test_policy"
-  role = aws_iam_role.lambda_role.id
+  role = var.lambda_role_id
 
   policy = <<EOF
 {
@@ -48,12 +28,12 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  role       = aws_iam_role.lambda_role.name
+  role       = var.lambda_role_name
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonRoute53ReadOnlyAccess" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonRoute53ReadOnlyAccess"
-  role       = aws_iam_role.lambda_role.name
+  role       = var.lambda_role_name
 }
 
 
@@ -61,7 +41,7 @@ resource "aws_lambda_function" "prometheus_registration" {
   s3_bucket     = "releases.mattermost.com"
   s3_key        = "mattermost-cloud/prometheus-dns-registration-service/master/main.zip"
   function_name = "prometheus-dns-registration-service"
-  role          = aws_iam_role.lambda_role.arn
+  role          = var.lambda_role_arn
   handler       = "main"
   timeout       = 120
   runtime       = "go1.x"
@@ -133,4 +113,14 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_prometheus_registrati
   function_name = aws_lambda_function.prometheus_registration.function_name
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.route53_updates.arn
+}
+
+resource "aws_security_group_rule" "prometheus-lambda-ingress" {
+  description              = "Allow prometheus lambda registration service to communicate with cluster"
+  from_port                = 443
+  protocol                 = "tcp"
+  security_group_id        = var.cluster-sg
+  source_security_group_id = aws_security_group.lambda-sg.id
+  to_port                  = 443
+  type                     = "ingress"
 }
