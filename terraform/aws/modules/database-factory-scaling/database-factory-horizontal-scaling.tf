@@ -76,7 +76,7 @@ resource "aws_lambda_function" "database_factory_horizontal_scaling" {
       TerraformApply                         = var.terraform_apply,
       BackupRetentionPeriod                  = var.backup_retention_period,
       DatabaseFactoryEndpoint                = var.database_factory_endpoint
-      MattermostNotificationsHook            = var.mattermost_notificatios_hook
+      MattermostNotificationsHook            = var.mattermost_notifications_hook
       MattermostAlertsHook                   = var.mattermost_alerts_hook
     }
   }
