@@ -145,11 +145,11 @@ resource "aws_security_group_rule" "db_ingress_worker" {
 resource "aws_security_group_rule" "db_ingress_worker_command_control" {
   for_each = toset(var.vpc_cidrs)
 
-  cidr_blocks              = var.command_and_control_private_subnet_cidrs
-  description              = "Ingress Traffic from Command and Control Private Subnets"
-  from_port                = 3306
-  protocol                 = "TCP"
-  security_group_id        = aws_security_group.db_sg[each.value]["id"]
-  to_port                  = 3306
-  type                     = "ingress"
+  cidr_blocks       = var.command_and_control_private_subnet_cidrs
+  description       = "Ingress Traffic from Command and Control Private Subnets"
+  from_port         = 3306
+  protocol          = "TCP"
+  security_group_id = aws_security_group.db_sg[each.value]["id"]
+  to_port           = 3306
+  type              = "ingress"
 }
