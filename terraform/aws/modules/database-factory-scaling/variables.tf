@@ -20,7 +20,7 @@ variable "backup_retention_period" {}
 
 variable "database_factory_endpoint" {}
 
-variable "mattermost_notificatios_hook" {}
+variable "mattermost_notifications_hook" {}
 
 variable "mattermost_alerts_hook" {}
 
