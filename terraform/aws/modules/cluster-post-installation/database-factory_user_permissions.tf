@@ -167,6 +167,14 @@ resource "aws_iam_policy" "iam_db_factory" {
                 "iam:PassRole"
             ],
             "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/rds-enhanced-monitoring-mattermost-cloud-${var.environment}-provisioning"
+        },
+        {
+            "Sid": "iam0",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateServiceLinkedRole"
+            ],
+            "Resource": "*"
         }
     ]
 }
