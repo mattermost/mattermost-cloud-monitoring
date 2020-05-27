@@ -65,7 +65,8 @@ resource "aws_iam_policy" "rds" {
             "Action": [
                 "rds:DescribeDBSubnetGroups",
                 "rds:DescribeDBClusters",
-                "rds:AddTagsToResource"
+                "rds:AddTagsToResource",
+                "rds:DescribeDBClusterEndpoints"
             ],
             "Resource": "*"
         }
