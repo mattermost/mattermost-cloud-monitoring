@@ -106,9 +106,6 @@ resource "kubernetes_deployment" "mattermost_cloud_database_factory" {
   #     ]
   #   }
 
-  depends_on = [
-    kubernetes_secret.mattermost_cloud_secret,
-  ]
 }
 
 resource "kubernetes_ingress" "mattermost_cloud_database_factory_ingress" {
