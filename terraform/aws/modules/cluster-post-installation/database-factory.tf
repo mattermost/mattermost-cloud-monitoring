@@ -10,7 +10,7 @@ resource "kubernetes_deployment" "mattermost_cloud_database_factory" {
   }
 
   spec {
-    replicas = 2
+    replicas = 1
 
     selector {
       match_labels = {
