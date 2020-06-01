@@ -27,4 +27,3 @@ variable "eks_ami_id" {}
 variable "key_name" {}
 
 variable "teleport_cidr" {}
-

@@ -3,9 +3,9 @@ controller:
   name: controller
   image:
     repository: quay.io/kubernetes-ingress-controller/nginx-ingress-controller
-    tag: "0.25.1"
+    tag: "0.31.1"
     pullPolicy: IfNotPresent
-    runAsUser: 33
+    runAsUser: 101
     allowPrivilegeEscalation: true
 
   # Configures the ports the nginx-controller listens on
@@ -56,7 +56,7 @@ controller:
     annotations:
       service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
       service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
-      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: 443
     labels: {}
     omitClusterIP: false
     clusterIP: ""
