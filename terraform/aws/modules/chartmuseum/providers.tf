@@ -1,14 +1,8 @@
-data "aws_caller_identity" "current" {}
-
 data "helm_repository" "stable" {
   name = "stable"
   url  = "https://kubernetes-charts.storage.googleapis.com"
 }
 
-data "helm_repository" "kiwigrid" {
-  name = "kiwigrid"
-  url  = "https://kiwigrid.github.io"
-}
 
 data "aws_eks_cluster_auth" "cluster_auth" {
   name = var.deployment_name
@@ -27,10 +21,6 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  install_tiller  = true
-  service_account = "terraform-tiller"
-  namespace       = "kube-system"
-  tiller_image    = "gcr.io/kubernetes-helm/tiller:v${var.tiller_version}"
   kubernetes {
     config_path            = "${var.kubeconfig_dir}/kubeconfig"
     host                   = data.aws_eks_cluster.cluster.endpoint

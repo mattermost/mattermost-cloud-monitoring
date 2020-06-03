@@ -8,7 +8,7 @@ resource "helm_release" "grafana" {
   ]
   set_string {
     name  = "datasources.datasources\\.yaml.datasources[1].url"
-    value = aws_db_instance.provisioner.endpoint
+    value = var.aws_db_instance_provisioner_endpoint
   }
   depends_on = [
     kubernetes_namespace.monitoring,
