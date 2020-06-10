@@ -283,7 +283,8 @@ resource "aws_iam_policy" "iam" {
             "Action": [
                 "iam:ListRoles",
                 "iam:ListInstanceProfiles",
-                "iam:ListRolePolicies"
+                "iam:ListRolePolicies",
+                "iam:ListAccountAliases"
             ],
             "Resource": "*"
         },
