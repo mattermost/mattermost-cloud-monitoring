@@ -229,6 +229,7 @@ resource "aws_iam_policy" "ec2" {
                 "autoscaling:EnableMetricsCollection",
                 "autoscaling:AttachLoadBalancers",
                 "autoscaling:DetachLoadBalancers",
+                "autoscaling:TerminateInstanceInAutoScalingGroup",
                 "acm:ListCertificates",
                 "acm:ListTagsForCertificate"
             ],
@@ -282,7 +283,8 @@ resource "aws_iam_policy" "iam" {
             "Action": [
                 "iam:ListRoles",
                 "iam:ListInstanceProfiles",
-                "iam:ListRolePolicies"
+                "iam:ListRolePolicies",
+                "iam:ListAccountAliases"
             ],
             "Resource": "*"
         },

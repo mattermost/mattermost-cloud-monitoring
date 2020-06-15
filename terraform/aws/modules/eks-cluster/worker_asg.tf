@@ -33,7 +33,7 @@ resource "aws_autoscaling_group" "worker-asg" {
   max_size             = var.max_size
   min_size             = var.min_size
   name                 = "${var.deployment_name}-worker-asg"
-  vpc_zone_identifier  = flatten(var.private_subnet_ids)
+  vpc_zone_identifier  = flatten(var.worker_private_subnet_ids)
   termination_policies = ["OldestLaunchConfiguration"]
 
   tag {
