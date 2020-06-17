@@ -1,4 +1,4 @@
-variable "private_subnet_ids" {}
+variable "cloud_db_factory_horizontal_scaling_image" {}
 
 variable "rds_multitenant_dbcluster_name_prefix" {}
 
@@ -24,10 +24,14 @@ variable "mattermost_notifications_hook" {}
 
 variable "mattermost_alerts_hook" {}
 
-variable "vpc_id" {}
+variable "cloud_db_factory_secrets_aws_access_key" {}
 
-variable "database_factory_horizontal_scaling_lambda_schedule" {}
+variable "cloud_db_factory_secrets_aws_secret_key" {}
 
-variable "lambda_s3_bucket" {}
+variable "cloud_db_factory_secrets_aws_region" {}
 
-variable "lambda_s3_key" {}
+variable "horizontal_scaling_cronjob_schedule" {}
+
+variable "mattermost_cloud_namespace" {}
+
+variable "db_factory_horizontal_scaling_users" {}
