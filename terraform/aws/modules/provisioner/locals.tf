@@ -11,5 +11,5 @@ data "terraform_remote_state" "cluster" {
 }
 
 locals {
-  conditional_region_dash = data.aws_region.current.name == "us-east-1" ? "" : "-${data.aws_region.current.name}"
+  conditional_dash_region = data.aws_region.current.name == "us-east-1" ? "" : "-${data.aws_region.current.name}"
 }

@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "route53" {
-  name        = "mattermost-provisioner-route53-policy${local.conditional_region_dash}"
+  name        = "mattermost-provisioner-route53-policy${local.conditional_dash_region}"
   path        = "/"
   description = "Route53 permissions for provisioner user"
 
@@ -25,7 +25,7 @@ EOF
 }
 
 resource "aws_iam_policy" "rds" {
-  name        = "mattermost-provisioner-rds-policy${local.conditional_region_dash}"
+  name        = "mattermost-provisioner-rds-policy${local.conditional_dash_region}"
   path        = "/"
   description = "RDS permissions for provisioner user"
 
@@ -74,7 +74,7 @@ EOF
 }
 
 resource "aws_iam_policy" "s3" {
-  name        = "mattermost-provisioner-s3-policy${local.conditional_region_dash}"
+  name        = "mattermost-provisioner-s3-policy${local.conditional_dash_region}"
   path        = "/"
   description = "S3 permissions for provisioner user"
 
@@ -133,7 +133,7 @@ EOF
 }
 
 resource "aws_iam_policy" "secrets_manager" {
-  name        = "mattermost-provisioner-secretsmanager-policy${local.conditional_region_dash}"
+  name        = "mattermost-provisioner-secretsmanager-policy${local.conditional_dash_region}"
   path        = "/"
   description = "Secrets Manager permissions for provisioner user"
 
@@ -158,7 +158,7 @@ EOF
 }
 
 resource "aws_iam_policy" "ec2" {
-  name        = "mattermost-provisioner-ec2-policy${local.conditional_region_dash}"
+  name        = "mattermost-provisioner-ec2-policy${local.conditional_dash_region}"
   path        = "/"
   description = "EC2 permissions for provisioner user"
 
@@ -239,7 +239,7 @@ EOF
 }
 
 resource "aws_iam_policy" "vpc" {
-  name        = "mattermost-provisioner-vpc-policy${local.conditional_region_dash}"
+  name        = "mattermost-provisioner-vpc-policy${local.conditional_dash_region}"
   path        = "/"
   description = "VPC permissions for provisioner user"
 
@@ -267,7 +267,7 @@ EOF
 }
 
 resource "aws_iam_policy" "iam" {
-  name        = "mattermost-provisioner-iam-policy${local.conditional_region_dash}"
+  name        = "mattermost-provisioner-iam-policy${local.conditional_dash_region}"
   path        = "/"
   description = "IAM permissions for provisioner user"
 
@@ -343,7 +343,7 @@ EOF
 }
 
 resource "aws_iam_policy" "kms" {
-  name        = "mattermost-provisioner-kms-policy${local.conditional_region_dash}"
+  name        = "mattermost-provisioner-kms-policy${local.conditional_dash_region}"
   path        = "/"
   description = "KMS permissions for provisioner user"
 
@@ -378,7 +378,7 @@ EOF
 }
 
 resource "aws_iam_policy" "tag" {
-  name        = "mattermost-provisioner-tag-policy${local.conditional_region_dash}"
+  name        = "mattermost-provisioner-tag-policy${local.conditional_dash_region}"
   path        = "/"
   description = "Resource Group Tagging permissions for provisioner user"
 
