@@ -1,16 +1,3 @@
-provider "aws" {
-  region = var.region
-}
-
-data "terraform_remote_state" "cluster" {
-  backend = "s3"
-  config = {
-    bucket = "terraform-cloud-monitoring-state-bucket-${var.environment}"
-    key    = "mattermost-central-command-control"
-    region = "us-east-1"
-  }
-}
-
 resource "aws_security_group" "cec_to_postgress" {
   name                   = "cec_to_postgress"
   description            = "Allow K8s C&C to access RDS Postgres"

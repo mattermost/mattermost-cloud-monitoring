@@ -1,7 +1,5 @@
-data "aws_caller_identity" "current" {}
-
 resource "aws_iam_policy" "route53" {
-  name        = "mattermost-provisioner-route53-policy"
+  name        = "mattermost-provisioner-route53-policy${local.conditional_dash_region}"
   path        = "/"
   description = "Route53 permissions for provisioner user"
 
@@ -27,7 +25,7 @@ EOF
 }
 
 resource "aws_iam_policy" "rds" {
-  name        = "mattermost-provisioner-rds-policy"
+  name        = "mattermost-provisioner-rds-policy${local.conditional_dash_region}"
   path        = "/"
   description = "RDS permissions for provisioner user"
 
@@ -43,8 +41,8 @@ resource "aws_iam_policy" "rds" {
                 "rds:DeleteDBCluster"
             ],
             "Resource": [
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster:cloud-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*"
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster:cloud-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*"
             ]
         },
         {
@@ -55,8 +53,8 @@ resource "aws_iam_policy" "rds" {
                 "rds:DeleteDBInstance"
             ],
             "Resource": [
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:db:cloud-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster:cloud-*"
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:db:cloud-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster:cloud-*"
             ]
         },
         {
@@ -76,7 +74,7 @@ EOF
 }
 
 resource "aws_iam_policy" "s3" {
-  name        = "mattermost-provisioner-s3-policy"
+  name        = "mattermost-provisioner-s3-policy${local.conditional_dash_region}"
   path        = "/"
   description = "S3 permissions for provisioner user"
 
@@ -135,7 +133,7 @@ EOF
 }
 
 resource "aws_iam_policy" "secrets_manager" {
-  name        = "mattermost-provisioner-secretsmanager-policy"
+  name        = "mattermost-provisioner-secretsmanager-policy${local.conditional_dash_region}"
   path        = "/"
   description = "Secrets Manager permissions for provisioner user"
 
@@ -160,7 +158,7 @@ EOF
 }
 
 resource "aws_iam_policy" "ec2" {
-  name        = "mattermost-provisioner-ec2-policy"
+  name        = "mattermost-provisioner-ec2-policy${local.conditional_dash_region}"
   path        = "/"
   description = "EC2 permissions for provisioner user"
 
@@ -241,7 +239,7 @@ EOF
 }
 
 resource "aws_iam_policy" "vpc" {
-  name        = "mattermost-provisioner-vpc-policy"
+  name        = "mattermost-provisioner-vpc-policy${local.conditional_dash_region}"
   path        = "/"
   description = "VPC permissions for provisioner user"
 
@@ -269,7 +267,7 @@ EOF
 }
 
 resource "aws_iam_policy" "iam" {
-  name        = "mattermost-provisioner-iam-policy"
+  name        = "mattermost-provisioner-iam-policy${local.conditional_dash_region}"
   path        = "/"
   description = "IAM permissions for provisioner user"
 
@@ -345,7 +343,7 @@ EOF
 }
 
 resource "aws_iam_policy" "kms" {
-  name        = "mattermost-provisioner-kms-policy"
+  name        = "mattermost-provisioner-kms-policy${local.conditional_dash_region}"
   path        = "/"
   description = "KMS permissions for provisioner user"
 
@@ -380,7 +378,7 @@ EOF
 }
 
 resource "aws_iam_policy" "tag" {
-  name        = "mattermost-provisioner-tag-policy"
+  name        = "mattermost-provisioner-tag-policy${local.conditional_dash_region}"
   path        = "/"
   description = "Resource Group Tagging permissions for provisioner user"
 

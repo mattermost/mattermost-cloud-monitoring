@@ -1,12 +1,10 @@
-provider "aws" {
-  region = var.region
-}
+data "aws_region" "current" {}
 
 data "terraform_remote_state" "cluster" {
   backend = "s3"
   config = {
     bucket = "terraform-cloud-monitoring-state-bucket-${var.environment}"
-    key    = "mattermost-central-command-control"
+    key    = "${data.aws_region.current.name}/mattermost-central-command-control"
     region = "us-east-1"
   }
 }
