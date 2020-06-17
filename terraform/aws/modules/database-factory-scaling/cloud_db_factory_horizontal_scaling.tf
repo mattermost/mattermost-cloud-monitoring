@@ -1,6 +1,6 @@
 resource "kubernetes_cron_job" "cloud_db_factory_horizontal_scaling_cron" {
   metadata {
-    name = "cloud-db-factory-horizontal-scaling"
+    name      = "cloud-db-factory-horizontal-scaling"
     namespace = var.mattermost_cloud_namespace
   }
   spec {
@@ -9,76 +9,76 @@ resource "kubernetes_cron_job" "cloud_db_factory_horizontal_scaling_cron" {
     successful_jobs_history_limit = 2
     schedule                      = var.horizontal_scaling_cronjob_schedule
     suspend                       = false
-    
+
     job_template {
       metadata {}
       spec {
-        ttl_seconds_after_finished    = 86400
+        ttl_seconds_after_finished = 86400
         template {
           metadata {}
           spec {
             container {
-              name  = "cloud-db-factory-horizontal-scaling"
-              image = var.cloud_db_factory_horizontal_scaling_image
+              name              = "cloud-db-factory-horizontal-scaling"
+              image             = var.cloud_db_factory_horizontal_scaling_image
               image_pull_policy = "Always"
 
               env {
-                name = "RDSMultitenantDBClusterNamePrefix"
+                name  = "RDSMultitenantDBClusterNamePrefix"
                 value = var.rds_multitenant_dbcluster_name_prefix
               }
 
               env {
-                name = "RDSMultitenantDBClusterTagPurpose"
+                name  = "RDSMultitenantDBClusterTagPurpose"
                 value = var.rds_multitenant_dbcluster_tag_purpose
               }
 
               env {
-                name = "RDSMultitenantDBClusterTagDatabaseType"
-                value= var.rds_multitenant_dbcluster_tag_database_type
+                name  = "RDSMultitenantDBClusterTagDatabaseType"
+                value = var.rds_multitenant_dbcluster_tag_database_type
               }
 
               env {
-                name = "MaxAllowedInstallations"
+                name  = "MaxAllowedInstallations"
                 value = var.max_allowed_installations
               }
 
               env {
-                name = "Environment"
+                name  = "Environment"
                 value = var.environment
               }
 
               env {
-                name = "StateStore"
+                name  = "StateStore"
                 value = var.state_store
               }
 
               env {
-                name = "DBInstanceType"
+                name  = "DBInstanceType"
                 value = var.db_instance_type
               }
 
               env {
-                name = "TerraformApply"
+                name  = "TerraformApply"
                 value = var.terraform_apply
               }
 
               env {
-                name = "BackupRetentionPeriod"
+                name  = "BackupRetentionPeriod"
                 value = var.backup_retention_period
               }
 
               env {
-                name = "DatabaseFactoryEndpoint"
+                name  = "DatabaseFactoryEndpoint"
                 value = var.database_factory_endpoint
               }
 
               env {
-                name = "MattermostNotificationsHook"
+                name  = "MattermostNotificationsHook"
                 value = var.mattermost_notifications_hook
               }
 
               env {
-                name = "MattermostAlertsHook"
+                name  = "MattermostAlertsHook"
                 value = var.mattermost_alerts_hook
               }
 
@@ -128,9 +128,9 @@ resource "kubernetes_cron_job" "cloud_db_factory_horizontal_scaling_cron" {
             }
           }
         }
-        }
       }
     }
+  }
 
   # Will be added in the future when managed by flux
   #   lifecycle {
