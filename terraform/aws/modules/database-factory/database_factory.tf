@@ -85,12 +85,12 @@ resource "kubernetes_deployment" "mattermost_cloud_database_factory" {
           }
 
           env {
-            name = "MattermostAlertsHook"
+            name  = "MattermostAlertsHook"
             value = var.mattermost_alerts_hook
           }
 
           env {
-            name = "MattermostNotificationsHook"
+            name  = "MattermostNotificationsHook"
             value = var.mattermost_notifications_hook
           }
 
