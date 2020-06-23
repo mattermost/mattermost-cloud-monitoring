@@ -1,7 +1,9 @@
+data "aws_caller_identity" "current" {}
+
 resource "kubernetes_deployment" "mattermost_cloud_database_factory" {
   metadata {
     name      = "mattermost-cloud-database-factory"
-    namespace = var.mattermost-cloud-namespace
+    namespace = var.mattermost_cloud_namespace
 
     labels = {
       "app.kubernetes.io/component" = "database-factory"
@@ -82,6 +84,16 @@ resource "kubernetes_deployment" "mattermost_cloud_database_factory" {
             }
           }
 
+          env {
+            name  = "MattermostAlertsHook"
+            value = var.mattermost_alerts_hook
+          }
+
+          env {
+            name  = "MattermostNotificationsHook"
+            value = var.mattermost_notifications_hook
+          }
+
           image_pull_policy = "Always"
         }
       }
@@ -111,7 +123,7 @@ resource "kubernetes_deployment" "mattermost_cloud_database_factory" {
 resource "kubernetes_ingress" "mattermost_cloud_database_factory_ingress" {
   metadata {
     name      = "mattermost-cloud-database-factory"
-    namespace = var.mattermost-cloud-namespace
+    namespace = var.mattermost_cloud_namespace
 
     annotations = {
       "kubernetes.io/ingress.class" = "nginx-internal"
@@ -147,7 +159,7 @@ resource "kubernetes_ingress" "mattermost_cloud_database_factory_ingress" {
 resource "kubernetes_secret" "mattermost_cloud_database_factory_secret" {
   metadata {
     name      = "mattermost-cloud-database-factory-secret"
-    namespace = var.mattermost-cloud-namespace
+    namespace = var.mattermost_cloud_namespace
   }
 
   data = {
@@ -171,7 +183,7 @@ resource "kubernetes_secret" "mattermost_cloud_database_factory_secret" {
 resource "kubernetes_service" "mattermost_cloud_database_factory_service" {
   metadata {
     name      = "mattermost-cloud-database-factory-service"
-    namespace = var.mattermost-cloud-namespace
+    namespace = var.mattermost_cloud_namespace
   }
 
   spec {
