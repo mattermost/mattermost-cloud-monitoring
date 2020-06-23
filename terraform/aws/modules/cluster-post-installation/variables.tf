@@ -28,10 +28,6 @@ variable "community_channel" {}
 
 variable "flux_git_url" {}
 
-variable "domain" {}
-
-variable "validation_acm_zoneid" {}
-
 variable "mattermost_cloud_dbfactory_image" {}
 
 variable "mattermost_cloud_dbfactory_ingress" {}
