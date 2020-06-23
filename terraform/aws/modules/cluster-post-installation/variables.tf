@@ -28,18 +28,8 @@ variable "community_channel" {}
 
 variable "flux_git_url" {}
 
-variable "mattermost_cloud_dbfactory_image" {}
+variable "domain" {}
 
-variable "mattermost_cloud_dbfactory_ingress" {}
-
-variable "mattermost_cloud_database_factory_secrets_aws_access_key" {}
-
-variable "mattermost_cloud_database_factory_secrets_aws_secret_key" {}
-
-variable "mattermost_cloud_database_factory_secrets_aws_region" {}
-
-variable "database_factory_users" {}
-
-variable "mattermost-cloud-namespace" {}
+variable "validation_acm_zoneid" {}
 
 variable "aws_db_instance_provisioner_endpoint" {}
