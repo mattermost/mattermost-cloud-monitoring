@@ -56,3 +56,8 @@ variable "mattermost_cloud_secret_ssh_public" {}
 
 variable "private_subnets" {}
 
+variable "domain" {}
+
+variable "validation_acm_zoneid" {}
+
+variable "private_hosted_zoneid" {}
