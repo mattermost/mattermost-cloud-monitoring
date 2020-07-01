@@ -15,6 +15,15 @@ data "helm_repository" "stable" {
   url  = "https://kubernetes-charts.storage.googleapis.com"
 }
 
+data "aws_eks_cluster_auth" "cluster_auth" {
+  name = var.deployment_name
+}
+
+data "aws_eks_cluster" "cluster" {
+  name = var.deployment_name
+}
+
 locals {
   conditional_dash_region = data.aws_region.current.name == "us-east-1" ? "" : "-${data.aws_region.current.name}"
+  timestamp_now = formatdate("YYYY-MM-DD-hh-mm", timestamp())
 }

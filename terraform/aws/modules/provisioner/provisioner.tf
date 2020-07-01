@@ -202,7 +202,8 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
   depends_on = [
     aws_db_instance.provisioner,
     kubernetes_secret.mattermost_cloud_secret,
-    kubernetes_secret.mattermost_cloud_ssh_secret
+    kubernetes_secret.mattermost_cloud_ssh_secret,
+    kubernetes_namespace.mattermost_cloud
   ]
 }
 
@@ -394,7 +395,8 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
   depends_on = [
     aws_db_instance.provisioner,
     kubernetes_secret.mattermost_cloud_secret,
-    kubernetes_secret.mattermost_cloud_ssh_secret
+    kubernetes_secret.mattermost_cloud_ssh_secret,
+    kubernetes_namespace.mattermost_cloud
   ]
 }
 
@@ -433,7 +435,8 @@ resource "kubernetes_ingress" "mattermost_cloud_ingress" {
   }
 
   depends_on = [
-    aws_db_instance.provisioner
+    aws_db_instance.provisioner,
+    kubernetes_namespace.mattermost_cloud
   ]
 }
 
@@ -464,7 +467,8 @@ resource "kubernetes_secret" "mattermost_cloud_secret" {
   }
 
   depends_on = [
-    aws_db_instance.provisioner
+    aws_db_instance.provisioner,
+    kubernetes_namespace.mattermost_cloud
   ]
 }
 
@@ -490,7 +494,8 @@ resource "kubernetes_secret" "mattermost_cloud_ssh_secret" {
   }
 
   depends_on = [
-    aws_db_instance.provisioner
+    aws_db_instance.provisioner,
+    kubernetes_namespace.mattermost_cloud
   ]
 }
 
@@ -523,6 +528,7 @@ resource "kubernetes_service" "mattermost_cloud_service" {
   }
 
   depends_on = [
-    aws_db_instance.provisioner
+    aws_db_instance.provisioner,
+    kubernetes_namespace.mattermost_cloud
   ]
 }

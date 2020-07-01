@@ -61,3 +61,19 @@ variable "domain" {}
 variable "validation_acm_zoneid" {}
 
 variable "private_hosted_zoneid" {}
+
+variable "deployment_name" {}
+
+variable "tiller_version" {}
+
+variable "kubeconfig_dir" {}
+
+variable "provisioner_name" {
+  type    = string
+  default = "provisioner"
+}
+
+variable "db_deletion_protection" {
+  type    = bool
+  default = true
+}
