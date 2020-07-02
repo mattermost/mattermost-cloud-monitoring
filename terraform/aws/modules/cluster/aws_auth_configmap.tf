@@ -26,7 +26,7 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
   }
   depends_on = [
     aws_eks_cluster.cluster,
-    null_resource.cluster_services,
+    # null_resource.cluster_services,
     aws_autoscaling_group.worker-asg,
     aws_iam_role.lambda_role
   ]
