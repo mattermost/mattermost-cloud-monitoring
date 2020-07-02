@@ -18,6 +18,10 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     username: admin
     groups:
       - system:masters
+  - rolearn: "${var.provider_role_arn}"
+    username: admin
+    groups:
+      - system:masters
   YAML
   }
   depends_on = [
