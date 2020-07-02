@@ -10,6 +10,7 @@ data "template_file" "kubeconfig" {
 
 
 resource "null_resource" "cluster_services" {
+  count = length(var.provider_role_arn) == 0 ? 0 : 1
   provisioner "local-exec" {
     command = <<LOCAL_EXEC
       mkdir "${var.kubeconfig_dir}"
