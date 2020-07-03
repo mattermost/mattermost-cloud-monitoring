@@ -15,6 +15,7 @@ resource "null_resource" "cluster_services" {
     command = <<LOCAL_EXEC
       touch "${var.kubeconfig_dir}/kubeconfig"
       echo $KUBECONFIG_DATA > "${var.kubeconfig_dir}/kubeconfig"
+      cat "${var.kubeconfig_dir}/kubeconfig"
     LOCAL_EXEC
     environment = {
       KUBECONFIG_DATA = "${data.template_file.kubeconfig.rendered}"
