@@ -3,7 +3,7 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 resource "aws_sns_topic" "vertical_scaling_sns_topic" {
-  name              = "cloud-db-factory-vertical-scaling-${var.environment}"
+  name = "cloud-db-factory-vertical-scaling-${var.environment}"
 }
 
 resource "aws_sqs_queue" "vertical_scaling_sqs_queue" {
