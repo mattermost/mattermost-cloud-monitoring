@@ -7,8 +7,17 @@ data "terraform_remote_state" "cluster" {
     bucket   = "terraform-cloud-monitoring-state-bucket-${var.environment}"
     key      = "${data.aws_region.current.name}/mattermost-central-command-control"
     region   = "us-east-1"
-    provider = aws
+    provider = aws.data
   }
+}
+
+
+provider "aws" {
+  assume_role {
+    role_arn = var.provider_role_arn
+  }
+  region = var.region
+  alias  = "data"
 }
 
 data "helm_repository" "stable" {

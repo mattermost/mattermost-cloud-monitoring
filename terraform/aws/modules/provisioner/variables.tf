@@ -77,3 +77,5 @@ variable "db_deletion_protection" {
   type    = bool
   default = true
 }
+
+variable "provider_role_arn" {}
