@@ -8,9 +8,7 @@ data "terraform_remote_state" "cluster" {
     key    = "${data.aws_region.current.name}/mattermost-central-command-control"
     region = "us-east-1"
   }
-  providers = {
-    aws = aws
-  }
+  provider = aws
 }
 
 data "helm_repository" "stable" {
