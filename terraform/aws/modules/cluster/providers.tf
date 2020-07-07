@@ -1,5 +1,3 @@
-data "aws_region" "current" {}
-
 data "aws_eks_cluster_auth" "cluster_auth" {
   name = var.deployment_name
 }

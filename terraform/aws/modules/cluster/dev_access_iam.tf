@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 resource "aws_iam_role" "dev_access_role" {
   name = "${var.deployment_name}-dev-access-role"
 
@@ -37,5 +35,3 @@ resource "aws_iam_role_policy" "dev_access_role" {
 }
 EOF
 }
-
-
