@@ -29,7 +29,7 @@ resource "aws_iam_role_policy" "dev_access_role" {
             "Sid": "ID0",
             "Effect": "Allow",
             "Action": "eks:DescribeCluster",
-            "Resource": "arn:aws:eks:us-east-1:${data.aws_caller_identity.current.account_id}:cluster/${var.deployment_name}"
+            "Resource": "arn:aws:eks:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster/${var.deployment_name}"
         }
     ]
 }
