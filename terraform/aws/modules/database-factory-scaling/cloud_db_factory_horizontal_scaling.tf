@@ -148,9 +148,9 @@ resource "kubernetes_secret" "cloud_db_factory_horizontal_scaling_secret" {
   }
 
   data = {
-    AWS_ACCESS_KEY_ID     = var.cloud_db_factory_secrets_aws_access_key
-    AWS_SECRET_ACCESS_KEY = var.cloud_db_factory_secrets_aws_secret_key
-    AWS_REGION            = var.cloud_db_factory_secrets_aws_region
+    AWS_ACCESS_KEY_ID     = var.cloud_db_factory_hs_secrets_aws_access_key
+    AWS_SECRET_ACCESS_KEY = var.cloud_db_factory_hs_secrets_aws_secret_key
+    AWS_REGION            = var.cloud_db_factory_hs_secrets_aws_region
   }
 
   type = "Opaque"
