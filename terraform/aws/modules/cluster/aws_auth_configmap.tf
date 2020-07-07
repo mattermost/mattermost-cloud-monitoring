@@ -17,11 +17,7 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
   - rolearn: "${data.aws_region.current.name == "us-east-1" ? aws_iam_role.lambda_role[0].arn : data.aws_iam_role.lambda_role[0].arn}"
     username: admin
     groups:
-      - system:masters
-  - rolearn: "${local.provider_role_arn}"
-    username: admin
-    groups:
-      - system:masters
+      - system:masters${local.extra_auth_config_provider}
   YAML
   }
   depends_on = [

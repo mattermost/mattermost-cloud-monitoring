@@ -28,4 +28,7 @@ variable "key_name" {}
 
 variable "teleport_cidr" {}
 
-variable "provider_role_arn" {}
+variable "provider_role_arn" {
+  type    = string
+  default = ""
+}
