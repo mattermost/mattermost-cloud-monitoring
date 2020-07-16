@@ -20,17 +20,17 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
       - system:masters${local.extra_auth_config_provider}
   YAML
   }
-  depends_on = [time_sleep.wait_20_seconds]
+  depends_on = [time_sleep.wait_40_seconds]
 }
 
-resource "time_sleep" "wait_20_seconds" {
+resource "time_sleep" "wait_40_seconds" {
   depends_on = [
     aws_eks_cluster.cluster,
     null_resource.cluster_services,
     aws_autoscaling_group.worker-asg,
     aws_iam_role.lambda_role
   ]
-  create_duration = "20s"
+  create_duration = "40s"
 }
 
 

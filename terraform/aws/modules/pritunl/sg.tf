@@ -56,5 +56,3 @@ resource "aws_security_group_rule" "pritunl_all_outbound" {
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
 }
-
-
