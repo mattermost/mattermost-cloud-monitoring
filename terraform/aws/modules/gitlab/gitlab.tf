@@ -1,6 +1,6 @@
 resource "null_resource" "gitlab_crd" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ${var.kubeconfig_dir}/kubeconfig apply -f https://gitlab.com/gitlab-org/charts/gitlab/raw/${var.gitlab_chart_version}/support/crd.yaml"
+    command = "kubectl --kubeconfig ${var.kubeconfig_dir}/kubeconfig apply -f https://gitlab.com/gitlab-org/charts/gitlab/raw/v${var.gitlab_chart_version}/support/crd.yaml"
   }
 }
 
@@ -8,6 +8,7 @@ resource "helm_release" "gitlab" {
   name      = "gitlab"
   chart     = "gitlab/gitlab"
   namespace = "gitlab"
+  version   = var.gitlab_chart_version
   values = [
     "${file(var.gitlab_chart_values_directory)}"
   ]
