@@ -258,7 +258,7 @@ resource "aws_iam_role_policy" "lambda_policy_create_rds_cloudwatch_alarm" {
     {
       "Effect": "Allow",
       "Action": [
-          "rds:DescribeDBClusters",
+          "rds:DescribeDBClusters"
       ],
       "Resource": "*"
     }
