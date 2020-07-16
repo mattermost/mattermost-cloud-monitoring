@@ -39,10 +39,10 @@ resource "aws_security_group_rule" "pritunl_asg_inbound_http" {
 
 resource "aws_security_group_rule" "pritunl_asg_inbound_vpn" {
   security_group_id = aws_security_group.pritunl_asg_sg.id
-  description       = "all inbound from 1194 to 1196"
+  description       = "all inbound from 1191 to 1199"
   type              = "ingress"
-  from_port         = "1194"
-  to_port           = "1196"
+  from_port         = "1191"
+  to_port           = "1199"
   protocol          = "udp"
   cidr_blocks       = ["0.0.0.0/0"]
 }
@@ -56,5 +56,3 @@ resource "aws_security_group_rule" "pritunl_all_outbound" {
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
 }
-
-
