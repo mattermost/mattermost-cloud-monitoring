@@ -45,6 +45,99 @@ resource "aws_lb_listener" "pritunl_nlb_listener_webui" {
   }
 }
 
+# vpn 1191
+resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_6" {
+  name     = "tf-pritunl-tg-vpn-6"
+  port     = 1191
+  protocol = "UDP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    interval            = 10
+    protocol            = "TCP"
+    port                = "443"
+  }
+
+  tags = merge(
+    map("Name", "${var.name}-tg-vpn-6"),
+    local.default_tags
+  )
+}
+
+resource "aws_lb_listener" "pritunl_nlb_listener_vpn_6" {
+  load_balancer_arn = aws_lb.pritunl_nlb.arn
+  port              = 1191
+  protocol          = "UDP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.pritunl_nlb_tg_vpn_6.arn
+  }
+}
+# vpn 1192
+resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_7" {
+  name     = "tf-pritunl-tg-vpn-7"
+  port     = 1192
+  protocol = "UDP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    interval            = 10
+    protocol            = "TCP"
+    port                = "443"
+  }
+
+  tags = merge(
+    map("Name", "${var.name}-tg-vpn-7"),
+    local.default_tags
+  )
+}
+
+resource "aws_lb_listener" "pritunl_nlb_listener_vpn_7" {
+  load_balancer_arn = aws_lb.pritunl_nlb.arn
+  port              = 1192
+  protocol          = "UDP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.pritunl_nlb_tg_vpn_7.arn
+  }
+}
+# vpn 1193
+resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_8" {
+  name     = "tf-pritunl-tg-vpn-8"
+  port     = 1193
+  protocol = "UDP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    interval            = 10
+    protocol            = "TCP"
+    port                = "443"
+  }
+
+  tags = merge(
+    map("Name", "${var.name}-tg-vpn-8"),
+    local.default_tags
+  )
+}
+
+resource "aws_lb_listener" "pritunl_nlb_listener_vpn_8" {
+  load_balancer_arn = aws_lb.pritunl_nlb.arn
+  port              = 1193
+  protocol          = "UDP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.pritunl_nlb_tg_vpn_8.arn
+  }
+}
 # vpn 1194
 resource "aws_lb_target_group" "pritunl_nlb_tg_vpn" {
   name     = "tf-pritunl-tg-vpn"
@@ -76,7 +169,6 @@ resource "aws_lb_listener" "pritunl_nlb_listener_vpn" {
     target_group_arn = aws_lb_target_group.pritunl_nlb_tg_vpn.arn
   }
 }
-
 # vpn 1195
 resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_1" {
   name     = "tf-pritunl-tg-vpn-1"
@@ -140,6 +232,102 @@ resource "aws_lb_listener" "pritunl_nlb_listener_vpn_2" {
     target_group_arn = aws_lb_target_group.pritunl_nlb_tg_vpn_2.arn
   }
 }
+
+# vpn 1197
+resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_3" {
+  name     = "tf-pritunl-tg-vpn-3"
+  port     = 1197
+  protocol = "UDP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    interval            = 10
+    protocol            = "TCP"
+    port                = "443"
+  }
+
+  tags = merge(
+    map("Name", "${var.name}-tg-vpn-3"),
+    local.default_tags
+  )
+}
+
+resource "aws_lb_listener" "pritunl_nlb_listener_vpn_3" {
+  load_balancer_arn = aws_lb.pritunl_nlb.arn
+  port              = 1197
+  protocol          = "UDP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.pritunl_nlb_tg_vpn_3.arn
+  }
+}
+# vpn 1198
+resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_4" {
+  name     = "tf-pritunl-tg-vpn-4"
+  port     = 1198
+  protocol = "UDP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    interval            = 10
+    protocol            = "TCP"
+    port                = "443"
+  }
+
+  tags = merge(
+    map("Name", "${var.name}-tg-vpn-4"),
+    local.default_tags
+  )
+}
+
+resource "aws_lb_listener" "pritunl_nlb_listener_vpn_4" {
+  load_balancer_arn = aws_lb.pritunl_nlb.arn
+  port              = 1198
+  protocol          = "UDP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.pritunl_nlb_tg_vpn_4.arn
+  }
+}
+# vpn 1199
+resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_5" {
+  name     = "tf-pritunl-tg-vpn-5"
+  port     = 1199
+  protocol = "UDP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    interval            = 10
+    protocol            = "TCP"
+    port                = "443"
+  }
+
+  tags = merge(
+    map("Name", "${var.name}-tg--5"),
+    local.default_tags
+  )
+}
+
+resource "aws_lb_listener" "pritunl_nlb_listener_vpn_5" {
+  load_balancer_arn = aws_lb.pritunl_nlb.arn
+  port              = 1199
+  protocol          = "UDP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.pritunl_nlb_tg_vpn_5.arn
+  }
+}
+
+
 
 # http 80
 resource "aws_lb_target_group" "pritunl_nlb_tg_http" {
