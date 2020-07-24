@@ -233,6 +233,35 @@ resource "aws_iam_policy" "autoscaling_db_factory" {
 EOF
 }
 
+resource "aws_iam_policy" "sns_db_factory" {
+  name        = "mattermost-database-factory-sns-policy"
+  path        = "/"
+  description = "SNS permissions for database factory user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "sns0",
+            "Effect": "Allow",
+            "Action": [
+                "sns:ListTopics"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_user_policy_attachment" "attach_sns_db_factory" {
+  for_each = toset(var.database_factory_users)
+  user     = each.value
+
+  policy_arn = aws_iam_policy.sns_db_factory.arn
+}
+
 resource "aws_iam_user_policy_attachment" "attach_rds_db_factory" {
   for_each = toset(var.database_factory_users)
   user     = each.value
