@@ -77,7 +77,7 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
         container {
           name  = "mattermost-cloud"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "--machine-readable-logs", "--cluster-installation-supervisor=false", "--installation-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "--machine-readable-logs", "--cluster-installation-supervisor=false", "--installation-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}${local.conditional_dash_region}", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
@@ -275,7 +275,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
         container {
           name  = "mattermost-cloud-installations"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "--machine-readable-logs", "--cluster-supervisor=false", "--group-supervisor", "--state-store", "mattermost-kops-state-${var.environment}", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "--machine-readable-logs", "--cluster-supervisor=false", "--group-supervisor", "--state-store", "mattermost-kops-state-${var.environment}${local.conditional_dash_region}", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
