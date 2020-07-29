@@ -15,7 +15,7 @@ resource "helm_release" "flux" {
   chart     = "fluxcd/flux"
   namespace = var.flux_namespace
   values = [
-    "${file(concat(["../../../../chart-values/", var.flux_chart_values_name]))}"
+    "${file(format("../../../chart-values/%s", var.flux_chart_values_name))}"
   ]
 
   set {
@@ -38,9 +38,10 @@ resource "helm_release" "flux" {
     value = var.git_email
   }
 
-  set_string {
+  set {
     name  = "ssh.known_hosts"
     value = var.ssh_known_hosts
+    type  = "string"
   }
 
   set {
