@@ -25,3 +25,5 @@ variable "flux_git_url" {}
 variable "fluxcloud_image" {}
 
 variable "fluxcloud_webhook_username" {}
+
+variable "flux_namespace" {}
