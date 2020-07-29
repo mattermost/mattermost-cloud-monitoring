@@ -41,18 +41,6 @@ resource "aws_iam_policy" "node_policy" {
             "Effect": "Allow",
             "Action": "dynamodb:*",
             "Resource": "arn:aws:dynamodb:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:table/cloud-${var.environment}-*"
-        },
-        {
-            "Sid": "AllActionsOnTeleportIndexDB",
-            "Effect": "Allow",
-            "Action": "dynamodb:*",
-            "Resource": "arn:aws:dynamodb:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:table/cloud-${var.environment}-*/index/*"
-        },
-        {
-            "Sid": "AllActionsOnTeleportConfigIndexDB",
-            "Effect": "Allow",
-            "Action": "dynamodb:*",
-            "Resource": "arn:aws:dynamodb:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:table/cloud-${var.environment}-*/stream/*"
         }
     ]
 }
