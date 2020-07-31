@@ -1,8 +1,8 @@
 data "aws_caller_identity" "current" {}
 
-data "helm_repository" "stable" {
-  name = "stable"
-  url  = "https://kubernetes-charts.storage.googleapis.com"
+data "helm_repository" "fluxcd" {
+  name = "fluxcd"
+  url  = "https://charts.fluxcd.io"
 }
 
 data "aws_eks_cluster_auth" "cluster_auth" {

@@ -11,9 +11,10 @@ resource "null_resource" "flux_crd" {
 }
 
 resource "helm_release" "flux" {
-  name      = "flux"
-  chart     = "fluxcd/flux"
-  namespace = var.flux_namespace
+  name       = "flux"
+  chart      = "flux"
+  repository = data.helm_repository.fluxcd.metadata[0].name
+  namespace  = var.flux_namespace
   values = [
     "${file(format("../../../chart-values/%s", var.flux_chart_values_name))}"
   ]
