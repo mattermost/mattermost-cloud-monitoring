@@ -305,8 +305,8 @@ resource "aws_iam_policy" "iam" {
                 "iam:DeleteInstanceProfile",
                 "iam:AddRoleToInstanceProfile",
                 "iam:PassRole",
-                "AttachRolePolicy",
-                "DetachRolePolicy"
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy"
             ],
             "Resource": [
                 "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/masters.*",
