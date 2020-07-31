@@ -224,7 +224,9 @@ resource "aws_iam_policy" "autoscaling_db_factory" {
                 "application-autoscaling:DescribeScalingPolicies",
                 "application-autoscaling:DeleteScalingPolicy",
                 "cloudwatch:DescribeAlarms",
-                "cloudwatch:PutMetricAlarm"
+                "cloudwatch:PutMetricAlarm",
+                "cloudwatch:ListTagsForResource",
+                "cloudwatch:DeleteAlarms"
             ],
             "Resource": "*"
         }
