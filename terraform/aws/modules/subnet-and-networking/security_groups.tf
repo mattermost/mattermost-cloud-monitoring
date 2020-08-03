@@ -45,6 +45,22 @@ resource "aws_security_group" "db_sg" {
   )
 }
 
+# PostgreSQL database security group
+resource "aws_security_group" "db_sg_postgresql" {
+  for_each = toset(var.vpc_cidrs)
+
+  name        = format("%s-%s-db-postgresql-sg", var.name, join("", split(".", split("/", each.value)[0])))
+  description = "RDS Database PostgreSQL Security Group"
+  vpc_id      = data.aws_vpc.vpc_ids[each.value]["id"]
+  tags = merge(
+    {
+      "Name"                                = format("%s-%s-db-sg", var.name, join("", split(".", split("/", each.value)[0]))),
+      "MattermostCloudInstallationDatabase" = "PostgreSQL/Aurora"
+    },
+    var.tags
+  )
+}
+
 # Master Rules
 resource "aws_security_group_rule" "master_egress" {
   for_each = toset(var.vpc_cidrs)
@@ -163,5 +179,42 @@ resource "aws_security_group_rule" "developers_vpn_access" {
   protocol          = "TCP"
   security_group_id = aws_security_group.db_sg[each.value]["id"]
   to_port           = 3306
+  type              = "ingress"
+}
+
+# PostgreSQL DB Rules
+resource "aws_security_group_rule" "db_ingress_worker_postgresql" {
+  for_each = toset(var.vpc_cidrs)
+
+  source_security_group_id = aws_security_group.worker_sg[each.value]["id"]
+  description              = "Ingress Traffic from Worker Nodes"
+  from_port                = 5432
+  protocol                 = "TCP"
+  security_group_id        = aws_security_group.db_sg_postgresql[each.value]["id"]
+  to_port                  = 5432
+  type                     = "ingress"
+}
+
+resource "aws_security_group_rule" "db_ingress_worker_command_control_postgresql" {
+  for_each = toset(var.vpc_cidrs)
+
+  cidr_blocks       = var.command_and_control_private_subnet_cidrs
+  description       = "Ingress Traffic from Command and Control Private Subnets"
+  from_port         = 5432
+  protocol          = "TCP"
+  security_group_id = aws_security_group.db_sg_postgresql[each.value]["id"]
+  to_port           = 5432
+  type              = "ingress"
+}
+
+resource "aws_security_group_rule" "developers_vpn_access_postgresql" {
+  for_each = var.environment == "dev" ? toset(var.vpc_cidrs) : []
+
+  cidr_blocks       = var.vpn_cidrs
+  description       = "Ingress Traffic from VPN cidrs"
+  from_port         = 5432
+  protocol          = "TCP"
+  security_group_id = aws_security_group.db_sg_postgresql[each.value]["id"]
+  to_port           = 5432
   type              = "ingress"
 }
