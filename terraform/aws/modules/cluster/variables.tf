@@ -29,3 +29,9 @@ variable "key_name" {}
 variable "teleport_cidr" {}
 
 variable "cluster_short_name" {}
+
+variable "matterwick_cluster_access_enabled" {}
+
+variable "matterwick_iam_user" {}
+
+variable "matterwick_username" {}

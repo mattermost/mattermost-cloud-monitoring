@@ -32,3 +32,5 @@ provider "helm" {
     load_config_file       = false
   }
 }
+
+data "aws_region" "current" {}
