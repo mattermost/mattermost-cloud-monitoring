@@ -56,8 +56,7 @@ resource "aws_iam_policy" "teleport_policy" {
             "Effect": "Allow",
             "Action": "dynamodb:*",
             "Resource": [
-              "arn:aws:dynamodb:*:${data.aws_caller_identity.current.account_id}:table/cloud-${var.environment}-${var.cluster_short_name}",
-              "arn:aws:dynamodb:*:${data.aws_caller_identity.current.account_id}:table/cloud-${var.environment}-${var.cluster_short_name}/*"
+              "arn:aws:dynamodb:*:${data.aws_caller_identity.current.account_id}:table/cloud-${var.environment}-${var.cluster_short_name}*"
             ]
         }
     ]

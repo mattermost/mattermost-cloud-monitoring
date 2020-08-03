@@ -20,7 +20,7 @@ locals {
   - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.matterwick_iam_user}"
     username: "${var.matterwick_username}"
   YAML
-  } : {
+    } : {
     mapRoles = <<YAML
   - rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role"
     username: system:node:{{EC2PrivateDNSName}}
