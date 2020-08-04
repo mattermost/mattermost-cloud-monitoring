@@ -31,3 +31,5 @@ variable "key_name" {}
 variable "teleport_cidr" {}
 
 variable "worker_private_subnet_ids" {}
+
+variable "cluster_short_name" {}

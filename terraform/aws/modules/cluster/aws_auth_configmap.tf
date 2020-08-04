@@ -1,9 +1,26 @@
-resource "kubernetes_config_map" "aws_auth_configmap" {
-  metadata {
-    name      = "aws-auth"
-    namespace = "kube-system"
-  }
-  data = {
+
+locals {
+  data = var.matterwick_cluster_access_enabled == true ? {
+    mapRoles = <<YAML
+  - rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role"
+    username: system:node:{{EC2PrivateDNSName}}
+    groups:
+      - system:bootstrappers
+      - system:nodes
+  - rolearn: "${aws_iam_role.dev_access_role.arn}"
+    username: admin
+    groups:
+      - system:masters
+  - rolearn: "${data.aws_region.current.name == "us-east-1" ? aws_iam_role.lambda_role[0].arn : data.aws_iam_role.lambda_role[0].arn}"
+    username: admin
+    groups:
+      - system:masters
+  YAML
+    mapUsers = <<YAML
+  - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.matterwick_iam_user}"
+    username: "${var.matterwick_username}"
+  YAML
+    } : {
     mapRoles = <<YAML
   - rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role"
     username: system:node:{{EC2PrivateDNSName}}
@@ -20,6 +37,15 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
       - system:masters
   YAML
   }
+}
+
+
+resource "kubernetes_config_map" "aws_auth_configmap" {
+  metadata {
+    name      = "aws-auth"
+    namespace = "kube-system"
+  }
+  data = local.data
   depends_on = [
     aws_eks_cluster.cluster,
     null_resource.cluster_services,
