@@ -405,6 +405,35 @@ resource "aws_iam_policy" "tag" {
 EOF
 }
 
+resource "aws_iam_policy" "dynamodb" {
+  name        = "mattermost-provisioner-dynamodb-policy${local.conditional_dash_region}"
+  path        = "/"
+  description = "Dynamodb permissions for provisioner user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "dynamo0",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:DeleteTable",
+                "dynamodb:DescribeTable"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_user_policy_attachment" "attach_dynamodb" {
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
+  policy_arn = aws_iam_policy.dynamodb.arn
+}
+
 resource "aws_iam_user_policy_attachment" "attach_tag" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
