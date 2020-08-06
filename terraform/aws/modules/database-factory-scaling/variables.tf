@@ -49,3 +49,5 @@ variable "cloud_db_factory_vs_secrets_aws_region" {}
 variable "vertical_scaling_cronjob_schedule" {}
 
 variable "db_factory_vertical_scaling_users" {}
+
+variable "rds_multitenant_dbcluster_tag_installation_database" {}
