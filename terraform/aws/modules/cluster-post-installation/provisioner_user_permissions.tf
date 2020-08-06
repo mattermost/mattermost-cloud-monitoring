@@ -406,7 +406,7 @@ EOF
 }
 
 resource "aws_iam_policy" "dynamodb" {
-  name        = "mattermost-provisioner-dynamodb-policy${local.conditional_dash_region}"
+  name        = "mattermost-provisioner-dynamodb-policy"
   path        = "/"
   description = "Dynamodb permissions for provisioner user"
 
