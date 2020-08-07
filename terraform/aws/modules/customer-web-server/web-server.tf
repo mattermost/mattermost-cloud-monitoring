@@ -420,6 +420,8 @@ data "kubernetes_service" "nginx-public" {
 }
 
 resource "aws_route53_record" "customer_web_server" {
+  count = var.enable_portal_r53_record ? 1 : 0
+
   zone_id = var.public_hosted_zoneid
   name    = "portal"
   type    = "CNAME"

@@ -52,7 +52,6 @@ variable "cloud_vpn_cidr" {}
 
 variable "public_hosted_zoneid" {}
 
-
 variable "git_url" {}
 
 variable "git_path_cws" {}
@@ -72,3 +71,5 @@ variable "flux_git_url_cws" {}
 variable "cws_payment_url" {}
 
 variable "cws_payment_token" {}
+
+variable "enable_portal_r53_record" {}

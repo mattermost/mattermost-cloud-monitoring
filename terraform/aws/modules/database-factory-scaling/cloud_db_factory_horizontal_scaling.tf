@@ -38,6 +38,11 @@ resource "kubernetes_cron_job" "cloud_db_factory_horizontal_scaling_cron" {
               }
 
               env {
+                name  = "RDSMultitenantDBClusterTagInstallationDatabase"
+                value = var.rds_multitenant_dbcluster_tag_installation_database
+              }
+
+              env {
                 name  = "MaxAllowedInstallations"
                 value = var.max_allowed_installations
               }
