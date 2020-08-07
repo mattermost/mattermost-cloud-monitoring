@@ -12,10 +12,23 @@ resource "aws_iam_policy" "rds_db_factory" {
             "Effect": "Allow",
             "Action": [
                 "rds:CreateDBCluster",
-                "rds:DeleteDBCluster"
+                "rds:DeleteDBCluster",
+                "rds:CreateDBClusterParameterGroup",
+                "rds:ModifyDBClusterParameterGroup",
+                "rds:DescribeDBClusterParameterGroups",
+                "rds:DescribeDBClusterParameters",
+                "rds:CreateDBParameterGroup",
+                "rds:ModifyDBParameterGroup",
+                "rds:DescribeDBParameterGroups",
+                "rds:DescribeDBParameters",
+                "rds:DeleteDBClusterParameterGroup",
+                "rds:DeleteDBParameterGroup"
+
             ],
             "Resource": [
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster:rds-cluster-multitenant-*",
+                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster-pg:rds-cluster-multitenant-*",
+                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:pg:rds-cluster-multitenant-*",
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster-pg:mattermost-*",
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*"
             ]
