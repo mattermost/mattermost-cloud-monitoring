@@ -58,16 +58,22 @@ func handler(ctx context.Context, event events.CloudWatchEvent) {
 
 		switch eventDetail.EventName {
 		case "CreateDBInstance":
-			err := createCloudWatchAlarm(eventDetail.RequestParameters.DBClusterIdentifier)
-			if err != nil {
-				log.WithError(err).Errorln("Error creating the CloudWatch Alarm")
-				return
+			// filtering the rds multitenant
+			if !strings.Contains(eventDetail.RequestParameters.DBClusterIdentifier, "rds-cluster-multitenant-") {
+				err := createCloudWatchAlarm(eventDetail.RequestParameters.DBClusterIdentifier)
+				if err != nil {
+					log.WithError(err).Errorln("Error creating the CloudWatch Alarm")
+					return
+				}
 			}
 		case "DeleteDBInstance":
-			err = deleteCloudWatchAlarm(eventDetail.ResponseElements.DBClusterIdentifier)
-			if err != nil {
-				log.WithError(err).Errorln("Error deleting the CloudWatch Alarm")
-				return
+			// filtering the rds multitenant
+			if !strings.Contains(eventDetail.RequestParameters.DBClusterIdentifier, "rds-cluster-multitenant-") {
+				err = deleteCloudWatchAlarm(eventDetail.ResponseElements.DBClusterIdentifier)
+				if err != nil {
+					log.WithError(err).Errorln("Error deleting the CloudWatch Alarm")
+					return
+				}
 			}
 		default:
 			log.Infof("Event did not match. Event = %s", eventDetail.EventName)
