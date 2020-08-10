@@ -37,7 +37,7 @@ locals {
       - system:masters${local.extra_auth_config_provider}
   YAML
   }
-  depends_on = [time_sleep.wait_40_seconds]
+  depends_on = [time_sleep.wait_60_seconds]
 }
 
 resource "time_sleep" "wait_60_seconds" {
