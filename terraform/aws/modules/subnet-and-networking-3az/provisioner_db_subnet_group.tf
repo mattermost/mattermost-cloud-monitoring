@@ -27,10 +27,7 @@ resource "aws_db_subnet_group" "provisioner_db_subnet_group_postgresql" {
   subnet_ids = [
     aws_subnet.private_1a[each.value]["id"],
     aws_subnet.private_1b[each.value]["id"],
-    aws_subnet.private_1c[each.value]["id"],
-    aws_subnet.private_1d[each.value]["id"],
-    aws_subnet.private_1e[each.value]["id"],
-    aws_subnet.private_1f[each.value]["id"]
+    aws_subnet.private_1c[each.value]["id"]
   ]
 
   tags = merge(
