@@ -115,6 +115,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation",
                 "s3:CreateBucket",
+                "s3:PutEncryptionConfiguration",
                 "s3:PutBucketPublicAccessBlock",
                 "s3:GetBucketPublicAccessBlock",
                 "s3:PutObject",
