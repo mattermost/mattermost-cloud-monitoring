@@ -64,6 +64,8 @@ global:
     openssl_verify_mode: "peer"
 
 gitlab:
+  gitaly:
+    replicas: 2
   task-runner:
     backups:
       objectStorage:
