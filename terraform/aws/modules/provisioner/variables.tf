@@ -1,7 +1,5 @@
 variable "environment" {}
 
-variable "provisioner_users" {}
-
 variable "vpc_id" {}
 
 variable "region" {}

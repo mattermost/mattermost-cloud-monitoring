@@ -97,6 +97,7 @@ gitlab-runner:
   runners:
     image: "alpine:latest"
     privileged: true
-
-
-
+    pollTimeout: 3600
+    envVars:
+    - name: KUBERNETES_POLL_INTERVAL
+      value: 15
