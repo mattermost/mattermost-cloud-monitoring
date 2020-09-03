@@ -7,10 +7,6 @@ locals {
     groups:
       - system:bootstrappers
       - system:nodes
-  - rolearn: "${aws_iam_role.dev_access_role.arn}"
-    username: admin
-    groups:
-      - system:masters
   - rolearn: "${data.aws_region.current.name == "us-east-1" ? aws_iam_role.lambda_role[0].arn : data.aws_iam_role.lambda_role[0].arn}"
     username: admin
     groups:
@@ -27,10 +23,6 @@ locals {
     groups:
       - system:bootstrappers
       - system:nodes
-  - rolearn: "${aws_iam_role.dev_access_role.arn}"
-    username: admin
-    groups:
-      - system:masters
   - rolearn: "${data.aws_region.current.name == "us-east-1" ? aws_iam_role.lambda_role[0].arn : data.aws_iam_role.lambda_role[0].arn}"
     username: admin
     groups:
@@ -39,6 +31,7 @@ locals {
   }
 }
 
+data "aws_caller_identity" "current" {}
 
 resource "kubernetes_config_map" "aws_auth_configmap" {
   metadata {
