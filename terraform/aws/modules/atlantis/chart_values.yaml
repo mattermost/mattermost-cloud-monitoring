@@ -1,5 +1,5 @@
 # Replace this with your own repo whitelist:
-orgWhitelist: gitlab.internal.core.cloud.mattermost.com/cloud/*
+orgWhitelist: ""
 # logLevel: "debug"
 
 # If using GitLab, specify like the following:
@@ -44,10 +44,10 @@ orgWhitelist: gitlab.internal.core.cloud.mattermost.com/cloud/*
 # Default values for atlantis (override as needed).
 ## -------------------------- ##
 
-image:
-  repository: runatlantis/atlantis
-  tag: v0.11.1
-  pullPolicy: IfNotPresent
+# image:
+#   repository: runatlantis/atlantis
+#   tag: v0.11.1
+#   pullPolicy: IfNotPresent
 
 ## Use Server Side Repo Config,
 ## ref: https://www.runatlantis.io/docs/server-side-repo-config.html
