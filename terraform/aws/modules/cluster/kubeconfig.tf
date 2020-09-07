@@ -10,15 +10,15 @@ data "template_file" "kubeconfig" {
 
 # mkdir "${var.kubeconfig_dir}"
 
-resource "null_resource" "cluster_services" {
-  provisioner "local-exec" {
-    command = <<LOCAL_EXEC
-      touch "${var.kubeconfig_dir}/kubeconfig"
-      echo $KUBECONFIG_DATA > "${var.kubeconfig_dir}/kubeconfig"
-      cat "${var.kubeconfig_dir}/kubeconfig"
-    LOCAL_EXEC
-    environment = {
-      KUBECONFIG_DATA = "${data.template_file.kubeconfig.rendered}"
-    }
-  }
-}
+# resource "null_resource" "cluster_services" {
+#   provisioner "local-exec" {
+#     command = <<LOCAL_EXEC
+#       touch "${var.kubeconfig_dir}/kubeconfig"
+#       echo $KUBECONFIG_DATA > "${var.kubeconfig_dir}/kubeconfig"
+#       cat "${var.kubeconfig_dir}/kubeconfig"
+#     LOCAL_EXEC
+#     environment = {
+#       KUBECONFIG_DATA = "${data.template_file.kubeconfig.rendered}"
+#     }
+#   }
+# }

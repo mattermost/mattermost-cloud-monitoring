@@ -42,7 +42,7 @@ locals {
 resource "time_sleep" "wait_120_seconds" {
   depends_on = [
     aws_eks_cluster.cluster,
-    null_resource.cluster_services,
+    # null_resource.cluster_services,
     aws_autoscaling_group.worker-asg,
     aws_iam_role.lambda_role
   ]
@@ -56,7 +56,7 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     namespace = "kube-system"
   }
   data = local.data
-  depends_on = [time_sleep.wait_120_seconds]
+  # depends_on = [time_sleep.wait_120_seconds]
 }
 
 
