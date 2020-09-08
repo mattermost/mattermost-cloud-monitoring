@@ -55,8 +55,8 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     name      = "aws-auth"
     namespace = "kube-system"
   }
-  data       = local.data
-  depends_on = [time_sleep.wait_120_seconds]
+  data = local.data
+  # depends_on = [time_sleep.wait_120_seconds]
 }
 
 
