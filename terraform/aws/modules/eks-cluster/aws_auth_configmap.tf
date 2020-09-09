@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "kubernetes_config_map" "aws_auth_configmap" {
   metadata {
     name      = "aws-auth"
@@ -10,10 +12,6 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     groups:
       - system:bootstrappers
       - system:nodes
-  - rolearn: "${aws_iam_role.dev_access_role.arn}"
-    username: admin
-    groups:
-      - system:masters
   YAML
   }
   depends_on = [
