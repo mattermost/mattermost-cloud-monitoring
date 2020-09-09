@@ -36,10 +36,6 @@ variable "mattermost_cloud_image" {}
 
 variable "mattermost-cloud-namespace" {}
 
-variable "mattermost_cloud_secrets_aws_access_key" {}
-
-variable "mattermost_cloud_secrets_aws_secret_key" {}
-
 variable "mattermost_cloud_secrets_aws_region" {}
 
 variable "mattermost_cloud_secrets_private_dns" {}
@@ -65,6 +61,8 @@ variable "deployment_name" {}
 variable "tiller_version" {}
 
 variable "kubeconfig_dir" {}
+
+variable "provisioner_users" {}
 
 variable "provisioner_name" {
   type    = string

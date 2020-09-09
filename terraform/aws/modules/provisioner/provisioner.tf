@@ -447,8 +447,8 @@ resource "kubernetes_secret" "mattermost_cloud_secret" {
   }
 
   data = {
-    AWS_ACCESS_KEY_ID     = var.mattermost_cloud_secrets_aws_access_key
-    AWS_SECRET_ACCESS_KEY = var.mattermost_cloud_secrets_aws_secret_key
+    AWS_ACCESS_KEY_ID     = aws_iam_access_key.provisioner_user.id
+    AWS_SECRET_ACCESS_KEY = aws_iam_access_key.provisioner_user.secret
     AWS_REGION            = var.mattermost_cloud_secrets_aws_region
     DATABASE              = "postgres://${var.db_username}:${var.db_password}@${aws_db_instance.provisioner.endpoint}/${var.db_name}"
     PRIVATE_DNS           = var.mattermost_cloud_secrets_private_dns

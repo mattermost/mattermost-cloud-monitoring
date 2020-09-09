@@ -31,8 +31,6 @@ locals {
   }
 }
 
-data "aws_caller_identity" "current" {}
-
 resource "kubernetes_config_map" "aws_auth_configmap" {
   metadata {
     name      = "aws-auth"

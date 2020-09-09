@@ -20,3 +20,7 @@ locals {
   conditional_dash_region = data.aws_region.current.name == "us-east-1" ? "" : "-${data.aws_region.current.name}"
   timestamp_now           = formatdate("YYYY-MM-DD-hh-mm", timestamp())
 }
+
+resource "aws_iam_access_key" "provisioner_user" {
+  user = var.provisioner_users[0]
+}
