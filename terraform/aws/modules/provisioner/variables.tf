@@ -36,10 +36,6 @@ variable "mattermost_cloud_image" {}
 
 variable "mattermost-cloud-namespace" {}
 
-variable "mattermost_cloud_secrets_aws_access_key" {}
-
-variable "mattermost_cloud_secrets_aws_secret_key" {}
-
 variable "mattermost_cloud_secrets_aws_region" {}
 
 variable "mattermost_cloud_secrets_private_dns" {}
@@ -59,3 +55,5 @@ variable "domain" {}
 variable "validation_acm_zoneid" {}
 
 variable "private_hosted_zoneid" {}
+
+variable "provisioner_users" {}
