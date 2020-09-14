@@ -22,3 +22,6 @@ variable "atlantis_chart_values_directory" {}
 
 variable "nginx_internal_chart_values_directory" {}
 
+variable "atlantis_chart_version" {}
+
+variable "terraform_default_version" {}
