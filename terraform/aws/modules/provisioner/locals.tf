@@ -24,7 +24,3 @@ locals {
 resource "aws_iam_access_key" "provisioner_user" {
   user = var.provisioner_users[0]
 }
-
-resource "aws_iam_access_key" "provisioner_user" {
-  user = var.provisioner_users[0]
-}

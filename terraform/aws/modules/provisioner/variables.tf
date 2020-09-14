@@ -62,8 +62,6 @@ variable "tiller_version" {}
 
 variable "kubeconfig_dir" {}
 
-variable "provisioner_users" {}
-
 variable "provisioner_name" {
   type    = string
   default = "provisioner"
