@@ -17,3 +17,5 @@ variable "mattermost_cloud_namespace" {}
 variable "mattermost_alerts_hook" {}
 
 variable "mattermost_notifications_hook" {}
+
+variable "whitelist_source_range" {}
