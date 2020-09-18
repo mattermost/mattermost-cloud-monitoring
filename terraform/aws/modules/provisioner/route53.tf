@@ -1,7 +1,7 @@
 data "kubernetes_service" "nginx-internal" {
   metadata {
-    name      = "mattermost-cm-nginx-internal-nginx-ingress-controller"
-    namespace = "network"
+    name      = "nginx-ingress-nginx-controller-internal"
+    namespace = "nginx"
   }
 }
 

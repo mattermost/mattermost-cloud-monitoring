@@ -52,8 +52,8 @@ variable "private_subnets" {}
 
 variable "domain" {}
 
-variable "validation_acm_zoneid" {}
-
 variable "private_hosted_zoneid" {}
 
 variable "provisioner_users" {}
+
+variable "whitelist_source_range" {}

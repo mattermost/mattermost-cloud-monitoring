@@ -24,8 +24,9 @@ resource "aws_s3_bucket" "installation_buckets" {
 
   tags = merge(
     {
-      "Name"  = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"]),
-      "VpcID" = aws_vpc.vpc_creation[each.value]["id"]
+      "Name"      = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"]),
+      "VpcID"     = aws_vpc.vpc_creation[each.value]["id"],
+      "Filestore" = "Multitenant"
     },
     var.tags
   )

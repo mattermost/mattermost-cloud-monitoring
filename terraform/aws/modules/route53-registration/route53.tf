@@ -1,7 +1,7 @@
-data "kubernetes_service" "nginx-internal" {
+data "kubernetes_service" "nginx-private" {
   metadata {
-    name      = "mattermost-cm-nginx-internal-nginx-ingress-controller"
-    namespace = "network"
+    name      = "nginx-ingress-nginx-controller-internal"
+    namespace = "nginx"
   }
 }
 
@@ -11,7 +11,7 @@ resource "aws_route53_record" "prometheus" {
   name    = "prometheus"
   type    = "CNAME"
   ttl     = "60"
-  records = ["${data.kubernetes_service.nginx-internal.load_balancer_ingress.0.hostname}"]
+  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
 }
 
 resource "aws_route53_record" "grafana" {
@@ -19,7 +19,7 @@ resource "aws_route53_record" "grafana" {
   name    = "grafana"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-internal.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
 }
 
 resource "aws_route53_record" "kibana" {
@@ -27,7 +27,7 @@ resource "aws_route53_record" "kibana" {
   name    = "kibana"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-internal.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
 }
 
 resource "aws_route53_record" "database_factory" {
@@ -35,5 +35,5 @@ resource "aws_route53_record" "database_factory" {
   name    = "dbfactory"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-internal.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
 }
