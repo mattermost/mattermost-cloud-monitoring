@@ -8,6 +8,7 @@ resource "helm_release" "atlantis" {
   name      = "atlantis"
   chart     = "stable/atlantis"
   namespace = "atlantis"
+  version   = var.atlantis_chart_version
   values = [
     "${file(var.atlantis_chart_values_directory)}"
   ]
@@ -52,6 +53,12 @@ resource "helm_release" "atlantis" {
     name  = "awsSecretName"
     value = var.aws_secretname
   }
+
+  set {
+    name  = "defaultTFVersion"
+    value = var.terraform_default_version
+  }
+
 
   depends_on = [
     kubernetes_namespace.atlantis,
