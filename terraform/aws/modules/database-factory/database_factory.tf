@@ -126,7 +126,8 @@ resource "kubernetes_ingress" "mattermost_cloud_database_factory_ingress" {
     namespace = var.mattermost_cloud_namespace
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx-internal"
+      "kubernetes.io/ingress.class"                        = "nginx-controller"
+      "nginx.ingress.kubernetes.io/whitelist-source-range" = var.whitelist_source_range
     }
   }
 

@@ -52,8 +52,6 @@ variable "private_subnets" {}
 
 variable "domain" {}
 
-variable "validation_acm_zoneid" {}
-
 variable "private_hosted_zoneid" {}
 
 variable "deployment_name" {}
@@ -77,3 +75,5 @@ variable "provider_role_arn" {
   default = ""
 }
 variable "provisioner_users" {}
+
+variable "whitelist_source_range" {}
