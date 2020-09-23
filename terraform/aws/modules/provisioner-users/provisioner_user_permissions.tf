@@ -93,9 +93,13 @@ resource "aws_iam_policy" "s3" {
             "Effect": "Allow",
             "Action": [
                 "s3:ListBucket",
-                "s3:GetBucketLocation"
+                "s3:GetBucketLocation",
+                "s3:GetBucketTagging"
             ],
-            "Resource": "arn:aws:s3:::mattermost-kops-state-${var.environment}"
+            "Resource": [
+                "arn:aws:s3:::mattermost-kops-state-${var.environment}",
+                "arn:aws:s3:::mattermost-cloud-${var.environment}-provisioning-*"
+            ]
         },
         {
             "Effect": "Allow",
@@ -107,7 +111,10 @@ resource "aws_iam_policy" "s3" {
                 "s3:DeleteObject",
                 "s3:GetObjectVersionAcl"
             ],
-            "Resource": "arn:aws:s3:::mattermost-kops-state-${var.environment}/*"
+            "Resource": [
+                "arn:aws:s3:::mattermost-kops-state-${var.environment}/*",
+                "arn:aws:s3:::mattermost-cloud-${var.environment}-provisioning-*/*"
+            ]
         },
         {
             "Effect": "Allow",
