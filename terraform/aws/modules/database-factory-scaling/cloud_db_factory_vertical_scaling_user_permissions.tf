@@ -22,7 +22,7 @@ EOF
 }
 
 resource "aws_iam_policy" "rds_db_factory_vertical_scaling" {
-  name        = "db-factory-vertical-scaling-tag-policy"
+  name        = "db-factory-vertical-scaling-rds-policy"
   path        = "/"
   description = "RDS permissions for database factory vertical scaling user"
 
@@ -53,6 +53,29 @@ resource "aws_iam_policy" "rds_db_factory_vertical_scaling" {
 EOF
 }
 
+resource "aws_iam_policy" "cloudwatch_db_factory_vertical_scaling" {
+  name        = "db-factory-vertical-scaling-cloudwatch-policy"
+  path        = "/"
+  description = "Cloudwatch permissions for database factory vertical scaling user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "rds0",
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:DescribeAlarms*",
+                "cloudwatch:PutMetricAlarm"
+            ],
+            "Resource": "arn:aws:cloudwatch:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:alarm:rds-db-instance-multitenant-*"
+        }
+    ]
+}
+EOF
+}
+
 resource "aws_iam_user_policy_attachment" "attach_sqs_db_factory_vertical_scaling" {
   for_each = toset(var.db_factory_vertical_scaling_users)
   user     = each.value
@@ -64,4 +87,10 @@ resource "aws_iam_user_policy_attachment" "attach_rds_db_factory_vertical_scalin
   for_each   = toset(var.db_factory_vertical_scaling_users)
   user       = each.value
   policy_arn = aws_iam_policy.rds_db_factory_vertical_scaling.arn
+}
+
+resource "aws_iam_user_policy_attachment" "attach_cloudwatch_db_factory_vertical_scaling" {
+  for_each   = toset(var.db_factory_vertical_scaling_users)
+  user       = each.value
+  policy_arn = aws_iam_policy.cloudwatch_db_factory_vertical_scaling.arn
 }
