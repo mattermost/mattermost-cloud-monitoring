@@ -10,6 +10,11 @@ data "helm_repository" "kiwigrid" {
   url  = "https://kiwigrid.github.io"
 }
 
+data "helm_repository" "prometheus_community" {
+  name = "prometheus-community"
+  url  = "https://prometheus-community.github.io/helm-charts"
+}
+
 data "aws_eks_cluster_auth" "cluster_auth" {
   name = var.deployment_name
 }
