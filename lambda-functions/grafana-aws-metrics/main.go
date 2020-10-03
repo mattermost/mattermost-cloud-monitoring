@@ -17,6 +17,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/elb"
 	"github.com/aws/aws-sdk-go/service/elbv2"
+	"github.com/aws/aws-sdk-go/service/iam"
 	"github.com/aws/aws-sdk-go/service/rds"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/servicequotas"
@@ -72,6 +73,12 @@ func handler() {
 	err = getSetVPCLimits()
 	if err != nil {
 		log.WithError(err).Error("Unable to get the existing VPC limits and set the CloudWatch metric data")
+	}
+
+	log.Info("Getting existing ΙΑΜ limits and setting the CloudWatch metric data")
+	err = getSetΙΑΜLimits()
+	if err != nil {
+		log.WithError(err).Error("Unable to get the existing ΙΑΜ limits and set the CloudWatch metric data")
 	}
 
 	log.Info("Getting existing EIP limits and setting the CloudWatch metric data")
@@ -223,15 +230,24 @@ func getSetS3Limits() error {
 		return err
 	}
 
-	// Create S3 quota client
-	svc := servicequotas.New(sess)
-	quota, err := svc.GetServiceQuota(&servicequotas.GetServiceQuotaInput{QuotaCode: aws.String("L-DC2B2D3D"), ServiceCode: aws.String("s3")})
-	if err != nil {
-		return err
-	}
+	//Commenting this out as currently the quotas are not supporting S3 limits. Will put the max default number which is 1000 buckets.
 
-	log.Infof("Setting CloudWatch metric for S3BucketsLimit - %v", float64(*quota.Quota.Value))
-	err = addCWMetricData("S3BucketsLimit", float64(*quota.Quota.Value))
+	// // Create S3 quota client
+	// svc := servicequotas.New(sess)
+	// quota, err := svc.GetServiceQuota(&servicequotas.GetServiceQuotaInput{QuotaCode: aws.String("L-DC2B2D3D"), ServiceCode: aws.String("s3")})
+	// if err != nil {
+	// 	return err
+	// }
+
+	// log.Infof("Setting CloudWatch metric for S3BucketsLimit - %v", float64(*quota.Quota.Value))
+	// err = addCWMetricData("S3BucketsLimit", float64(*quota.Quota.Value))
+	// if err != nil {
+	// 	return err
+	// }
+
+	customMax := 1000
+	log.Infof("Setting CloudWatch metric for S3BucketsLimit - %v", float64(customMax))
+	err = addCWMetricData("S3BucketsLimit", float64(customMax))
 	if err != nil {
 		return err
 	}
@@ -239,6 +255,9 @@ func getSetS3Limits() error {
 	// Create S3 service client
 	svcS3 := s3.New(sess)
 	buckets, err := svcS3.ListBuckets(&s3.ListBucketsInput{})
+	if err != nil {
+		return err
+	}
 
 	log.Infof("Setting CloudWatch metric for S3BucketsUsed - %v", float64(len(buckets.Buckets)))
 	err = addCWMetricData("S3BucketsUsed", float64(len(buckets.Buckets)))
@@ -246,7 +265,12 @@ func getSetS3Limits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(buckets.Buckets)), float64(*quota.Quota.Value), "S3BucketsUtilization")
+	// err = utilizationmetricUtilization(float64(len(buckets.Buckets)), float64(*quota.Quota.Value), "S3BucketsUtilization")
+	// if err != nil {
+	// 	return err
+	// }
+
+	err = utilizationmetricUtilization(float64(len(buckets.Buckets)), float64(customMax), "S3BucketsUtilization")
 	if err != nil {
 		return err
 	}
@@ -284,6 +308,75 @@ func getSetVPCLimits() error {
 	}
 
 	err = utilizationmetricUtilization(float64(len(vpcs.Vpcs)), float64(*quota.Quota.Value), "VPCsUtilization")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// getSetΙΑΜLimits is used to get the existing ΙΑΜ Limits and set the CW metric data.
+func getSetΙΑΜLimits() error {
+	sess, err := session.NewSession(&aws.Config{})
+	if err != nil {
+		return err
+	}
+
+	// Create ΙΑΜ Users quota client
+	svcUsers := servicequotas.New(sess)
+	quotaUsers, err := svcUsers.GetServiceQuota(&servicequotas.GetServiceQuotaInput{QuotaCode: aws.String("L-F55AF5E4"), ServiceCode: aws.String("iam")})
+	if err != nil {
+		return err
+	}
+
+	log.Infof("Setting CloudWatch metric for IAMUsersLimit - %v", float64(*quotaUsers.Quota.Value))
+	err = addCWMetricData("IAMUsersLimit", float64(*quotaUsers.Quota.Value))
+	if err != nil {
+		return err
+	}
+
+	// Create ΙΑΜ Roles quota client
+	svcRoles := servicequotas.New(sess)
+	quotaRoles, err := svcRoles.GetServiceQuota(&servicequotas.GetServiceQuotaInput{QuotaCode: aws.String("L-FE177D64"), ServiceCode: aws.String("iam")})
+	if err != nil {
+		return err
+	}
+
+	log.Infof("Setting CloudWatch metric for IAMRolesLimit - %v", float64(*quotaRoles.Quota.Value))
+	err = addCWMetricData("IAMRolesLimit", float64(*quotaRoles.Quota.Value))
+	if err != nil {
+		return err
+	}
+
+	// Create IAM service client
+	svcIAM := iam.New(sess)
+
+	iamUsers, err := svcIAM.ListUsers(&iam.ListUsersInput{})
+	if err != nil {
+		return err
+	}
+	log.Infof("Setting CloudWatch metric for IAMUsersUsed - %v", float64(len(iamUsers.Users)))
+	err = addCWMetricData("IAMUsersUsed", float64(len(iamUsers.Users)))
+	if err != nil {
+		return err
+	}
+
+	iamRoles, err := svcIAM.ListRoles(&iam.ListRolesInput{})
+	if err != nil {
+		return err
+	}
+	log.Infof("Setting CloudWatch metric for IAMRolesUsed - %v", float64(len(iamRoles.Roles)))
+	err = addCWMetricData("IAMRolesUsed", float64(len(iamRoles.Roles)))
+	if err != nil {
+		return err
+	}
+
+	err = utilizationmetricUtilization(float64(len(iamUsers.Users)), float64(*quotaUsers.Quota.Value), "IAMUsersUtilization")
+	if err != nil {
+		return err
+	}
+
+	err = utilizationmetricUtilization(float64(len(iamRoles.Roles)), float64(*quotaRoles.Quota.Value), "IAMRolesUtilization")
 	if err != nil {
 		return err
 	}
