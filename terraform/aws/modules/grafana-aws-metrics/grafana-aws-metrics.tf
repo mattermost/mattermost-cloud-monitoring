@@ -37,7 +37,9 @@ resource "aws_iam_role_policy" "grafana_metrics_lambda_policy" {
             "rds:DescribeAccountAttributes",
             "servicequotas:GetServiceQuota",
             "autoscaling:DescribeAccountLimits",
-            "ec2:DescribeAddresses"
+            "ec2:DescribeAddresses",
+            "s3:List*",
+            "iam:List*"
         ],
       "Effect": "Allow",
       "Resource": "*"
