@@ -230,7 +230,7 @@ func getSetS3Limits() error {
 		return err
 	}
 
-	//Commenting this out as currently the quotas are not supporting S3 limits. Will put the max default number which is 1000 buckets.
+	// TODO: Commenting this out as currently the quotas are not supporting S3 limits. Will put the max default number which is 1000 buckets.
 
 	// // Create S3 quota client
 	// svc := servicequotas.New(sess)
