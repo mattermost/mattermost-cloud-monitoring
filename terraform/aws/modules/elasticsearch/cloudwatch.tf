@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_log_group" "es_group" {
   name              = "elasticsearch-logs-group"
-  retention_in_days = 90
+  retention_in_days = var.cw_retention_in_days
 
   tags = {
     Environment = var.environment
