@@ -53,8 +53,10 @@ type config struct {
 			Match  []string `yaml:"match[]"`
 			Module []string `yaml:"module"`
 		} `yaml:"params"`
-		ScrapeInterval string `yaml:"scrape_interval"`
-		StaticConfigs  []struct {
+		ScrapeInterval     string `yaml:"scrape_interval"`
+		ScrapeTimeout      string `yaml:"scrape_timeout"`
+		EvaluationInterval string `yaml:"evaluation_interval"`
+		StaticConfigs      []struct {
 			Targets []string `yaml:"targets"`
 			Labels  struct {
 				ClusterID string `yaml:"clusterID"`
