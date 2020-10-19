@@ -54,6 +54,7 @@ type config struct {
 			Module []string `yaml:"module"`
 		} `yaml:"params"`
 		ScrapeInterval string `yaml:"scrape_interval"`
+		ScrapeTimeout  string `yaml:"scrape_timeout"`
 		StaticConfigs  []struct {
 			Targets []string `yaml:"targets"`
 			Labels  struct {
