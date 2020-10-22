@@ -62,6 +62,12 @@ resource "aws_iam_policy" "utilities_policy" {
             "Resource": [
               "arn:aws:dynamodb:*:${data.aws_caller_identity.current.account_id}:table/cloud-${var.environment}-${var.cluster_short_name}*"
             ]
+        },
+        {
+            "Sid": "Route53Access",
+            "Effect": "Allow",
+            "Action": "route53:ListResourceRecordSets",
+            "Resource": "*"
         }
     ]
 }
