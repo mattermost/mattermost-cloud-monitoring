@@ -37,3 +37,12 @@ resource "aws_route53_record" "database_factory" {
   ttl     = "60"
   records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
 }
+
+resource "aws_route53_record" "thanos" {
+  zone_id = var.private_hosted_zoneid
+  name    = "thanos"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+}
+
