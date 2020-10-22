@@ -83,3 +83,59 @@ resource "kubernetes_config_map" "account_monitoring" {
     "acoount_monitoring.json" = "${file("../../../../grafana-dashboards/account_monitoring.json")}"
   }
 }
+
+resource "kubernetes_config_map" "aws_rds_overview" {
+  metadata {
+    name      = "awsrdsoverview-dashboard"
+    namespace = "monitoring"
+    labels = {
+      cloud_dashboards = "aws_rds_overview"
+    }
+  }
+
+  data = {
+    "aws_rds_overview.json" = "${file("../../../../grafana-dashboards/aws_rds_overview.json")}"
+  }
+}
+
+resource "kubernetes_config_map" "go_metrics_per_namespace_installation" {
+  metadata {
+    name      = "gometricspernamespaceinstallation-dashboard"
+    namespace = "monitoring"
+    labels = {
+      cloud_dashboards = "go_metrics_per_namespace_installation"
+    }
+  }
+
+  data = {
+    "go_metrics_per_namespace_installation.json" = "${file("../../../../grafana-dashboards/go_metrics_per_namespace_installation.json")}"
+  }
+}
+
+resource "kubernetes_config_map" "mattermost_performance_kpi_metrics_per_cluster" {
+  metadata {
+    name      = "mattermostperformancekpimetricspercluster-dashboard"
+    namespace = "monitoring"
+    labels = {
+      cloud_dashboards = "mattermost_performance_kpi_metrics_per_cluster"
+    }
+  }
+
+  data = {
+    "mattermost_performance_kpi_metrics_per_cluster.json" = "${file("../../../../grafana-dashboards/mattermost_performance_kpi_metrics_per_cluster.json")}"
+  }
+}
+
+resource "kubernetes_config_map" "mattermost_performance_monitoring_per_cluster" {
+  metadata {
+    name      = "mattermostperformancemonitoringpercluster-dashboard"
+    namespace = "monitoring"
+    labels = {
+      cloud_dashboards = "mattermost_performance_monitoring_per_cluster"
+    }
+  }
+
+  data = {
+    "mattermost_performance_monitoring_per_cluster.json" = "${file("../../../../grafana-dashboards/mattermost_performance_monitoring_per_cluster.json")}"
+  }
+}
