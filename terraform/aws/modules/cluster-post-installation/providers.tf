@@ -1,5 +1,7 @@
 data "aws_caller_identity" "current" {}
 
+# The data resources "helm_repository" are deprecated and should be removed after the migration
+# to the official helm charts, check: terraform/aws/modules/cluster-post-installation/grafana.tf#L4
 data "helm_repository" "stable" {
   name = "stable"
   url  = "https://kubernetes-charts.storage.googleapis.com"

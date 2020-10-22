@@ -33,3 +33,5 @@ variable "domain" {}
 variable "validation_acm_zoneid" {}
 
 variable "aws_db_instance_provisioner_endpoint" {}
+
+variable "grafana_chart_version" {}
