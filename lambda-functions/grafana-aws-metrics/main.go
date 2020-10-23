@@ -351,32 +351,56 @@ func getSetΙΑΜLimits() error {
 	// Create IAM service client
 	svcIAM := iam.New(sess)
 
-	iamUsers, err := svcIAM.ListUsers(&iam.ListUsersInput{})
-	if err != nil {
-		return err
+	var iamUsers []*iam.User
+	var nextUser *string
+	for {
+		var resp *iam.ListUsersOutput
+		resp, err = svcIAM.ListUsers(&iam.ListUsersInput{Marker: nextUser})
+		if err != nil {
+			return err
+		}
+		iamUsers = append(iamUsers, resp.Users...)
+		if *resp.IsTruncated {
+			nextUser = resp.Marker
+		} else {
+			break
+		}
 	}
-	log.Infof("Setting CloudWatch metric for IAMUsersUsed - %v", float64(len(iamUsers.Users)))
-	err = addCWMetricData("IAMUsersUsed", float64(len(iamUsers.Users)))
+
+	log.Infof("Setting CloudWatch metric for IAMUsersUsed - %v", float64(len(iamUsers)))
+	err = addCWMetricData("IAMUsersUsed", float64(len(iamUsers)))
 	if err != nil {
 		return err
 	}
 
-	iamRoles, err := svcIAM.ListRoles(&iam.ListRolesInput{})
-	if err != nil {
-		return err
+	var iamRoles []*iam.Role
+	var nextRole *string
+	for {
+		var resp *iam.ListRolesOutput
+		resp, err = svcIAM.ListRoles(&iam.ListRolesInput{Marker: nextRole})
+		if err != nil {
+			return err
+		}
+		iamRoles = append(iamRoles, resp.Roles...)
+		if *resp.IsTruncated {
+			nextRole = resp.Marker
+		} else {
+			break
+		}
 	}
-	log.Infof("Setting CloudWatch metric for IAMRolesUsed - %v", float64(len(iamRoles.Roles)))
-	err = addCWMetricData("IAMRolesUsed", float64(len(iamRoles.Roles)))
+
+	log.Infof("Setting CloudWatch metric for IAMRolesUsed - %v", float64(len(iamRoles)))
+	err = addCWMetricData("IAMRolesUsed", float64(len(iamRoles)))
 	if err != nil {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(iamUsers.Users)), float64(*quotaUsers.Quota.Value), "IAMUsersUtilization")
+	err = utilizationmetricUtilization(float64(len(iamUsers)), float64(*quotaUsers.Quota.Value), "IAMUsersUtilization")
 	if err != nil {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(iamRoles.Roles)), float64(*quotaRoles.Quota.Value), "IAMRolesUtilization")
+	err = utilizationmetricUtilization(float64(len(iamRoles)), float64(*quotaRoles.Quota.Value), "IAMRolesUtilization")
 	if err != nil {
 		return err
 	}
