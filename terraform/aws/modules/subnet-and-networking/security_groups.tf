@@ -39,7 +39,7 @@ resource "aws_security_group" "db_sg" {
   tags = merge(
     {
       "Name"                                = format("%s-%s-db-sg", var.name, join("", split(".", split("/", each.value)[0]))),
-      "MattermostCloudInstallationDatabase" = "MYSQL/Aurora"
+      "MattermostCloudInstallationDatabase" = "MySQL/Aurora"
     },
     var.tags
   )
