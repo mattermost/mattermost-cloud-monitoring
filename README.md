@@ -13,7 +13,7 @@ The Mattermost Cloud Command and Control cluster is used to monitor the Mattermo
 
 ### Prometheus Operator
 
-The Prometheus Operator is deployed in the Command and Control cluster and all provisioning clusters. It is deployed using the [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) Helm chart and it is used to scrape cluster and Mattermost application metrics. Together with the Prometheus operator, the Thanos sidecar is deployed and it pushes metrics to the respective account metrics storage bucket every two hours. THe Prometheus Alert Manager is also deployed in the Command and Control cluster to handle all metric alerts. More information on the Prometheus operator can be found [here](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+The Prometheus Operator is deployed in the Command and Control cluster and all provisioning clusters. It is deployed using the [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) Helm chart and it is used to scrape cluster and Mattermost application metrics. Together with the Prometheus operator, the Thanos sidecar is deployed and it pushes metrics to the respective account metrics storage bucket every two hours. The Prometheus Alert Manager is also deployed in the Command and Control cluster to handle all metric alerts. More information on the Prometheus operator can be found [here](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
 
 ### Thanos 
 
