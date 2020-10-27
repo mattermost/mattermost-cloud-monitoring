@@ -55,6 +55,14 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
           name = "mattermost-cloud-helm-volume"
         }
 
+        volume {
+          name = "mattermost-cloud-helm3-config-volume"
+        }
+
+        volume {
+          name = "mattermost-cloud-helm3-cache-volume"
+        }
+
         init_container {
           name  = "init-database"
           image = var.mattermost_cloud_image
@@ -185,6 +193,16 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
           volume_mount {
             name       = "mattermost-cloud-helm-volume"
             mount_path = "/.helm"
+          }
+
+          volume_mount {
+            name       = "mattermost-cloud-helm3-config-volume"
+            mount_path = "/.config"
+          }
+
+          volume_mount {
+            name       = "mattermost-cloud-helm3-cache-volume"
+            mount_path = "/.cache"
           }
 
           image_pull_policy = "Always"
