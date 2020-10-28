@@ -22,6 +22,14 @@ resource "aws_route53_record" "grafana" {
   records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
 }
 
+resource "aws_route53_record" "kibana" {
+  zone_id = var.private_hosted_zoneid
+  name    = "kibana"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+}
+
 resource "aws_route53_record" "database_factory" {
   zone_id = var.private_hosted_zoneid
   name    = "dbfactory"
