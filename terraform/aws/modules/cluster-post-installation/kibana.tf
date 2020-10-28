@@ -7,3 +7,4 @@ resource "helm_release" "kibana" {
     "${file("../../../../chart-values/kibana_values.yaml")}"
   ]
 }
+Dele
