@@ -2,6 +2,12 @@ data "aws_route53_zone" "private" {
   zone_id = var.private_hosted_zoneid
 }
 
+data "aws_acm_certificate" "private" {
+  domain      = "*.${data.aws_route53_zone.private.name}"
+  types       = ["AMAZON_ISSUED"]
+  most_recent = true
+}
+
 resource "aws_s3_bucket" "kibana_redirect" {
   bucket = "kibana.${data.aws_route53_zone.private.name}"
   acl    = "private"
@@ -16,12 +22,6 @@ resource "aws_s3_bucket" "kibana_redirect" {
 
 }
 
-data "aws_acm_certificate" "private" {
-  domain      = "*.${data.aws_route53_zone.private.name}"
-  types       = ["AMAZON_ISSUED"]
-  most_recent = true
-}
-
 resource "aws_s3_bucket_public_access_block" "kibana_redirect" {
   bucket                  = aws_s3_bucket.kibana_redirect.id
   block_public_acls       = true
@@ -31,26 +31,10 @@ resource "aws_s3_bucket_public_access_block" "kibana_redirect" {
 
 }
 
-
-resource "aws_route53_record" "kibana_redirect" {
-  zone_id = var.private_hosted_zoneid
-
-  name = "kibana"
-  type = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.kibana_redirect.domain_name
-    zone_id                = aws_cloudfront_distribution.kibana_redirect.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-
-
 resource "aws_cloudfront_distribution" "kibana_redirect" {
   origin {
     domain_name = aws_s3_bucket.kibana_redirect.website_endpoint
-    # origin_id   = "S3-kibana.${data.aws_route53_zone.private.name}"
-    origin_id = "kibana.${data.aws_route53_zone.private.name}.s3-website-${data.aws_region.current.name}.amazonaws.com"
+    origin_id   = "kibana.${data.aws_route53_zone.private.name}.s3-website-${data.aws_region.current.name}.amazonaws.com"
 
     custom_origin_config {
       http_port              = 80
@@ -82,7 +66,6 @@ resource "aws_cloudfront_distribution" "kibana_redirect" {
     viewer_protocol_policy = "redirect-to-https"
   }
 
-
   restrictions {
     geo_restriction {
       restriction_type = "none"
@@ -97,5 +80,17 @@ resource "aws_cloudfront_distribution" "kibana_redirect" {
 
   tags = {
     "Environment" = var.environment
+  }
+}
+
+resource "aws_route53_record" "kibana_redirect" {
+  zone_id = var.private_hosted_zoneid
+  name    = "kibana"
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.kibana_redirect.domain_name
+    zone_id                = aws_cloudfront_distribution.kibana_redirect.hosted_zone_id
+    evaluate_target_health = false
   }
 }
