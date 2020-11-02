@@ -74,7 +74,7 @@ func handler(ctx context.Context, event events.CloudWatchEvent) {
 		case "CreateLoadBalancer":
 			var elbName, targetGroupName string
 			var err error
-			isClassicELB := true
+			elbType := "classic"
 			// If DNSName is nil it is not an classic loadBalancer
 			if eventDetail.ResponseElements.DNSName == "" {
 				// extract the app/carlos-test/a83437a362089b8f from arn:aws:elasticloadbalancing:us-east-1:XXXXX:loadbalancer/app/carlos-test/a83437a362089b8f
@@ -85,12 +85,29 @@ func handler(ctx context.Context, event events.CloudWatchEvent) {
 					log.WithError(err).Errorf("Error getting the targetgroup for lb %s", elbName)
 					return
 				}
-				isClassicELB = false
+
+				lb, err := getV2LB(elbArnName)
+				if err != nil {
+					log.WithError(err).Errorf("failed to get %s information", elbName)
+					return
+				}
+
+				if len(lb) <= 0 {
+					log.Errorf("should return the LB information for %s", elbName)
+					return
+				}
+
+				if len(lb) > 2 {
+					log.Errorf("should return only one lb for %s", elbName)
+					return
+				}
+
+				elbType = *lb[0].Type
 			} else {
 				elbName = eventDetail.RequestParameters.LoadBalancerName
 			}
 
-			err = createCloudWatchAlarm(elbName, targetGroupName, isClassicELB)
+			err = createCloudWatchAlarm(elbName, targetGroupName, elbType)
 			if err != nil {
 				log.WithError(err).Errorln("Error creating the CloudWatch Alarm")
 				return
@@ -121,7 +138,7 @@ func handler(ctx context.Context, event events.CloudWatchEvent) {
 	listELBs()
 }
 
-func createCloudWatchAlarm(elbName, targetGroupName string, isClassicELB bool) error {
+func createCloudWatchAlarm(elbName, targetGroupName string, lbType string) error {
 	sess, err := session.NewSession(&aws.Config{})
 	if err != nil {
 		log.WithError(err).Errorln("Error creating aws session")
@@ -148,7 +165,7 @@ func createCloudWatchAlarm(elbName, targetGroupName string, isClassicELB bool) e
 		},
 	}
 
-	if isClassicELB {
+	if lbType == "classic" {
 		newMetricAlarm.Namespace = aws.String("AWS/ELB")
 		newMetricAlarm.Dimensions = []*cloudwatch.Dimension{
 			{
@@ -157,7 +174,12 @@ func createCloudWatchAlarm(elbName, targetGroupName string, isClassicELB bool) e
 			},
 		}
 	} else {
-		newMetricAlarm.Namespace = aws.String("AWS/ApplicationELB")
+		typeLB := "AWS/ApplicationELB"
+		if lbType == "network" {
+			typeLB = "AWS/NetworkELB"
+		}
+
+		newMetricAlarm.Namespace = aws.String(typeLB)
 		newMetricAlarm.Dimensions = []*cloudwatch.Dimension{
 			{
 				Name:  aws.String("LoadBalancer"),
@@ -218,7 +240,7 @@ func listELBs() error {
 			continue
 		}
 
-		err = createCloudWatchAlarm(elbName, targetGroupName, false)
+		err = createCloudWatchAlarm(elbName, targetGroupName, *loadBalancer.Type)
 		if err != nil {
 			log.WithError(err).Errorf("Error creating the CloudWatch Alarm for ELB %s", *loadBalancer.LoadBalancerName)
 			continue
@@ -228,7 +250,7 @@ func listELBs() error {
 	// Classic LBs
 	for _, loadBalancer := range classicLBs {
 		log.Infof("Creating CloudWatch Alarm for %+v/%+v\n", *loadBalancer.LoadBalancerName, *loadBalancer.DNSName)
-		err = createCloudWatchAlarm(*loadBalancer.LoadBalancerName, "", true)
+		err = createCloudWatchAlarm(*loadBalancer.LoadBalancerName, "", "classic")
 		if err != nil {
 			log.WithError(err).Errorf("Error creating the CloudWatch Alarm for ELB %s", *loadBalancer.LoadBalancerName)
 			continue
@@ -313,4 +335,24 @@ func listAllLBs() ([]*elbv2.LoadBalancer, []*elb.LoadBalancerDescription, error)
 	}
 
 	return lbs, classicELBs, nil
+}
+
+func getV2LB(lbARN string) ([]*elbv2.LoadBalancer, error) {
+	sess, err := session.NewSession(&aws.Config{})
+	if err != nil {
+		log.WithError(err).Errorln("Error creating aws session")
+		return nil, err
+	}
+
+	svcELBV2 := elbv2.New(sess)
+	input := &elbv2.DescribeLoadBalancersInput{
+		LoadBalancerArns: aws.StringSlice([]string{lbARN}),
+	}
+
+	resp, err := svcELBV2.DescribeLoadBalancers(input)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.LoadBalancers, nil
 }
