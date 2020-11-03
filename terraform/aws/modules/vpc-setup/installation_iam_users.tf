@@ -41,8 +41,8 @@ resource "aws_secretsmanager_secret_version" "installation_users_keys" {
 
   secret_id = aws_secretsmanager_secret.installation_users_keys[each.value]["id"]
   secret_string = jsonencode({
-    "aws_access_key_id"     = aws_iam_access_key.installation_users[each.value]["id"]
-    "aws_secret_access_key" = aws_iam_access_key.installation_users[each.value]["secret"]
+    "ID"     = aws_iam_access_key.installation_users[each.value]["id"]
+    "Secret" = aws_iam_access_key.installation_users[each.value]["secret"]
   })
 }
 
