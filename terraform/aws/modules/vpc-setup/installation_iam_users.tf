@@ -1,8 +1,8 @@
 resource "aws_iam_user" "installation_users" {
   for_each = toset(var.vpc_cidrs)
 
-  name     = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"])
-  path     = "/"
+  name = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"])
+  path = "/"
 
   tags = merge(
     {
@@ -17,7 +17,7 @@ resource "aws_iam_user" "installation_users" {
 
 resource "aws_iam_access_key" "installation_users" {
   for_each = toset(var.vpc_cidrs)
-  
+
   user = aws_iam_user.installation_users[each.value]["name"]
 }
 
@@ -32,23 +32,23 @@ resource "aws_secretsmanager_secret" "installation_users_keys" {
     },
     var.tags
   )
-  
+
   name = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"])
 }
 
 resource "aws_secretsmanager_secret_version" "installation_users_keys" {
   for_each = toset(var.vpc_cidrs)
 
-  secret_id     = aws_secretsmanager_secret.installation_users_keys[each.value]["id"]
+  secret_id = aws_secretsmanager_secret.installation_users_keys[each.value]["id"]
   secret_string = jsonencode({
-    "aws_access_key_id" = aws_iam_access_key.installation_users[each.value]["id"]
+    "aws_access_key_id"     = aws_iam_access_key.installation_users[each.value]["id"]
     "aws_secret_access_key" = aws_iam_access_key.installation_users[each.value]["secret"]
   })
 }
 
 resource "aws_iam_policy" "installation_users_s3_policy" {
   for_each = toset(var.vpc_cidrs)
-  
+
   name        = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"])
   path        = "/"
   description = "S3 permissions for installation user"
