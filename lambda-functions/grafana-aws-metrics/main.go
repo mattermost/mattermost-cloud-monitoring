@@ -98,6 +98,12 @@ func handler() {
 	if err != nil {
 		log.WithError(err).Error("Unable to get the existing Autoscaling limits and set the CloudWatch metric data")
 	}
+
+	log.Info("Getting existing EC2 limits and setting the CloudWatch metric data")
+	err = getSetEC2Limits()
+	if err != nil {
+		log.WithError(err).Error("Unable to get the existing EC2 limits and set the CloudWatch metric data")
+	}
 }
 
 // newSession creates a new STS session
@@ -438,6 +444,72 @@ func getSetEIPLimits() error {
 	}
 
 	err = utilizationmetricUtilization(float64(len(eips.Addresses)), float64(*quota.Quota.Value), "EIPsUtilization")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// getSetEC2Limits is used to get the existing EC2 Limits and set the CW metric data.
+func getSetEC2Limits() error {
+	sess, err := session.NewSession(&aws.Config{})
+	if err != nil {
+		return err
+	}
+
+	// Create EC2 quota client
+	svc := servicequotas.New(sess)
+	quota, err := svc.GetServiceQuota(&servicequotas.GetServiceQuotaInput{QuotaCode: aws.String("L-1216C47A"), ServiceCode: aws.String("ec2")})
+	if err != nil {
+		return err
+	}
+
+	log.Infof("Setting CloudWatch metric for EC2InstancesLimit - %v", float64(*quota.Quota.Value))
+	err = addCWMetricData("EC2InstancesLimit", float64(*quota.Quota.Value))
+	if err != nil {
+		return err
+	}
+	t := time.Now()
+
+	svcCW := cloudwatch.New(sess)
+	metric, err := svcCW.GetMetricStatistics(&cloudwatch.GetMetricStatisticsInput{
+		MetricName: aws.String("ResourceCount"),
+		Period:     aws.Int64(300),
+		Namespace:  aws.String("AWS/Usage"),
+		StartTime:  aws.Time(t.Add(-time.Minute * 5)),
+		EndTime:    aws.Time(t),
+		Statistics: []*string{aws.String("Average")},
+		Dimensions: []*cloudwatch.Dimension{
+			&cloudwatch.Dimension{
+				Name:  aws.String("Service"),
+				Value: aws.String("EC2"),
+			},
+			&cloudwatch.Dimension{
+				Name:  aws.String("Class"),
+				Value: aws.String("Standard/OnDemand"),
+			},
+			&cloudwatch.Dimension{
+				Name:  aws.String("Resource"),
+				Value: aws.String("vCPU"),
+			},
+			&cloudwatch.Dimension{
+				Name:  aws.String("Type"),
+				Value: aws.String("Resource"),
+			},
+		},
+	})
+	if err != nil {
+		return err
+	}
+
+	log.Infof("Setting CloudWatch metric for EC2InstancesUsed - %v", float64(*metric.Datapoints[0].Average))
+	err = addCWMetricData("EC2InstancesLimit", float64(*metric.Datapoints[0].Average))
+	if err != nil {
+		return err
+	}
+
+	err = utilizationmetricUtilization(float64(*metric.Datapoints[0].Average), float64(*quota.Quota.Value), "EC2InstancesUtilization")
 	if err != nil {
 		return err
 	}
