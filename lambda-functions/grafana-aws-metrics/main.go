@@ -504,7 +504,7 @@ func getSetEC2Limits() error {
 	}
 
 	log.Infof("Setting CloudWatch metric for EC2InstancesUsed - %v", float64(*metric.Datapoints[0].Average))
-	err = addCWMetricData("EC2InstancesLimit", float64(*metric.Datapoints[0].Average))
+	err = addCWMetricData("EC2InstancesUsed", float64(*metric.Datapoints[0].Average))
 	if err != nil {
 		return err
 	}
