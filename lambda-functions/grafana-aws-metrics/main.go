@@ -180,7 +180,7 @@ func getSetELBLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(elbs.LoadBalancerDescriptions)), currentELBLimit, "ElasticLoadBalancersUtilization")
+	err = calculateMetricUtilization(float64(len(elbs.LoadBalancerDescriptions)), currentELBLimit, "ElasticLoadBalancersUtilization")
 	if err != nil {
 		return err
 	}
@@ -221,7 +221,7 @@ func getSetRDSLimits() error {
 			return err
 		}
 
-		err = utilizationmetricUtilization(float64(*attribute.Used), float64(*attribute.Max), fmt.Sprintf("%sUtilization", *attribute.AccountQuotaName))
+		err = calculateMetricUtilization(float64(*attribute.Used), float64(*attribute.Max), fmt.Sprintf("%sUtilization", *attribute.AccountQuotaName))
 		if err != nil {
 			return err
 		}
@@ -271,12 +271,12 @@ func getSetS3Limits() error {
 		return err
 	}
 
-	// err = utilizationmetricUtilization(float64(len(buckets.Buckets)), float64(*quota.Quota.Value), "S3BucketsUtilization")
+	// err = calculateMetricUtilization(float64(len(buckets.Buckets)), float64(*quota.Quota.Value), "S3BucketsUtilization")
 	// if err != nil {
 	// 	return err
 	// }
 
-	err = utilizationmetricUtilization(float64(len(buckets.Buckets)), float64(customMax), "S3BucketsUtilization")
+	err = calculateMetricUtilization(float64(len(buckets.Buckets)), float64(customMax), "S3BucketsUtilization")
 	if err != nil {
 		return err
 	}
@@ -313,7 +313,7 @@ func getSetVPCLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(vpcs.Vpcs)), float64(*quota.Quota.Value), "VPCsUtilization")
+	err = calculateMetricUtilization(float64(len(vpcs.Vpcs)), float64(*quota.Quota.Value), "VPCsUtilization")
 	if err != nil {
 		return err
 	}
@@ -401,12 +401,12 @@ func getSetΙΑΜLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(iamUsers)), float64(*quotaUsers.Quota.Value), "IAMUsersUtilization")
+	err = calculateMetricUtilization(float64(len(iamUsers)), float64(*quotaUsers.Quota.Value), "IAMUsersUtilization")
 	if err != nil {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(iamRoles)), float64(*quotaRoles.Quota.Value), "IAMRolesUtilization")
+	err = calculateMetricUtilization(float64(len(iamRoles)), float64(*quotaRoles.Quota.Value), "IAMRolesUtilization")
 	if err != nil {
 		return err
 	}
@@ -443,7 +443,7 @@ func getSetEIPLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(eips.Addresses)), float64(*quota.Quota.Value), "EIPsUtilization")
+	err = calculateMetricUtilization(float64(len(eips.Addresses)), float64(*quota.Quota.Value), "EIPsUtilization")
 	if err != nil {
 		return err
 	}
@@ -509,7 +509,7 @@ func getSetEC2Limits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(*metric.Datapoints[0].Average), float64(*quota.Quota.Value), "EC2InstancesUtilization")
+	err = calculateMetricUtilization(float64(*metric.Datapoints[0].Average), float64(*quota.Quota.Value), "EC2InstancesUtilization")
 	if err != nil {
 		return err
 	}
@@ -598,12 +598,12 @@ func getSetNLBALBLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(albCounter), currentALBLimit, "ApplicationLoadBalancersUtilization")
+	err = calculateMetricUtilization(float64(albCounter), currentALBLimit, "ApplicationLoadBalancersUtilization")
 	if err != nil {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(nlbCounter), currentNLBLimit, "NetworkLoadBalancersUtilization")
+	err = calculateMetricUtilization(float64(nlbCounter), currentNLBLimit, "NetworkLoadBalancersUtilization")
 	if err != nil {
 		return err
 	}
@@ -650,12 +650,12 @@ func getSetAutoscalingLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(*limits.NumberOfAutoScalingGroups), float64(*limits.MaxNumberOfAutoScalingGroups), "AutoScalingGroupsUtilization")
+	err = calculateMetricUtilization(float64(*limits.NumberOfAutoScalingGroups), float64(*limits.MaxNumberOfAutoScalingGroups), "AutoScalingGroupsUtilization")
 	if err != nil {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(*limits.NumberOfLaunchConfigurations), float64(*limits.MaxNumberOfLaunchConfigurations), "LaunchConfigurationsUtilization")
+	err = calculateMetricUtilization(float64(*limits.NumberOfLaunchConfigurations), float64(*limits.MaxNumberOfLaunchConfigurations), "LaunchConfigurationsUtilization")
 	if err != nil {
 		return err
 	}
@@ -713,7 +713,7 @@ func getSetProvisioningVPCLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(usedVPCs, float64(len(maxVpcs.Vpcs)), "ProvisioningVPCsUtilization")
+	err = calculateMetricUtilization(usedVPCs, float64(len(maxVpcs.Vpcs)), "ProvisioningVPCsUtilization")
 	if err != nil {
 		return err
 	}
@@ -745,7 +745,7 @@ func addCWMetricData(metric string, value float64) error {
 	return nil
 }
 
-func utilizationmetricUtilization(used, limit float64, metricName string) error {
+func calculateMetricUtilization(used, limit float64, metricName string) error {
 	utilization := (used / limit) * float64(100)
 	log.Infof("The %s is %v%%", metricName, int(utilization))
 	err := addCWMetricData(metricName, float64(int(utilization)))
