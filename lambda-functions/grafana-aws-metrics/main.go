@@ -17,6 +17,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/elb"
 	"github.com/aws/aws-sdk-go/service/elbv2"
+	"github.com/aws/aws-sdk-go/service/iam"
 	"github.com/aws/aws-sdk-go/service/rds"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/servicequotas"
@@ -74,6 +75,12 @@ func handler() {
 		log.WithError(err).Error("Unable to get the existing VPC limits and set the CloudWatch metric data")
 	}
 
+	log.Info("Getting existing ΙΑΜ limits and setting the CloudWatch metric data")
+	err = getSetΙΑΜLimits()
+	if err != nil {
+		log.WithError(err).Error("Unable to get the existing ΙΑΜ limits and set the CloudWatch metric data")
+	}
+
 	log.Info("Getting existing EIP limits and setting the CloudWatch metric data")
 	err = getSetEIPLimits()
 	if err != nil {
@@ -90,6 +97,12 @@ func handler() {
 	err = getSetAutoscalingLimits()
 	if err != nil {
 		log.WithError(err).Error("Unable to get the existing Autoscaling limits and set the CloudWatch metric data")
+	}
+
+	log.Info("Getting existing EC2 limits and setting the CloudWatch metric data")
+	err = getSetEC2Limits()
+	if err != nil {
+		log.WithError(err).Error("Unable to get the existing EC2 limits and set the CloudWatch metric data")
 	}
 }
 
@@ -167,7 +180,7 @@ func getSetELBLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(elbs.LoadBalancerDescriptions)), currentELBLimit, "ElasticLoadBalancersUtilization")
+	err = calculateMetricUtilization(float64(len(elbs.LoadBalancerDescriptions)), currentELBLimit, "ElasticLoadBalancersUtilization")
 	if err != nil {
 		return err
 	}
@@ -208,7 +221,7 @@ func getSetRDSLimits() error {
 			return err
 		}
 
-		err = utilizationmetricUtilization(float64(*attribute.Used), float64(*attribute.Max), fmt.Sprintf("%sUtilization", *attribute.AccountQuotaName))
+		err = calculateMetricUtilization(float64(*attribute.Used), float64(*attribute.Max), fmt.Sprintf("%sUtilization", *attribute.AccountQuotaName))
 		if err != nil {
 			return err
 		}
@@ -223,15 +236,24 @@ func getSetS3Limits() error {
 		return err
 	}
 
-	// Create S3 quota client
-	svc := servicequotas.New(sess)
-	quota, err := svc.GetServiceQuota(&servicequotas.GetServiceQuotaInput{QuotaCode: aws.String("L-DC2B2D3D"), ServiceCode: aws.String("s3")})
-	if err != nil {
-		return err
-	}
+	// TODO: Commenting this out as currently the quotas are not supporting S3 limits. Will put the max default number which is 1000 buckets.
 
-	log.Infof("Setting CloudWatch metric for S3BucketsLimit - %v", float64(*quota.Quota.Value))
-	err = addCWMetricData("S3BucketsLimit", float64(*quota.Quota.Value))
+	// // Create S3 quota client
+	// svc := servicequotas.New(sess)
+	// quota, err := svc.GetServiceQuota(&servicequotas.GetServiceQuotaInput{QuotaCode: aws.String("L-DC2B2D3D"), ServiceCode: aws.String("s3")})
+	// if err != nil {
+	// 	return err
+	// }
+
+	// log.Infof("Setting CloudWatch metric for S3BucketsLimit - %v", float64(*quota.Quota.Value))
+	// err = addCWMetricData("S3BucketsLimit", float64(*quota.Quota.Value))
+	// if err != nil {
+	// 	return err
+	// }
+
+	customMax := 1000
+	log.Infof("Setting CloudWatch metric for S3BucketsLimit - %v", float64(customMax))
+	err = addCWMetricData("S3BucketsLimit", float64(customMax))
 	if err != nil {
 		return err
 	}
@@ -239,6 +261,9 @@ func getSetS3Limits() error {
 	// Create S3 service client
 	svcS3 := s3.New(sess)
 	buckets, err := svcS3.ListBuckets(&s3.ListBucketsInput{})
+	if err != nil {
+		return err
+	}
 
 	log.Infof("Setting CloudWatch metric for S3BucketsUsed - %v", float64(len(buckets.Buckets)))
 	err = addCWMetricData("S3BucketsUsed", float64(len(buckets.Buckets)))
@@ -246,7 +271,12 @@ func getSetS3Limits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(buckets.Buckets)), float64(*quota.Quota.Value), "S3BucketsUtilization")
+	// err = calculateMetricUtilization(float64(len(buckets.Buckets)), float64(*quota.Quota.Value), "S3BucketsUtilization")
+	// if err != nil {
+	// 	return err
+	// }
+
+	err = calculateMetricUtilization(float64(len(buckets.Buckets)), float64(customMax), "S3BucketsUtilization")
 	if err != nil {
 		return err
 	}
@@ -283,7 +313,100 @@ func getSetVPCLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(vpcs.Vpcs)), float64(*quota.Quota.Value), "VPCsUtilization")
+	err = calculateMetricUtilization(float64(len(vpcs.Vpcs)), float64(*quota.Quota.Value), "VPCsUtilization")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// getSetΙΑΜLimits is used to get the existing ΙΑΜ Limits and set the CW metric data.
+func getSetΙΑΜLimits() error {
+	sess, err := session.NewSession(&aws.Config{})
+	if err != nil {
+		return err
+	}
+
+	// Create ΙΑΜ Users quota client
+	svcUsers := servicequotas.New(sess)
+	quotaUsers, err := svcUsers.GetServiceQuota(&servicequotas.GetServiceQuotaInput{QuotaCode: aws.String("L-F55AF5E4"), ServiceCode: aws.String("iam")})
+	if err != nil {
+		return err
+	}
+
+	log.Infof("Setting CloudWatch metric for IAMUsersLimit - %v", float64(*quotaUsers.Quota.Value))
+	err = addCWMetricData("IAMUsersLimit", float64(*quotaUsers.Quota.Value))
+	if err != nil {
+		return err
+	}
+
+	// Create ΙΑΜ Roles quota client
+	svcRoles := servicequotas.New(sess)
+	quotaRoles, err := svcRoles.GetServiceQuota(&servicequotas.GetServiceQuotaInput{QuotaCode: aws.String("L-FE177D64"), ServiceCode: aws.String("iam")})
+	if err != nil {
+		return err
+	}
+
+	log.Infof("Setting CloudWatch metric for IAMRolesLimit - %v", float64(*quotaRoles.Quota.Value))
+	err = addCWMetricData("IAMRolesLimit", float64(*quotaRoles.Quota.Value))
+	if err != nil {
+		return err
+	}
+
+	// Create IAM service client
+	svcIAM := iam.New(sess)
+
+	var iamUsers []*iam.User
+	var nextUser *string
+	for {
+		var resp *iam.ListUsersOutput
+		resp, err = svcIAM.ListUsers(&iam.ListUsersInput{Marker: nextUser})
+		if err != nil {
+			return err
+		}
+		iamUsers = append(iamUsers, resp.Users...)
+		if *resp.IsTruncated {
+			nextUser = resp.Marker
+		} else {
+			break
+		}
+	}
+
+	log.Infof("Setting CloudWatch metric for IAMUsersUsed - %v", float64(len(iamUsers)))
+	err = addCWMetricData("IAMUsersUsed", float64(len(iamUsers)))
+	if err != nil {
+		return err
+	}
+
+	var iamRoles []*iam.Role
+	var nextRole *string
+	for {
+		var resp *iam.ListRolesOutput
+		resp, err = svcIAM.ListRoles(&iam.ListRolesInput{Marker: nextRole})
+		if err != nil {
+			return err
+		}
+		iamRoles = append(iamRoles, resp.Roles...)
+		if *resp.IsTruncated {
+			nextRole = resp.Marker
+		} else {
+			break
+		}
+	}
+
+	log.Infof("Setting CloudWatch metric for IAMRolesUsed - %v", float64(len(iamRoles)))
+	err = addCWMetricData("IAMRolesUsed", float64(len(iamRoles)))
+	if err != nil {
+		return err
+	}
+
+	err = calculateMetricUtilization(float64(len(iamUsers)), float64(*quotaUsers.Quota.Value), "IAMUsersUtilization")
+	if err != nil {
+		return err
+	}
+
+	err = calculateMetricUtilization(float64(len(iamRoles)), float64(*quotaRoles.Quota.Value), "IAMRolesUtilization")
 	if err != nil {
 		return err
 	}
@@ -320,7 +443,73 @@ func getSetEIPLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(len(eips.Addresses)), float64(*quota.Quota.Value), "EIPsUtilization")
+	err = calculateMetricUtilization(float64(len(eips.Addresses)), float64(*quota.Quota.Value), "EIPsUtilization")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// getSetEC2Limits is used to get the existing EC2 Limits and set the CW metric data.
+func getSetEC2Limits() error {
+	sess, err := session.NewSession(&aws.Config{})
+	if err != nil {
+		return err
+	}
+
+	// Create EC2 quota client
+	svc := servicequotas.New(sess)
+	quota, err := svc.GetServiceQuota(&servicequotas.GetServiceQuotaInput{QuotaCode: aws.String("L-1216C47A"), ServiceCode: aws.String("ec2")})
+	if err != nil {
+		return err
+	}
+
+	log.Infof("Setting CloudWatch metric for EC2InstancesLimit - %v", float64(*quota.Quota.Value))
+	err = addCWMetricData("EC2InstancesLimit", float64(*quota.Quota.Value))
+	if err != nil {
+		return err
+	}
+	t := time.Now()
+
+	svcCW := cloudwatch.New(sess)
+	metric, err := svcCW.GetMetricStatistics(&cloudwatch.GetMetricStatisticsInput{
+		MetricName: aws.String("ResourceCount"),
+		Period:     aws.Int64(300),
+		Namespace:  aws.String("AWS/Usage"),
+		StartTime:  aws.Time(t.Add(-time.Minute * 5)),
+		EndTime:    aws.Time(t),
+		Statistics: []*string{aws.String("Average")},
+		Dimensions: []*cloudwatch.Dimension{
+			&cloudwatch.Dimension{
+				Name:  aws.String("Service"),
+				Value: aws.String("EC2"),
+			},
+			&cloudwatch.Dimension{
+				Name:  aws.String("Class"),
+				Value: aws.String("Standard/OnDemand"),
+			},
+			&cloudwatch.Dimension{
+				Name:  aws.String("Resource"),
+				Value: aws.String("vCPU"),
+			},
+			&cloudwatch.Dimension{
+				Name:  aws.String("Type"),
+				Value: aws.String("Resource"),
+			},
+		},
+	})
+	if err != nil {
+		return err
+	}
+
+	log.Infof("Setting CloudWatch metric for EC2InstancesUsed - %v", float64(*metric.Datapoints[0].Average))
+	err = addCWMetricData("EC2InstancesUsed", float64(*metric.Datapoints[0].Average))
+	if err != nil {
+		return err
+	}
+
+	err = calculateMetricUtilization(float64(*metric.Datapoints[0].Average), float64(*quota.Quota.Value), "EC2InstancesUtilization")
 	if err != nil {
 		return err
 	}
@@ -409,12 +598,12 @@ func getSetNLBALBLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(albCounter), currentALBLimit, "ApplicationLoadBalancersUtilization")
+	err = calculateMetricUtilization(float64(albCounter), currentALBLimit, "ApplicationLoadBalancersUtilization")
 	if err != nil {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(nlbCounter), currentNLBLimit, "NetworkLoadBalancersUtilization")
+	err = calculateMetricUtilization(float64(nlbCounter), currentNLBLimit, "NetworkLoadBalancersUtilization")
 	if err != nil {
 		return err
 	}
@@ -461,12 +650,12 @@ func getSetAutoscalingLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(*limits.NumberOfAutoScalingGroups), float64(*limits.MaxNumberOfAutoScalingGroups), "AutoScalingGroupsUtilization")
+	err = calculateMetricUtilization(float64(*limits.NumberOfAutoScalingGroups), float64(*limits.MaxNumberOfAutoScalingGroups), "AutoScalingGroupsUtilization")
 	if err != nil {
 		return err
 	}
 
-	err = utilizationmetricUtilization(float64(*limits.NumberOfLaunchConfigurations), float64(*limits.MaxNumberOfLaunchConfigurations), "LaunchConfigurationsUtilization")
+	err = calculateMetricUtilization(float64(*limits.NumberOfLaunchConfigurations), float64(*limits.MaxNumberOfLaunchConfigurations), "LaunchConfigurationsUtilization")
 	if err != nil {
 		return err
 	}
@@ -524,7 +713,7 @@ func getSetProvisioningVPCLimits() error {
 		return err
 	}
 
-	err = utilizationmetricUtilization(usedVPCs, float64(len(maxVpcs.Vpcs)), "ProvisioningVPCsUtilization")
+	err = calculateMetricUtilization(usedVPCs, float64(len(maxVpcs.Vpcs)), "ProvisioningVPCsUtilization")
 	if err != nil {
 		return err
 	}
@@ -556,7 +745,7 @@ func addCWMetricData(metric string, value float64) error {
 	return nil
 }
 
-func utilizationmetricUtilization(used, limit float64, metricName string) error {
+func calculateMetricUtilization(used, limit float64, metricName string) error {
 	utilization := (used / limit) * float64(100)
 	log.Infof("The %s is %v%%", metricName, int(utilization))
 	err := addCWMetricData(metricName, float64(int(utilization)))

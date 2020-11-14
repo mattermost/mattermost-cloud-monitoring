@@ -50,10 +50,11 @@ type config struct {
 		JobName     string `yaml:"job_name"`
 		MetricsPath string `yaml:"metrics_path"`
 		Perams      struct {
-			Match []string `yaml:"match[]"`
-			Module [] string `yaml:"module"`
+			Match  []string `yaml:"match[]"`
+			Module []string `yaml:"module"`
 		} `yaml:"params"`
 		ScrapeInterval string `yaml:"scrape_interval"`
+		ScrapeTimeout  string `yaml:"scrape_timeout"`
 		StaticConfigs  []struct {
 			Targets []string `yaml:"targets"`
 			Labels  struct {
@@ -62,8 +63,8 @@ type config struct {
 		} `yaml:"static_configs"`
 		RelabelConfigs []struct {
 			SourceLabels []string `yaml:"source_labels,omitempty"`
-			TargetLabel string `yaml:"target_label,omitempty"`
-			Replacement string `yaml:"replacement,omitempty"`
+			TargetLabel  string   `yaml:"target_label,omitempty"`
+			Replacement  string   `yaml:"replacement,omitempty"`
 		} `yaml:"relabel_configs"`
 	} `yaml:"scrape_configs"`
 }
@@ -92,8 +93,8 @@ type staticConfig = struct {
 
 type relabelConfig = struct {
 	SourceLabels []string `yaml:"source_labels,omitempty"`
-	TargetLabel string `yaml:"target_label,omitempty"`
-	Replacement string `yaml:"replacement,omitempty"`
+	TargetLabel  string   `yaml:"target_label,omitempty"`
+	Replacement  string   `yaml:"replacement,omitempty"`
 }
 
 var excludedURLs = []string{
@@ -163,20 +164,18 @@ func handler() {
 	log.Info("Successfully decoded configmap data into structure")
 
 	log.Info("Getting existing Prometheus Route53 records")
-	prometheusRecords, err := getRoute53Records(prometheusHostedZoneID)
+	prometheusRecordsSet, err := listAllRecordSets(prometheusHostedZoneID)
 	if err != nil {
 		log.WithError(err).Fatal("Unable to get the existing Prometheus Route53 records")
 	}
-	prometheusTargets := getPrometheusTargets(prometheusRecords.ResourceRecordSets)
-
+	prometheusTargets := getPrometheusTargets(prometheusRecordsSet)
 
 	log.Info("Getting existing installations Route53 records")
-	installationsRecords, err := getRoute53Records(installationsHostedZoneID)
+	installationsRecordSet, err := listAllRecordSets(installationsHostedZoneID)
 	if err != nil {
 		log.WithError(err).Fatal("Unable to get the existing installations Route53 records")
 	}
-	installationsTargets := getInstallationsTargets(installationsRecords.ResourceRecordSets, environment)
-
+	installationsTargets := getInstallationsTargets(installationsRecordSet, environment)
 
 	dataNew, err := updateTargets(configDecoded, prometheusTargets, installationsTargets, environment)
 	if err != nil {
@@ -220,7 +219,7 @@ func updateTargets(configData config, prometheusTargets, installationsTargets []
 	var installationsStaticConfigs []staticConfig
 	var i staticConfig
 	for _, target := range installationsTargets {
-		if !strings.HasPrefix(target, "_") && !contains(excludedURLs, target){
+		if !strings.HasPrefix(target, "_") && !contains(excludedURLs, target) {
 			t := fmt.Sprintf("%s/api/v4/system/ping", target)
 			i.Targets = []string{t}
 			installationsStaticConfigs = append(installationsStaticConfigs, i)
@@ -229,18 +228,18 @@ func updateTargets(configData config, prometheusTargets, installationsTargets []
 	// Adding community targets as they Route53 is defined in other account
 	if environment == "staging" {
 		i.Targets = []string{
-				"community.mattermost.com/api/v4/system/ping",
-				"community-daily.mattermost.com/api/v4/system/ping",
-				"community-release.mattermost.com/api/v4/system/ping",
-			}
+			"community.mattermost.com/api/v4/system/ping",
+			"community-daily.mattermost.com/api/v4/system/ping",
+			"community-release.mattermost.com/api/v4/system/ping",
+		}
 	}
 	installationsStaticConfigs = append(installationsStaticConfigs, i)
 	log.Info("Replacing existing installations targets with updated values")
 	configData.ScrapeConfigs[1].StaticConfigs = installationsStaticConfigs
-	
+
 	var installationsRelabelConfigs []relabelConfig
 	var r relabelConfig
- 	r.SourceLabels = []string{"__address__"}
+	r.SourceLabels = []string{"__address__"}
 	r.TargetLabel = "__param_target"
 	installationsRelabelConfigs = append(installationsRelabelConfigs, r)
 
@@ -251,7 +250,7 @@ func updateTargets(configData config, prometheusTargets, installationsTargets []
 	r.TargetLabel = "__address__"
 	r.Replacement = "mattermost-cm-blackbox-prometheus-blackbox-exporter.monitoring:9115"
 	installationsRelabelConfigs = append(installationsRelabelConfigs, r)
-	
+
 	configData.ScrapeConfigs[1].RelabelConfigs = installationsRelabelConfigs
 
 	data, err := yaml.Marshal(&configData)
@@ -453,28 +452,6 @@ func (c *clientConfig) newClientSet() (*clientset.Clientset, *rest.Config, error
 	return client, clientConfig, err
 }
 
-// getRoute53Records is used to get the existing Route53 Records
-func getRoute53Records(hostedZoneID string) (*route53.ListResourceRecordSetsOutput, error) {
-	sess, err := session.NewSession(&aws.Config{})
-	if err != nil {
-		return nil, err
-	}
-
-	// Create Route53 service client
-	svc := route53.New(sess)
-
-	recordSets, err := svc.ListResourceRecordSets(&route53.ListResourceRecordSetsInput{
-		HostedZoneId: aws.String(hostedZoneID),
-		StartRecordName: aws.String("c"),
-		StartRecordType: aws.String("CNAME"),
-	})
-
-	if err != nil {
-		return nil, err
-	}
-	return recordSets, nil
-}
-
 // getPrometheusTargets is used to get only Prometheus related Route53 records.
 func getPrometheusTargets(recordSets []*route53.ResourceRecordSet) []string {
 	prometheusRecords := []string{}
@@ -497,6 +474,7 @@ func getInstallationsTargets(recordSets []*route53.ResourceRecordSet, environmen
 	} else if environment == "prod" {
 		dnsRecordset = ".cloud.mattermost.com"
 	}
+
 	installationsRecords := []string{}
 	for _, record := range recordSets {
 		if strings.Contains(*record.Name, dnsRecordset) {
@@ -509,9 +487,48 @@ func getInstallationsTargets(recordSets []*route53.ResourceRecordSet, environmen
 
 func contains(s []string, e string) bool {
 	for _, a := range s {
-	   if a == e {
-		  return true
-	   }
+		if a == e {
+			return true
+		}
 	}
 	return false
- }
+}
+
+// listAllRecordSets is used to get the existing Route53 Records
+func listAllRecordSets(hostedZoneID string) ([]*route53.ResourceRecordSet, error) {
+	var err error
+
+	sess, err := session.NewSession(&aws.Config{})
+	if err != nil {
+		return nil, err
+	}
+
+	// Create Route53 service client
+	svc := route53.New(sess)
+
+	req := route53.ListResourceRecordSetsInput{
+		HostedZoneId:    aws.String(hostedZoneID),
+		StartRecordName: aws.String("c"),
+		StartRecordType: aws.String("CNAME"),
+	}
+
+	var rrsets []*route53.ResourceRecordSet
+
+	for {
+		var resp *route53.ListResourceRecordSetsOutput
+		resp, err = svc.ListResourceRecordSets(&req)
+		if err != nil {
+			return nil, err
+		}
+		rrsets = append(rrsets, resp.ResourceRecordSets...)
+		if *resp.IsTruncated {
+			req.StartRecordName = resp.NextRecordName
+			req.StartRecordType = resp.NextRecordType
+			req.StartRecordIdentifier = resp.NextRecordIdentifier
+		} else {
+			break
+		}
+	}
+
+	return rrsets, nil
+}

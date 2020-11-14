@@ -38,8 +38,6 @@ variable "mattermost-cloud-namespace" {}
 
 variable "mattermost_cloud_secrets_aws_region" {}
 
-variable "mattermost_cloud_secrets_private_dns" {}
-
 variable "mattermost_cloud_secrets_keep_filestore_data" {}
 
 variable "mattermost_cloud_secrets_keep_database_data" {}

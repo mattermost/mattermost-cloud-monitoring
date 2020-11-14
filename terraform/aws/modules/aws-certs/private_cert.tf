@@ -2,7 +2,7 @@
 
 resource "aws_acm_certificate" "private_cert" {
   domain_name               = "*.${var.priv_domain}"
-  subject_alternative_names = ["*.${var.prometheus_domain}"]
+  subject_alternative_names = var.alternative_cert_domains
   validation_method         = "DNS"
 
   tags = merge({

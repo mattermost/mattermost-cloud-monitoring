@@ -50,17 +50,17 @@ resource "aws_elasticsearch_domain" "es_domain" {
   }
 
   log_publishing_options {
-    cloudwatch_log_group_arn = aws_cloudwatch_log_group.es_group.arn
+    cloudwatch_log_group_arn = "${aws_cloudwatch_log_group.es_group.arn}:*"
     log_type                 = "INDEX_SLOW_LOGS"
   }
 
   log_publishing_options {
-    cloudwatch_log_group_arn = aws_cloudwatch_log_group.es_group.arn
+    cloudwatch_log_group_arn = "${aws_cloudwatch_log_group.es_group.arn}:*"
     log_type                 = "SEARCH_SLOW_LOGS"
   }
 
   log_publishing_options {
-    cloudwatch_log_group_arn = aws_cloudwatch_log_group.es_group.arn
+    cloudwatch_log_group_arn = "${aws_cloudwatch_log_group.es_group.arn}:*"
     log_type                 = "ES_APPLICATION_LOGS"
   }
 

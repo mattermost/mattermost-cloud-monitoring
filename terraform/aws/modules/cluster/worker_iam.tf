@@ -18,10 +18,10 @@ resource "aws_iam_role" "worker-role" {
 POLICY
 }
 
-resource "aws_iam_policy" "teleport_policy" {
-  name        = "cloud-${var.cluster_short_name}-teleport-policy"
+resource "aws_iam_policy" "utilities_policy" {
+  name        = "cloud-${var.cluster_short_name}-utilities-policy"
   path        = "/"
-  description = "Policy for Teleport required permissions."
+  description = "Policy for utilities required permissions."
 
   policy = <<EOF
 {
@@ -36,7 +36,9 @@ resource "aws_iam_policy" "teleport_policy" {
                 "s3:CreateBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::cloud-${var.environment}-${var.cluster_short_name}"
+                "arn:aws:s3:::cloud-${var.environment}-${var.cluster_short_name}",
+                "arn:aws:s3:::cloud-${var.environment}-prometheus-metrics"
+
             ]
         },
         {
@@ -45,10 +47,12 @@ resource "aws_iam_policy" "teleport_policy" {
             "Action": [
                 "s3:PutObject",
                 "s3:GetObject",
-                "s3:GetObjectVersion"
+                "s3:GetObjectVersion",
+                "s3:DeleteObject"
             ],
             "Resource": [
-                "arn:aws:s3:::cloud-${var.environment}-${var.cluster_short_name}/*"
+                "arn:aws:s3:::cloud-${var.environment}-${var.cluster_short_name}/*",
+                "arn:aws:s3:::cloud-${var.environment}-prometheus-metrics/*"
             ]
         },
         {
@@ -58,14 +62,20 @@ resource "aws_iam_policy" "teleport_policy" {
             "Resource": [
               "arn:aws:dynamodb:*:${data.aws_caller_identity.current.account_id}:table/cloud-${var.environment}-${var.cluster_short_name}*"
             ]
+        },
+        {
+            "Sid": "Route53Access",
+            "Effect": "Allow",
+            "Action": "route53:ListResourceRecordSets",
+            "Resource": "*"
         }
     ]
 }
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "worker_teleport_policy" {
-  policy_arn = aws_iam_policy.teleport_policy.arn
+resource "aws_iam_role_policy_attachment" "worker_utilities_policy" {
+  policy_arn = aws_iam_policy.utilities_policy.arn
   role       = aws_iam_role.worker-role.name
 }
 

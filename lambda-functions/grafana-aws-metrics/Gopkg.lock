@@ -2,7 +2,7 @@
 
 
 [[projects]]
-  digest = "1:d92a0c10fb57de8742c33500c2fd96bd202fcafd14cb247d5185578f86b276fb"
+  digest = "1:86882e14047674a645bd21cf2776bba781fabe6917e8033bf4358b3d8b1cb68c"
   name = "github.com/aws/aws-lambda-go"
   packages = [
     "lambda",
@@ -11,11 +11,11 @@
     "lambdacontext",
   ]
   pruneopts = "UT"
-  revision = "18b606949c45bc923e421d7ea891d6d02a34f7dd"
-  version = "v1.16.0"
+  revision = "f24acb29a08c3a45eb95e6cd4ae56fbfabf4f4a5"
+  version = "v1.20.0"
 
 [[projects]]
-  digest = "1:d9675649a9ffe9f4ff4b66e660afbddb24c4b4c032d7d5ac18cc6e65ec802933"
+  digest = "1:03b013a74c6bf00b677e28f84beb1aa3d2c948d47890537a5ff0cd77af00f2cd"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -59,6 +59,7 @@
     "service/ec2",
     "service/elb",
     "service/elbv2",
+    "service/iam",
     "service/rds",
     "service/s3",
     "service/servicequotas",
@@ -163,6 +164,7 @@
     "github.com/aws/aws-sdk-go/service/ec2",
     "github.com/aws/aws-sdk-go/service/elb",
     "github.com/aws/aws-sdk-go/service/elbv2",
+    "github.com/aws/aws-sdk-go/service/iam",
     "github.com/aws/aws-sdk-go/service/rds",
     "github.com/aws/aws-sdk-go/service/s3",
     "github.com/aws/aws-sdk-go/service/servicequotas",

@@ -7,10 +7,6 @@ locals {
     groups:
       - system:bootstrappers
       - system:nodes
-  - rolearn: "${data.aws_region.current.name == "us-east-1" ? aws_iam_role.lambda_role[0].arn : data.aws_iam_role.lambda_role[0].arn}"
-    username: admin
-    groups:
-      - system:masters
   YAML
     mapUsers = <<YAML
   - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.matterwick_iam_user}"

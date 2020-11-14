@@ -144,6 +144,11 @@ resource "kubernetes_cron_job" "cloud_db_factory_vertical_scaling_cron" {
               }
 
               env {
+                name  = "Environment"
+                value = var.environment
+              }
+
+              env {
                 name  = "MattermostNotificationsHook"
                 value = var.mattermost_notifications_hook
               }

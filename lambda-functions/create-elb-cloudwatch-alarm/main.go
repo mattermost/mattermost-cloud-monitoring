@@ -74,13 +74,9 @@ func handler(ctx context.Context, event events.CloudWatchEvent) {
 		case "CreateLoadBalancer":
 			var elbName, targetGroupName string
 			var err error
-			isClassicELB := true
+			elbType := "classic"
 			// If DNSName is nil it is not an classic loadBalancer
 			if eventDetail.ResponseElements.DNSName == "" {
-				if !strings.Contains(eventDetail.RequestParameters.Name, "api-") {
-					// not an internal api from kops not createing alarms
-					return
-				}
 				// extract the app/carlos-test/a83437a362089b8f from arn:aws:elasticloadbalancing:us-east-1:XXXXX:loadbalancer/app/carlos-test/a83437a362089b8f
 				elbArnName := eventDetail.ResponseElements.LoadBalancers[0].LoadBalancerArn
 				elbName = elbArnName[strings.IndexByte(elbArnName, '/')+1:]
@@ -89,16 +85,29 @@ func handler(ctx context.Context, event events.CloudWatchEvent) {
 					log.WithError(err).Errorf("Error getting the targetgroup for lb %s", elbName)
 					return
 				}
-				isClassicELB = false
-			} else {
-				if !strings.Contains(eventDetail.RequestParameters.LoadBalancerName, "api-") || !strings.Contains(eventDetail.ResponseElements.DNSName, "internal-api-") {
-					// not an internal api from kops not createing alarms
+
+				lb, err := getV2LB(elbArnName)
+				if err != nil {
+					log.WithError(err).Errorf("failed to get %s information", elbName)
 					return
 				}
+
+				if len(lb) <= 0 {
+					log.Errorf("should return the LB information for %s", elbName)
+					return
+				}
+
+				if len(lb) > 2 {
+					log.Errorf("should return only one lb for %s", elbName)
+					return
+				}
+
+				elbType = *lb[0].Type
+			} else {
 				elbName = eventDetail.RequestParameters.LoadBalancerName
 			}
 
-			err = createCloudWatchAlarm(elbName, targetGroupName, isClassicELB)
+			err = createCloudWatchAlarm(elbName, targetGroupName, elbType)
 			if err != nil {
 				log.WithError(err).Errorln("Error creating the CloudWatch Alarm")
 				return
@@ -129,7 +138,7 @@ func handler(ctx context.Context, event events.CloudWatchEvent) {
 	listELBs()
 }
 
-func createCloudWatchAlarm(elbName, targetGroupName string, isClassicELB bool) error {
+func createCloudWatchAlarm(elbName, targetGroupName string, lbType string) error {
 	sess, err := session.NewSession(&aws.Config{})
 	if err != nil {
 		log.WithError(err).Errorln("Error creating aws session")
@@ -138,13 +147,13 @@ func createCloudWatchAlarm(elbName, targetGroupName string, isClassicELB bool) e
 
 	newMetricAlarm := &cloudwatch.PutMetricAlarmInput{
 		ActionsEnabled:     aws.Bool(true),
-		MetricName:         aws.String("UnHealthyHostCount"),
+		MetricName:         aws.String("HealthyHostCount"),
 		AlarmName:          aws.String(fmt.Sprintf("Alarm-%s", elbName)),
-		ComparisonOperator: aws.String(cloudwatch.ComparisonOperatorGreaterThanOrEqualToThreshold),
+		ComparisonOperator: aws.String(cloudwatch.ComparisonOperatorLessThanOrEqualToThreshold),
 		EvaluationPeriods:  aws.Int64(1),
 		Period:             aws.Int64(300),
 		Statistic:          aws.String(cloudwatch.StatisticAverage),
-		Threshold:          aws.Float64(1.0),
+		Threshold:          aws.Float64(0.0),
 		AlarmDescription:   aws.String("Alarm when having at least one unhealth host"),
 
 		AlarmActions: []*string{
@@ -156,7 +165,7 @@ func createCloudWatchAlarm(elbName, targetGroupName string, isClassicELB bool) e
 		},
 	}
 
-	if isClassicELB {
+	if lbType == "classic" {
 		newMetricAlarm.Namespace = aws.String("AWS/ELB")
 		newMetricAlarm.Dimensions = []*cloudwatch.Dimension{
 			{
@@ -165,7 +174,12 @@ func createCloudWatchAlarm(elbName, targetGroupName string, isClassicELB bool) e
 			},
 		}
 	} else {
-		newMetricAlarm.Namespace = aws.String("AWS/ApplicationELB")
+		typeLB := "AWS/ApplicationELB"
+		if lbType == "network" {
+			typeLB = "AWS/NetworkELB"
+		}
+
+		newMetricAlarm.Namespace = aws.String(typeLB)
 		newMetricAlarm.Dimensions = []*cloudwatch.Dimension{
 			{
 				Name:  aws.String("LoadBalancer"),
@@ -208,63 +222,41 @@ func deleteCloudWatchAlarm(elbName string) error {
 }
 
 func listELBs() error {
-	sess, err := session.NewSession(&aws.Config{})
+	v2LBS, classicLBs, err := listAllLBs()
 	if err != nil {
-		log.WithError(err).Errorln("Error creating aws session")
+		log.WithError(err).Errorln("failed to get the v2 lbs")
 		return err
 	}
 
-	// ELB V2 is for ALB and NLB
-	svcELBV2 := elbv2.New(sess)
-	input := &elbv2.DescribeLoadBalancersInput{
-		Names: []*string{},
-	}
+	// V2 LBS - appLB/NLB
+	for _, loadBalancer := range v2LBS {
+		elbArnName := *loadBalancer.LoadBalancerArn
+		elbName := elbArnName[strings.IndexByte(elbArnName, '/')+1:]
+		log.Infof("Creating CloudWatch Alarm for %+v/%+v\n", *loadBalancer.LoadBalancerName, *loadBalancer.DNSName)
 
-	resultELBV2, err := svcELBV2.DescribeLoadBalancers(input)
-	if err != nil {
-		return err
-	}
+		targetGroupName, err := getTargetGroup(elbArnName)
+		if err != nil {
+			log.WithError(err).Errorf("Error getting the targetgroup for lb %s", elbName)
+			continue
+		}
 
-	for _, loadBalancer := range resultELBV2.LoadBalancers {
-		if strings.Contains(*loadBalancer.LoadBalancerName, "api-") && strings.Contains(*loadBalancer.DNSName, "internal-api-") {
-			elbArnName := *loadBalancer.LoadBalancerArn
-			elbName := elbArnName[strings.IndexByte(elbArnName, '/')+1:]
-			log.Infof("Creating CloudWatch Alarm for %+v/%+v\n", *loadBalancer.LoadBalancerName, *loadBalancer.DNSName)
-
-			targetGroupName, err := getTargetGroup(elbArnName)
-			if err != nil {
-				log.WithError(err).Errorf("Error getting the targetgroup for lb %s", elbName)
-				continue
-			}
-			err = createCloudWatchAlarm(elbName, targetGroupName, false)
-			if err != nil {
-				log.WithError(err).Errorf("Error creating the CloudWatch Alarm for ELB %s", *loadBalancer.LoadBalancerName)
-				continue
-			}
+		err = createCloudWatchAlarm(elbName, targetGroupName, *loadBalancer.Type)
+		if err != nil {
+			log.WithError(err).Errorf("Error creating the CloudWatch Alarm for ELB %s", *loadBalancer.LoadBalancerName)
+			continue
 		}
 	}
 
-	// Classic ELB
-	svcELB := elb.New(sess)
-	input1 := &elb.DescribeLoadBalancersInput{
-		LoadBalancerNames: []*string{},
-	}
-
-	resultELB, err := svcELB.DescribeLoadBalancers(input1)
-	if err != nil {
-		return err
-	}
-
-	for _, loadBalancer := range resultELB.LoadBalancerDescriptions {
-		if strings.Contains(*loadBalancer.LoadBalancerName, "api-") && strings.Contains(*loadBalancer.DNSName, "internal-api-") {
-			log.Infof("Creating CloudWatch Alarm for %+v/%+v\n", *loadBalancer.LoadBalancerName, *loadBalancer.DNSName)
-			err = createCloudWatchAlarm(*loadBalancer.LoadBalancerName, "", true)
-			if err != nil {
-				log.WithError(err).Errorf("Error creating the CloudWatch Alarm for ELB %s", *loadBalancer.LoadBalancerName)
-				continue
-			}
+	// Classic LBs
+	for _, loadBalancer := range classicLBs {
+		log.Infof("Creating CloudWatch Alarm for %+v/%+v\n", *loadBalancer.LoadBalancerName, *loadBalancer.DNSName)
+		err = createCloudWatchAlarm(*loadBalancer.LoadBalancerName, "", "classic")
+		if err != nil {
+			log.WithError(err).Errorf("Error creating the CloudWatch Alarm for ELB %s", *loadBalancer.LoadBalancerName)
+			continue
 		}
 	}
+
 	return nil
 }
 
@@ -292,4 +284,75 @@ func getTargetGroup(loadBalancerArn string) (string, error) {
 	targetGroupName := targetGroupArn[strings.LastIndexByte(targetGroupArn, ':')+1:]
 
 	return targetGroupName, nil
+}
+
+func listAllLBs() ([]*elbv2.LoadBalancer, []*elb.LoadBalancerDescription, error) {
+	var err error
+
+	sess, err := session.NewSession(&aws.Config{})
+	if err != nil {
+		log.WithError(err).Errorln("Error creating aws session")
+		return nil, nil, err
+	}
+
+	// ELB V2 is for ALB and NLB
+	svcELBV2 := elbv2.New(sess)
+	input := &elbv2.DescribeLoadBalancersInput{
+		Names: []*string{},
+	}
+
+	var lbs []*elbv2.LoadBalancer
+	for {
+		var resp *elbv2.DescribeLoadBalancersOutput
+
+		resp, err := svcELBV2.DescribeLoadBalancers(input)
+		if err != nil {
+			return nil, nil, err
+		}
+		lbs = append(lbs, resp.LoadBalancers...)
+		if resp.NextMarker == nil {
+			break
+		}
+	}
+
+	// Classic ELB
+	svcELB := elb.New(sess)
+	input1 := &elb.DescribeLoadBalancersInput{
+		LoadBalancerNames: []*string{},
+	}
+
+	var classicELBs []*elb.LoadBalancerDescription
+	for {
+		var resp *elb.DescribeLoadBalancersOutput
+		resp, err := svcELB.DescribeLoadBalancers(input1)
+		if err != nil {
+			return nil, nil, err
+		}
+		classicELBs = append(classicELBs, resp.LoadBalancerDescriptions...)
+		if resp.NextMarker == nil {
+			break
+		}
+	}
+
+	return lbs, classicELBs, nil
+}
+
+func getV2LB(lbARN string) ([]*elbv2.LoadBalancer, error) {
+	sess, err := session.NewSession(&aws.Config{})
+	if err != nil {
+		log.WithError(err).Errorln("Error creating aws session")
+		return nil, err
+	}
+
+	svcELBV2 := elbv2.New(sess)
+	input := &elbv2.DescribeLoadBalancersInput{
+		LoadBalancerArns: aws.StringSlice([]string{lbARN}),
+	}
+
+	resp, err := svcELBV2.DescribeLoadBalancers(input)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.LoadBalancers, nil
 }

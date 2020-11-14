@@ -55,6 +55,14 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
           name = "mattermost-cloud-helm-volume"
         }
 
+        volume {
+          name = "mattermost-cloud-helm3-config-volume"
+        }
+
+        volume {
+          name = "mattermost-cloud-helm3-cache-volume"
+        }
+
         init_container {
           name  = "init-database"
           image = var.mattermost_cloud_image
@@ -77,7 +85,7 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
         container {
           name  = "mattermost-cloud"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "--machine-readable-logs", "--cluster-installation-supervisor=false", "--installation-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}${local.conditional_dash_region}", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "--state-store", "mattermost-kops-state-${var.environment}${local.conditional_dash_region}", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
@@ -174,6 +182,16 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
           volume_mount {
             name       = "mattermost-cloud-helm-volume"
             mount_path = "/.helm"
+          }
+
+          volume_mount {
+            name       = "mattermost-cloud-helm3-config-volume"
+            mount_path = "/.config"
+          }
+
+          volume_mount {
+            name       = "mattermost-cloud-helm3-cache-volume"
+            mount_path = "/.cache"
           }
 
           image_pull_policy = "Always"
@@ -275,7 +293,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
         container {
           name  = "mattermost-cloud-installations"
           image = var.mattermost_cloud_image
-          args  = ["server", "--debug", "--machine-readable-logs", "--cluster-supervisor=false", "--group-supervisor", "--state-store", "mattermost-kops-state-${var.environment}${local.conditional_dash_region}", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
+          args  = ["server", "--debug", "--cluster-supervisor=false", "--state-store", "mattermost-kops-state-${var.environment}${local.conditional_dash_region}", "--keep-filestore-data=$(KEEP_FILESTORE_DATA)", "--keep-database-data=$(KEEP_DATABASE_DATA)", "--database", "$(DATABASE)"]
 
           port {
             name           = "api"
@@ -452,7 +470,6 @@ resource "kubernetes_secret" "mattermost_cloud_secret" {
     AWS_SECRET_ACCESS_KEY = aws_iam_access_key.provisioner_user.secret
     AWS_REGION            = var.mattermost_cloud_secrets_aws_region
     DATABASE              = "postgres://${var.db_username}:${var.db_password}@${aws_db_instance.provisioner.endpoint}/${var.db_name}"
-    PRIVATE_DNS           = var.mattermost_cloud_secrets_private_dns
     KEEP_DATABASE_DATA    = var.mattermost_cloud_secrets_keep_database_data
     KEEP_FILESTORE_DATA   = var.mattermost_cloud_secrets_keep_filestore_data
   }

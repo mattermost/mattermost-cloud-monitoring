@@ -33,3 +33,9 @@ variable "domain" {}
 variable "validation_acm_zoneid" {}
 
 variable "aws_db_instance_provisioner_endpoint" {}
+
+variable "grafana_chart_version" {}
+
+variable "prometheus_operator_chart_version" {}
+
+variable "thanos_chart_version" {}
