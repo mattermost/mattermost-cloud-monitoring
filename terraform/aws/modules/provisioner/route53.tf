@@ -3,9 +3,6 @@ data "kubernetes_service" "nginx-internal" {
     name      = "nginx-ingress-nginx-controller-internal"
     namespace = "nginx"
   }
-  depends_on = [
-    helm_release.nginx-internal
-  ]
 }
 
 #Private records
