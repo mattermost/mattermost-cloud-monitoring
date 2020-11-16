@@ -98,7 +98,7 @@ resource "aws_iam_policy" "s3" {
             ],
             "Resource": [
                 "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}",
-                "arn:aws:s3:::mattermost-cloud-${var.environment}${local.conditional_dash_region}-provisioning-*"
+                "arn:aws:s3:::mattermost-cloud-${var.environment}-provisioning-*"
             ]
         },
         {
@@ -113,7 +113,7 @@ resource "aws_iam_policy" "s3" {
             ],
             "Resource": [
                 "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}/*",
-                "arn:aws:s3:::mattermost-cloud-${var.environment}${local.conditional_dash_region}-provisioning-*/*"
+                "arn:aws:s3:::mattermost-cloud-${var.environment}-provisioning-*/*"
             ]
         },
         {
