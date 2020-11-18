@@ -32,4 +32,3 @@ resource "kubernetes_cluster_role_binding" "tiller" {
     kubernetes_config_map.aws_auth_configmap
   ]
 }
-

@@ -97,7 +97,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:GetBucketTagging"
             ],
             "Resource": [
-                "arn:aws:s3:::mattermost-kops-state-${var.environment}",
+                "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}",
                 "arn:aws:s3:::mattermost-cloud-${var.environment}-provisioning-*"
             ]
         },
@@ -112,7 +112,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:GetObjectVersionAcl"
             ],
             "Resource": [
-                "arn:aws:s3:::mattermost-kops-state-${var.environment}/*",
+                "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}/*",
                 "arn:aws:s3:::mattermost-cloud-${var.environment}-provisioning-*/*"
             ]
         },

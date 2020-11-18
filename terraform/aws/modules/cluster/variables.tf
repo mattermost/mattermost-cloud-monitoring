@@ -35,3 +35,8 @@ variable "matterwick_cluster_access_enabled" {}
 variable "matterwick_iam_user" {}
 
 variable "matterwick_username" {}
+
+variable "provider_role_arn" {
+  type    = string
+  default = ""
+}

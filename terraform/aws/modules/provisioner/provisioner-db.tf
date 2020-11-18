@@ -65,8 +65,8 @@ resource "aws_db_instance" "provisioner" {
   backup_window               = var.db_backup_window
   db_subnet_group_name        = aws_db_subnet_group.subnets_db.name
   vpc_security_group_ids      = [aws_security_group.cec_to_postgress.id]
-  deletion_protection         = true
-  final_snapshot_identifier   = "provisioner-final-${var.db_name}"
+  deletion_protection         = var.db_deletion_protection
+  final_snapshot_identifier   = "provisioner-final-${var.db_name}-${local.timestamp_now}"
   skip_final_snapshot         = false
   maintenance_window          = var.db_maintenance_window
   publicly_accessible         = false
@@ -76,5 +76,11 @@ resource "aws_db_instance" "provisioner" {
   tags = {
     Name        = "Provisioner"
     Environment = var.environment
+  }
+
+  lifecycle {
+    ignore_changes = [
+      final_snapshot_identifier,
+    ]
   }
 }

@@ -7,7 +7,7 @@ data "aws_iam_user" "cnc_user" {
 }
 
 resource "aws_s3_bucket" "state_bucket" {
-  bucket = "mattermost-kops-state-${var.environment}"
+  bucket = "mattermost-kops-state-${var.environment}${local.conditional_dash_region}"
   acl    = "private"
   policy = data.aws_iam_policy_document.state_bucket_policy.json
 
@@ -19,6 +19,7 @@ resource "aws_s3_bucket" "state_bucket" {
       }
     }
   }
+  force_destroy = var.force_destroy_state_bucket
 
   versioning {
     enabled    = true
@@ -39,8 +40,8 @@ data "aws_iam_policy_document" "state_bucket_policy" {
       identifiers = ["*"]
     }
     resources = [
-      "arn:aws:s3:::mattermost-kops-state-${var.environment}",
-      "arn:aws:s3:::mattermost-kops-state-${var.environment}/*"
+      "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}",
+      "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}/*"
     ]
 
     condition {
@@ -64,8 +65,8 @@ data "aws_iam_policy_document" "state_bucket_policy" {
       identifiers = ["*"]
     }
     resources = [
-      "arn:aws:s3:::mattermost-kops-state-${var.environment}",
-      "arn:aws:s3:::mattermost-kops-state-${var.environment}/*"
+      "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}",
+      "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}/*"
     ]
 
     condition {

@@ -22,12 +22,10 @@ locals {
   - rolearn: "${data.aws_region.current.name == "us-east-1" ? aws_iam_role.lambda_role[0].arn : data.aws_iam_role.lambda_role[0].arn}"
     username: admin
     groups:
-      - system:masters
+      - system:masters${local.extra_auth_config_provider}
   YAML
   }
 }
-
-data "aws_caller_identity" "current" {}
 
 resource "kubernetes_config_map" "aws_auth_configmap" {
   metadata {
@@ -35,12 +33,6 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     namespace = "kube-system"
   }
   data = local.data
-  depends_on = [
-    aws_eks_cluster.cluster,
-    null_resource.cluster_services,
-    aws_autoscaling_group.worker-asg,
-    aws_iam_role.lambda_role
-  ]
 }
 
 

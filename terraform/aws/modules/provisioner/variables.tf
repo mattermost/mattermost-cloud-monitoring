@@ -52,6 +52,26 @@ variable "domain" {}
 
 variable "private_hosted_zoneid" {}
 
+variable "deployment_name" {}
+
+variable "tiller_version" {}
+
+variable "kubeconfig_dir" {}
+
+variable "provisioner_name" {
+  type    = string
+  default = "provisioner"
+}
+
+variable "db_deletion_protection" {
+  type    = bool
+  default = true
+}
+
+variable "provider_role_arn" {
+  type    = string
+  default = ""
+}
 variable "provisioner_users" {}
 
 variable "whitelist_source_range" {}
