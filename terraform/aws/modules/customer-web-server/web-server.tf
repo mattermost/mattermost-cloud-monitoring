@@ -208,7 +208,7 @@ resource "kubernetes_deployment" "customer_web_server" {
             }
           }
 
-          image_pull_policy = "Always"
+          image_pull_policy = "IfNotPresent"
         }
 
         image_pull_secrets {
@@ -258,7 +258,7 @@ resource "kubernetes_deployment" "customer_web_server" {
           }
 
 
-          image_pull_policy = "Always"
+          image_pull_policy = "IfNotPresent"
         }
       }
     }
