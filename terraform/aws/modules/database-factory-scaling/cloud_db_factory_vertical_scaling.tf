@@ -136,7 +136,7 @@ resource "kubernetes_cron_job" "cloud_db_factory_vertical_scaling_cron" {
             container {
               name              = "cloud-db-factory-vertical-scaling"
               image             = var.cloud_db_factory_vertical_scaling_image
-              image_pull_policy = "Always"
+              image_pull_policy = "IfNotPresent"
 
               env {
                 name  = "RDSMultitenantDBInstanceNamePrefix"
