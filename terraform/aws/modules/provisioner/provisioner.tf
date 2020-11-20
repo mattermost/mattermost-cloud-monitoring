@@ -79,7 +79,7 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
             }
           }
 
-          image_pull_policy = "Always"
+          image_pull_policy = "IfNotPresent"
         }
 
         container {
@@ -194,7 +194,7 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
             mount_path = "/.cache"
           }
 
-          image_pull_policy = "Always"
+          image_pull_policy = "IfNotPresent"
         }
       }
     }
@@ -287,7 +287,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
             }
           }
 
-          image_pull_policy = "Always"
+          image_pull_policy = "IfNotPresent"
         }
 
         container {
@@ -387,7 +387,7 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
             mount_path = "/tmp"
           }
 
-          image_pull_policy = "Always"
+          image_pull_policy = "IfNotPresent"
         }
       }
     }

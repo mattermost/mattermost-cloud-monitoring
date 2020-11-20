@@ -94,7 +94,7 @@ resource "kubernetes_deployment" "mattermost_cloud_database_factory" {
             value = var.mattermost_notifications_hook
           }
 
-          image_pull_policy = "Always"
+          image_pull_policy = "IfNotPresent"
         }
       }
     }
