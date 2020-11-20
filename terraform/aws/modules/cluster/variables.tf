@@ -40,3 +40,5 @@ variable "provider_role_arn" {
   type    = string
   default = ""
 }
+
+variable "cnc_user" {}

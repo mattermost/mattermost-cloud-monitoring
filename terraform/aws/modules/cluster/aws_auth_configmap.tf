@@ -11,6 +11,10 @@ locals {
     mapUsers = <<YAML
   - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.matterwick_iam_user}"
     username: "${var.matterwick_username}"
+  - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.cnc_user}"
+    username: "${var.cnc_user}"
+    groups:
+      - system:masters
   YAML
     } : {
     mapRoles = <<YAML
@@ -23,6 +27,12 @@ locals {
     username: admin
     groups:
       - system:masters${local.extra_auth_config_provider}
+  YAML
+    mapUsers = <<YAML
+  - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.cnc_user}"
+    username: "${var.cnc_user}"
+    groups:
+      - system:masters
   YAML
   }
 }
