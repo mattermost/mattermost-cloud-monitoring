@@ -13,15 +13,21 @@ resource "aws_acm_certificate" "private_cert" {
 
 resource "aws_acm_certificate_validation" "private_cert_validation" {
   certificate_arn         = aws_acm_certificate.private_cert.arn
-  validation_record_fqdns = aws_route53_record.private_cert_validations.*.fqdn
+  validation_record_fqdns = [for record in aws_route53_record.private_cert_validation : record.fqdn]
 }
 
-resource "aws_route53_record" "private_cert_validations" {
-  count = (length(var.alternative_cert_domains) + 1)
+resource "aws_route53_record" "private_cert_validation" {
+  for_each = {
+    for dvo in aws_acm_certificate.private_cert.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
 
   zone_id = var.validation_acm_zoneid
-  name    = element(aws_acm_certificate.private_cert.domain_validation_options.*.resource_record_name, count.index)
-  type    = element(aws_acm_certificate.private_cert.domain_validation_options.*.resource_record_type, count.index)
+  name    = each.value.name
+  type    = each.value.type
   ttl     = "300"
-  records = [element(aws_acm_certificate.private_cert.domain_validation_options.*.resource_record_value, count.index)]
+  records = [each.value.record]
 }
