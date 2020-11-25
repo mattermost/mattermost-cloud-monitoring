@@ -152,7 +152,7 @@ resource "kubernetes_config_map" "skydns" {
   }
 }
 
-resource "kubernetes_config_map" "uptime" {
+resource "kubernetes_config_map" "uptime_view" {
   metadata {
     name      = "uptimeview-dashboard"
     namespace = "monitoring"
