@@ -148,7 +148,7 @@ resource "kubernetes_config_map" "skydns" {
   }
 
   data = {
-    "coredns.json" = "${file("../../../../grafana-dashboards/skydns.json")}"
+    "skydns.json" = "${file("../../../../grafana-dashboards/skydns.json")}"
   }
 }
 
