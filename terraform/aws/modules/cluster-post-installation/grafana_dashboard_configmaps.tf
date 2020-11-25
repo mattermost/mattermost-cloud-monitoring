@@ -8,7 +8,7 @@ resource "kubernetes_config_map" "account_monitoring" {
   }
 
   data = {
-    "acoount_monitoring.json" = "${file("../../../../grafana-dashboards/account_monitoring.json")}"
+    "account_monitoring.json" = "${file("../../../../grafana-dashboards/account_monitoring.json")}"
   }
 }
 
