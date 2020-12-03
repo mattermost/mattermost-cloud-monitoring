@@ -22,7 +22,8 @@ resource "aws_iam_policy" "rds_db_factory" {
                 "rds:DescribeDBParameterGroups",
                 "rds:DescribeDBParameters",
                 "rds:DeleteDBClusterParameterGroup",
-                "rds:DeleteDBParameterGroup"
+                "rds:DeleteDBParameterGroup",
+                "rds:ModifyDBInstance"
 
             ],
             "Resource": [
@@ -30,7 +31,8 @@ resource "aws_iam_policy" "rds_db_factory" {
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster-pg:rds-cluster-multitenant-*",
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:pg:rds-cluster-multitenant-*",
                 "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster-pg:mattermost-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*"
+                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*",
+                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:db:rds-db-instance-multitenant-*"
             ]
         },
         {
