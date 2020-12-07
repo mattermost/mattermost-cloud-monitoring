@@ -58,7 +58,7 @@ repoConfig: |
  - id: /.*/
    apply_requirements: ["approved", "mergeable"]
    workflow: default
-   allowed_overrides: []
+   allowed_overrides: [workflow]
    allow_custom_workflows: true
  workflows:
    default:
@@ -66,7 +66,56 @@ repoConfig: |
        steps: [init, plan]
      apply:
        steps: [apply]
-
+   core:
+     plan:
+       steps:
+       - run: export AWS_PROFILE="AWS_CORE"
+       - init
+       - plan
+     apply:
+       steps:
+       - run: export AWS_PROFILE="AWS_CORE"
+       - apply
+   dev:
+     plan:
+       steps:
+       - run: export AWS_PROFILE="AWS_DEV"
+       - init
+       - plan
+     apply:
+       steps:
+       - run: export AWS_PROFILE="AWS_DEV"
+       - apply
+   test:
+     plan:
+       steps:
+       - run: export AWS_PROFILE="AWS_TEST"
+       - init
+       - plan
+     apply:
+       steps:
+       - run: export AWS_PROFILE="AWS_TEST"
+       - apply
+   staging:
+     plan:
+       steps:
+       - run: export AWS_PROFILE="AWS_STAGING"
+       - init
+       - plan
+     apply:
+       steps:
+       - run: export AWS_PROFILE="AWS_STAGING"
+       - apply
+   prod:
+     plan:
+       steps:
+       - run: export AWS_PROFILE="AWS_PROD"
+       - init
+       - plan
+     apply:
+       steps:
+       - run: export AWS_PROFILE="AWS_PROD"
+       - apply
 # allowForkPRs enables atlantis to run on a fork Pull Requests
 allowForkPRs: false
 
