@@ -10,7 +10,7 @@ resource "helm_release" "atlantis" {
   namespace = "atlantis"
   version   = var.atlantis_chart_version
   values = [
-    "${file(var.atlantis_chart_values_directory)}"
+    file(var.atlantis_chart_values_directory)
   ]
 
   set {

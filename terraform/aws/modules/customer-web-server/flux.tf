@@ -11,11 +11,12 @@ resource "kubernetes_namespace" "flux_cws" {
 }
 
 resource "helm_release" "flux" {
-  name      = "mattermost-cm-flux-cws"
-  chart     = "fluxcd/flux"
-  namespace = kubernetes_namespace.flux_cws.id
+  name       = "mattermost-cm-flux-cws"
+  chart      = "flux"
+  namespace  = kubernetes_namespace.flux_cws.id
+  repository = "https://charts.fluxcd.io"
   values = [
-    "${file("../../../../chart-values/flux_cws_values.yaml")}"
+    file("../../../../chart-values/flux_cws_values.yaml")
   ]
 
   set {

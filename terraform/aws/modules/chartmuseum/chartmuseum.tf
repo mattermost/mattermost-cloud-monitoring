@@ -9,7 +9,7 @@ resource "helm_release" "chartmuseum" {
   chart     = "stable/chartmuseum"
   namespace = "chartmuseum"
   values = [
-    "${file(var.chartmuseum_chart_values_directory)}"
+    file(var.chartmuseum_chart_values_directory)
   ]
 
   set {

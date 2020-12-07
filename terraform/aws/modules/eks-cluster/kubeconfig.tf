@@ -1,5 +1,5 @@
 data "template_file" "kubeconfig" {
-  template = "${file("${path.module}/templates/kubeconfig.tpl")}"
+  template = file("${path.module}/templates/kubeconfig.tpl")
 
   vars = {
     cluster_name     = aws_eks_cluster.cluster.name

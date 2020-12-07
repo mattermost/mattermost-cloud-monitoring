@@ -15,7 +15,7 @@ resource "helm_release" "internal_nginx" {
   chart     = "stable/nginx-ingress"
   namespace = "nginx-internal"
   values = [
-    "${file(var.nginx_internal_chart_values_directory)}"
+    file(var.nginx_internal_chart_values_directory)
   ]
 
   set {

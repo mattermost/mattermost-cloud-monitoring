@@ -5,12 +5,13 @@ resource "null_resource" "gitlab_crd" {
 }
 
 resource "helm_release" "gitlab" {
-  name      = "gitlab"
-  chart     = "gitlab/gitlab"
-  namespace = "gitlab"
-  version   = var.gitlab_chart_version
+  name       = "gitlab"
+  chart      = "gitlab"
+  namespace  = "gitlab"
+  version    = var.gitlab_chart_version
+  repository = "https://charts.gitlab.io"
   values = [
-    "${file(var.gitlab_chart_values_directory)}"
+    file(var.gitlab_chart_values_directory)
   ]
 
   set {

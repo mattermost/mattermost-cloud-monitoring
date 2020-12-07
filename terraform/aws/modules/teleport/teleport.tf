@@ -1,8 +1,8 @@
 resource "helm_release" "teleport" {
   name       = "teleport"
   namespace  = "teleport"
-  repository = data.helm_repository.chartmuseum.metadata.0.name
-  chart      = "chartmuseum/teleport"
+  repository = "https://chartmuseum.internal.core.cloud.mattermost.com/"
+  chart      = "teleport"
   version    = var.teleport_chart_version
 
   set_string {
