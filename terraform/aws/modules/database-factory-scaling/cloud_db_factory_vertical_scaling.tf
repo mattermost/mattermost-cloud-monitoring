@@ -75,7 +75,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
       variable = "AWS:SourceOwner"
 
       values = [
-        "${data.aws_caller_identity.current.account_id}",
+        data.aws_caller_identity.current.account_id,
       ]
     }
 

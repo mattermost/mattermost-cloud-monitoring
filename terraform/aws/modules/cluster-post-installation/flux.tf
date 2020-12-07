@@ -5,11 +5,12 @@ resource "null_resource" "flux_crd" {
 }
 
 resource "helm_release" "flux" {
-  name      = "mattermost-cm-flux"
-  chart     = "fluxcd/flux"
-  namespace = "flux"
+  name       = "mattermost-cm-flux"
+  chart      = "flux"
+  namespace  = "flux"
+  repository = "https://charts.fluxcd.io"
   values = [
-    "${file("../../../../chart-values/flux_values.yaml")}"
+    file("../../../../chart-values/flux_values.yaml")
   ]
 
   set {

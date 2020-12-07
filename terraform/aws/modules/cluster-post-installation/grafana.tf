@@ -1,10 +1,11 @@
 resource "helm_release" "grafana" {
-  name      = "mattermost-cm-grafana"
-  namespace = "monitoring"
-  chart     = "grafana/grafana"
-  version   = var.grafana_chart_version
+  name       = "mattermost-cm-grafana"
+  namespace  = "monitoring"
+  chart      = "grafana"
+  repository = "https://grafana.github.io/helm-charts"
+  version    = var.grafana_chart_version
   values = [
-    "${file("../../../../chart-values/grafana_values.yaml")}"
+    file("../../../../chart-values/grafana_values.yaml")
   ]
   set_string {
     name  = "datasources.datasources\\.yaml.datasources[1].url"
