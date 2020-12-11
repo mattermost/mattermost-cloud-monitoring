@@ -39,3 +39,5 @@ variable "grafana_chart_version" {}
 variable "prometheus_operator_chart_version" {}
 
 variable "thanos_chart_version" {}
+
+variable "fluent_bit_chart_version" {}
