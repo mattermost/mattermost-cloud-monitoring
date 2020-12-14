@@ -138,6 +138,20 @@ resource "kubernetes_config_map" "mattermost_performance_monitoring_per_cluster"
   }
 }
 
+resource "kubernetes_config_map" "nginx_ingress_controller" {
+  metadata {
+    name      = "nginxcontroller-dashboard"
+    namespace = "monitoring"
+    labels = {
+      cloud_dashboards = "nginx_ingress_controller"
+    }
+  }
+
+  data = {
+    "nginx_ingress_controller.json" = file("../../../../grafana-dashboards/nginx_ingress_controller.json")
+  }
+}
+
 resource "kubernetes_config_map" "skydns" {
   metadata {
     name      = "skydns-dashboard"
