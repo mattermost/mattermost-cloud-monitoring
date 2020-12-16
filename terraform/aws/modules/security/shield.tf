@@ -101,7 +101,7 @@ EOF
   role   = aws_iam_role.drt-waf-access.id
 }
 
-resource "aws_iam_role_policy_attachment" "d" {
-  role       = aws_iam_role.drt-waf-access
+resource "aws_iam_role_policy_attachment" "drt-waf-access" {
+  role       = aws_iam_role.drt-waf-access.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy"
 }
