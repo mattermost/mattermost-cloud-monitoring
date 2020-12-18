@@ -57,7 +57,6 @@ repoConfig: |
  repos:
  - id: /.*/
    apply_requirements: ["approved", "mergeable"]
-   workflow: default
    allowed_overrides: [workflow]
    allow_custom_workflows: true
  workflows:
@@ -69,58 +68,58 @@ repoConfig: |
    core:
      plan:
        steps:
-       - run: export AWS_PROFILE="AWS_CORE"
-       - init
-       - plan
+       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: AWS_PROFILE="AWS_CORE" terraform init
+       - run: AWS_PROFILE="AWS_CORE" terraform plan --out=/tmp/plan_core
      apply:
        steps:
-       - run: export AWS_PROFILE="AWS_CORE"
-       - apply
+       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: AWS_PROFILE="AWS_CORE" terraform apply --out=/tmp/plan_core
    dev:
      plan:
        steps:
-       - run: export AWS_PROFILE="AWS_DEV"
-       - init
-       - plan
+       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: AWS_PROFILE="AWS_DEV" terraform init
+       - run: AWS_PROFILE="AWS_DEV" terraform plan --out=/tmp/plan_dev
      apply:
        steps:
-       - run: export AWS_PROFILE="AWS_DEV"
-       - apply
+       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: AWS_PROFILE="AWS_DEV" terraform apply --out=/tmp/plan_dev
    test:
      plan:
        steps:
-       - run: export AWS_PROFILE="AWS_TEST"
-       - init
-       - plan
+       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: AWS_PROFILE="AWS_TEST" /home/atlantis/terraform init
+       - run: AWS_PROFILE="AWS_TEST" /home/atlantis/terraform plan --out=/tmp/plan_test
      apply:
        steps:
-       - run: export AWS_PROFILE="AWS_TEST"
-       - apply
+       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: AWS_PROFILE="AWS_TEST" terraform apply --out=/tmp/plan_test
    staging:
      plan:
        steps:
-       - run: export AWS_PROFILE="AWS_STAGING"
-       - init
-       - plan
+       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: AWS_PROFILE="AWS_STAGING" terraform init
+       - run: AWS_PROFILE="AWS_STAGING" terraform plan --out=/tmp/plan_stag
      apply:
        steps:
-       - run: export AWS_PROFILE="AWS_STAGING"
-       - apply
+       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: AWS_PROFILE="AWS_STAGING" terraform apply --out=/tmp/plan_stag
    prod:
      plan:
        steps:
-       - run: export AWS_PROFILE="AWS_PROD"
-       - init
-       - plan
+       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: AWS_PROFILE="AWS_PROD" terraform init
+       - run: AWS_PROFILE="AWS_PROD" terraform plan --out=/tmp/plan_prod
      apply:
        steps:
-       - run: export AWS_PROFILE="AWS_PROD"
-       - apply
+       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: AWS_PROFILE="AWS_PROD" terraform apply --out=/tmp/plan_prod
 # allowForkPRs enables atlantis to run on a fork Pull Requests
 allowForkPRs: false
 
 ## defaultTFVersion set the default terraform version to be used in atlantis server
-# defaultTFVersion: 0.12.0
+defaultTFVersion: 0.13.5
 
 # disableApplyAll disables running `atlantis apply` without any flags
 disableApplyAll: false
@@ -167,10 +166,10 @@ ingress:
 resources:
   requests:
     memory: 1Gi
-    cpu: 100m
+    cpu: 300m
   limits:
     memory: 1Gi
-    cpu: 100m
+    cpu: 500m
 
 # Disk space for Atlantis to check out repositories
 dataStorage: 20Gi
