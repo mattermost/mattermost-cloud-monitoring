@@ -1,8 +1,3 @@
-data "helm_repository" "stable" {
-  name = "stable"
-  url  = "https://charts.helm.sh/stable"
-}
-
 data "aws_eks_cluster_auth" "cluster_auth" {
   name = var.deployment_name
 }
