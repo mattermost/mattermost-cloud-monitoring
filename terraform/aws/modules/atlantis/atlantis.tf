@@ -5,10 +5,11 @@ resource "kubernetes_namespace" "atlantis" {
 }
 
 resource "helm_release" "atlantis" {
-  name      = "atlantis"
-  chart     = "runatlantis/atlantis"
-  namespace = "atlantis"
-  version   = var.atlantis_chart_version
+  name       = "atlantis"
+  chart      = "atlantis"
+  repository = "https://github.com/runatlantis/helm-charts"
+  namespace  = kubernetes_namespace.atlantis.metadata.name
+  version    = var.atlantis_chart_version
   values = [
     file(var.atlantis_chart_values_directory)
   ]
