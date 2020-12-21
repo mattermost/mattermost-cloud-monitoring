@@ -7,7 +7,7 @@ resource "kubernetes_namespace" "atlantis" {
 resource "helm_release" "atlantis" {
   name       = "atlantis"
   chart      = "atlantis"
-  repository = "https://github.com/runatlantis/helm-charts"
+  repository = "https://runatlantis.github.io/helm-charts"
   namespace  = "atlantis"
   version    = var.atlantis_chart_version
   values = [
