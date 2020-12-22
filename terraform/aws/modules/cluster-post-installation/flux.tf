@@ -33,9 +33,10 @@ resource "helm_release" "flux" {
     value = var.git_email
   }
 
-  set_string {
+  set {
     name  = "ssh.known_hosts"
     value = var.ssh_known_hosts
+    type  = "string"
   }
 
   set {

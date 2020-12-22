@@ -7,9 +7,11 @@ resource "helm_release" "grafana" {
   values = [
     file("../../../../chart-values/grafana_values.yaml")
   ]
-  set_string {
+
+  set {
     name  = "datasources.datasources\\.yaml.datasources[1].url"
     value = var.aws_db_instance_provisioner_endpoint
+    type  = "string"
   }
   depends_on = [
     kubernetes_namespace.monitoring,

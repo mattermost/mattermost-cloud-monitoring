@@ -5,25 +5,30 @@ resource "helm_release" "teleport" {
   chart      = "teleport"
   version    = var.teleport_chart_version
 
-  set_string {
+  set {
     name  = "config.auth_service.cluster_name"
     value = "cloud-${var.environment}-${var.cluster_name}"
+    type  = "string"
   }
-  set_string {
+  set {
     name  = "config.teleport.storage.region"
     value = data.aws_region.current.name
+    type  = "string"
   }
-  set_string {
+  set {
     name  = "config.teleport.storage.table_name"
     value = "cloud-${var.environment}-${var.cluster_name}"
+    type  = "string"
   }
-  set_string {
+  set {
     name  = "config.teleport.storage.audit_events_uri"
     value = "dynamodb://cloud-${var.environment}-${var.cluster_name}-events"
+    type  = "string"
   }
-  set_string {
+  set {
     name  = "config.teleport.storage.audit_sessions_uri"
     value = "s3://cloud-${var.environment}-${var.cluster_name}/records?region=${data.aws_region.current.name}"
+    type  = "string"
   }
   depends_on = [
     kubernetes_namespace.teleport,
