@@ -2,11 +2,6 @@ data "aws_eks_cluster_auth" "cluster_auth" {
   name = var.deployment_name
 }
 
-data "helm_repository" "stable" {
-  name = "stable"
-  url  = "https://kubernetes-charts.storage.googleapis.com"
-}
-
 data "aws_eks_cluster" "cluster" {
   name = var.deployment_name
 }
