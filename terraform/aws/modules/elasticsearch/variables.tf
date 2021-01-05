@@ -12,7 +12,9 @@ variable "es_volume_size" {}
 
 variable "instance_count" {}
 
-variable "dedicated_master_threshold" {}
+variable "dedicated_master_enabled" {}
+
+variable "dedicated_master_count" {}
 
 variable "dedicated_master_type" {}
 
