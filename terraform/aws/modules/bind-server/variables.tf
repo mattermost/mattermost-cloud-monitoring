@@ -5,7 +5,7 @@ variable "ami" {
 
 variable "instance_type" {
   description = "Type of instance to run the DNS servers"
-  default     = "t2.nano"
+  default     = "t3.nano"
   type        = string
 }
 
