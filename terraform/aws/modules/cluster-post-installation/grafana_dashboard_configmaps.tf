@@ -179,3 +179,17 @@ resource "kubernetes_config_map" "uptime_view" {
     "uptime_view.json" = file("../../../../grafana-dashboards/uptime_view.json")
   }
 }
+
+resource "kubernetes_config_map" "aws_rds_metrics" {
+  metadata {
+    name      = "awsrdsmetrics-dashboard"
+    namespace = "monitoring"
+    labels = {
+      cloud_dashboards = "aws_rds_metrics"
+    }
+  }
+
+  data = {
+    "aws_rds_metrics.json" = file("../../../../grafana-dashboards/aws_rds_metrics.json")
+  }
+}
