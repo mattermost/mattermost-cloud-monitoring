@@ -193,3 +193,17 @@ resource "kubernetes_config_map" "aws_rds_metrics" {
     "aws_rds_metrics.json" = file("../../../../grafana-dashboards/aws_rds_metrics.json")
   }
 }
+
+resource "kubernetes_config_map" "bind_dns" {
+  metadata {
+    name      = "binddns-dashboard"
+    namespace = "monitoring"
+    labels = {
+      cloud_dashboards = "bind_dns"
+    }
+  }
+
+  data = {
+    "bind_dns.json" = file("../../../../grafana-dashboards/bind_dns.json")
+  }
+}
