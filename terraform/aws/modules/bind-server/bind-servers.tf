@@ -19,6 +19,13 @@ resource "aws_security_group" "bind_sg" {
   }
 
   ingress {
+    from_port   = 9153
+    to_port     = 9153
+    protocol    = "tcp"
+    cidr_blocks = var.cidr_blocks
+  }
+
+  ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
