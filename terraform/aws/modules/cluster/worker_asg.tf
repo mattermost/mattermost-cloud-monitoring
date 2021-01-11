@@ -47,6 +47,19 @@ resource "aws_autoscaling_group" "worker-asg" {
     value               = "owned"
     propagate_at_launch = true
   }
+
+  # The cluster autoscaler in "auto-discovery" mode looks for these 2 tags to enable autoscaling.
+  tag {
+    key                 = "k8s.io/cluster-autoscaler/enabled"
+    value               = "on"
+    propagate_at_launch = false
+  }
+
+  tag {
+    key                 = "k8s.io/cluster-autoscaler/${var.deployment_name}"
+    value               = "on"
+    propagate_at_launch = false
+  }
 }
 
 locals {
