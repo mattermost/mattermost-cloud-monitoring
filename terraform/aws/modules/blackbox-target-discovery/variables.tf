@@ -15,3 +15,5 @@ variable "additional_targets" {}
 variable "prometheus_secret_name" {}
 
 variable "mattermost_alerts_hook" {}
+
+variable "bind_servers" {}

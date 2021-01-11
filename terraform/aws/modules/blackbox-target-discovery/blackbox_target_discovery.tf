@@ -63,6 +63,11 @@ resource "kubernetes_cron_job" "cloud_blackbox_target_discovery_cron" {
                 name  = "MATTERMOST_ALERTS_HOOK"
                 value = var.mattermost_alerts_hook
               }
+
+              env {
+                name  = "BIND_SERVERS"
+                value = var.bind_servers
+              }
             }
             volume {
               name = kubernetes_service_account.cloud_blackbox_target_discovery_role_sa.default_secret_name
