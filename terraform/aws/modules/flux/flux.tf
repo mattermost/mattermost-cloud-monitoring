@@ -16,7 +16,7 @@ resource "helm_release" "flux" {
   repository = data.helm_repository.fluxcd.metadata[0].name
   namespace  = var.flux_namespace
   values = [
-    file(format("../../../chart-values/%s", var.flux_chart_values_name))
+    file(format("../../../chart-values/1-flux/%s", var.flux_chart_values_name))
   ]
 
   set {
