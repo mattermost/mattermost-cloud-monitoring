@@ -23,6 +23,12 @@ resource "helm_release" "grafana" {
     kubernetes_config_map.aws_rds_overview,
     kubernetes_config_map.go_metrics_per_namespace_installation,
     kubernetes_config_map.mattermost_performance_kpi_metrics_per_cluster,
-    kubernetes_config_map.mattermost_performance_monitoring_per_cluster
+    kubernetes_config_map.mattermost_performance_monitoring_per_cluster,
+    kubernetes_config_map.coredns,
+    kubernetes_config_map.nginx_ingress_controller,
+    kubernetes_config_map.skydns,
+    kubernetes_config_map.uptime_view,
+    kubernetes_config_map.aws_rds_metrics,
+    kubernetes_config_map.bind_dns
   ]
 }
