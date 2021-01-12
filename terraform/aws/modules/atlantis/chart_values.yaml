@@ -68,52 +68,52 @@ repoConfig: |
    core:
      plan:
        steps:
-       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
-       - run: AWS_PROFILE="AWS_CORE" /home/atlantis/terraform init
+       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
+       - run: rm -rf .terraform && AWS_PROFILE="AWS_CORE" /home/atlantis/terraform init
        - run: AWS_PROFILE="AWS_CORE" /home/atlantis/terraform plan --out=/tmp/plan_core
      apply:
        steps:
-       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
        - run: AWS_PROFILE="AWS_CORE" /home/atlantis/terraform apply --out=/tmp/plan_core
    dev:
      plan:
        steps:
-       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
-       - run: AWS_PROFILE="AWS_DEV" /home/atlantis/terraform init
+       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
+       - run: rm -rf .terraform && AWS_PROFILE="AWS_DEV" /home/atlantis/terraform init
        - run: AWS_PROFILE="AWS_DEV" /home/atlantis/terraform plan --out=/tmp/plan_dev
      apply:
        steps:
-       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
        - run: AWS_PROFILE="AWS_DEV" /home/atlantis/terraform apply --out=/tmp/plan_dev
    test:
      plan:
        steps:
-       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
-       - run: AWS_PROFILE="AWS_TEST" /home/atlantis/terraform init
+       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
+       - run: rm -rf .terraform && AWS_PROFILE="AWS_TEST" /home/atlantis/terraform init
        - run: AWS_PROFILE="AWS_TEST" /home/atlantis/terraform plan --out=/tmp/plan_test
      apply:
        steps:
-       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
        - run: AWS_PROFILE="AWS_TEST" /home/atlantis/terraform apply --out=/tmp/plan_test
    staging:
      plan:
        steps:
-       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
-       - run: AWS_PROFILE="AWS_STAGING" /home/atlantis/terraform init
+       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
+       - run: rm -rf .terraform && AWS_PROFILE="AWS_STAGING" /home/atlantis/terraform init
        - run: AWS_PROFILE="AWS_STAGING" /home/atlantis/terraform plan --out=/tmp/plan_stag
      apply:
        steps:
-       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
        - run: AWS_PROFILE="AWS_STAGING" /home/atlantis/terraform apply --out=/tmp/plan_stag
    prod:
      plan:
        steps:
-       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
-       - run: AWS_PROFILE="AWS_PROD" /home/atlantis/terraform init
+       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
+       - run: rm -rf .terraform && AWS_PROFILE="AWS_PROD" /home/atlantis/terraform init
        - run: AWS_PROFILE="AWS_PROD" /home/atlantis/terraform plan --out=/tmp/plan_prod
      apply:
        steps:
-       - run: "cd /home/atlantis/ && [ ! -f 'terraform' ] && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output tf.zip && unzip tf.zip"
+       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
        - run: AWS_PROFILE="AWS_PROD" /home/atlantis/terraform apply --out=/tmp/plan_prod
 # allowForkPRs enables atlantis to run on a fork Pull Requests
 allowForkPRs: false
