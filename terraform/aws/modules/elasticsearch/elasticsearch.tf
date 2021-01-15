@@ -9,9 +9,9 @@ resource "aws_elasticsearch_domain" "es_domain" {
   cluster_config {
     instance_type            = var.es_instance_type
     instance_count           = var.instance_count
-    dedicated_master_enabled = var.instance_count >= var.dedicated_master_threshold ? true : false
-    dedicated_master_count   = var.instance_count >= var.dedicated_master_threshold ? 3 : 0
-    dedicated_master_type    = var.instance_count >= var.dedicated_master_threshold ? var.dedicated_master_type != "false" ? var.dedicated_master_type : var.es_instance_type : ""
+    dedicated_master_enabled = var.dedicated_master_enabled
+    dedicated_master_count   = var.dedicated_master_count
+    dedicated_master_type    = var.dedicated_master_type
     zone_awareness_enabled   = var.es_zone_awareness
     zone_awareness_config {
       availability_zone_count = var.es_zone_awareness_count
