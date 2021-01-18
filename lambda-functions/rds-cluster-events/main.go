@@ -25,8 +25,6 @@ func main() {
 func handler(ctx context.Context, snsEvent events.SNSEvent) {
 	for _, record := range snsEvent.Records {
 		snsRecord := record.SNS
-		log.Info(snsRecord.MessageAttributes)
-		log.Info(snsRecord.Message)
 		var messageNotification SNSMessageNotification
 		if err := json.Unmarshal([]byte(snsRecord.Message), &messageNotification); err != nil {
 			log.WithError(err).Error("Decode Error on message notification")
