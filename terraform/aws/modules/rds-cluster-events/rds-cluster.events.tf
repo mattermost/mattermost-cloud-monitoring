@@ -1,6 +1,6 @@
 // Lambda to receive RDS events via SNS topic
 resource "aws_iam_role" "lambda_role_rds_cluster_events" {
-  name = "receive_elb_cloudwatch_alarm"
+  name = "rds-cluster-events"
 
   assume_role_policy = <<EOF
 {
@@ -56,7 +56,7 @@ resource "aws_sns_topic" "rds_cluster_events_topic" {
 
 
 // SNS topic that the alarm will be sent
-resource "aws_sns_topic_subscription" "lamba_subscriber" {
+resource "aws_sns_topic_subscription" "rds_cluster_events_sub" {
   topic_arn = aws_sns_topic.rds_cluster_events_topic.arn
   protocol  = "lambda"
   endpoint  = aws_lambda_function.rds_cluster_events.arn
@@ -64,4 +64,25 @@ resource "aws_sns_topic_subscription" "lamba_subscriber" {
   depends_on = [
     aws_lambda_function.rds_cluster_events
   ]
+}
+
+
+resource "aws_db_event_subscription" "rds_cluster_events_topic" {
+  name      = "rds-cluster-events"
+  sns_topic = aws_sns_topic.rds_cluster_events_topic.arn
+
+  source_type = "db-cluster"
+
+  event_categories = [
+    "failover",
+    "failure",
+  ]
+}
+
+resource "aws_lambda_permission" "rds_cluster_events_topic_perm" {
+  statement_id  = "AllowExecutionFromSNS"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.rds_cluster_events.function_name
+  principal     = "sns.amazonaws.com"
+  source_arn    = aws_sns_topic.rds_cluster_events_topic.arn
 }

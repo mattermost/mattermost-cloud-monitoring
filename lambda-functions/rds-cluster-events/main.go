@@ -25,7 +25,7 @@ func main() {
 func handler(ctx context.Context, snsEvent events.SNSEvent) {
 	for _, record := range snsEvent.Records {
 		snsRecord := record.SNS
-
+		log.Info(snsRecord.MessageAttributes)
 		log.Info(snsRecord.Message)
 		var messageNotification SNSMessageNotification
 		if err := json.Unmarshal([]byte(snsRecord.Message), &messageNotification); err != nil {
@@ -47,7 +47,7 @@ func sendMattermostNotification(source string, messageNotification SNSMessageNot
 	attach := MMAttachment{
 		Color: "#FF0000",
 	}
-
+	attach = *attach.AddField(MMField{Title: "RDS DB Cluster Failover", Short: false})
 	attach = *attach.AddField(MMField{Title: "Cluster", Value: messageNotification.SourceID, Short: true})
 	attach = *attach.AddField(MMField{Title: "Message", Value: messageNotification.EventMessage, Short: true})
 
