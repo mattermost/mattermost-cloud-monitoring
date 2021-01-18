@@ -72,9 +72,7 @@ variable "community_channel" {}
 
 variable "flux_git_url_cws" {}
 
-variable "cws_payment_url" {}
-
-variable "cws_payment_token" {}
+variable "cws_stripe_key" {}
 
 variable "enable_portal_r53_record" {}
 

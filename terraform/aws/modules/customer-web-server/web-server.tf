@@ -187,23 +187,12 @@ resource "kubernetes_deployment" "customer_web_server" {
           }
 
           env {
-            name = "CWS_PAYMENT_URL"
+            name = "CWS_STRIPE_KEY"
 
             value_from {
               secret_key_ref {
                 name = "customer-web-server-secret"
-                key  = "CWS_PAYMENT_URL"
-              }
-            }
-          }
-
-          env {
-            name = "CWS_PAYMENT_TOKEN"
-
-            value_from {
-              secret_key_ref {
-                name = "customer-web-server-secret"
-                key  = "CWS_PAYMENT_TOKEN"
+                key  = "CWS_STRIPE_KEY"
               }
             }
           }
@@ -236,27 +225,15 @@ resource "kubernetes_deployment" "customer_web_server" {
           }
 
           env {
-            name = "CWS_PAYMENT_URL"
+            name = "CWS_STRIPE_KEY"
 
             value_from {
               secret_key_ref {
                 name = "customer-web-server-secret"
-                key  = "CWS_PAYMENT_URL"
+                key  = "CWS_STRIPE_KEY"
               }
             }
           }
-
-          env {
-            name = "CWS_PAYMENT_TOKEN"
-
-            value_from {
-              secret_key_ref {
-                name = "customer-web-server-secret"
-                key  = "CWS_PAYMENT_TOKEN"
-              }
-            }
-          }
-
 
           image_pull_policy = "IfNotPresent"
         }
@@ -383,9 +360,8 @@ resource "kubernetes_secret" "cws_secret" {
   }
 
   data = {
-    DATABASE          = "postgres://${var.cws_db_username}:${var.cws_db_password}@${aws_db_instance.cws_postgres.endpoint}/${var.cws_db_name}"
-    CWS_PAYMENT_URL   = var.cws_payment_url
-    CWS_PAYMENT_TOKEN = var.cws_payment_token
+    DATABASE       = "postgres://${var.cws_db_username}:${var.cws_db_password}@${aws_db_instance.cws_postgres.endpoint}/${var.cws_db_name}"
+    CWS_STRIPE_KEY = var.cws_stripe_key
   }
 
   type = "Opaque"
