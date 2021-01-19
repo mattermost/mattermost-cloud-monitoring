@@ -33,3 +33,5 @@ variable "teleport_cidr" {}
 variable "worker_private_subnet_ids" {}
 
 variable "cluster_short_name" {}
+
+variable "log_types" {}
