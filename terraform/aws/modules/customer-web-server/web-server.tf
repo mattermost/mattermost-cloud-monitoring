@@ -197,6 +197,12 @@ resource "kubernetes_deployment" "customer_web_server" {
             name           = "api"
             container_port = 8076
           }
+
+          port {
+            name           = "internal"
+            container_port = 8077
+          }
+
           env_from {
             secret_ref {
               name = "customer-web-server-secret"
