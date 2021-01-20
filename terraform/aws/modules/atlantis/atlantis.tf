@@ -69,3 +69,18 @@ resource "helm_release" "atlantis" {
   timeout = 1200
 
 }
+
+resource "aws_instance" "atlantis" {
+  ami                          = var.ami_id
+  availability_zone            = var.availability_zone
+  instance_type                = var.instance_type
+  key_name                     = var.key_name
+  subnet_id                    = var.subnet_id
+  disable_api_termination      = true
+
+  credit_specification {
+    cpu_credits = "unlimited"
+  }
+
+  tags = var.atlantis_instance_tags
+}
