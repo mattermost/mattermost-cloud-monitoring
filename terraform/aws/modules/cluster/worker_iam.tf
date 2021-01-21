@@ -74,6 +74,38 @@ resource "aws_iam_policy" "utilities_policy" {
 EOF
 }
 
+resource "aws_iam_policy" "cluster_autoscaler_policy" {
+  name        = "cloud-${var.cluster_short_name}-cluster-autoscaler-policy"
+  path        = "/"
+  description = "Policy for cluster autoscaler required permissions."
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeLaunchConfigurations",
+                "autoscaling:DescribeTags",
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:TerminateInstanceInAutoScalingGroup",
+                "ec2:DescribeLaunchTemplateVersions"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "worker_cluster_autoscaler_policy" {
+  policy_arn = aws_iam_policy.cluster_autoscaler_policy.arn
+  role       = aws_iam_role.worker-role.name
+}
+
 resource "aws_iam_role_policy_attachment" "worker_utilities_policy" {
   policy_arn = aws_iam_policy.utilities_policy.arn
   role       = aws_iam_role.worker-role.name
