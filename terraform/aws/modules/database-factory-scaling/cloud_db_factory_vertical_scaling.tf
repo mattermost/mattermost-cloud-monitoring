@@ -117,7 +117,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
 resource "kubernetes_cron_job" "cloud_db_factory_vertical_scaling_cron" {
   metadata {
     name      = "cloud-db-factory-vertical-scaling"
-    namespace = var.mattermost_cloud_namespace
+    namespace = var.database_factory_namespace
   }
   spec {
     concurrency_policy            = "Allow"
@@ -225,7 +225,7 @@ resource "kubernetes_cron_job" "cloud_db_factory_vertical_scaling_cron" {
 resource "kubernetes_secret" "cloud_db_factory_vertical_scaling_secret" {
   metadata {
     name      = "cloud-db-factory-vertical-scaling-secret"
-    namespace = var.mattermost_cloud_namespace
+    namespace = var.database_factory_namespace
   }
 
   data = {

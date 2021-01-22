@@ -3,7 +3,7 @@ data "aws_caller_identity" "current" {}
 resource "kubernetes_deployment" "mattermost_cloud_database_factory" {
   metadata {
     name      = "mattermost-cloud-database-factory"
-    namespace = var.mattermost_cloud_namespace
+    namespace = var.database_factory_namespace
 
     labels = {
       "app.kubernetes.io/component" = "database-factory"
@@ -118,12 +118,16 @@ resource "kubernetes_deployment" "mattermost_cloud_database_factory" {
   #     ]
   #   }
 
+  depends_on = [
+    kubernetes_namespace.database_factory,
+  ]
+
 }
 
 resource "kubernetes_ingress" "mattermost_cloud_database_factory_ingress" {
   metadata {
     name      = "mattermost-cloud-database-factory"
-    namespace = var.mattermost_cloud_namespace
+    namespace = var.database_factory_namespace
 
     annotations = {
       "kubernetes.io/ingress.class"                        = "nginx-controller"
@@ -155,12 +159,16 @@ resource "kubernetes_ingress" "mattermost_cloud_database_factory_ingress" {
   #       spec,
   #     ]
   #   }
+
+  depends_on = [
+    kubernetes_namespace.database_factory,
+  ]
 }
 
 resource "kubernetes_secret" "mattermost_cloud_database_factory_secret" {
   metadata {
     name      = "mattermost-cloud-database-factory-secret"
-    namespace = var.mattermost_cloud_namespace
+    namespace = var.database_factory_namespace
   }
 
   data = {
@@ -179,12 +187,16 @@ resource "kubernetes_secret" "mattermost_cloud_database_factory_secret" {
   #       type,
   #     ]
   #   }
+
+  depends_on = [
+    kubernetes_namespace.database_factory,
+  ]
 }
 
 resource "kubernetes_service" "mattermost_cloud_database_factory_service" {
   metadata {
     name      = "mattermost-cloud-database-factory-service"
-    namespace = var.mattermost_cloud_namespace
+    namespace = var.database_factory_namespace
   }
 
   spec {
@@ -210,4 +222,13 @@ resource "kubernetes_service" "mattermost_cloud_database_factory_service" {
   #     ]
   #   }
 
+  depends_on = [
+    kubernetes_namespace.database_factory,
+  ]
+}
+
+resource "kubernetes_namespace" "database_factory" {
+  metadata {
+    name = var.database_factory_namespace
+  }
 }
