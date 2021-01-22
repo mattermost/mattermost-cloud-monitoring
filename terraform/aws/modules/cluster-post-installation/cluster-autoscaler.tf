@@ -3,7 +3,6 @@ resource "kubernetes_secret" "cluster-autoscaler" {
     name      = "cluster-autoscaler"
     namespace = "kube-system"
   }
-  type = "Opaque"
 }
 
 resource "kubernetes_service_account" "cluster-autoscaler" {
@@ -14,6 +13,10 @@ resource "kubernetes_service_account" "cluster-autoscaler" {
       k8s-addon = "cluster-autoscaler.addons.k8s.io"
       k8s-app   = "cluster-autoscaler"
     }
+  }
+
+  secret {
+    name = kubernetes_secret.cluster-autoscaler.metadata[0].name
   }
   depends_on = [
     kubernetes_secret.cluster-autoscaler
@@ -178,7 +181,8 @@ resource "kubernetes_deployment" "cluster-autoscaler" {
     name      = "cluster-autoscaler"
     namespace = "kube-system"
     labels = {
-      app = "cluster-autoscaler"
+      app     = "cluster-autoscaler"
+      purpose = "autoscaler"
     }
   }
   spec {
@@ -195,18 +199,19 @@ resource "kubernetes_deployment" "cluster-autoscaler" {
         }
       }
       spec {
-        service_account_name = "cluster-autoscaler"
+        service_account_name            = "cluster-autoscaler"
+        automount_service_account_token = true
         container {
           name  = "cluster-autoscaler"
           image = "k8s.gcr.io/autoscaling/cluster-autoscaler:v1.17.4"
           resources {
             limits {
               cpu    = "100m"
-              memory = "250Mi"
+              memory = "400Mi"
             }
             requests {
               cpu    = "10m"
-              memory = "100Mi"
+              memory = "400Mi"
             }
           }
           command = ["./cluster-autoscaler", "--v=2", "--stderrthreshold=error", "--cloud-provider=aws", "--skip-nodes-with-local-storage=false", "--skip-nodes-with-system-pods=false", "--scale-down-delay-after-add=5m", "--scale-down-delay-after-delete=5m", "--node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/${var.deployment_name}"]
