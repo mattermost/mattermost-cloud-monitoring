@@ -14,6 +14,8 @@ variable "database_factory_users" {}
 
 variable "mattermost_cloud_namespace" {}
 
+variable "database_factory_namespace" {}
+
 variable "mattermost_alerts_hook" {}
 
 variable "mattermost_notifications_hook" {}

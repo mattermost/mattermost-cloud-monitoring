@@ -36,6 +36,8 @@ variable "horizontal_scaling_cronjob_schedule" {}
 
 variable "mattermost_cloud_namespace" {}
 
+variable "database_factory_namespace" {}
+
 variable "db_factory_horizontal_scaling_users" {}
 
 variable "cloud_db_factory_vertical_scaling_image" {}

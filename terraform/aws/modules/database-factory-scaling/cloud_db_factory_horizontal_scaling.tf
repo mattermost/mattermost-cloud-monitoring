@@ -1,7 +1,7 @@
 resource "kubernetes_cron_job" "cloud_db_factory_horizontal_scaling_cron" {
   metadata {
     name      = "cloud-db-factory-horizontal-scaling"
-    namespace = var.mattermost_cloud_namespace
+    namespace = var.database_factory_namespace
   }
   spec {
     concurrency_policy            = "Forbid"
@@ -149,7 +149,7 @@ resource "kubernetes_cron_job" "cloud_db_factory_horizontal_scaling_cron" {
 resource "kubernetes_secret" "cloud_db_factory_horizontal_scaling_secret" {
   metadata {
     name      = "cloud-db-factory-horizontal-scaling-secret"
-    namespace = var.mattermost_cloud_namespace
+    namespace = var.database_factory_namespace
   }
 
   data = {
