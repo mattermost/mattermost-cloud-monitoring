@@ -75,3 +75,5 @@ variable "provider_role_arn" {
 variable "provisioner_users" {}
 
 variable "whitelist_source_range" {}
+
+variable "gitlab_oauth_token" {}
