@@ -169,6 +169,17 @@ resource "kubernetes_deployment" "mattermost_cloud_main" {
             }
           }
 
+          env {
+            name = "GITLAB_OAUTH_TOKEN"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "GITLAB_OAUTH_TOKEN"
+              }
+            }
+          }
+
           volume_mount {
             name       = "mattermost-cloud-ssh-volume"
             mount_path = "/.ssh"
@@ -377,6 +388,17 @@ resource "kubernetes_deployment" "mattermost_cloud_installations" {
             }
           }
 
+          env {
+            name = "GITLAB_OAUTH_TOKEN"
+
+            value_from {
+              secret_key_ref {
+                name = "mattermost-cloud-secret"
+                key  = "GITLAB_OAUTH_TOKEN"
+              }
+            }
+          }
+
           volume_mount {
             name       = "mattermost-cloud-ssh-volume"
             mount_path = "/.ssh"
@@ -472,6 +494,7 @@ resource "kubernetes_secret" "mattermost_cloud_secret" {
     DATABASE              = "postgres://${var.db_username}:${var.db_password}@${aws_db_instance.provisioner.endpoint}/${var.db_name}"
     KEEP_DATABASE_DATA    = var.mattermost_cloud_secrets_keep_database_data
     KEEP_FILESTORE_DATA   = var.mattermost_cloud_secrets_keep_filestore_data
+    GITLAB_OAUTH_TOKEN    = var.gitlab_oauth_token
   }
 
   type = "Opaque"
