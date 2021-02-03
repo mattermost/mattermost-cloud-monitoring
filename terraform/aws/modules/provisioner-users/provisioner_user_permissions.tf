@@ -235,7 +235,9 @@ resource "aws_iam_policy" "ec2" {
                 "autoscaling:EnableMetricsCollection",
                 "autoscaling:AttachLoadBalancers",
                 "autoscaling:DetachLoadBalancers",
+                "autoscaling:DetachInstances",
                 "autoscaling:TerminateInstanceInAutoScalingGroup",
+                "autoscaling:CreateOrUpdateTags",
                 "acm:ListCertificates",
                 "acm:ListTagsForCertificate"
             ],
@@ -312,7 +314,8 @@ resource "aws_iam_policy" "iam" {
                 "iam:AddRoleToInstanceProfile",
                 "iam:PassRole",
                 "iam:AttachRolePolicy",
-                "iam:DetachRolePolicy"
+                "iam:DetachRolePolicy",
+                "iam:ListAttachedRolePolicies"
             ],
             "Resource": [
                 "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/masters.*",
