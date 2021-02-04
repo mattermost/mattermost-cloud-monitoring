@@ -40,3 +40,16 @@ variable "subnet_id" {}
 
 variable "atlantis_instance_tags" {}
 
+variable "environment" {}
+
+variable "desired_capacity" {}
+
+variable "min_size" {}
+
+variable "max_size" {}
+
+variable "volume_size" {}
+
+variable "vpc_id" {}
+
+variable "security_groups" {}
