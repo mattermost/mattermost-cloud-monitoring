@@ -175,36 +175,9 @@ resource "kubernetes_deployment" "customer_web_server" {
           image = "${var.git_image_url}:${var.cws_image_version}"
           args  = ["schema", "migrate", "--database", "$(DATABASE)"]
 
-          env {
-            name = "DATABASE"
-
-            value_from {
-              secret_key_ref {
-                name = "customer-web-server-secret"
-                key  = "DATABASE"
-              }
-            }
-          }
-
-          env {
-            name = "CWS_PAYMENT_URL"
-
-            value_from {
-              secret_key_ref {
-                name = "customer-web-server-secret"
-                key  = "CWS_PAYMENT_URL"
-              }
-            }
-          }
-
-          env {
-            name = "CWS_PAYMENT_TOKEN"
-
-            value_from {
-              secret_key_ref {
-                name = "customer-web-server-secret"
-                key  = "CWS_PAYMENT_TOKEN"
-              }
+          env_from {
+            secret_ref {
+              name = "customer-web-server-secret"
             }
           }
 
@@ -224,39 +197,17 @@ resource "kubernetes_deployment" "customer_web_server" {
             name           = "api"
             container_port = 8076
           }
-          env {
-            name = "DATABASE"
 
-            value_from {
-              secret_key_ref {
-                name = "customer-web-server-secret"
-                key  = "DATABASE"
-              }
-            }
+          port {
+            name           = "internal"
+            container_port = 8077
           }
 
-          env {
-            name = "CWS_PAYMENT_URL"
-
-            value_from {
-              secret_key_ref {
-                name = "customer-web-server-secret"
-                key  = "CWS_PAYMENT_URL"
-              }
+          env_from {
+            secret_ref {
+              name = "customer-web-server-secret"
             }
           }
-
-          env {
-            name = "CWS_PAYMENT_TOKEN"
-
-            value_from {
-              secret_key_ref {
-                name = "customer-web-server-secret"
-                key  = "CWS_PAYMENT_TOKEN"
-              }
-            }
-          }
-
 
           image_pull_policy = "IfNotPresent"
         }
@@ -383,9 +334,24 @@ resource "kubernetes_secret" "cws_secret" {
   }
 
   data = {
-    DATABASE          = "postgres://${var.cws_db_username}:${var.cws_db_password}@${aws_db_instance.cws_postgres.endpoint}/${var.cws_db_name}"
-    CWS_PAYMENT_URL   = var.cws_payment_url
-    CWS_PAYMENT_TOKEN = var.cws_payment_token
+    DATABASE                        = "postgres://${var.cws_db_username}:${var.cws_db_password}@${aws_db_instance.cws_postgres.endpoint}/${var.cws_db_name}"
+    CWS_STRIPE_KEY                  = var.cws_stripe_key
+    CWS_SITEURL                     = var.cws_ingress
+    CWS_SMTP_USERNAME               = var.cws_smtp_username
+    CWS_SMTP_PASSWORD               = var.cws_smtp_password
+    CWS_SMTP_SERVER                 = var.cws_smtp_host
+    CWS_SMTP_PORT                   = var.cws_smtp_port
+    CWS_SMTP_SERVERTIMEOUT          = "10"
+    CWS_SMTP_CONNECTIONSECURITY     = "TLS"
+    CWS_EMAIL_REPLYTONAME           = "Mattermost"
+    CWS_EMAIL_REPLYTOADDRESS        = var.cws_email_replyto_address
+    CWS_EMAIL_BCCADDRESSES          = var.cws_bcc_addresses
+    CWS_CLOUD_URL                   = var.cws_cloud_url
+    CWS_CLOUD_DNS_DOMAIN            = var.cws_cloud_dns_domain
+    CWS_CLOUD_GROUP_ID              = var.cws_cloud_group_id
+    CWS_LICENSE_GENERATOR_KEY       = var.cws_license_generator_key
+    CWS_LICENSE_GENERATOR_URL       = var.cws_license_generator_url
+    STRIPE_WEBHOOK_SIGNATURE_SECRET = var.cws_stripe_webhook_secret
   }
 
   type = "Opaque"
