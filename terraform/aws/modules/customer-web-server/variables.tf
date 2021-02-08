@@ -98,6 +98,10 @@ variable "flux_git_url_cws" {}
 
 variable "cws_stripe_key" {}
 
+variable "cws_blapi_url" {}
+
+variable "cws_blapi_token" {}
+
 variable "enable_portal_r53_record" {}
 
 variable "enable_portal_internal_r53_record" {}
