@@ -46,6 +46,30 @@ variable "cws_ingress_internal" {}
 
 variable "cws_image_version" {}
 
+variable "cws_smtp_username" {}
+
+variable "cws_smtp_password" {}
+
+variable "cws_smtp_host" {}
+
+variable "cws_smtp_port" {}
+
+variable "cws_email_replyto_address" {}
+
+variable "cws_bcc_addresses" {}
+
+variable "cws_cloud_url" {}
+
+variable "cws_cloud_dns_domain" {}
+
+variable "cws_cloud_group_id" {}
+
+variable "cws_license_generator_key" {}
+
+variable "cws_license_generator_url" {}
+
+variable "cws_stripe_webhook_secret" {}
+
 variable "internal_registry" {}
 
 variable "pub_domain" {}
@@ -72,12 +96,15 @@ variable "community_channel" {}
 
 variable "flux_git_url_cws" {}
 
-variable "cws_payment_url" {}
+variable "cws_stripe_key" {}
 
-variable "cws_payment_token" {}
+variable "cws_blapi_url" {}
+
+variable "cws_blapi_token" {}
 
 variable "enable_portal_r53_record" {}
 
 variable "enable_portal_internal_r53_record" {}
 
 variable "enable_portal_internal_components" {}
+
