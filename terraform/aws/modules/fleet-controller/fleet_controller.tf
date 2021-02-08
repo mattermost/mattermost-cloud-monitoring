@@ -1,0 +1,42 @@
+resource "kubernetes_cron_job" "cloud_fleet_controller_cron" {
+  metadata {
+    name      = "fleet-controller-hibernate"
+    namespace = var.fleet_controller_namespace
+  }
+  spec {
+    concurrency_policy            = "Forbid"
+    failed_jobs_history_limit     = 2
+    successful_jobs_history_limit = 2
+    schedule                      = var.fleet_controller_cronjob_schedule
+    suspend                       = false
+
+    job_template {
+      metadata {}
+      spec {
+        ttl_seconds_after_finished = 86400
+        template {
+          metadata {}
+          spec {
+            container {
+              name              = "fleet-controller"
+              image             = var.fleet_controller_image
+              image_pull_policy = "IfNotPresent"
+              args              = ["hibernate", "--unlock", "--server=${var.provisioner_server}", "--thanos-url=${var.thanos_server}"]
+              env {
+                name  = "FC_PRODUCTION_LOGS"
+                value = "true"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  # Will be added in the future when managed by flux
+  #   lifecycle {
+  #     ignore_changes = [
+  #       metadata,
+  #       spec,
+  #     ]
+  #   }
+}
