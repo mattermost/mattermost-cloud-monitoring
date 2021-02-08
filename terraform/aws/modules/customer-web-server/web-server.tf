@@ -346,6 +346,8 @@ resource "kubernetes_secret" "cws_secret" {
     CWS_EMAIL_REPLYTONAME           = "Mattermost"
     CWS_EMAIL_REPLYTOADDRESS        = var.cws_email_replyto_address
     CWS_EMAIL_BCCADDRESSES          = var.cws_bcc_addresses
+    CWS_BLAPI_URL                   = var.cws_blapi_url
+    CWS_BLAPI_TOKEN                 = var.cws_blapi_token
     CWS_CLOUD_URL                   = var.cws_cloud_url
     CWS_CLOUD_DNS_DOMAIN            = var.cws_cloud_dns_domain
     CWS_CLOUD_GROUP_ID              = var.cws_cloud_group_id
