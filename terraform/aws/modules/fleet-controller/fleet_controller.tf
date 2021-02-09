@@ -21,7 +21,7 @@ resource "kubernetes_cron_job" "cloud_fleet_controller_cron" {
               name              = "fleet-controller"
               image             = var.fleet_controller_image
               image_pull_policy = "IfNotPresent"
-              args              = ["hibernate", "--unlock", "--server=${var.provisioner_server}", "--thanos-url=${var.thanos_server}", "--group=${var.cws_group}"]
+              args              = ["hibernate", "--unlock", "--server=${var.provisioner_server}", "--thanos-url=${var.thanos_server}", "--group=${var.cws_group}", "--dry-run=false"]
               env {
                 name  = "FC_PRODUCTION_LOGS"
                 value = "true"
