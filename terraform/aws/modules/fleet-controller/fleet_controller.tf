@@ -36,6 +36,7 @@ resource "kubernetes_cron_job" "cloud_fleet_controller_cron" {
       }
     }
   }
+  
   # Will be added in the future when managed by flux
   #   lifecycle {
   #     ignore_changes = [
