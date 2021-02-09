@@ -9,3 +9,5 @@ variable "thanos_server" {}
 variable "fleet_controller_cronjob_schedule" {}
 
 variable "mm_webhook_url" {}
+
+variable "cws_group" {}
