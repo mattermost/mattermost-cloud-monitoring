@@ -43,4 +43,14 @@ resource "kubernetes_cron_job" "cloud_fleet_controller_cron" {
   #       spec,
   #     ]
   #   }
+  depends_on = [
+    kubernetes_namespace.fleet_controller
+  ]
+}
+
+
+resource "kubernetes_namespace" "fleet_controller" {
+  metadata {
+    name = "fleet-controller"
+  }
 }
