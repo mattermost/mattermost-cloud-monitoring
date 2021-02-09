@@ -245,7 +245,7 @@ resource "kubernetes_ingress" "customer_web_server" {
     namespace = var.cws_name
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx-controller"
+      "kubernetes.io/ingress.class" = "nginx"
     }
   }
 
