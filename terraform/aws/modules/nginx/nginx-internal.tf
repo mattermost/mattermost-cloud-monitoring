@@ -21,7 +21,7 @@ resource "helm_release" "nginx-internal" {
   ]
 
   set {
-    name  = "controller.service.internal.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
+    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
     value = data.aws_acm_certificate.private.arn
   }
 
