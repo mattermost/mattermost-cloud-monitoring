@@ -26,6 +26,10 @@ resource "kubernetes_cron_job" "cloud_fleet_controller_cron" {
                 name  = "FC_PRODUCTION_LOGS"
                 value = "true"
               }
+              env {
+                name  = "FC_MM_WEBHOOK_URL"
+                value = var.mm_webhook_url
+              }
             }
           }
         }
