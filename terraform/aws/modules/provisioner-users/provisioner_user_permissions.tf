@@ -235,6 +235,7 @@ resource "aws_iam_policy" "ec2" {
                 "autoscaling:EnableMetricsCollection",
                 "autoscaling:AttachLoadBalancers",
                 "autoscaling:DetachLoadBalancers",
+                "autoscaling:DescribeLoadBalancers",
                 "autoscaling:DetachInstances",
                 "autoscaling:TerminateInstanceInAutoScalingGroup",
                 "autoscaling:CreateOrUpdateTags",
