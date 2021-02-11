@@ -237,6 +237,7 @@ resource "aws_iam_policy" "ec2" {
                 "autoscaling:DetachLoadBalancers",
                 "autoscaling:DescribeLoadBalancers",
                 "autoscaling:DetachInstances",
+                "autoscaling:SuspendProcesses",
                 "autoscaling:TerminateInstanceInAutoScalingGroup",
                 "autoscaling:CreateOrUpdateTags",
                 "acm:ListCertificates",
