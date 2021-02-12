@@ -22,7 +22,7 @@ EOF
 
 resource "aws_iam_role_policy" "account_alerts_lambda_policy" {
   name = "account_alerts_lambda_policy"
-  role = aws_iam_role.account_alerts_role.id
+  role = aws_iam_role.account_alerts_lambda_role.id
 
   policy = <<EOF
 {
@@ -31,7 +31,7 @@ resource "aws_iam_role_policy" "account_alerts_lambda_policy" {
     {
       "Action": [
             "ec2:DescribeVpcs",
-            "ec2:DescribeSubnets",
+            "ec2:DescribeSubnets"
         ],
       "Effect": "Allow",
       "Resource": "*"
@@ -68,12 +68,7 @@ resource "aws_lambda_function" "account_alerts" {
   environment {
     variables = {
       MIN_SUBNET_FREE_IPs = var.min_subnet_free_ips,
-    }
-  }
-
-  environment {
-    variables = {
-      MIN_SUBMATTERMOST_ALERTS_HOOK = var.mattermost_alerts_hook,
+      MATTERMOST_ALERTS_HOOK = var.mattermost_alerts_hook,
     }
   }
 }
