@@ -21,7 +21,7 @@ resource "kubernetes_cron_job" "cloud_fleet_controller_cron" {
               name              = "fleet-controller"
               image             = var.fleet_controller_image
               image_pull_policy = "IfNotPresent"
-              args              = ["hibernate", "--unlock", "--server=${var.provisioner_server}", "--thanos-url=${var.thanos_server}", "--group=${var.cws_group}", "--dry-run=false"]
+              args              = ["hibernate", "--unlock", "--server=${var.provisioner_server}", "--thanos-url=${var.thanos_server}", "--group=${var.cws_group}", "--dry-run=false", "--max-users=11"]
               env {
                 name  = "FC_PRODUCTION_LOGS"
                 value = "true"
@@ -37,13 +37,12 @@ resource "kubernetes_cron_job" "cloud_fleet_controller_cron" {
     }
   }
 
-  # Will be added in the future when managed by flux
-  #   lifecycle {
-  #     ignore_changes = [
-  #       metadata,
-  #       spec,
-  #     ]
-  #   }
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      spec,
+    ]
+  }
   depends_on = [
     kubernetes_namespace.fleet_controller
   ]
