@@ -2,7 +2,7 @@ variable "deployment_name" {}
 
 variable "kubeconfig_dir" {}
 
-variable "flux_chart_values_name" {}
+variable "flux_chart_values_path" {}
 
 variable "git_url" {}
 
