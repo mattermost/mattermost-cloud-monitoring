@@ -19,29 +19,21 @@ func handler() {
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String(os.Getenv("AWS_REGION"))},
 	)
-
+	if err != nil {
+		log.WithError(err).Error("AWS Session failed.")
+		return
+	}
 	svc := ec2.New(sess)
 	uniqueUsedImages, err := getUniqueUsedImages(svc)
-	err = deleteAMIs(svc,uniqueUsedImages)
-
-	fmt.Println(uniqueUsedImages)
+	err = deleteAMIs(svc, uniqueUsedImages)
 
 	if err != nil {
-		if aerr, ok := err.(awserr.Error); ok {
-			switch aerr.Code() {
-			default:
-				log.WithError(aerr.Error("AWS Error."))
-			}
-		} else {
-			// Print the error, cast err to awserr.Error to get the Code and
-			// Message from an error.
-			log.WithError(err).Error("AWS Error.")
-		}
+		log.WithError(err).Error("Failed to delete AMIs.")
 		return
 	}
 }
 
-func deleteAMIs(svc *ec2.EC2, uniqueUsedImages []string) (error) {
+func deleteAMIs(svc *ec2.EC2, uniqueUsedImages []string) error {
 	imagesInput := &ec2.DescribeImagesInput{
 		Owners: []*string{
 			aws.String(os.Getenv("OWNER_ID")),
@@ -54,26 +46,41 @@ func deleteAMIs(svc *ec2.EC2, uniqueUsedImages []string) (error) {
 		},
 	}
 	snapshots, err := getAllSnapshots(os.Getenv("OWNER_ID"), svc)
+	if err != nil {
+		log.WithError(err).Error("Failed to get Snapshots.")
+		return err
+
+	}
 	allImages, err := svc.DescribeImages(imagesInput)
+	if err != nil {
+		log.WithError(err).Error("Failed to describe images.")
+		return err
+
+	}
 	oldImages, err := filterImagesByDateRange(allImages.Images, 730)
+	if err != nil {
+		log.WithError(err).Error("Failed to filter images by date range.")
+		return err
+
+	}
 	dryRun := true
 	for _, i := range oldImages {
 		imageForCleanup := contains(uniqueUsedImages, *i.ImageId)
-		fmt.Println(imageForCleanup)
 		fmt.Println(*i.ImageId + ": De-registering AMI named \"" + *i.Name + "\"...")
 		cleanupImageInput := &ec2.DeregisterImageInput{
-		ImageId: &imageForCleanup,
-		DryRun: &dryRun,
+			ImageId: &imageForCleanup,
+			DryRun:  &dryRun,
 		}
-		cleanupImage, _ := svc.DeregisterImage(cleanupImageInput)
-		fmt.Println(cleanupImage)
+		_, err := svc.DeregisterImage(cleanupImageInput)
+		if err != nil {
+			log.WithError(err).Errorf("Failed to deregister AMI %s", *i.ImageId)
+		}
 		var snapshotIds []string
 		for _, snapshot := range snapshots {
 			if strings.Contains(*snapshot.Description, *i.ImageId) {
 				snapshotIds = append(snapshotIds, *snapshot.SnapshotId)
 			}
 		}
-		fmt.Println(snapshotIds)
 		fmt.Println(*i.ImageId + ": Found " + strconv.Itoa(len(snapshotIds)) + " snapshot(s) to delete")
 		for _, snapshotId := range snapshotIds {
 			fmt.Println(*i.ImageId + ": Deleting snapshot " + snapshotId + "...")
@@ -83,61 +90,34 @@ func deleteAMIs(svc *ec2.EC2, uniqueUsedImages []string) (error) {
 			})
 
 			if deleteErr != nil {
-				log.WithError(deleteErr.Error("Failed to delete Snapshot " + snapshotId + "."))
+				log.WithError(deleteErr).Errorf("Failed to delete Snapshot %s", snapshotId)
 			}
 		}
 
 	}
-	if err != nil {
-		if aerr, ok := err.(awserr.Error); ok {
-			switch aerr.Code() {
-			default:
-				fmt.Println(aerr.Error())
-			}
-		} else {
-			// Print the error, cast err to awserr.Error to get the Code and
-			// Message from an error.
-			fmt.Println(err.Error())
-		}
-	}
-
-	return err
+	return nil
 }
 
 func getUniqueUsedImages(svc *ec2.EC2) ([]string, error) {
 
 	instancesInput := &ec2.DescribeInstancesInput{}
-	encountered := make(map[string]struct{})
-	uniqueUsedImages := make([]string, 0)
-	duplicateImages := make([]string, 0)
-
+	encountered := make(map[string]bool)
 	runningInstances, err := svc.DescribeInstances(instancesInput)
+	if err != nil {
+		return nil, err
+	}
 	for _, i := range runningInstances.Reservations {
 		for _, k := range i.Instances {
-			if _, ok := encountered[*k.ImageId]; ok {
-				duplicateImages = append(duplicateImages, *k.ImageId)
-				continue
-			}else {
-				encountered[*k.ImageId] = struct{}{}
-				uniqueUsedImages = append(uniqueUsedImages, *k.ImageId)
-			}
+			encountered[*k.ImageId] = true
 		}
 	}
 
-	if err != nil {
-		if aerr, ok := err.(awserr.Error); ok {
-			switch aerr.Code() {
-			default:
-				fmt.Println(aerr.Error())
-			}
-		} else {
-			// Print the error, cast err to awserr.Error to get the Code and
-			// Message from an error.
-			fmt.Println(err.Error())
-		}
+	uniqueUsedImages := []string{}
+	for image := range encountered {
+		uniqueUsedImages = append(uniqueUsedImages, image)
 	}
 
-	return uniqueUsedImages, err
+	return uniqueUsedImages, nil
 }
 
 func contains(arr []string, str string) string {
