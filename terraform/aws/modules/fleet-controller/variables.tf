@@ -27,3 +27,5 @@ variable "community_hook" {}
 variable "community_channel" {}
 
 variable "flux_git_url_fleet_controller" {}
+
+variable "fleet_controller_max_users_filter" {}
