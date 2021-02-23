@@ -14,7 +14,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda_deckhand_errors" {
   period              = "10800"
   threshold           = "1"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  alarm_actions       = [aws_sns_topic.cleanup_images_sns_topic]
+  alarm_actions       = [aws_sns_topic.cleanup_images_sns_topic.arn]
   namespace           = "AWS/Lambda"
   treat_missing_data  = "missing"
   statistic           = "Sum"
@@ -24,6 +24,10 @@ resource "aws_cloudwatch_metric_alarm" "lambda_deckhand_errors" {
     FunctionName = "deckhand"
     Resource     = "deckhand"
   }
+
+  depends_on = [
+    aws_sns_topic.cleanup_images_sns_topic
+  ]
 }
 
 resource "aws_sns_topic" "cleanup_images_sns_topic" {

@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	log "github.com/sirupsen/logrus"
@@ -25,6 +24,10 @@ func handler() {
 	}
 	svc := ec2.New(sess)
 	uniqueUsedImages, err := getUniqueUsedImages(svc)
+	if err != nil {
+		log.WithError(err).Error("Failed to get Unique Used AMIs.")
+		return
+	}
 	err = deleteAMIs(svc, uniqueUsedImages)
 
 	if err != nil {
@@ -47,51 +50,49 @@ func deleteAMIs(svc *ec2.EC2, uniqueUsedImages []string) error {
 	}
 	snapshots, err := getAllSnapshots(os.Getenv("OWNER_ID"), svc)
 	if err != nil {
-		log.WithError(err).Error("Failed to get Snapshots.")
-		return err
-
+		return errors.Wrap(err, "Failed to get Snapshots.")
 	}
 	allImages, err := svc.DescribeImages(imagesInput)
 	if err != nil {
-		log.WithError(err).Error("Failed to describe images.")
-		return err
-
+		return errors.Wrap(err, "Failed to describe images.")
 	}
 	oldImages, err := filterImagesByDateRange(allImages.Images, 730)
 	if err != nil {
-		log.WithError(err).Error("Failed to filter images by date range.")
-		return err
-
+		return errors.Wrap(err, "Failed to filter images by date range.")
 	}
 	dryRun := true
 	for _, i := range oldImages {
 		imageForCleanup := contains(uniqueUsedImages, *i.ImageId)
-		fmt.Println(*i.ImageId + ": De-registering AMI named \"" + *i.Name + "\"...")
-		cleanupImageInput := &ec2.DeregisterImageInput{
-			ImageId: &imageForCleanup,
-			DryRun:  &dryRun,
-		}
-		_, err := svc.DeregisterImage(cleanupImageInput)
-		if err != nil {
-			log.WithError(err).Errorf("Failed to deregister AMI %s", *i.ImageId)
-		}
-		var snapshotIds []string
-		for _, snapshot := range snapshots {
-			if strings.Contains(*snapshot.Description, *i.ImageId) {
-				snapshotIds = append(snapshotIds, *snapshot.SnapshotId)
+		if imageForCleanup != "" {
+			log.Info(*i.ImageId + ": De-registering AMI named \"" + *i.Name + "\"...")
+			cleanupImageInput := &ec2.DeregisterImageInput{
+				ImageId: &imageForCleanup,
+				DryRun:  &dryRun,
 			}
-		}
-		fmt.Println(*i.ImageId + ": Found " + strconv.Itoa(len(snapshotIds)) + " snapshot(s) to delete")
-		for _, snapshotId := range snapshotIds {
-			fmt.Println(*i.ImageId + ": Deleting snapshot " + snapshotId + "...")
-			_, deleteErr := svc.DeleteSnapshot(&ec2.DeleteSnapshotInput{
-				DryRun:     &dryRun,
-				SnapshotId: &snapshotId,
-			})
+			_, err := svc.DeregisterImage(cleanupImageInput)
+			if err != nil {
+				return errors.Wrapf(err, "Failed to deregister AMI %s", *i.ImageId)
+			}
+			var snapshotIds []string
+			for _, snapshot := range snapshots {
+				if strings.Contains(*snapshot.Description, *i.ImageId) {
+					snapshotIds = append(snapshotIds, *snapshot.SnapshotId)
+				}
+			}
+			log.Info(*i.ImageId + ": Found " + strconv.Itoa(len(snapshotIds)) + " snapshot(s) to delete")
+			for _, snapshotId := range snapshotIds {
+				log.Info(*i.ImageId + ": Deleting snapshot " + snapshotId + "...")
+				_, deleteErr := svc.DeleteSnapshot(&ec2.DeleteSnapshotInput{
+					DryRun:     &dryRun,
+					SnapshotId: &snapshotId,
+				})
 
-			if deleteErr != nil {
-				log.WithError(deleteErr).Errorf("Failed to delete Snapshot %s", snapshotId)
+				if deleteErr != nil {
+					return errors.Wrapf(err, "Failed to delete Snapshot %s", snapshotId)
+				}
 			}
+		} else {
+			log.Info("Image " + *i.ImageId + " is used on a current running instance.")
 		}
 
 	}
@@ -123,7 +124,7 @@ func getUniqueUsedImages(svc *ec2.EC2) ([]string, error) {
 func contains(arr []string, str string) string {
 	for _, a := range arr {
 		if a == str {
-			continue
+			return ""
 		}
 	}
 	return str
