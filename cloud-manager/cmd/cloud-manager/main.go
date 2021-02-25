@@ -4,7 +4,6 @@ import (
 	"errors"
 	"flag"
 	"log"
-	"os"
 	"time"
 
 	"github.com/mattermost/mattermost-cloud-monitoring/cloud-manager/pkg/providers"
@@ -41,10 +40,7 @@ func main() {
 
 	if *rotateAmis {
 		err := kubernetesService.Drain(*force, *ignoreDaemonsets, *deleteLocalData, *namespace, *gracePeriodSeconds, *timeout, *forceTermination)
-		if err != nil {
-			log.Println(err.Error())
-			os.Exit(1)
-		}
+		LogErrorAndExit(err, "Failed to drain")
 	}
 }
 

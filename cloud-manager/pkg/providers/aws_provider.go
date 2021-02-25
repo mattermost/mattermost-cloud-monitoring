@@ -41,7 +41,6 @@ func NewAwsProvider(name, profile, region string, ec2Service ec2iface.EC2API) (P
 }
 
 func newSession(profile, region string) (*session.Session, error) {
-
 	config := &aws.Config{
 		Region:      aws.String(region),
 		Credentials: credentials.NewSharedCredentials("", profile),
