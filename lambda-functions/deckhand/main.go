@@ -1,18 +1,19 @@
 package main
 
 import (
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
-	"github.com/aws/aws-lambda-go/lambda"
 
 	"github.com/pkg/errors"
 
-	log "github.com/sirupsen/logrus"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -107,7 +108,6 @@ func deleteAMIs(svc *ec2.EC2, uniqueUsedImages []string) error {
 }
 
 func getUniqueUsedImages(svc *ec2.EC2) ([]string, error) {
-
 	instancesInput := &ec2.DescribeInstancesInput{}
 	encountered := make(map[string]bool)
 	runningInstances, err := svc.DescribeInstances(instancesInput)
@@ -140,9 +140,10 @@ func contains(arr []string, str string) string {
 func filterImagesByDateRange(images []*ec2.Image, olderThanHours float64) ([]*ec2.Image, error) {
 	var filteredAmis []*ec2.Image
 
-	for i := 0; i < len(images); i++ {
-		now := time.Now()
-		creationDate, err := time.Parse(time.RFC3339Nano, *images[i].CreationDate)
+	now := time.Now()
+
+	for _, image := range images {
+		creationDate, err := time.Parse(time.RFC3339Nano, *image.CreationDate)
 		if err != nil {
 			return filteredAmis, err
 		}
@@ -150,7 +151,7 @@ func filterImagesByDateRange(images []*ec2.Image, olderThanHours float64) ([]*ec
 		duration := now.Sub(creationDate)
 
 		if duration.Hours() > olderThanHours {
-			filteredAmis = append(filteredAmis, images[i])
+			filteredAmis = append(filteredAmis, image)
 		}
 	}
 
