@@ -10,6 +10,10 @@ variable "transit_gateway_id" {}
 
 variable "transit_gtw_route_destination" {}
 
+variable "transit_gtw_route_destination_security" {}
+
+variable "transit_gtw_route_destination_gitlab" {}
+
 variable "environment" {}
 
 variable "region" {}
