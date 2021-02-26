@@ -23,7 +23,7 @@ func main() {
 
 func handler() {
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String(os.Getenv("AWS_REGION"))},
+		Region: aws.String(os.Getenv("REGION"))},
 	)
 	if err != nil {
 		log.WithError(err).Error("AWS Session failed.")
