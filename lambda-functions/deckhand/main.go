@@ -67,7 +67,7 @@ func deleteAMIs(svc *ec2.EC2, uniqueUsedImages []string) error {
 	if err != nil {
 		return errors.Wrap(err, "Failed to filter images by date range.")
 	}
-	dryRun := true
+	dryRun := false
 	for _, i := range oldImages {
 		imageForCleanup := contains(uniqueUsedImages, *i.ImageId)
 		if imageForCleanup != "" {
