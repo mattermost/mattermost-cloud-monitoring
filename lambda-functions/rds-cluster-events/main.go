@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"os"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 
@@ -30,20 +32,29 @@ func handler(ctx context.Context, snsEvent events.SNSEvent) {
 			log.WithError(err).Error("Decode Error on message notification")
 			return
 		}
-		sendMattermostNotification(record.EventSource, messageNotification)
 
-		// Trigger OpsGenie
-		if os.Getenv("ENVIRONMENT") != "" && os.Getenv("ENVIRONMENT") != "test" {
-			sendOpsGenieNotification(messageNotification)
+		if strings.HasPrefix(messageNotification.EventMessage, "Started cross AZ failover") {
+			sendMattermostNotification(record.EventSource, "#FF0000", messageNotification)
+
+			// Trigger OpsGenie
+			if os.Getenv("ENVIRONMENT") != "" && os.Getenv("ENVIRONMENT") != "test" {
+				sendOpsGenieNotification(messageNotification)
+			}
+		} else if strings.HasPrefix(messageNotification.EventMessage, "Completed failover") {
+			sendMattermostNotification(record.EventSource, "#006400", messageNotification)
+
+			// Trigger OpsGenie
+			if os.Getenv("ENVIRONMENT") != "" && os.Getenv("ENVIRONMENT") != "test" {
+				closeOpsGenieAlert(messageNotification)
+			}
 		}
 	}
-
 }
 
-func sendMattermostNotification(source string, messageNotification SNSMessageNotification) {
+func sendMattermostNotification(source, color string, messageNotification SNSMessageNotification) {
 	attachment := []MMAttachment{}
 	attach := MMAttachment{
-		Color: "#FF0000",
+		Color: color,
 	}
 	attach = *attach.AddField(MMField{Title: "RDS DB Cluster Failover", Short: false})
 	attach = *attach.AddField(MMField{Title: "Cluster", Value: messageNotification.SourceID, Short: true})
@@ -87,5 +98,40 @@ func sendOpsGenieNotification(messageNotification SNSMessageNotification) {
 		},
 		Priority: alert.P1,
 	})
+
+}
+
+func closeOpsGenieAlert(messageNotification SNSMessageNotification) {
+	if os.Getenv("OPSGENIE_APIKEY") == "" {
+		log.Warn("No OpsGenie APIKEY setup")
+		return
+	}
+
+	alertClient, err := alert.NewClient(&client.Config{
+		ApiKey: os.Getenv("OPSGENIE_APIKEY"),
+	})
+	if err != nil {
+		log.WithError(err).Error("not able to create a new opsgenie client")
+		return
+	}
+
+	getResultQuery, err := alertClient.List(nil, &alert.ListAlertRequest{
+		Query: fmt.Sprintf("tag:%s", messageNotification.EventMessage),
+	})
+	if err != nil {
+		log.WithError(err).Error("error getting the alterts")
+		return
+	}
+
+	for _, alarm := range getResultQuery.Alerts {
+		_, err = alertClient.Close(nil, &alert.CloseAlertRequest{
+			IdentifierType:  alert.ALERTID,
+			IdentifierValue: alarm.Id,
+		})
+		if err != nil {
+			log.WithError(err).Errorf("error closing the alert %s", alarm.Id)
+			return
+		}
+	}
 
 }
