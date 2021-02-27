@@ -420,8 +420,8 @@ data "kubernetes_service" "nginx-public" {
 
 data "kubernetes_service" "nginx-private" {
   metadata {
-    name      = "nginx-ingress-nginx-controller-internal"
-    namespace = "nginx"
+    name      = "nginx-internal-ingress-nginx-controller"
+    namespace = "nginx-internal"
   }
 }
 
