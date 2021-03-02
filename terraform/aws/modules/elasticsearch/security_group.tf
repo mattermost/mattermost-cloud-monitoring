@@ -8,14 +8,14 @@ resource "aws_security_group" "es_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = var.mattermost_network
+    cidr_blocks = concat(var.vpn_cidr, var.mattermost_network)
   }
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = var.mattermost_network
+    cidr_blocks = concat(var.vpn_cidr, var.mattermost_network)
   }
 
   egress {
