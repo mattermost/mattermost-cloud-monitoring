@@ -26,6 +26,8 @@ variable "domain_name" {}
 
 variable "es_version" {}
 
+variable "mattermost_network" {}
+
 variable "private_hosted_zoneid" {}
 
 variable "cw_retention_in_days" {
