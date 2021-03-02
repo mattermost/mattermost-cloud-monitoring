@@ -42,14 +42,11 @@ resource "aws_iam_role_policy" "cleanup_old_images_lambda_policy" {
         "Action": [
             "xray:PutTraceSegments",
             "xray:PutTelemetryRecords",
-            "ec2:CreateNetworkInterface",
-            "ec2:DescribeNetworkInterfaces",
-            "ec2:DeleteNetworkInterface",
             "ec2:DescribeImages",
             "ec2:DeregisterImage",
             "ec2:DescribeInstances",
-            "ebs:DescribeSnapshots",
-            "ebs:DeleteSnapshot"
+            "ec2:DescribeSnapshots",
+            "ec2:DeleteSnapshot"
         ],
         "Resource": [
             "*"
