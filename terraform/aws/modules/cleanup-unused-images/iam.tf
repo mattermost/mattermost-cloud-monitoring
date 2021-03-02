@@ -46,7 +46,10 @@ resource "aws_iam_role_policy" "cleanup_old_images_lambda_policy" {
             "ec2:DeregisterImage",
             "ec2:DescribeInstances",
             "ec2:DescribeSnapshots",
-            "ec2:DeleteSnapshot"
+            "ec2:DeleteSnapshot",
+            "ec2:CreateNetworkInterface",
+            "ec2:DescribeNetworkInterfaces",
+            "ec2:DeleteNetworkInterface"
         ],
         "Resource": [
             "*"

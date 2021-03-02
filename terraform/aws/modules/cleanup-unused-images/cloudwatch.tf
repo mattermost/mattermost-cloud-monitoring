@@ -7,6 +7,12 @@ resource "aws_cloudwatch_event_rule" "deckhandcron" {
   schedule_expression = "cron(0 10 ? * MON *)" #runs every monday at 10am UTC
 }
 
+resource "aws_cloudwatch_event_target" "deckhand-lambda-target" {
+  target_id = "deckhand-lambda-target"
+  rule      = aws_cloudwatch_event_rule.deckhandcron.name
+  arn       = aws_lambda_function.deckhand.arn
+}
+
 resource "aws_cloudwatch_metric_alarm" "lambda_deckhand_errors" {
   alarm_name          = "Lambda deckhand - Errors"
   alarm_description   = "This lambda cleans up unused images 30days old or more and their snapshots. This alarm indicates the lambda had Errors when it was executed."
