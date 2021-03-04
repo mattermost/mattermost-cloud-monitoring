@@ -238,7 +238,6 @@ resource "kubernetes_deployment" "customer_web_server" {
   ]
 }
 
-
 resource "kubernetes_ingress" "customer_web_server" {
   metadata {
     name      = "${var.cws_name}-ingress"
@@ -283,8 +282,6 @@ resource "kubernetes_ingress" "customer_web_server" {
 }
 
 resource "kubernetes_ingress" "customer_web_server_internal" {
-  count = var.enable_portal_internal_components ? 1 : 0
-
   metadata {
     name      = "${var.cws_name}-internal-ingress"
     namespace = var.cws_name
@@ -304,13 +301,58 @@ resource "kubernetes_ingress" "customer_web_server_internal" {
 
           backend {
             service_name = "${var.cws_name}-service"
-            service_port = "8077"
+            service_port = "8076"
           }
         }
       }
     }
     tls {
       hosts = [var.cws_ingress_internal]
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      metadata,
+      spec,
+    ]
+  }
+
+  depends_on = [
+    aws_db_instance.cws_postgres,
+    kubernetes_namespace.customer_web_server
+  ]
+}
+
+resource "kubernetes_ingress" "customer_web_server_api_internal" {
+  count = var.enable_portal_internal_components ? 1 : 0
+
+  metadata {
+    name      = "${var.cws_name}-api-internal-ingress"
+    namespace = var.cws_name
+
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx-controller"
+    }
+  }
+
+  spec {
+    rule {
+      host = var.cws_ingress_api_internal
+
+      http {
+        path {
+          path = "/"
+
+          backend {
+            service_name = "${var.cws_name}-service"
+            service_port = "8077"
+          }
+        }
+      }
+    }
+    tls {
+      hosts = [var.cws_ingress_api_internal]
     }
   }
 
@@ -420,8 +462,8 @@ data "kubernetes_service" "nginx-public" {
 
 data "kubernetes_service" "nginx-private" {
   metadata {
-    name      = "nginx-ingress-nginx-controller-internal"
-    namespace = "nginx"
+    name      = "nginx-internal-ingress-nginx-controller"
+    namespace = "nginx-internal"
   }
 }
 
@@ -436,6 +478,16 @@ resource "aws_route53_record" "customer_web_server" {
 }
 
 resource "aws_route53_record" "customer_web_server_internal" {
+  count = var.enable_portal_r53_record ? 1 : 0
+
+  zone_id = var.private_hosted_zoneid
+  name    = "portal"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+}
+
+resource "aws_route53_record" "customer_web_server_api_internal" {
   count = var.enable_portal_internal_r53_record ? 1 : 0
 
   zone_id = var.private_hosted_zoneid

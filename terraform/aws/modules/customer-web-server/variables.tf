@@ -44,6 +44,8 @@ variable "cws_ingress" {}
 
 variable "cws_ingress_internal" {}
 
+variable "cws_ingress_api_internal" {}
+
 variable "cws_image_version" {}
 
 variable "cws_smtp_username" {}
