@@ -491,7 +491,7 @@ resource "aws_route53_record" "customer_web_server_api_internal" {
   count = var.enable_portal_internal_r53_record ? 1 : 0
 
   zone_id = var.private_hosted_zoneid
-  name    = "portal"
+  name    = "api"
   type    = "CNAME"
   ttl     = "60"
   records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
