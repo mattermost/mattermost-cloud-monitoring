@@ -37,3 +37,11 @@ resource "aws_route53_record" "thanos" {
   ttl     = "300"
   records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
 }
+
+resource "aws_route53_record" "blackbox" {
+  zone_id = var.private_hosted_zoneid
+  name    = "blackbox"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+}
