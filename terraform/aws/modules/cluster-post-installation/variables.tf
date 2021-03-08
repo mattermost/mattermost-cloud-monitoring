@@ -41,3 +41,5 @@ variable "prometheus_operator_chart_version" {}
 variable "thanos_chart_version" {}
 
 variable "fluent_bit_chart_version" {}
+
+variable "blackbox_exporter_chart_version" {}
