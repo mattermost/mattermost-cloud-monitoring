@@ -26,6 +26,8 @@ variable "eks_ami_id" {}
 
 variable "key_name" {}
 
+variable "gitlab_cidr" {}
+
 variable "teleport_cidr" {}
 
 variable "cluster_short_name" {}

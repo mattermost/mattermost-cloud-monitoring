@@ -27,6 +27,16 @@ resource "aws_security_group_rule" "master-teleport" {
   type              = "ingress"
 }
 
+resource "aws_security_group_rule" "master-gitlab" {
+  cidr_blocks       = var.gitlab_cidr
+  description       = "Allow gitlab cluster access to master"
+  from_port         = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.cluster-sg.id
+  to_port           = 443
+  type              = "ingress"
+}
+
 resource "aws_security_group_rule" "cluster-ingress-workstation-https" {
   cidr_blocks       = var.cidr_blocks
   description       = "Allow workstation to communicate with the cluster API Server"
