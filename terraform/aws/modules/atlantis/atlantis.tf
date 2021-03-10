@@ -160,7 +160,7 @@ resource "aws_autoscaling_group" "atlantis-asg" {
   launch_configuration = aws_launch_configuration.atlantis-lc.id
   max_size             = var.max_size
   min_size             = var.min_size
-  name                 = "${var.deployment_name}-atlantis-asg"
+  name                 = "${var.atlantis_deployment_name}-atlantis-asg"
   vpc_zone_identifier  = [var.subnet_id]
   termination_policies = ["OldestInstance"]
 
