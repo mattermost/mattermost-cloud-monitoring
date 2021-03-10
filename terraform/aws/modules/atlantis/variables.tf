@@ -2,6 +2,8 @@ variable "region" {}
 
 variable "deployment_name" {}
 
+variable "atlantis_deployment_name" {}
+
 variable "kubeconfig_dir" {}
 
 variable "org_whitelist" {}
