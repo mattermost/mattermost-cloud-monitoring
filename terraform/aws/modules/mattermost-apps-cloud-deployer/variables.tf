@@ -10,7 +10,9 @@ variable "temp_dir" {}
 
 variable "terraform_template_dir" {}
 
-variable "terraform_state_bucket" {}
+variable "mattermost_apps_terraform_state_bucket" {}
+
+variable "mattermost_cloud_monitoring_terraform_state_bucket" {}
 
 variable "apps_assumed_role" {}
 

@@ -45,7 +45,7 @@ resource "kubernetes_cron_job" "mattermost_apps_cloud_deployer_cron" {
 
               env {
                 name  = "TerraformStateBucket"
-                value = var.terraform_state_bucket
+                value = var.mattermost_apps_terraform_state_bucket
               }
 
               env {

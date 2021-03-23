@@ -22,8 +22,8 @@ resource "aws_iam_policy" "mattermost_apps_cloud_deployer_user_policy" {
             ],
             "Resource": [
                 "arn:aws:s3:::${var.static_bucket}",
-                "arn:aws:s3:::${var.terraform_state_bucket}",
-                "arn:aws:s3:::terraform-cloud-monitoring-state-bucket-test"
+                "arn:aws:s3:::${var.mattermost_apps_terraform_state_bucket}",
+                "arn:aws:s3:::${var.mattermost_cloud_monitoring_terraform_state_bucket}"
             ]
         },
         {
@@ -37,7 +37,7 @@ resource "aws_iam_policy" "mattermost_apps_cloud_deployer_user_policy" {
             ],
             "Resource": [
                 "arn:aws:s3:::${var.static_bucket}/*",
-                "arn:aws:s3:::${var.terraform_state_bucket}/*"
+                "arn:aws:s3:::${var.mattermost_apps_terraform_state_bucket}/*"
             ]
         },
         {
@@ -48,7 +48,7 @@ resource "aws_iam_policy" "mattermost_apps_cloud_deployer_user_policy" {
                 "s3:GetObjectVersionAcl"
             ],
             "Resource": [
-                "arn:aws:s3:::terraform-cloud-monitoring-state-bucket-test/*"
+                "arn:aws:s3:::${var.mattermost_cloud_monitoring_terraform_state_bucket}/*"
             ]
         },
         {
