@@ -205,6 +205,8 @@ resource "aws_iam_policy" "ec2" {
                 "ec2:DescribeSecurityGroups",
                 "ec2:CreateVolume",
                 "ec2:CreateLaunchTemplate",
+                "ec2:DeleteLaunchTemplate",
+                "ec2:CreateLaunchTemplateVersion",
                 "ec2:DescribeImages",
                 "ec2:DescribeVpcs",
                 "ec2:AttachNetworkInterface",
