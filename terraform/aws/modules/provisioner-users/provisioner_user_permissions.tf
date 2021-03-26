@@ -303,6 +303,7 @@ resource "aws_iam_policy" "iam" {
                 "iam:ListRoles",
                 "iam:ListInstanceProfiles",
                 "iam:ListRolePolicies",
+                "iam:ListOpenIDConnectProviders",
                 "iam:ListAccountAliases"
             ],
             "Resource": "*"
