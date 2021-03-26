@@ -222,6 +222,7 @@ resource "aws_iam_policy" "ec2" {
                 "elasticloadbalancing:CreateLoadBalancer",
                 "elasticloadbalancing:DescribeTargetGroups",
                 "elasticloadbalancing:DescribeLoadBalancerAttributes",
+                "elasticloadbalancing:DescribeInstanceHealth",
                 "elasticloadbalancing:DescribeLoadBalancers",
                 "elasticloadbalancing:ModifyLoadBalancerAttributes",
                 "elasticloadbalancing:CreateLoadBalancerListeners",
