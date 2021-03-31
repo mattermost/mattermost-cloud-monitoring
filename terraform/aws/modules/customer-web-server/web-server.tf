@@ -396,6 +396,10 @@ resource "kubernetes_secret" "cws_secret" {
     CWS_LICENSE_GENERATOR_KEY       = var.cws_license_generator_key
     CWS_LICENSE_GENERATOR_URL       = var.cws_license_generator_url
     STRIPE_WEBHOOK_SIGNATURE_SECRET = var.cws_stripe_webhook_secret
+    CWS_DESCARTES_USER              = var.cws_descartes_user
+    CWS_DESCARTES_PASS              = var.cws_descartes_pass
+    CWS_DESCARTES_URL               = var.cws_descartes_url
+    CWS_DESCARTES_SOAP_URL          = var.cws_descartes_soap_url
   }
 
   type = "Opaque"
