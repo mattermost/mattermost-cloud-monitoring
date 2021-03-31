@@ -7,10 +7,10 @@ resource "kubernetes_cron_job" "cws_compliance_cron" {
   }
   spec {
     concurrency_policy            = "Forbid"
-    failed_jobs_history_limit     = 2
-    successful_jobs_history_limit = 2
+    failed_jobs_history_limit     = 1
+    successful_jobs_history_limit = 1
     schedule                      = var.cws_compliance_cronjob_schedule
-    suspend                       = true
+    suspend                       = false
 
     job_template {
       metadata {}
