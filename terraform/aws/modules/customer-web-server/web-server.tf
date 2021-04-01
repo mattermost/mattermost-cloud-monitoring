@@ -399,7 +399,6 @@ resource "kubernetes_secret" "cws_secret" {
     CWS_DESCARTES_USER              = var.cws_descartes_user
     CWS_DESCARTES_PASS              = var.cws_descartes_pass
     CWS_DESCARTES_URL               = var.cws_descartes_url
-    CWS_DESCARTES_SOAP_URL          = var.cws_descartes_soap_url
   }
 
   type = "Opaque"

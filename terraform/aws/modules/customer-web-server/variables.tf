@@ -122,5 +122,3 @@ variable "cws_descartes_pass" {}
 
 variable "cws_descartes_url" {}
 
-variable "cws_descartes_soap_url" {}
-

@@ -23,7 +23,7 @@ resource "kubernetes_cron_job" "cws_compliance_cron" {
               name              = "cws-compliance-lookup"
               image             = var.cws_compliance_image
               image_pull_policy = "IfNotPresent"
-              args              = ["compliance", "start", "--compliance-username", "$(CWS_DESCARTES_USER)", "--compliance-password", "$(CWS_DESCARTES_PASS)", "--compliance-soap-url", "$(CWS_DESCARTES_SOAP_URL)", "--database", "$(DATABASE)"]
+              args              = ["compliance", "start", "--compliance-username", "$(CWS_DESCARTES_USER)", "--compliance-password", "$(CWS_DESCARTES_PASS)", "--compliance-url", "$(CWS_DESCARTES_URL)", "--database", "$(DATABASE)"]
 
               env_from {
                 secret_ref {
