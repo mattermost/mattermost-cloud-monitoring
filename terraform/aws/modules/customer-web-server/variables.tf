@@ -110,3 +110,15 @@ variable "enable_portal_internal_r53_record" {}
 
 variable "enable_portal_internal_components" {}
 
+variable "deploy_cws_compliance_cronjob" {}
+
+variable "cws_compliance_cronjob_schedule" {}
+
+variable "cws_compliance_image" {}
+
+variable "cws_descartes_user" {}
+
+variable "cws_descartes_pass" {}
+
+variable "cws_descartes_url" {}
+
