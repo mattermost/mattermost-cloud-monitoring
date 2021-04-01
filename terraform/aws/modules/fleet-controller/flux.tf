@@ -111,7 +111,7 @@ resource "kubernetes_deployment" "flux_fleet_controller_deployment" {
         }
         container {
           name              = "fluxcloud-fleet-controller"
-          image             = "ctadeu/fluxcloud:v0.3.9-mattermost"
+          image             = "tfgco/fluxcloud:v0.6.1"
           image_pull_policy = "IfNotPresent"
           port {
             container_port = "3032"
