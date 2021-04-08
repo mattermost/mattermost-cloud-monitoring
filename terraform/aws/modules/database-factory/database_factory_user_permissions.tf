@@ -13,6 +13,7 @@ resource "aws_iam_policy" "rds_db_factory" {
             "Action": [
                 "rds:CreateDBCluster",
                 "rds:DeleteDBCluster",
+                "rds:ModifyDBCluster",
                 "rds:CreateDBClusterParameterGroup",
                 "rds:ModifyDBClusterParameterGroup",
                 "rds:DescribeDBClusterParameterGroups",
