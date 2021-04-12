@@ -51,7 +51,7 @@ func deleteAMIs(svc *ec2.EC2, uniqueUsedImages []string) error {
 		},
 		Filters: []*ec2.Filter{
 			{
-				Name:   aws.String("tag:Name"),
+				Name:   aws.String("name"),
 				Values: []*string{aws.String("mattermost-cloud-*")},
 			},
 		},
