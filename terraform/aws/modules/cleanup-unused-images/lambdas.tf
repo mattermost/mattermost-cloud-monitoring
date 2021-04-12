@@ -17,7 +17,7 @@ resource "aws_lambda_function" "deckhand" {
   environment {
     variables = {
       "REGION"   = var.region
-      "OWNER_ID" = var.account_id
+      "OWNER_ID" = data.aws_caller_identity.current.account_id
     }
   }
 
