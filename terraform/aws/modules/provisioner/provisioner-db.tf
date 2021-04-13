@@ -84,3 +84,42 @@ resource "aws_db_instance" "provisioner" {
     ]
   }
 }
+
+resource "aws_db_instance" "provisioner_read_replica" {
+  identifier                  = local.db_identifier_read_replica
+  name                        = local.db_name_read_replica
+  instance_class              = var.db_instance_class
+  storage_type                = "gp2"
+  storage_encrypted           = var.storage_encrypted
+  allow_major_version_upgrade = false
+  auto_minor_version_upgrade  = true
+  apply_immediately           = true
+  deletion_protection         = var.db_deletion_protection
+
+  # networking
+  db_subnet_group_name   = aws_db_subnet_group.subnets_db.name
+  vpc_security_group_ids = [aws_security_group.cec_to_postgress.id]
+  publicly_accessible    = false
+
+  # backup & maintenance
+  backup_retention_period   = var.db_backup_retention_period
+  backup_window             = var.db_backup_window
+  maintenance_window        = var.db_maintenance_window
+  final_snapshot_identifier = "provisioner-final-${local.db_name_read_replica}-${local.timestamp_now}"
+  snapshot_identifier       = var.snapshot_identifier
+  skip_final_snapshot       = false
+
+  # replication read replica
+  replicate_source_db = aws_db_instance.provisioner.identifier
+
+  tags = {
+    Name        = "Provisioner"
+    Environment = var.environment
+  }
+
+  lifecycle {
+    ignore_changes = [
+      final_snapshot_identifier,
+    ]
+  }
+}
