@@ -72,6 +72,7 @@ resource "aws_db_instance" "provisioner" {
   publicly_accessible         = false
   snapshot_identifier         = var.snapshot_identifier
   storage_encrypted           = var.storage_encrypted
+  availability_zone           = var.db_master_az
 
   tags = {
     Name        = "Provisioner"
@@ -97,17 +98,12 @@ resource "aws_db_instance" "provisioner_read_replica" {
   deletion_protection         = var.db_deletion_protection
 
   # networking
-  db_subnet_group_name   = aws_db_subnet_group.subnets_db.name
   vpc_security_group_ids = [aws_security_group.cec_to_postgress.id]
   publicly_accessible    = false
+  availability_zone      = var.db_read_replica_az
 
   # backup & maintenance
-  backup_retention_period   = var.db_backup_retention_period
-  backup_window             = var.db_backup_window
-  maintenance_window        = var.db_maintenance_window
-  final_snapshot_identifier = "provisioner-final-${local.db_name_read_replica}-${local.timestamp_now}"
-  snapshot_identifier       = var.snapshot_identifier
-  skip_final_snapshot       = false
+  maintenance_window = var.db_maintenance_window
 
   # replication read replica
   replicate_source_db = aws_db_instance.provisioner.identifier
