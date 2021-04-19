@@ -81,6 +81,7 @@ resource "aws_db_instance" "cws_postgres" {
   skip_final_snapshot         = false
   maintenance_window          = var.cws_db_maintenance_window
   publicly_accessible         = false
+  availability_zone           = var.cws_db_master_az
   # snapshot_identifier         = var.cws_snapshot_identifier
   storage_encrypted = var.cws_storage_encrypted
 
@@ -102,16 +103,12 @@ resource "aws_db_instance" "cws_postgres_read_replica" {
   deletion_protection         = true
 
   # networking
-  db_subnet_group_name   = aws_db_subnet_group.cws_subnets_db.name
   vpc_security_group_ids = [aws_security_group.cws_postgres_sg.id]
   publicly_accessible    = false
+  availability_zone      = var.cws_db_read_replica_az
 
   # backup & maintenance
-  backup_retention_period   = var.cws_db_backup_retention_period
-  backup_window             = var.cws_db_backup_window
-  maintenance_window        = var.cws_db_maintenance_window
-  final_snapshot_identifier = "customer-web-server-final-${local.db_name_read_replica}-${local.timestamp_now}"
-  skip_final_snapshot       = false
+  maintenance_window = var.cws_db_maintenance_window
 
   # replication read replica
   replicate_source_db = aws_db_instance.cws_postgres.identifier

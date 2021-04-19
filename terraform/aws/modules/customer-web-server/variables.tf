@@ -26,6 +26,10 @@ variable "cws_db_engine_version" {}
 
 variable "cws_db_instance_class" {}
 
+variable "cws_db_master_az" {}
+
+variable "cws_db_read_replica_az" {}
+
 variable "cws_db_name" {}
 
 variable "cws_db_username" {}

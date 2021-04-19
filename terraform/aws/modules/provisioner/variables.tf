@@ -14,6 +14,10 @@ variable "db_engine_version" {}
 
 variable "db_instance_class" {}
 
+variable "db_master_az" {}
+
+variable "db_read_replica_az" {}
+
 variable "db_name" {}
 
 variable "db_username" {}
