@@ -93,7 +93,7 @@ resource "aws_db_instance" "cws_postgres" {
 
 resource "aws_db_instance" "cws_postgres_read_replica" {
   identifier                  = local.db_identifier_read_replica
-  name                        = local.db_name_read_replica
+  name                        = var.cws_db_name
   instance_class              = var.cws_db_instance_class
   storage_type                = "gp2"
   storage_encrypted           = var.cws_storage_encrypted

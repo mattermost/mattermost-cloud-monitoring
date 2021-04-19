@@ -23,7 +23,6 @@ locals {
 
 locals {
   db_identifier_read_replica = "${var.db_identifier}-read"
-  db_name_read_replica       = "${var.db_name}-read"
 }
 
 resource "aws_iam_access_key" "provisioner_user" {
