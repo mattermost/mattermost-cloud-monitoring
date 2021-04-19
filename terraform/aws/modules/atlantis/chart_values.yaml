@@ -44,10 +44,10 @@ orgWhitelist: ""
 # Default values for atlantis (override as needed).
 ## -------------------------- ##
 
-# image:
-#   repository: runatlantis/atlantis
-#   tag: v0.11.1
-#   pullPolicy: IfNotPresent
+image:
+  repository: runatlantis/atlantis
+  tag: v0.16.1
+  pullPolicy: IfNotPresent
 
 ## Use Server Side Repo Config,
 ## ref: https://www.runatlantis.io/docs/server-side-repo-config.html
@@ -68,53 +68,43 @@ repoConfig: |
    core:
      plan:
        steps:
-       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
-       - run: rm -rf .terraform && AWS_PROFILE="AWS_CORE" /home/atlantis/terraform init
-       - run: AWS_PROFILE="AWS_CORE" /home/atlantis/terraform plan --out=/tmp/plan_core
+       - run: AWS_PROFILE="AWS_CORE" terraform init
+       - run: AWS_PROFILE="AWS_CORE" terraform plan
      apply:
        steps:
-       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
-       - run: AWS_PROFILE="AWS_CORE" /home/atlantis/terraform apply --out=/tmp/plan_core
+       - run: AWS_PROFILE="AWS_CORE" terraform apply -auto-aprove
    dev:
      plan:
        steps:
-       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
-       - run: rm -rf .terraform && AWS_PROFILE="AWS_DEV" /home/atlantis/terraform init
-       - run: AWS_PROFILE="AWS_DEV" /home/atlantis/terraform plan --out=/tmp/plan_dev
+       - run: AWS_PROFILE="AWS_DEV" terraform init
+       - run: AWS_PROFILE="AWS_DEV" terraform plan
      apply:
        steps:
-       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
-       - run: AWS_PROFILE="AWS_DEV" /home/atlantis/terraform apply --out=/tmp/plan_dev
+       - run: AWS_PROFILE="AWS_DEV" terraform apply -auto-aprove
    test:
      plan:
        steps:
-       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
-       - run: rm -rf .terraform && AWS_PROFILE="AWS_TEST" /home/atlantis/terraform init
-       - run: AWS_PROFILE="AWS_TEST" /home/atlantis/terraform plan --out=/tmp/plan_test
+       - run: AWS_PROFILE="AWS_TEST" terraform init
+       - run: AWS_PROFILE="AWS_TEST" terraform plan
      apply:
        steps:
-       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
-       - run: AWS_PROFILE="AWS_TEST" /home/atlantis/terraform apply --out=/tmp/plan_test
+       - run: AWS_PROFILE="AWS_TEST" terraform apply -auto-aprove
    staging:
      plan:
        steps:
-       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
-       - run: rm -rf .terraform && AWS_PROFILE="AWS_STAGING" /home/atlantis/terraform init
-       - run: AWS_PROFILE="AWS_STAGING" /home/atlantis/terraform plan --out=/tmp/plan_stag
+       - run: AWS_PROFILE="AWS_STAGING" terraform init
+       - run: AWS_PROFILE="AWS_STAGING" terraform plan
      apply:
        steps:
-       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
-       - run: AWS_PROFILE="AWS_STAGING" /home/atlantis/terraform apply --out=/tmp/plan_stag
+       - run: AWS_PROFILE="AWS_STAGING" terraform apply -auto-aprove
    prod:
      plan:
        steps:
-       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
-       - run: rm -rf .terraform && AWS_PROFILE="AWS_PROD" /home/atlantis/terraform init
-       - run: AWS_PROFILE="AWS_PROD" /home/atlantis/terraform plan --out=/tmp/plan_prod
+       - run: AWS_PROFILE="AWS_PROD" terraform init
+       - run: AWS_PROFILE="AWS_PROD" terraform plan
      apply:
        steps:
-       - run: "cd /home/atlantis/ && curl https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip --output /home/atlantis/tf.zip && unzip -n /home/atlantis/tf.zip -d /home/atlantis"
-       - run: AWS_PROFILE="AWS_PROD" /home/atlantis/terraform apply --out=/tmp/plan_prod
+       - run: AWS_PROFILE="AWS_PROD" terraform apply -auto-aprove
 # allowForkPRs enables atlantis to run on a fork Pull Requests
 allowForkPRs: false
 
@@ -166,10 +156,10 @@ ingress:
 resources:
   requests:
     memory: 1Gi
-    cpu: 300m
+    cpu: 500m
   limits:
     memory: 1Gi
-    cpu: 500m
+    cpu: 1000m
 
 # Disk space for Atlantis to check out repositories
 dataStorage: 20Gi
