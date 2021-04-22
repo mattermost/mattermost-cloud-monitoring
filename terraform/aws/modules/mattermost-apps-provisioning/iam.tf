@@ -42,14 +42,8 @@ resource "aws_iam_policy" "mattermost_apps_cloud_invoke_policy" {
         {
             "Effect": "Allow",
             "Action": [
-                "s3:ListAllMyBuckets"
-            ],
-            "Resource": "arn:aws:s3:::*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
                 "s3:ListBucket",
+                "s3:ListBucketVersions",
                 "s3:GetBucketLocation"
             ],
             "Resource": [
