@@ -6,7 +6,5 @@ variable "deployment_name" {}
 
 variable "region" {}
 
-variable "account_id" {}
-
 variable "bucket" {}
 
