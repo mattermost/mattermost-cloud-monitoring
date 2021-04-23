@@ -2,7 +2,7 @@
 
 resource "aws_acm_certificate" "private_cert" {
   domain_name               = "*.${var.priv_domain}"
-  subject_alternative_names = var.alternative_cert_domains
+  subject_alternative_names = var.priv_alternative_cert_domains
   validation_method         = "DNS"
 
   tags = merge({
@@ -25,7 +25,7 @@ resource "aws_route53_record" "private_cert_validation" {
     }
   }
 
-  zone_id = var.validation_acm_zoneid
+  zone_id = var.priv_validation_acm_zoneid
   name    = each.value.name
   type    = each.value.type
   ttl     = "300"

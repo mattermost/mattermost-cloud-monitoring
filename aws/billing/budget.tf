@@ -11,7 +11,7 @@ resource "aws_budgets_budget" "cloud_budget" {
     threshold                  = var.threshold
     threshold_type             = "PERCENTAGE"
     notification_type          = "ACTUAL"
-    subscriber_email_addresses = [var.emails]
-    subscriber_sns_topic_arns  = [var.sns_topic_arns]
+    subscriber_email_addresses = var.emails
+    subscriber_sns_topic_arns  = var.sns_topic_arns
   }
 }

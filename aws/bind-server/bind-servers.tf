@@ -8,7 +8,7 @@ resource "aws_security_group" "bind_sg" {
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
-    cidr_blocks = var.cidr_blocks
+    cidr_blocks = var.udp_cidr_blocks
   }
 
   ingress {
