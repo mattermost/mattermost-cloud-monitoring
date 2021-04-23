@@ -1,6 +1,6 @@
 variable "deployment_name" {
   type        = string
-  description = "The name of the deployment name which be used for launch configuration"
+  description = "The name of the deployment name which be used for EKS cluster"
 }
 
 variable "kubeconfig_dir" {
