@@ -1,0 +1,11 @@
+domain                = "internal.mattermost.com"
+pub_domain            = "mattermost.com"
+prometheus_domain     = "prometheus.internal.mattermost.com"
+thanos_domain         = "thanos.internal.mattermost.com"
+validation_acm_zoneid = "Z2OUVQU7PCG13Q"
+public_tags = {
+  PublicTeamCertificates = "true"
+}
+private_tags = {
+  TeamCertificates = "true"
+}

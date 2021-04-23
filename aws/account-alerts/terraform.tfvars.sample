@@ -1,0 +1,3 @@
+region          = "us-east-1"
+metrics         = ["AllocatedStorageUtilization", "ApplicationLoadBalancersUtilization"]
+alarm_threshold = 80

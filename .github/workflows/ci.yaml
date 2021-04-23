@@ -1,0 +1,20 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup
+        run: make setup
+
+      - name: Lint
+        run: make lint

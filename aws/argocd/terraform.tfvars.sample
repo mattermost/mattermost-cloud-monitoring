@@ -1,0 +1,2 @@
+argocd_chart_version        = "3.33.5"
+argo_chart_values_directory = "charts-values/argod.yaml"
