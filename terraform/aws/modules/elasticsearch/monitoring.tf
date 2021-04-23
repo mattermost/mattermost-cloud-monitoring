@@ -1,4 +1,3 @@
-
 resource "aws_cloudwatch_metric_alarm" "cluster_status_is_red" {
   count               = var.monitor_cluster_status_is_red ? 1 : 0
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-ClusterStatusIsRed${var.alarm_name_postfix}"
@@ -16,6 +15,7 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_red" {
 
   dimensions = {
     DomainName = var.domain_name
+    ClientId   = data.aws_caller_identity.current.account_id
   }
 }
 
@@ -36,6 +36,7 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_yellow" {
 
   dimensions = {
     DomainName = var.domain_name
+    ClientId   = data.aws_caller_identity.current.account_id
   }
 }
 
@@ -56,6 +57,7 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_too_low" {
 
   dimensions = {
     DomainName = var.domain_name
+    ClientId   = data.aws_caller_identity.current.account_id
   }
 }
 
