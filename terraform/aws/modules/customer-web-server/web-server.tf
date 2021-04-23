@@ -86,8 +86,9 @@ resource "aws_db_instance" "cws_postgres" {
   storage_encrypted = var.cws_storage_encrypted
 
   tags = {
-    Name        = "customer-web-server"
-    Environment = var.environment
+    Name         = "customer-web-server"
+    Environment  = var.environment
+    DatabaseType = "cws"
   }
 }
 
@@ -114,8 +115,9 @@ resource "aws_db_instance" "cws_postgres_read_replica" {
   replicate_source_db = aws_db_instance.cws_postgres.identifier
 
   tags = {
-    Name        = "customer-web-server"
-    Environment = var.environment
+    Name         = "customer-web-server"
+    Environment  = var.environment
+    DatabaseType = "cws"
   }
 }
 

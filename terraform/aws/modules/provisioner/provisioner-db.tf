@@ -75,8 +75,9 @@ resource "aws_db_instance" "provisioner" {
   availability_zone           = var.db_master_az
 
   tags = {
-    Name        = "Provisioner"
-    Environment = var.environment
+    Name         = "Provisioner"
+    Environment  = var.environment
+    DatabaseType = "provisioner"
   }
 
   lifecycle {
@@ -109,8 +110,9 @@ resource "aws_db_instance" "provisioner_read_replica" {
   replicate_source_db = aws_db_instance.provisioner.identifier
 
   tags = {
-    Name        = "Provisioner"
-    Environment = var.environment
+    Name         = "Provisioner"
+    Environment  = var.environment
+    DatabaseType = "provisioner"
   }
 
   lifecycle {
