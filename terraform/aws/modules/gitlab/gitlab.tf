@@ -88,6 +88,10 @@ resource "helm_release" "gitlab" {
     name  = "global.smtp.user_name"
     value = var.smtp_user_name
   }
+  set {
+    name  = "global.serviceAccount.name"
+    value = "default"
+  }
 
 
   depends_on = [
