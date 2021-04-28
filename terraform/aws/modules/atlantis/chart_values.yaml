@@ -72,7 +72,7 @@ repoConfig: |
        - run: AWS_PROFILE="AWS_CORE" terraform plan
      apply:
        steps:
-       - run: AWS_PROFILE="AWS_CORE" terraform apply -auto-aprove
+       - run: AWS_PROFILE="AWS_CORE" terraform apply -auto-approve
    dev:
      plan:
        steps:
@@ -80,7 +80,7 @@ repoConfig: |
        - run: AWS_PROFILE="AWS_DEV" terraform plan
      apply:
        steps:
-       - run: AWS_PROFILE="AWS_DEV" terraform apply -auto-aprove
+       - run: AWS_PROFILE="AWS_DEV" terraform apply -auto-approve
    test:
      plan:
        steps:
@@ -88,7 +88,7 @@ repoConfig: |
        - run: AWS_PROFILE="AWS_TEST" terraform plan
      apply:
        steps:
-       - run: AWS_PROFILE="AWS_TEST" terraform apply -auto-aprove
+       - run: AWS_PROFILE="AWS_TEST" terraform apply -auto-approve
    staging:
      plan:
        steps:
@@ -96,7 +96,7 @@ repoConfig: |
        - run: AWS_PROFILE="AWS_STAGING" terraform plan
      apply:
        steps:
-       - run: AWS_PROFILE="AWS_STAGING" terraform apply -auto-aprove
+       - run: AWS_PROFILE="AWS_STAGING" terraform apply -auto-approve
    prod:
      plan:
        steps:
@@ -104,7 +104,7 @@ repoConfig: |
        - run: AWS_PROFILE="AWS_PROD" terraform plan
      apply:
        steps:
-       - run: AWS_PROFILE="AWS_PROD" terraform apply -auto-aprove
+       - run: AWS_PROFILE="AWS_PROD" terraform apply -auto-approve
 # allowForkPRs enables atlantis to run on a fork Pull Requests
 allowForkPRs: false
 
