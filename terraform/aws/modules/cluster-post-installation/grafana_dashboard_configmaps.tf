@@ -207,3 +207,17 @@ resource "kubernetes_config_map" "bind_dns" {
     "bind_dns.json" = file("../../../../grafana-dashboards/bind_dns.json")
   }
 }
+
+resource "kubernetes_config_map" "fluentbit" {
+  metadata {
+    name      = "fluentbit-dashboard"
+    namespace = "monitoring"
+    labels = {
+      cloud_dashboards = "fluentbit"
+    }
+  }
+
+  data = {
+    "fluentbit.json" = file("../../../../grafana-dashboards/fluentbit.json")
+  }
+}
