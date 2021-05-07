@@ -182,3 +182,25 @@ resource "aws_cloudwatch_metric_alarm" "master_jvm_memory_pressure_too_high" {
     ClientId   = data.aws_caller_identity.current.account_id
   }
 }
+
+
+resource "aws_cloudwatch_metric_alarm" "master_not_reachable_from_node" {
+  count               = var.monitor_master_not_reachable_from_node ? 1 : 0
+  alarm_name          = "${var.alarm_name_prefix}ElasticSearch-MasterNotReachableFromNode${var.alarm_name_postfix}"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  evaluation_periods  = "1"
+  metric_name         = "MasterReachableFromNode"
+  namespace           = "AWS/ES"
+  period              = "600"
+  statistic           = "Minimum"
+  threshold           = 0
+  alarm_description   = "Elasticsearch master not reachable for 10 minutes"
+  alarm_actions       = [local.aws_sns_topic_arn]
+  ok_actions          = [local.aws_sns_topic_arn]
+  treat_missing_data  = "ignore"
+
+  dimensions = {
+    DomainName = var.domain_name
+    ClientId   = data.aws_caller_identity.current.account_id
+  }
+}

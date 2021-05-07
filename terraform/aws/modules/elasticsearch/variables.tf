@@ -101,6 +101,12 @@ variable "monitor_master_jvm_memory_pressure_too_high" {
   default     = true
 }
 
+variable "monitor_master_not_reachable_from_node" {
+  description = "Enable monitoring when master is not reachable from nodes"
+  type        = bool
+  default     = true
+}
+
 variable "free_storage_space_threshold" {
   description = "The minimum amount of available storage space in MegaByte."
   type        = number
