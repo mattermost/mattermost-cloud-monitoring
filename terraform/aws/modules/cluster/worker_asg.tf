@@ -60,6 +60,9 @@ resource "aws_autoscaling_group" "worker-asg" {
     value               = "on"
     propagate_at_launch = false
   }
+  lifecycle {
+    ignore_changes = [desired_capacity] # Handled by the cluster autoscaler
+  }
 }
 
 locals {
