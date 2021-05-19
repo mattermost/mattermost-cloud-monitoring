@@ -72,8 +72,8 @@ resource "aws_iam_policy" "mattermost_apps_cloud_invoke_policy" {
                 "lambda:InvokeFunction"
             ],
             "Resource": [
-              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:license-test-validate-license",
-              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:license-test-generate-license",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:license-${var.environment}-validate-license",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:license-${var.environment}-generate-license",
               "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:deckhand",
               "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:rds-cluster-events",
               "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:account-alerts",
