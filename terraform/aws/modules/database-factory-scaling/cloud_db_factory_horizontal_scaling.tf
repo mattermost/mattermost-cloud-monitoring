@@ -8,7 +8,7 @@ resource "kubernetes_cron_job" "cloud_db_factory_horizontal_scaling_cron" {
     failed_jobs_history_limit     = 5
     successful_jobs_history_limit = 2
     schedule                      = var.horizontal_scaling_cronjob_schedule
-    suspend                       = false
+    suspend                       = var.horizontal_scaling_cronjob_suspend
 
     job_template {
       metadata {}
