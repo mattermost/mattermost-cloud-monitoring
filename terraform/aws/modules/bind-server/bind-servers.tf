@@ -53,12 +53,19 @@ resource "aws_key_pair" "bind" {
   public_key = var.ssh_key_public
 }
 
-resource "aws_launch_configuration" "bind_lauch_configuration" {
+resource "aws_launch_configuration" "bind_launch_configuration" {
   name_prefix     = "${var.name}-"
   image_id        = var.ami
   instance_type   = var.instance_type
   key_name        = "mattermost-cloud-${var.environment}-bind"
   security_groups = [aws_security_group.bind_sg.id]
+
+  root_block_device {
+    volume_size           = var.volume_size
+    volume_type           = var.volume_type
+    delete_on_termination = true
+  }
+
   lifecycle {
     create_before_destroy = true
   }
@@ -66,7 +73,7 @@ resource "aws_launch_configuration" "bind_lauch_configuration" {
 
 resource "aws_autoscaling_group" "bind_autoscale" {
   name                      = "autoscale-bind-server"
-  launch_configuration      = aws_launch_configuration.bind_lauch_configuration.name
+  launch_configuration      = aws_launch_configuration.bind_launch_configuration.name
   min_size                  = 3
   max_size                  = 3
   desired_capacity          = 3
