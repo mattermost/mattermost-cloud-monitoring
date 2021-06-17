@@ -69,6 +69,14 @@ resource "aws_route53_record" "provisioner" {
   records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
 }
 
+resource "aws_route53_record" "awat" {
+  zone_id = var.private_hosted_zoneid
+  name    = "awat"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+}
+
 resource "aws_route53_record" "customer_web_server" {
   count = var.enable_portal_r53_record ? 1 : 0
 
