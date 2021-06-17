@@ -1,6 +1,6 @@
 resource "aws_iam_user" "awat_user" {
-  name     = "mattermost-awat-${var.environment}"
-  path     = "/"
+  name = "mattermost-awat-${var.environment}"
+  path = "/"
 }
 
 resource "aws_iam_policy" "s3" {
