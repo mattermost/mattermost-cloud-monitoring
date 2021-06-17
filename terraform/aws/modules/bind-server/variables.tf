@@ -41,3 +41,16 @@ variable "environment" {}
 variable "ssh_key_public" {}
 
 variable "teleport_cidr" {}
+
+variable "volume_size" {
+  description = "The size of the volume for DNS Bind Servers"
+  default     = 8
+  type        = number
+}
+
+variable "volume_type" {
+  description = "The type of the volume for DNS Bind Servers"
+  default     = "gp2"
+  type        = string
+}
+

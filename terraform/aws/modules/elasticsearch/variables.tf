@@ -30,6 +30,11 @@ variable "mattermost_network" {}
 
 variable "private_hosted_zoneid" {}
 
+variable "custom_endpoint_enabled" {
+  type    = bool
+  default = true
+}
+
 variable "cw_retention_in_days" {
   type    = string
   default = "90"

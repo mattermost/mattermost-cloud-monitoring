@@ -1,3 +1,7 @@
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
+
 resource "aws_iam_role" "lambda_role" {
   name = "${var.deployment_name}-lambda-role"
 
@@ -59,6 +63,28 @@ resource "aws_iam_policy" "mattermost_apps_cloud_invoke_policy" {
             ],
             "Resource": [
                 "${aws_s3_bucket.bucket.arn}/*"
+            ]
+        },
+        {
+            "Sid": "DenyLamda",
+            "Effect": "Deny",
+            "Action": [
+                "lambda:InvokeFunction"
+            ],
+            "Resource": [
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:license-${var.environment}-validate-license",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:license-${var.environment}-generate-license",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:deckhand",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:rds-cluster-events",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:account-alerts",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:grafana-aws-metrics",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:create-elb-cloudwatch-alarm",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:receive-elb-cloudwatch-alarm",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:create-rds-cloudwatch-alarm",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:cloud-server-auth",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:AWSBudget-Mattermost",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:bind-server-network-attachment",
+              "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:Cloud-${title(var.environment)}-Health"
             ]
         },
         {

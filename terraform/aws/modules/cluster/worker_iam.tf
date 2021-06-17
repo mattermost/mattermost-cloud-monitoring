@@ -101,6 +101,31 @@ resource "aws_iam_policy" "cluster_autoscaler_policy" {
 EOF
 }
 
+resource "aws_iam_policy" "cost_explorer_policy" {
+  name        = "cloud-${var.cluster_short_name}-cost-explorer-policy"
+  path        = "/"
+  description = "Policy for cost explorer required permissions."
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "ce:*",
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "worker_cost_explorer_policy" {
+  policy_arn = aws_iam_policy.cost_explorer_policy.arn
+  role       = aws_iam_role.worker-role.name
+}
+
 resource "aws_iam_role_policy_attachment" "worker_cluster_autoscaler_policy" {
   policy_arn = aws_iam_policy.cluster_autoscaler_policy.arn
   role       = aws_iam_role.worker-role.name

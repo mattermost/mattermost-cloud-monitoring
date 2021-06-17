@@ -46,5 +46,3 @@ variable "provider_role_arn" {
 variable "cnc_user" {}
 
 variable "log_types" {}
-
-variable "aws_profile" {}
