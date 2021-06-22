@@ -1,3 +1,7 @@
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
+
 resource "aws_iam_policy" "rds_db_factory" {
   name        = "mattermost-database-factory-rds-policy"
   path        = "/"
@@ -28,12 +32,12 @@ resource "aws_iam_policy" "rds_db_factory" {
 
             ],
             "Resource": [
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster:rds-cluster-multitenant-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster-pg:rds-cluster-multitenant-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:pg:rds-cluster-multitenant-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster-pg:mattermost-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:db:rds-db-instance-multitenant-*"
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster:rds-cluster-multitenant-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster-pg:rds-cluster-multitenant-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:pg:rds-cluster-multitenant-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster-pg:mattermost-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:db:rds-db-instance-multitenant-*"
             ]
         },
         {
@@ -116,7 +120,7 @@ resource "aws_iam_policy" "secrets_manager_db_factory" {
                 "secretsmanager:DescribeSecret",
                 "secretsmanager:DeleteSecret"
             ],
-            "Resource": "arn:aws:secretsmanager:us-east-1:${data.aws_caller_identity.current.account_id}:secret:rds-cluster-multitenant-*"
+            "Resource": "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:rds-cluster-multitenant-*"
         },
         {
             "Sid": "secrets1",
