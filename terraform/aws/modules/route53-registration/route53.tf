@@ -70,6 +70,8 @@ resource "aws_route53_record" "provisioner" {
 }
 
 resource "aws_route53_record" "awat" {
+  count = var.enable_awat_record ? 1 : 0
+
   zone_id = var.private_hosted_zoneid
   name    = "awat"
   type    = "CNAME"
@@ -78,7 +80,7 @@ resource "aws_route53_record" "awat" {
 }
 
 resource "aws_route53_record" "customer_web_server" {
-  count = var.enable_portal_r53_record ? 1 : 0
+  count = var.enable_portal_public_r53_record ? 1 : 0
 
   zone_id = var.public_hosted_zoneid
   name    = "portal"
@@ -88,7 +90,7 @@ resource "aws_route53_record" "customer_web_server" {
 }
 
 resource "aws_route53_record" "customer_web_server_internal" {
-  count = var.enable_portal_r53_record ? 1 : 0
+  count = var.enable_portal_private_r53_record ? 1 : 0
 
   zone_id = var.private_hosted_zoneid
   name    = "portal"
