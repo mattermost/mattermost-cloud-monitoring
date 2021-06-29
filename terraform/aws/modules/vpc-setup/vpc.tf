@@ -19,7 +19,8 @@ resource "aws_vpc" "vpc_creation" {
       # Ignore changes to tag Available
       tags["Available"],
       tags["CloudClusterID"],
-      tags["CloudClusterOwner"]
+      tags["CloudClusterOwner"],
+      tags["CloudSecondaryClusterID"]
     ]
   }
 }
