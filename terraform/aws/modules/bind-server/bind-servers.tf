@@ -1,3 +1,7 @@
+data "aws_region" "current" {}
+
+data "aws_caller_identity" "current" {}
+
 # The SG of the bind server
 resource "aws_security_group" "bind_sg" {
   name        = "Bind Server SG"
