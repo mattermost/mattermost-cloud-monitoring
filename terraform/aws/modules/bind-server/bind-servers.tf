@@ -1,3 +1,7 @@
+data "aws_region" "current" {}
+
+data "aws_caller_identity" "current" {}
+
 # The SG of the bind server
 resource "aws_security_group" "bind_sg" {
   name        = "Bind Server SG"
@@ -54,11 +58,12 @@ resource "aws_key_pair" "bind" {
 }
 
 resource "aws_launch_configuration" "bind_launch_configuration" {
-  name_prefix     = "${var.name}-"
-  image_id        = var.ami
-  instance_type   = var.instance_type
-  key_name        = "mattermost-cloud-${var.environment}-bind"
-  security_groups = [aws_security_group.bind_sg.id]
+  iam_instance_profile = aws_iam_instance_profile.bind-server-instance-profile.name
+  name_prefix          = "${var.name}-"
+  image_id             = var.ami
+  instance_type        = var.instance_type
+  key_name             = "mattermost-cloud-${var.environment}-bind"
+  security_groups      = [aws_security_group.bind_sg.id]
 
   root_block_device {
     volume_size           = var.volume_size
@@ -117,4 +122,35 @@ resource "aws_network_interface" "bind_network_interface" {
   tags = {
     BindServer = "true"
   }
+}
+
+resource "aws_iam_instance_profile" "bind-server-instance-profile" {
+  name = "${var.environment}-bind-server-instance-profile"
+  role = aws_iam_role.bind-server-role.name
+}
+
+resource "aws_iam_role" "bind-server-role" {
+  name = "${var.environment}-bind-server-role"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "bind-cloudwatch-agent" {
+  count = length(local.role_policy_arn)
+
+  role       = aws_iam_role.bind-server-role.name
+  policy_arn = element(local.role_policy_arn, count.index)
 }

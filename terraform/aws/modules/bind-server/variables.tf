@@ -54,3 +54,9 @@ variable "volume_type" {
   type        = string
 }
 
+variable "hosts_list" {
+  description = "The list of bind servers hosts"
+  default     = []
+  type        = list(string)
+}
+
