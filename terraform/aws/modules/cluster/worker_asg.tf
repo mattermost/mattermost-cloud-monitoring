@@ -26,21 +26,21 @@ data:
 CONFIGMAPAWSAUTH
 }
 
-module managed_node_group {
-  source                            = "github.com/mattermost/mattermost-cloud-monitoring/terraform/aws/modules/eks-managed-node-groups"
-  vpc_security_group_ids            = [aws_security_group.worker-sg.id]
-  volume_size                       = var.node_volume_size
-  volume_type                       = var.node_volume_type
-  image_id                          = var.eks_ami_id
-  instance_type                     = var.instance_type
-  user_data                         = base64encode(local.worker-userdata)
-  cluster_name                      = aws_eks_cluster.cluster.name
-  node_role_arn                     = aws_iam_role.worker-role.arn
-  subnet_ids                        = flatten(var.private_subnet_ids)
-  deployment_name                   = var.deployment_name
-  desired_size                      = var.desired_size
-  max_size                          = var.max_size
-  min_size                          = var.min_size
-  node_group_name                   = var.node_group_name
-  cluster_short_name                = var.cluster_short_name
+module "managed_node_group" {
+  source                 = "github.com/mattermost/mattermost-cloud-monitoring/terraform/aws/modules/eks-managed-node-groups"
+  vpc_security_group_ids = [aws_security_group.worker-sg.id]
+  volume_size            = var.node_volume_size
+  volume_type            = var.node_volume_type
+  image_id               = var.eks_ami_id
+  instance_type          = var.instance_type
+  user_data              = base64encode(local.worker-userdata)
+  cluster_name           = aws_eks_cluster.cluster.name
+  node_role_arn          = aws_iam_role.worker-role.arn
+  subnet_ids             = flatten(var.private_subnet_ids)
+  deployment_name        = var.deployment_name
+  desired_size           = var.desired_size
+  max_size               = var.max_size
+  min_size               = var.min_size
+  node_group_name        = var.node_group_name
+  cluster_short_name     = var.cluster_short_name
 }
