@@ -12,7 +12,7 @@ variable "max_size" {}
 
 variable "min_size" {}
 
-variable "desired_capacity" {}
+variable "desired_size" {}
 
 variable "cidr_blocks" {}
 
@@ -35,3 +35,9 @@ variable "worker_private_subnet_ids" {}
 variable "cluster_short_name" {}
 
 variable "log_types" {}
+
+variable "node_volume_size" {}
+
+variable "node_volume_type" {}
+
+variable "node_group_name" {}

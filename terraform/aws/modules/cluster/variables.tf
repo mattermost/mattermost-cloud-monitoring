@@ -12,7 +12,7 @@ variable "max_size" {}
 
 variable "min_size" {}
 
-variable "desired_capacity" {}
+variable "desired_size" {}
 
 variable "cidr_blocks" {}
 
@@ -46,3 +46,9 @@ variable "provider_role_arn" {
 variable "cnc_user" {}
 
 variable "log_types" {}
+
+variable "node_volume_size" {}
+
+variable "node_volume_type" {}
+
+variable "node_group_name" {}
