@@ -65,10 +65,10 @@ resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
   subnet_ids = flatten(var.private_subnet_ids)
 
   tags = {
-    "Name": "${var.deployment_name}-worker",
-    "kubernetes.io/cluster/${var.deployment_name}": "owned",
-    "k8s.io/cluster-autoscaler/enabled": "on",
-    "k8s.io/cluster-autoscaler/${var.deployment_name}": "on"
+    "Name" : "${var.deployment_name}-worker",
+    "kubernetes.io/cluster/${var.deployment_name}" : "owned",
+    "k8s.io/cluster-autoscaler/enabled" : "on",
+    "k8s.io/cluster-autoscaler/${var.deployment_name}" : "on"
   }
 
   labels = {
