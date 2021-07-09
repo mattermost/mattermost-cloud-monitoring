@@ -13,7 +13,7 @@ resource "aws_route53_record" "gitlab_record" {
   name    = "gitlab"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.gitlab_nginx.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.gitlab_nginx.status.0.load_balancer.0.ingress.0.hostname]
 
   depends_on = [
     helm_release.gitlab,
@@ -26,7 +26,7 @@ resource "aws_route53_record" "registry_record" {
   name    = "registry"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.gitlab_nginx.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.gitlab_nginx.status.0.load_balancer.0.ingress.0.hostname]
 
   depends_on = [
     helm_release.gitlab,
