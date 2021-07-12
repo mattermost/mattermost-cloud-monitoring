@@ -101,8 +101,8 @@ resource "kubernetes_cluster_role_binding" "console_access" {
   }
 
   subject {
-    kind = "Group"
-    name = "eks-console-dashboard-full-access-group"
+    kind      = "Group"
+    name      = "eks-console-dashboard-full-access-group"
     api_group = "rbac.authorization.k8s.io"
   }
 }
