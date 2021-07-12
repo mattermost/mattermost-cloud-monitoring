@@ -52,3 +52,5 @@ variable "node_volume_size" {}
 variable "node_volume_type" {}
 
 variable "node_group_name" {}
+
+variable "aws_reserved_sso_id" {}

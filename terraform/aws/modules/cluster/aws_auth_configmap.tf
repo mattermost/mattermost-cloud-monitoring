@@ -7,6 +7,14 @@ locals {
     groups:
       - system:bootstrappers
       - system:nodes
+  - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSReservedSSO_AWSAdministratorAccess_${var.aws_reserved_sso_id}
+    username: system:masters
+    groups:
+      - eks-console-dashboard-full-access-group
+  - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Cloud${title(var.environment)}Admin
+    username: system:masters
+    groups:
+      - eks-console-dashboard-full-access-group
   YAML
     mapUsers = <<YAML
   - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.matterwick_iam_user}"
@@ -27,6 +35,14 @@ locals {
     username: admin
     groups:
       - system:masters${local.extra_auth_config_provider}
+  - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSReservedSSO_AWSAdministratorAccess_${var.aws_reserved_sso_id}
+    username: system:masters
+    groups:
+      - eks-console-dashboard-full-access-group
+  - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Cloud${title(var.environment)}Admin
+    username: system:masters
+    groups:
+      - eks-console-dashboard-full-access-group
   YAML
     mapUsers = <<YAML
   - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.cnc_user}"
@@ -71,4 +87,46 @@ resource "aws_iam_role" "lambda_role" {
   ]
 }
 EOF
+}
+
+resource "kubernetes_cluster_role_binding" "console_access" {
+  metadata {
+    name = "eks-console-dashboard-full-access-binding"
+  }
+
+  role_ref {
+    kind      = "ClusterRole"
+    name      = "eks-console-dashboard-full-access-clusterrole"
+    api_group = "rbac.authorization.k8s.io"
+  }
+
+  subject {
+    kind      = "Group"
+    name      = "eks-console-dashboard-full-access-group"
+    api_group = "rbac.authorization.k8s.io"
+  }
+}
+
+resource "kubernetes_cluster_role" "console_access" {
+  metadata {
+    name = "eks-console-dashboard-full-access-clusterrole"
+  }
+
+  rule {
+    api_groups = [""]
+    resources  = ["nodes", "namespaces", "pods"]
+    verbs      = ["get", "list"]
+  }
+
+  rule {
+    api_groups = ["apps"]
+    resources  = ["deployments", "daemonsets", "statefulsets", "replicasets"]
+    verbs      = ["get", "list"]
+  }
+
+  rule {
+    api_groups = ["batch"]
+    resources  = ["jobs"]
+    verbs      = ["get", "list"]
+  }
 }
