@@ -327,7 +327,8 @@ resource "aws_iam_policy" "iam" {
                 "iam:PassRole",
                 "iam:AttachRolePolicy",
                 "iam:DetachRolePolicy",
-                "iam:ListAttachedRolePolicies"
+                "iam:ListAttachedRolePolicies",
+                "iam:TagRole"
             ],
             "Resource": [
                 "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/masters.*",
