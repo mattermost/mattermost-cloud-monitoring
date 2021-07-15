@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "stackrox_bundle_bucket_policy" {
       values = flatten([[
         for provisioner_user in var.provisioner_users :
         aws_iam_user.provisioner_users[provisioner_user].unique_id
-      ], ["AROA*"]])
+      ], [var.admin_role_ids]])
     }
   }
 
