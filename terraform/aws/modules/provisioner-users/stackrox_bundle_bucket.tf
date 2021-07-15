@@ -1,15 +1,7 @@
-data "aws_kms_key" "master_s3" {
-  key_id = "alias/aws/s3"
-}
-
-data "aws_iam_user" "cnc_user" {
-  user_name = var.cnc_user
-}
-
-resource "aws_s3_bucket" "state_bucket" {
-  bucket = "mattermost-kops-state-${var.environment}${local.conditional_dash_region}"
+resource "aws_s3_bucket" "stackrox_bundle_bucket" {
+  bucket = "stackrox-bundle-${var.environment}${local.conditional_dash_region}"
   acl    = "private"
-  policy = data.aws_iam_policy_document.state_bucket_policy.json
+  policy = data.aws_iam_policy_document.stackrox_bundle_bucket_policy.json
 
   server_side_encryption_configuration {
     rule {
@@ -19,7 +11,7 @@ resource "aws_s3_bucket" "state_bucket" {
       }
     }
   }
-  force_destroy = var.force_destroy_state_bucket
+  force_destroy = var.force_destroy_stackrox_bundle_bucket
 
   versioning {
     enabled    = true
@@ -27,7 +19,7 @@ resource "aws_s3_bucket" "state_bucket" {
   }
 }
 
-data "aws_iam_policy_document" "state_bucket_policy" {
+data "aws_iam_policy_document" "stackrox_bundle_bucket_policy" {
 
   statement {
     effect = "Deny"
@@ -40,8 +32,8 @@ data "aws_iam_policy_document" "state_bucket_policy" {
       identifiers = ["*"]
     }
     resources = [
-      "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}",
-      "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}/*"
+      "arn:aws:s3:::stackrox-bundle-${var.environment}${local.conditional_dash_region}",
+      "arn:aws:s3:::stackrox-bundle-${var.environment}${local.conditional_dash_region}/*"
     ]
 
     condition {
@@ -65,8 +57,8 @@ data "aws_iam_policy_document" "state_bucket_policy" {
       identifiers = ["*"]
     }
     resources = [
-      "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}",
-      "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}/*"
+      "arn:aws:s3:::stackrox-bundle-${var.environment}${local.conditional_dash_region}",
+      "arn:aws:s3:::stackrox-bundle-${var.environment}${local.conditional_dash_region}/*"
     ]
 
     condition {
@@ -80,4 +72,3 @@ data "aws_iam_policy_document" "state_bucket_policy" {
   }
 
 }
-
