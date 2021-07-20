@@ -5,7 +5,7 @@ resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   version    = var.argocd_chart_version
   values = [
-    file("../../../../chart-values/argocd_values.yaml")
+    file(var.argo_chart_values_directory)
   ]
 
   depends_on = [
