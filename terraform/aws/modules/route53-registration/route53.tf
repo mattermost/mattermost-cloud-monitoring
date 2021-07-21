@@ -110,7 +110,7 @@ resource "aws_route53_record" "customer_web_server_api_internal" {
 }
 
 resource "aws_route53_record" "chimera" {
-  count = var.enable_awat_record ? 1 : 0
+  count = var.enable_chimera_record ? 1 : 0
 
   zone_id = var.public_hosted_zoneid
   name    = "chimera"
