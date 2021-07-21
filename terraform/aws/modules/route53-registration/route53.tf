@@ -108,3 +108,13 @@ resource "aws_route53_record" "customer_web_server_api_internal" {
   ttl     = "60"
   records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
 }
+
+resource "aws_route53_record" "chimera" {
+  count = var.enable_awat_record ? 1 : 0
+
+  zone_id = var.public_hosted_zoneid
+  name    = "chimera"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+}
