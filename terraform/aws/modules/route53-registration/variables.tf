@@ -13,3 +13,5 @@ variable "enable_portal_private_r53_record" {}
 variable "enable_portal_internal_r53_record" {}
 
 variable "enable_awat_record" {}
+
+variable "enable_chimera_record" {}
