@@ -168,7 +168,7 @@ EOF
 resource "aws_iam_policy" "ec2" {
   name        = "mattermost-provisioner-ec2-policy${local.conditional_dash_region}"
   path        = "/"
-  description = "EC2 permissions for provisioner user"
+  description = "EC2, SQS, EventBridge permissions for provisioner user"
 
   policy = <<EOF
 {
@@ -249,8 +249,11 @@ resource "aws_iam_policy" "ec2" {
                 "autoscaling:SuspendProcesses",
                 "autoscaling:TerminateInstanceInAutoScalingGroup",
                 "autoscaling:CreateOrUpdateTags",
+                "autoscaling:DescribeWarmPool",
                 "acm:ListCertificates",
-                "acm:ListTagsForCertificate"
+                "acm:ListTagsForCertificate",
+                "sqs:ListQueues",
+                "events:ListRules"
             ],
             "Resource": "*"
         }
@@ -328,7 +331,8 @@ resource "aws_iam_policy" "iam" {
                 "iam:AttachRolePolicy",
                 "iam:DetachRolePolicy",
                 "iam:ListAttachedRolePolicies",
-                "iam:TagRole"
+                "iam:TagRole",
+                "iam:TagInstanceProfile"
             ],
             "Resource": [
                 "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/masters.*",
