@@ -253,7 +253,8 @@ resource "aws_iam_policy" "ec2" {
                 "acm:ListCertificates",
                 "acm:ListTagsForCertificate",
                 "sqs:ListQueues",
-                "events:ListRules"
+                "events:ListRules",
+                "autoscaling:DescribeWarmPool"
             ],
             "Resource": "*"
         }
