@@ -332,11 +332,8 @@ resource "aws_iam_policy" "iam" {
                 "iam:DetachRolePolicy",
                 "iam:ListAttachedRolePolicies",
                 "iam:TagRole",
-<<<<<<< HEAD
-                "autoscaling:DescribeWarmPool"
-=======
+                "autoscaling:DescribeWarmPool",
                 "iam:TagInstanceProfile"
->>>>>>> master
             ],
             "Resource": [
                 "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/masters.*",
