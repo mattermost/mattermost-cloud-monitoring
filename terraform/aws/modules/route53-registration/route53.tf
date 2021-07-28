@@ -116,5 +116,5 @@ resource "aws_route53_record" "chimera" {
   name    = "chimera"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-public.load_balancer_ingress.0.hostname]
 }
