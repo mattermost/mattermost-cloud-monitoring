@@ -9,11 +9,7 @@ ifeq ($(WORKDIR),$(CURDIR))
 	WORKDIR = /tmp
 endif
 
-all: dep build pack
-
-dep:
-	@echo "Checking dependencies..."
-	@dep ensure
+all: build pack
 
 build:
 	@echo "Building..."
