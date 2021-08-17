@@ -104,7 +104,7 @@ resource "aws_iam_role_policy_attachment" "amazon_ec2_container_registry_readonl
   role       = aws_iam_role.worker-role.name
 }
 
-resource "aws_iam_policy" "kube2iam-policy" {
+resource "aws_iam_policy" "kube2iam-eks-policy" {
   name        = "cloud-${var.cluster_short_name}-kube2iam-policy"
   description = "kube2iam policy"
 
