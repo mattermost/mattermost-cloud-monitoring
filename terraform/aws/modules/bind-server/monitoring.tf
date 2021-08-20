@@ -26,7 +26,7 @@ resource "aws_cloudwatch_metric_alarm" "low_free_memory" {
 
   for_each            = toset(var.hosts_list)
   alarm_name          = "${var.environment}-BindServerFreeMemoryTooLow-${each.key}"
-  comparison_operator = "LeesThanOrEqualToThreshold"
+  comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "mem_available_percent"
   namespace           = "CWAgent"
