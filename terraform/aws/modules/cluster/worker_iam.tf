@@ -184,7 +184,7 @@ resource "aws_iam_policy" "kube2iam-eks-policy" {
         "sts:AssumeRole"
       ],
       "Effect": "Allow",
-      "Resource": "*"
+      "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/k8s-*"
     }
   ]
 }
