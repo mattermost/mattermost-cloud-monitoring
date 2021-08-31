@@ -46,3 +46,8 @@ variable "db_deletion_protection" {
 variable "enable_awat_bucket_restriction" {}
 
 variable "cnc_user" {}
+
+variable "allow_major_version_upgrade" {
+  type    = bool
+  default = false
+}

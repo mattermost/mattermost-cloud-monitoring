@@ -58,7 +58,7 @@ resource "aws_db_instance" "awat" {
   name                        = var.db_name
   username                    = var.db_username
   password                    = var.db_password
-  allow_major_version_upgrade = false
+  allow_major_version_upgrade = var.allow_major_version_upgrade
   auto_minor_version_upgrade  = true
   apply_immediately           = true
   backup_retention_period     = var.db_backup_retention_period
