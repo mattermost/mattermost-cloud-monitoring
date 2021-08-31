@@ -326,3 +326,62 @@ resource "aws_iam_user_policy_attachment" "attach_autoscaling_db_factory" {
   user       = each.value
   policy_arn = aws_iam_policy.autoscaling_db_factory.arn
 }
+
+resource "aws_iam_role" "db-factory-role" {
+  name = "k8s-${var.environment}-db-factory-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+       "Principal": {
+        "AWS": [ "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role" ]
+      },
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_sns" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.sns_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_rds" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.rds_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_s3" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.s3_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_secrets_manager" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.secrets_manager_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_kms" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.kms_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_iam" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.iam_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_ec2" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.ec2_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_autoscaling" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.autoscaling_db_factory.arn
+}

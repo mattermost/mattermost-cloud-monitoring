@@ -103,3 +103,27 @@ resource "aws_iam_role_policy_attachment" "amazon_ec2_container_registry_readonl
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.worker-role.name
 }
+
+resource "aws_iam_policy" "kube2iam-eks-policy" {
+  name        = "cloud-${var.cluster_short_name}-kube2iam-policy"
+  description = "kube2iam policy"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "sts:AssumeRole"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/k8s-*"
+    }
+  ]
+}
+EOF
+}
+resource "aws_iam_role_policy_attachment" "kube2iam-policy-attach" {
+  role       = aws_iam_role.worker-role.name
+  policy_arn = aws_iam_policy.kube2iam-policy.arn
+}
