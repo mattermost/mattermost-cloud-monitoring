@@ -16,5 +16,5 @@ locals {
 }
 
 locals {
-  db_identifier_read_replica = "${var.db_identifier}-read"
+  db_identifier_read_replica = "${var.awat_db_identifier}-read"
 }

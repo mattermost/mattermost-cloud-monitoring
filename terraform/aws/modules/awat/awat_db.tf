@@ -49,30 +49,30 @@ resource "aws_db_subnet_group" "subnets_db" {
 }
 
 resource "aws_db_instance" "awat" {
-  identifier                  = var.db_identifier
+  identifier                  = var.awat_db_identifier
   allocated_storage           = var.allocated_db_storage
-  storage_type                = "gp2"
+  storage_type                = var.awat_db_storage_type
   engine                      = "postgres"
-  engine_version              = var.db_engine_version
-  instance_class              = var.db_instance_class
-  name                        = var.db_name
-  username                    = var.db_username
-  password                    = var.db_password
+  engine_version              = var.awat_db_engine_version
+  instance_class              = var.awat_db_instance_class
+  name                        = var.awat_db_name
+  username                    = var.awat_db_username
+  password                    = var.awat_db_password
   allow_major_version_upgrade = var.allow_major_version_upgrade
   auto_minor_version_upgrade  = true
   apply_immediately           = true
-  backup_retention_period     = var.db_backup_retention_period
-  backup_window               = var.db_backup_window
+  backup_retention_period     = var.awat_db_backup_retention_period
+  backup_window               = var.awat_db_backup_window
   db_subnet_group_name        = aws_db_subnet_group.subnets_db.name
   vpc_security_group_ids      = [aws_security_group.cnc_to_awat_db.id]
-  deletion_protection         = var.db_deletion_protection
-  final_snapshot_identifier   = "awat-final-${var.db_name}-${local.timestamp_now}"
+  deletion_protection         = var.awat_db_deletion_protection
+  final_snapshot_identifier   = "awat-final-${var.awat_db_name}-${local.timestamp_now}"
   skip_final_snapshot         = false
-  maintenance_window          = var.db_maintenance_window
+  maintenance_window          = var.awat_db_maintenance_window
   publicly_accessible         = false
-  snapshot_identifier         = var.snapshot_identifier
+  snapshot_identifier         = var.awat_snapshot_identifier
   storage_encrypted           = var.storage_encrypted
-  availability_zone           = var.db_master_az
+  availability_zone           = var.awat_db_master_az
 
   tags = {
     Name         = "AWAT"
@@ -91,22 +91,22 @@ resource "aws_db_instance" "awat_read_replica" {
   count = var.enable_awat_read_replica ? 1 : 0
 
   identifier                  = local.db_identifier_read_replica
-  name                        = var.db_name
-  instance_class              = var.db_instance_class
-  storage_type                = "gp2"
+  name                        = var.awat_db_name
+  instance_class              = var.awat_db_instance_class
+  storage_type                = var.awat_db_storage_type
   storage_encrypted           = var.storage_encrypted
   allow_major_version_upgrade = false
   auto_minor_version_upgrade  = true
   apply_immediately           = true
-  deletion_protection         = var.db_deletion_protection
+  deletion_protection         = var.awat_db_deletion_protection
 
   # networking
   vpc_security_group_ids = [aws_security_group.cnc_to_awat_db.id]
   publicly_accessible    = false
-  availability_zone      = var.db_read_replica_az
+  availability_zone      = var.awat_db_read_replica_az
 
   # backup & maintenance
-  maintenance_window = var.db_maintenance_window
+  maintenance_window = var.awat_db_maintenance_window
 
   # replication read replica
   replicate_source_db = aws_db_instance.awat.identifier
