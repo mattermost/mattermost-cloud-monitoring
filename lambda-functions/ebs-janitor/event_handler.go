@@ -60,7 +60,7 @@ func (h *EventHandler) Handle(_ context.Context, event events.CloudWatchEvent) e
 			continue
 		}
 		if err := h.awsResourcer.DeleteVolume(ctx, v.VolumeId); err != nil {
-			h.logger.WithFields(fields).Info("failed to delete volume")
+			h.logger.WithFields(fields).Error("failed to delete volume")
 			return errors.Wrapf(err, "failed to delete volume with ID: %s", *v.VolumeId)
 		}
 		h.logger.WithFields(fields).Info("deleted volume")
