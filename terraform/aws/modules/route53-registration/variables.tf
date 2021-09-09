@@ -15,3 +15,5 @@ variable "enable_portal_internal_r53_record" {}
 variable "enable_awat_record" {}
 
 variable "enable_chimera_record" {}
+
+variable "enable_kubecost_record" {}
