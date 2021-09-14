@@ -126,3 +126,13 @@ resource "aws_route53_record" "chaos_mesh" {
   ttl     = "300"
   records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
 }
+
+resource "aws_route53_record" "kubecost" {
+  count = var.enable_kubecost_record ? 1 : 0
+
+  zone_id = var.private_hosted_zoneid
+  name    = "kubecost"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+}
