@@ -18,7 +18,7 @@ resource "aws_route53_record" "prometheus" {
   name    = "prometheus"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "grafana" {
@@ -26,7 +26,7 @@ resource "aws_route53_record" "grafana" {
   name    = "grafana"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "database_factory" {
@@ -34,7 +34,7 @@ resource "aws_route53_record" "database_factory" {
   name    = "dbfactory"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "thanos" {
@@ -42,7 +42,7 @@ resource "aws_route53_record" "thanos" {
   name    = "thanos"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "blackbox" {
@@ -50,7 +50,7 @@ resource "aws_route53_record" "blackbox" {
   name    = "blackbox"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "argocd" {
@@ -58,7 +58,7 @@ resource "aws_route53_record" "argocd" {
   name    = "argocd"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "provisioner" {
@@ -66,7 +66,7 @@ resource "aws_route53_record" "provisioner" {
   name    = "provisioner"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "awat" {
@@ -76,7 +76,7 @@ resource "aws_route53_record" "awat" {
   name    = "awat"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "customer_web_server" {
@@ -86,7 +86,7 @@ resource "aws_route53_record" "customer_web_server" {
   name    = "portal"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-public.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "customer_web_server_internal" {
@@ -96,7 +96,7 @@ resource "aws_route53_record" "customer_web_server_internal" {
   name    = "portal"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "customer_web_server_api_internal" {
@@ -106,7 +106,7 @@ resource "aws_route53_record" "customer_web_server_api_internal" {
   name    = "api"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "chimera" {
@@ -116,7 +116,7 @@ resource "aws_route53_record" "chimera" {
   name    = "chimera"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-public.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "chaos_mesh" {
@@ -124,7 +124,7 @@ resource "aws_route53_record" "chaos_mesh" {
   name    = "chaos"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "kubecost" {
@@ -134,5 +134,5 @@ resource "aws_route53_record" "kubecost" {
   name    = "kubecost"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
