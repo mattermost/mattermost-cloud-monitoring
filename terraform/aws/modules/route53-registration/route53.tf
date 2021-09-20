@@ -79,6 +79,21 @@ resource "aws_route53_record" "awat" {
   records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
+resource "cloudflare_record" "customer_web_server" {
+  count = var.enabled_cloudflare_customer_web_server ? 1 : 0
+
+  zone_id = var.cloudflare_zone_id
+  name    = "portal"
+  type    = "CNAME"
+  proxied = true
+
+  data {
+    name      = "portal"
+    target    = data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname
+    proxiable = true
+  }
+}
+
 resource "aws_route53_record" "customer_web_server" {
   count = var.enable_portal_public_r53_record ? 1 : 0
 
@@ -86,7 +101,7 @@ resource "aws_route53_record" "customer_web_server" {
   name    = "portal"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname]
+  records = [var.enabled_cloudflare_customer_web_server == "" ? data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname : cloudflare_record.customer_web_server_cname.hostname]
 }
 
 resource "aws_route53_record" "customer_web_server_internal" {
@@ -120,6 +135,8 @@ resource "aws_route53_record" "chimera" {
 }
 
 resource "aws_route53_record" "chaos_mesh" {
+  count = var.enable_chaos_record ? 1 : 0
+
   zone_id = var.private_hosted_zoneid
   name    = "chaos"
   type    = "CNAME"
