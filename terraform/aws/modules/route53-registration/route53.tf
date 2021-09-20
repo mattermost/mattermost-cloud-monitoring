@@ -90,7 +90,6 @@ resource "cloudflare_record" "customer_web_server" {
   data {
     name      = "portal"
     target    = data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname
-    proxiable = true
   }
 }
 
