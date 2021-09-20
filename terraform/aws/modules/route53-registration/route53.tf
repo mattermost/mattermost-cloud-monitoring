@@ -101,7 +101,7 @@ resource "aws_route53_record" "customer_web_server" {
   name    = "portal"
   type    = "CNAME"
   ttl     = "60"
-  records = [var.enabled_cloudflare_customer_web_server ? data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname : cloudflare_record.customer_web_server_cname.hostname]
+  records = [var.enabled_cloudflare_customer_web_server ? cloudflare_record.customer_web_server_cname.hostname : data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "customer_web_server_internal" {

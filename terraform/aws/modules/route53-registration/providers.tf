@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 3.0"
+    }
+  }
+}
+
 data "aws_eks_cluster_auth" "cluster_auth" {
   name = var.deployment_name
 }
