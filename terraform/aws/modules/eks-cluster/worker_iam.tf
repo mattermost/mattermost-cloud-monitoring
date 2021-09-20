@@ -125,5 +125,5 @@ EOF
 }
 resource "aws_iam_role_policy_attachment" "kube2iam-policy-attach" {
   role       = aws_iam_role.worker-role.name
-  policy_arn = aws_iam_policy.kube2iam-policy.arn
+  policy_arn = aws_iam_policy.kube2iam-eks-policy.arn
 }
