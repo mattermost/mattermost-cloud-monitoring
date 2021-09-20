@@ -28,6 +28,11 @@ variable "enabled_cloudflare_customer_web_server" {
   description = "Enables cloudflare for Customer Web Server"
 }
 
+variable "cloudflare_customer_webserver_cdn" {
+  type = string
+  description = "The cloudflare CDN to proxy"
+}
+
 variable "enable_portal_private_r53_record" {
   type        = bool
   description = "Enables to create a private CNAME route53 record for Private Customer Web Server"
