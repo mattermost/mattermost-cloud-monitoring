@@ -84,13 +84,9 @@ resource "cloudflare_record" "customer_web_server" {
 
   zone_id = var.cloudflare_zone_id
   name    = "portal"
+  value   = data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname
   type    = "CNAME"
   proxied = true
-
-  data {
-    name      = "portal"
-    target    = data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname
-  }
 }
 
 resource "aws_route53_record" "customer_web_server" {
