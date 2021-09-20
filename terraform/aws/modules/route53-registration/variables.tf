@@ -1,3 +1,8 @@
+variable "deployment_name" {
+  type        = string
+  description = "EKS Cluster deployment name"
+}
+
 variable "private_hosted_zoneid" {
   type        = string
   description = "The AWS private hosted zone ID"
