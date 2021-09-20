@@ -19,7 +19,7 @@ variable "enable_portal_public_r53_record" {
 }
 
 variable "enabled_cloudflare_customer_web_server" {
-  type        = string
+  type        = bool
   description = "Enables cloudflare for Customer Web Server"
 }
 
@@ -30,7 +30,7 @@ variable "enable_portal_private_r53_record" {
 
 variable "enable_portal_internal_r53_record" {
   type        = bool
-  description = "Enables to create a internal CNAME route53 record for Internal Customer Web Serve APIr"
+  description = "Enables to create a internal CNAME route53 record for Internal Customer Web Serve API"
 }
 
 variable "enable_awat_record" {
