@@ -29,7 +29,7 @@ variable "enabled_cloudflare_customer_web_server" {
 }
 
 variable "cloudflare_customer_webserver_cdn" {
-  type = string
+  type        = string
   description = "The cloudflare CDN to proxy"
 }
 
