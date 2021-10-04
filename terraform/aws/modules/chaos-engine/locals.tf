@@ -6,11 +6,11 @@ data "terraform_remote_state" "cluster" {
   backend = "s3"
   config = {
     bucket = "terraform-cloud-monitoring-state-bucket-${var.environment}"
-    key    = "${data.aws_region.current.name}/mattermost-generic"
+    key    = "mattermost-cloud-gitlab"
     region = "us-east-1"
   }
 }
 
 locals {
-  timestamp_now           = formatdate("YYYY-MM-DD-hh-mm", timestamp())
+  timestamp_now = formatdate("YYYY-MM-DD-hh-mm", timestamp())
 }
