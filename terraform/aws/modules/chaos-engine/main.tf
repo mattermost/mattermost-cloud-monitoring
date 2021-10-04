@@ -62,7 +62,7 @@ resource "aws_db_instance" "chaos_engine" {
   backup_retention_period     = var.db_backup_retention_period
   backup_window               = var.db_backup_window
   db_subnet_group_name        = aws_db_subnet_group.subnets_db.name
-  vpc_security_group_ids      = [aws_security_group.cec_to_postgress.id]
+  vpc_security_group_ids      = [aws_security_group.cec_to_postgres.id]
   deletion_protection         = var.db_deletion_protection
   final_snapshot_identifier   = "chaos-engine-final-${var.db_name}-${local.timestamp_now}"
   skip_final_snapshot         = false
