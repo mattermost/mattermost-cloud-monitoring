@@ -10,3 +10,7 @@ data "terraform_remote_state" "cluster" {
     region = "us-east-1"
   }
 }
+
+locals {
+  timestamp_now           = formatdate("YYYY-MM-DD-hh-mm", timestamp())
+}
