@@ -10,7 +10,7 @@ variable "vpc_id" {
 
 variable "region" {}
 
-variable "vpn_cidr" {
+variable "cloud_vpn_cidr" {
   description = "The CIDR to access VPN"
   type        = string
 }
