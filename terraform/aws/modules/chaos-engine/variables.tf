@@ -1,3 +1,8 @@
+variable "deployment_name" {
+  description = "The deployment name related to k8s cluster"
+  type        = string
+}
+
 variable "environment" {
   description = "The name of the environment will run"
   type        = string
