@@ -8,7 +8,7 @@ resource "aws_security_group" "cec_to_postgres" {
     from_port       = 5432
     to_port         = 5432
     protocol        = "tcp"
-    security_groups = [data.terraform_remote_state.cluster.outputs.worker_security_group]
+    security_groups = [data.terraform_remote_state.cluster.outputs.workers_security_group]
   }
 
   ingress {
