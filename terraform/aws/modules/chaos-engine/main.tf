@@ -68,7 +68,6 @@ resource "aws_db_instance" "chaos_engine" {
   skip_final_snapshot         = false
   maintenance_window          = var.db_maintenance_window
   publicly_accessible         = false
-  snapshot_identifier         = var.snapshot_identifier
   storage_encrypted           = var.storage_encrypted
   availability_zone           = var.db_master_az
 
