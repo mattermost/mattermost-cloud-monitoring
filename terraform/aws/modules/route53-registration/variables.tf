@@ -18,6 +18,11 @@ variable "cloudflare_zone_id" {
   description = "The Cloudflare zone ID provided"
 }
 
+variable "cloudflare_record_name" {
+  type        = string
+  description = "The Cloudflare DNS record name"
+}
+
 variable "enable_portal_public_r53_record" {
   type        = bool
   description = "Enables to create a public route53 record for public Customer Web Server"
