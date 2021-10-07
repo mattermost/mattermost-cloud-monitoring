@@ -83,7 +83,7 @@ resource "cloudflare_record" "customer_web_server" {
   count = var.enabled_cloudflare_customer_web_server ? 1 : 0
 
   zone_id = var.cloudflare_zone_id
-  name    = var.cloudflare_record_name
+  name    = var.cws_cloudflare_record_name
   value   = data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname
   type    = "CNAME"
   proxied = true

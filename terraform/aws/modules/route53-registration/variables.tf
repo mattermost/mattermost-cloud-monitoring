@@ -18,9 +18,9 @@ variable "cloudflare_zone_id" {
   description = "The Cloudflare zone ID provided"
 }
 
-variable "cloudflare_record_name" {
+variable "cws_cloudflare_record_name" {
   type        = string
-  description = "The Cloudflare DNS record name"
+  description = "The Cloudflare DNS record name for customer web server"
 }
 
 variable "enable_portal_public_r53_record" {
