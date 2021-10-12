@@ -23,13 +23,13 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_yellow" {
   count               = var.monitor_cluster_status_is_yellow ? 1 : 0
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-ClusterStatusIsYellow${var.alarm_name_postfix}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "1"
+  evaluation_periods  = "2"
   metric_name         = "ClusterStatus.yellow"
   namespace           = "AWS/ES"
-  period              = "60"
+  period              = "120"
   statistic           = "Maximum"
   threshold           = "1"
-  alarm_description   = "Average elasticsearch cluster status is in yellow over last 1 minutes"
+  alarm_description   = "Average elasticsearch cluster status is in yellow over last 4 minutes"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
