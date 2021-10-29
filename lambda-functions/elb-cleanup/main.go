@@ -11,7 +11,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// BuildVersion the version which lambda is running
+//  BuildVersion the version which lambda is running
 var BuildVersion = ""
 
 // BuildTime the time of build created
@@ -43,6 +43,7 @@ func main() {
 		log.WithError(err).Error("failed initiate an AWS session")
 		return
 	}
+
 	// setup the handler
 	awsResourcer := NewClient(sess)
 	handler := NewEventHandler(cfg.ExpirationDays, awsResourcer, cfg.Debug, logger)
@@ -50,5 +51,6 @@ func main() {
 		handler.Handle(context.Background(), events.CloudWatchEvent{}) //nolint
 		return
 	}
+
 	lambda.Start(handler.Handle)
 }

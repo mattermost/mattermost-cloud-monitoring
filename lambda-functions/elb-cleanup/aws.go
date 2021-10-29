@@ -2,73 +2,99 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"strconv"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go/service/elb"
+	"github.com/aws/aws-sdk-go/service/elbv2"
 	"github.com/pkg/errors"
 )
 
 // awsTimeout used for the context of AWS SDK
-const awsTimeout = 20 * time.Second
+const awsTimeout = 50 * time.Second
 
 // Client for making AWS requests
 type Client struct {
-	ec2 *ec2.EC2
+	// ec2 *ec2.EC2
+	elbv2 *elbv2.ELBV2
+	elb   *elb.ELB
 }
 
 // Resourcer the interface for the AWS client
 type Resourcer interface {
-	ListVolumes(context context.Context, volumeState string) ([]*ec2.Volume, error)
-	DeleteVolume(context context.Context, volumeID *string) error
+	DeleteElbs(context context.Context) ([]string, error)
+	DeleteCalssiclbs(context context.Context) ([]string, error)
 }
 
 // NewClient factory method to craete AWS client
 func NewClient(sess *session.Session) *Client {
 	return &Client{
-		ec2: ec2.New(sess),
+		elbv2: elbv2.New(sess),
+		elb:   elb.New(sess),
 	}
 }
 
-// ListEBS listing ebs for deletion
-func (c *Client) ListVolumes(context context.Context, volumeState string) ([]*ec2.Volume, error) {
-	if !contains(ec2.VolumeState_Values(), volumeState) {
-		return []*ec2.Volume{}, fmt.Errorf("failed: wrong volume state value, %s", volumeState)
+// DeleteElbs it will find & delete any unused network LB
+func (c *Client) DeleteElbs(context context.Context) ([]string, error) {
+	input := &elbv2.DescribeLoadBalancersInput{
+		LoadBalancerArns: []*string{},
 	}
-	out, err := c.ec2.DescribeVolumesWithContext(context, &ec2.DescribeVolumesInput{
-		Filters: []*ec2.Filter{
-			{
-				Name: aws.String("status"),
-				Values: []*string{
-					aws.String(volumeState),
-				},
-			},
-		},
-	})
+
+	result, err := c.elbv2.DescribeLoadBalancers(input)
 	if err != nil {
-		return []*ec2.Volume{}, errors.Wrap(err, "failed ec2.DescribeVolumes")
+		return nil, errors.Wrap(err, "failed elbv2.DescribeLoadBalancer")
 	}
-	return out.Volumes, nil
-}
 
-// DeleteVolume deletes a volume by the provided volume ID
-func (c *Client) DeleteVolume(context context.Context, volumeID *string) error {
-	_, err := c.ec2.DeleteVolumeWithContext(context, &ec2.DeleteVolumeInput{
-		VolumeId: volumeID,
-	})
-	if err != nil {
-		return errors.Wrapf(err, "failed ec2.DeleteVolume with ID: %s", *volumeID)
-	}
-	return nil
-}
+	var unUsedLBs []string
+	var isUnUsed bool
+	for _, lb := range result.LoadBalancers {
+		isUnUsed = true
+		targetGroups, err := c.elbv2.DescribeTargetGroups(&elbv2.DescribeTargetGroupsInput{LoadBalancerArn: lb.LoadBalancerArn})
+		if err != nil {
+			return nil, errors.Wrap(err, "failed elbv2.DescribeTargetGroups")
+		}
 
-func contains(s []string, e string) bool {
-	for _, a := range s {
-		if a == e {
-			return true
+		for _, targetGroup := range targetGroups.TargetGroups {
+			output, err := c.elbv2.DescribeTargetHealth(&elbv2.DescribeTargetHealthInput{TargetGroupArn: targetGroup.TargetGroupArn})
+			if err != nil {
+				return nil, errors.Wrap(err, "failed elbv2.DescribeTargetHealth")
+			}
+
+			for _, target := range output.TargetHealthDescriptions {
+				if target.Target.Id != nil {
+					isUnUsed = false
+					break // move to next load balancer
+
+				}
+			}
+		}
+		if isUnUsed {
+			unUsedLBs = append(unUsedLBs, *lb.LoadBalancerArn)
+			// c.elbv2.DeleteLoadBalancer(&elbv2.DeleteLoadBalancerInput{LoadBalancerArn: lb.LoadBalancerArn})
 		}
 	}
-	return false
+
+	return unUsedLBs, nil
+}
+
+// DeleteCalssiclbs find & delete unused LBs
+func (c *Client) DeleteCalssiclbs(context context.Context) ([]string, error) {
+	input := &elb.DescribeLoadBalancersInput{
+		LoadBalancerNames: []*string{},
+	}
+	result, err := c.elb.DescribeLoadBalancers(input)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed elb.DescribeLoadBalancer")
+	}
+
+	var lb_arns []string
+
+	for _, lb := range result.LoadBalancerDescriptions {
+		if len(lb.Instances) == 0 {
+			lb_arns = append(lb_arns, *lb.LoadBalancerName+"-"+strconv.Itoa(len(lb.Instances)))
+			// c.elb.DeleteLoadBalancer(&elb.DeleteLoadBalancerInput{LoadBalancerName: lb.LoadBalancerName})
+		}
+	}
+	return lb_arns, nil
 }
