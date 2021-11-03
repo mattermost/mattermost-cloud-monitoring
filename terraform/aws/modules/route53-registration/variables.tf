@@ -67,3 +67,8 @@ variable "enable_kubecost_record" {
   type        = bool
   description = "Enables to create a public route53 record for private Kubecost"
 }
+
+variable "enable_push_proxy_record" {
+  type        = bool
+  description = "Enables to create a public route53 record for Mattermost Push Proxy"
+}
