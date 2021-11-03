@@ -1,4 +1,4 @@
-# Lambda function for clenaing up old and unused images.
+# Lambda function for cleaning up old and unused images.
 resource "aws_lambda_function" "deckhand" {
   s3_bucket     = var.bucket
   s3_key        = "mattermost-cloud/deckhand/master/main.zip"

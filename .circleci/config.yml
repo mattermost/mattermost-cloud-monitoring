@@ -57,6 +57,16 @@ workflows:
       - push-lambda:
           file_dir: $(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
           bucket_name: releases.mattermost.com
+          lambda_function: logs-to-opensearch
+          zip_file_name: logs-to-opensearch.zip
+          context: mattermost-release-s3
+          filters:
+            branches:
+              only:
+                - master
+      - push-lambda:
+          file_dir: $(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
+          bucket_name: releases.mattermost.com
           lambda_function: deckhand
           zip_file_name: main.zip
           context: mattermost-release-s3
@@ -177,6 +187,16 @@ workflows:
           bucket_name: pr-builds.mattermost.com
           lambda_function: deckhand
           zip_file_name: main.zip
+          context: mattermost-ci-pr-builds-s3
+          filters:
+            branches:
+              ignore:
+                - master
+      - push-lambda:
+          file_dir: commit/${CIRCLE_SHA1}/
+          bucket_name: pr-builds.mattermost.com
+          lambda_function: logs-to-opensearch
+          zip_file_name: logs-to-opensearch.zip
           context: mattermost-ci-pr-builds-s3
           filters:
             branches:
