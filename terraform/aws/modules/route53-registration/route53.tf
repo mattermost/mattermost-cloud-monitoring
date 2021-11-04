@@ -152,9 +152,9 @@ resource "aws_route53_record" "kubecost" {
 resource "aws_route53_record" "push_proxy" {
   count = var.enable_push_proxy_record ? 1 : 0
 
-  zone_id = var.public_hosted_zoneid
+  zone_id = var.private_hosted_zoneid
   name    = "push"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
