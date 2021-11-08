@@ -11,7 +11,7 @@ const logFailedResponses = false;
 
 exports.handler = function (input, context) {
     // decode input from base64
-    let zippedInput = new Buffer.from(input.awslogs.data, 'base64');
+    const zippedInput = new Buffer.from(input.awslogs.data, 'base64');
 
     // decompress the input
     zlib.gunzip(zippedInput, function (error, buffer) {
@@ -21,7 +21,7 @@ exports.handler = function (input, context) {
         }
 
         // parse the input from JSON
-        let awslogsData = JSON.parse(buffer.toString('utf8'));
+        const awslogsData = JSON.parse(buffer.toString('utf8'));
 
         // transform the input to Elasticsearch documents
         let elasticsearchBulkData = transform(awslogsData);
@@ -58,16 +58,16 @@ function transform(payload) {
     let bulkRequestBody = '';
 
     payload.logEvents.forEach(function (logEvent) {
-        let timestamp = new Date(logEvent.timestamp);
+        const timestamp = new Date(logEvent.timestamp);
 
         // index name format: logstashcwl-YYYY.MM.DD
-        let indexName = [
+        const indexName = [
             'logstash-cwl-' + timestamp.getUTCFullYear(),              // year
             ('0' + (timestamp.getUTCMonth() + 1)).slice(-2),  // month
             ('0' + timestamp.getUTCDate()).slice(-2), //day
         ].join('.');
 
-        var source = buildSource(logEvent.message, logEvent.extractedFields);
+        const source = buildSource(logEvent.message, logEvent.extractedFields);
         source['@id'] = logEvent.id;
         source['@timestamp'] = new Date(1 * logEvent.timestamp).toISOString();
         source['@message'] = logEvent.message;
@@ -75,7 +75,7 @@ function transform(payload) {
         source['@log_group'] = payload.logGroup;
         source['@log_stream'] = payload.logStream;
 
-        var action = {"index": {}};
+        const action = {"index": {}};
         action.index._index = indexName;
         action.index._id = logEvent.id;
 
@@ -90,7 +90,7 @@ function transform(payload) {
 function buildSource(message, extractedFields) {
     let jsonSubString;
     if (extractedFields) {
-        let source = {};
+        const source = {};
 
         for (let key in extractedFields) {
             if (extractedFields.hasOwnProperty(key) && extractedFields[key]) {
@@ -121,9 +121,9 @@ function buildSource(message, extractedFields) {
 }
 
 function extractJson(message) {
-    let jsonStart = message.indexOf('{');
+    const jsonStart = message.indexOf('{');
     if (jsonStart < 0) return null;
-    let jsonSubString = message.substring(jsonStart);
+    const jsonSubString = message.substring(jsonStart);
     return isValidJson(jsonSubString) ? jsonSubString : null;
 }
 
@@ -141,16 +141,16 @@ function isNumeric(n) {
 }
 
 function post(body, callback) {
-    let requestParams = buildRequest(endpoint, body);
+    const requestParams = buildRequest(endpoint, body);
 
-    let request = https.request(requestParams, function (response) {
+    const request = https.request(requestParams, function (response) {
         let responseBody = '';
         response.on('data', function (chunk) {
             responseBody += chunk;
         });
 
         response.on('end', function () {
-            let info = JSON.parse(responseBody);
+            const info = JSON.parse(responseBody);
             let failedItems;
             let success;
             let error;
@@ -183,17 +183,17 @@ function post(body, callback) {
 }
 
 function buildRequest(endpoint, body) {
-    let endpointParts = endpoint.match(/^([^\.]+)\.?([^\.]*)\.?([^\.]*)\.amazonaws\.com$/);
-    let region = endpointParts[2];
-    let service = endpointParts[3];
-    let datetime = (new Date()).toISOString().replace(/[:\-]|\.\d{3}/g, '');
-    let date = datetime.substr(0, 8);
-    let kDate = hmac('AWS4' + process.env.AWS_SECRET_ACCESS_KEY, date);
-    let kRegion = hmac(kDate, region);
-    let kService = hmac(kRegion, service);
-    let kSigning = hmac(kService, 'aws4_request');
+    const endpointParts = endpoint.match(/^([^\.]+)\.?([^\.]*)\.?([^\.]*)\.amazonaws\.com$/);
+    const region = endpointParts[2];
+    const service = endpointParts[3];
+    const datetime = (new Date()).toISOString().replace(/[:\-]|\.\d{3}/g, '');
+    const date = datetime.substr(0, 8);
+    const kDate = hmac('AWS4' + process.env.AWS_SECRET_ACCESS_KEY, date);
+    const kRegion = hmac(kDate, region);
+    const kService = hmac(kRegion, service);
+    const kSigning = hmac(kService, 'aws4_request');
 
-    let request = {
+    const request = {
         host: endpoint,
         method: 'POST',
         path: '/_bulk',
@@ -207,7 +207,7 @@ function buildRequest(endpoint, body) {
         }
     };
 
-    let canonicalHeaders = Object.keys(request.headers)
+    const canonicalHeaders = Object.keys(request.headers)
         .sort(function (a, b) {
             return a.toLowerCase() < b.toLowerCase() ? -1 : 1;
         })
@@ -216,14 +216,14 @@ function buildRequest(endpoint, body) {
         })
         .join('\n');
 
-    let signedHeaders = Object.keys(request.headers)
+    const signedHeaders = Object.keys(request.headers)
         .map(function (k) {
             return k.toLowerCase();
         })
         .sort()
         .join(';');
 
-    let canonicalString = [
+    const canonicalString = [
         request.method,
         request.path, '',
         canonicalHeaders, '',
@@ -231,9 +231,9 @@ function buildRequest(endpoint, body) {
         hash(request.body, 'hex'),
     ].join('\n');
 
-    let credentialString = [date, region, service, 'aws4_request'].join('/');
+    const credentialString = [date, region, service, 'aws4_request'].join('/');
 
-    let stringToSign = [
+    const stringToSign = [
         'AWS4-HMAC-SHA256',
         datetime,
         credentialString,
