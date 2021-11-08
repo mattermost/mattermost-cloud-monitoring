@@ -16,7 +16,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:GetObject",
                 "s3:DeleteObjec"
             ],
-            "Resource": "${aws_s3_bucket.gitlab_runners.source.arn}"
+            "Resource": "${aws_s3_bucket.gitlab_runners.arn}"
         }
     ]
 }
