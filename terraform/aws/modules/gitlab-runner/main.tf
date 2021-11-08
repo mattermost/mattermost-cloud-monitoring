@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "gitlab_runners" {
-  bucket = "gitlab-runners"
+  bucket = "mattermost-cloud-gitlab-runners"
   acl    = "private"
 
   server_side_encryption_configuration {
