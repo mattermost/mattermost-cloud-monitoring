@@ -24,7 +24,7 @@ exports.handler = function (input, context) {
         const awslogsData = JSON.parse(buffer.toString('utf8'));
 
         // transform the input to Elasticsearch documents
-        let elasticsearchBulkData = transform(awslogsData);
+        const elasticsearchBulkData = transform(awslogsData);
 
         // skip control messages
         if (!elasticsearchBulkData) {
