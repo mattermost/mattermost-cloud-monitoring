@@ -2,7 +2,7 @@
 resource "aws_lambda_function" "logs_to_opensearch" {
   s3_bucket     = var.bucket
   s3_key        = "mattermost-cloud/logs-to-opensearch/master/logs-to-opensearch.zip"
-  function_name = "deckhand"
+  function_name = "logs-to-opensearch"
   description   = "Lambda"
   role          = aws_iam_role.logs_to_opensearch.arn
   handler       = "logs-to-opensearch"
@@ -12,7 +12,7 @@ resource "aws_lambda_function" "logs_to_opensearch" {
 
   environment {
     variables = {
-      "es_endpoint"   = var.es_endpoint
+      "es_endpoint" = var.es_endpoint
     }
   }
 
