@@ -5,7 +5,7 @@ resource "aws_lambda_function" "logs_to_opensearch" {
   function_name = "logs-to-opensearch"
   description   = "Lambda"
   role          = aws_iam_role.logs_to_opensearch.arn
-  handler       = "logs-to-opensearch"
+  handler       = "index.handler"
   runtime       = "nodejs14.x"
   timeout       = "600"
 
