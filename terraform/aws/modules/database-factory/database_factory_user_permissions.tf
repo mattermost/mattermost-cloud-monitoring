@@ -277,6 +277,51 @@ resource "aws_iam_policy" "sns_db_factory" {
 EOF
 }
 
+resource "aws_iam_policy" "lambda_and_logs_db_factory" {
+  name        = "mattermost-database-factory-lambda-logs-policy"
+  path        = "/"
+  description = "Lambda and Cloudwatch logs permissions for database factory user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "lambda0",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:ListFunctions",
+                "lambda:ListEventSourceMappings",
+                "lambda:GetAccountSettings",
+                "lambda:TagResource",
+                "lambda:InvokeFunction",
+                "lambda:GetLayerVersion",
+                "lambda:GetFunction",
+                "lambda:UpdateFunctionConfiguration",
+                "lambda:GetFunctionConfiguration",
+                "lambda:AddLayerVersionPermission",
+                "lambda:GetLayerVersionPolicy",
+                "lambda:RemoveLayerVersionPermission",
+                "lambda:UntagResource",
+                "lambda:GetFunctionCodeSigningConfig",
+                "lambda:UpdateFunctionCode",
+                "lambda:ListFunctionEventInvokeConfigs",
+                "lambda:AddPermission",
+                "lambda:GetFunctionConcurrency",
+                "lambda:ListTags",
+                "lambda:GetFunctionEventInvokeConfig",
+                "lambda:GetAlias",
+                "lambda:RemovePermission",
+                "lambda:GetPolicy",
+                "logs:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
 resource "aws_iam_user_policy_attachment" "attach_sns_db_factory" {
   for_each = toset(var.database_factory_users)
   user     = each.value
@@ -325,6 +370,12 @@ resource "aws_iam_user_policy_attachment" "attach_autoscaling_db_factory" {
   for_each   = toset(var.database_factory_users)
   user       = each.value
   policy_arn = aws_iam_policy.autoscaling_db_factory.arn
+}
+
+resource "aws_iam_user_policy_attachment" "attach_lambda_and_logs_db_factory" {
+  for_each   = toset(var.database_factory_users)
+  user       = each.value
+  policy_arn = aws_iam_policy.lambda_and_logs_db_factory.arn
 }
 
 resource "aws_iam_role" "db-factory-role" {
