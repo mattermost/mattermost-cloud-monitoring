@@ -28,8 +28,8 @@ resource "aws_iam_policy" "rds_db_factory" {
                 "rds:DescribeDBParameters",
                 "rds:DeleteDBClusterParameterGroup",
                 "rds:DeleteDBParameterGroup",
-                "rds:ModifyDBInstance"
-
+                "rds:ModifyDBInstance",
+                "rds:ResetDBParameterGroup"
             ],
             "Resource": [
                 "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster:rds-cluster-multitenant-*",
