@@ -54,3 +54,33 @@ variable "node_volume_type" {}
 variable "node_group_name" {}
 
 variable "aws_reserved_sso_id" {}
+
+variable "enable_vpc_cni_addon" {
+  type        = bool
+  description = "Whether to enable the EKS AWS CNI addon or not"
+}
+
+variable "vpc_cni_addon_version" {
+  type        = string
+  description = "The version of the EKS VPC CNI addon"
+}
+
+variable "enable_coredns_addon" {
+  type        = bool
+  description = "Whether to enable the EKS CoreDNS addon or not"
+}
+
+variable "coredns_addon_version" {
+  type        = string
+  description = "The version of the EKS CoreDNS addon"
+}
+
+variable "enable_kube_proxy_addon" {
+  type        = bool
+  description = "Whether to enable the EKS Kube Proxy addon or not"
+}
+
+variable "kube_proxy_addon_version" {
+  type        = string
+  description = "The version of the EKS Kube Proxy addon"
+}
