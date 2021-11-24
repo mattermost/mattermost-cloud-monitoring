@@ -78,10 +78,10 @@ func TestHandle(t *testing.T) {
 						sampleLB,
 					}, nil).MaxTimes(3)
 				awsResourcer.EXPECT().
-					ListUnUsedCalssiclbs(gomock.Any()).
+					ListUnUsedClassiclbs(gomock.Any()).
 					Return([]*elb.LoadBalancerDescription{}, nil)
 				awsResourcer.EXPECT().
-					DeleteCalssiclbs(gomock.Any(), gomock.Any()).
+					DeleteClassiclbs(gomock.Any(), gomock.Any()).
 					Return(nil)
 				awsResourcer.EXPECT().DeleteElbs(gomock.Any(), []elbv2.LoadBalancer{
 					sampleLB,
@@ -98,7 +98,7 @@ func TestHandle(t *testing.T) {
 			ctx:         func() context.Context { return context.TODO() },
 			setup: func(ctx context.Context) {
 				awsResourcer.EXPECT().
-					ListUnUsedCalssiclbs(gomock.Any()).
+					ListUnUsedClassiclbs(gomock.Any()).
 					Return([]*elb.LoadBalancerDescription{}, errors.New("failed to list Calssic LBs")).MaxTimes(1)
 			},
 			expected: func(err error) {
@@ -116,10 +116,10 @@ func TestHandle(t *testing.T) {
 						sampleLB,
 					}, nil).MaxTimes(4)
 				awsResourcer.EXPECT().
-					ListUnUsedCalssiclbs(gomock.Any()).
+					ListUnUsedClassiclbs(gomock.Any()).
 					Return([]*elb.LoadBalancerDescription{&elb.LoadBalancerDescription{LoadBalancerName: sampleLB.LoadBalancerName}}, nil).MaxTimes(2)
 				awsResourcer.EXPECT().
-					DeleteCalssiclbs(gomock.Any(), []*elb.LoadBalancerDescription{&elb.LoadBalancerDescription{LoadBalancerName: sampleLB.LoadBalancerName}}).
+					DeleteClassiclbs(gomock.Any(), []*elb.LoadBalancerDescription{&elb.LoadBalancerDescription{LoadBalancerName: sampleLB.LoadBalancerName}}).
 					Return(nil)
 				awsResourcer.EXPECT().DeleteElbs(gomock.Any(), []elbv2.LoadBalancer{
 					sampleLB,

@@ -24,11 +24,11 @@ type Client struct {
 type Resourcer interface {
 	ListUnusedElbs(context context.Context) ([]elbv2.LoadBalancer, error)
 	DeleteElbs(context context.Context, unUsedLBs []elbv2.LoadBalancer) error
-	ListUnUsedCalssiclbs(context context.Context) ([]*elb.LoadBalancerDescription, error)
-	DeleteCalssiclbs(context context.Context, elbDescList []*elb.LoadBalancerDescription) error
+	ListUnUsedClassiclbs(context context.Context) ([]*elb.LoadBalancerDescription, error)
+	DeleteClassiclbs(context context.Context, elbDescList []*elb.LoadBalancerDescription) error
 }
 
-// NewClient factory method to craete AWS client
+// NewClient factory method to create AWS client
 func NewClient(sess *session.Session) *Client {
 	return &Client{
 		elbv2: elbv2.New(sess),
@@ -48,9 +48,9 @@ func (c *Client) ListUnusedElbs(context context.Context) ([]elbv2.LoadBalancer, 
 	}
 
 	var unUsedLBs []elbv2.LoadBalancer
-	var isUnUsed bool
+	var isUnused bool
 	for _, lb := range result.LoadBalancers {
-		isUnUsed = true
+		isUnused = true
 		targetGroups, err := c.elbv2.DescribeTargetGroups(&elbv2.DescribeTargetGroupsInput{LoadBalancerArn: lb.LoadBalancerArn})
 		if err != nil {
 			return nil, errors.Wrap(err, "failed elbv2.DescribeTargetGroups")
@@ -64,13 +64,13 @@ func (c *Client) ListUnusedElbs(context context.Context) ([]elbv2.LoadBalancer, 
 
 			for _, target := range output.TargetHealthDescriptions {
 				if target.Target.Id != nil {
-					isUnUsed = false
+					isUnused = false
 					break // move to next load balancer
 
 				}
 			}
 		}
-		if isUnUsed {
+		if isUnused {
 			unUsedLBs = append(unUsedLBs, *lb)
 		}
 	}
@@ -91,7 +91,7 @@ func (c *Client) DeleteElbs(context context.Context, unUsedLBs []elbv2.LoadBalan
 }
 
 // ListUnUsedCalssiclbs find unused classic LBs
-func (c *Client) ListUnUsedCalssiclbs(context context.Context) ([]*elb.LoadBalancerDescription, error) {
+func (c *Client) ListUnUsedClassiclbs(context context.Context) ([]*elb.LoadBalancerDescription, error) {
 	input := &elb.DescribeLoadBalancersInput{
 		LoadBalancerNames: []*string{},
 	}
@@ -104,7 +104,7 @@ func (c *Client) ListUnUsedCalssiclbs(context context.Context) ([]*elb.LoadBalan
 }
 
 // DeleteCalssiclbs find & delete unused LBs
-func (c *Client) DeleteCalssiclbs(context context.Context, elbDescList []*elb.LoadBalancerDescription) error {
+func (c *Client) DeleteClassiclbs(context context.Context, elbDescList []*elb.LoadBalancerDescription) error {
 
 	for _, lb := range elbDescList {
 		_, err := c.elb.DeleteLoadBalancer(&elb.DeleteLoadBalancerInput{LoadBalancerName: lb.LoadBalancerName})

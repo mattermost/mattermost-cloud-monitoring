@@ -51,7 +51,7 @@ func (h *EventHandler) Handle(_ context.Context, event events.CloudWatchEvent) e
 	}
 
 	// classic LB
-	unUsedClassiclbs, err := h.awsResourcer.ListUnUsedCalssiclbs(ctx)
+	unUsedClassiclbs, err := h.awsResourcer.ListUnUsedClassiclbs(ctx)
 	if err != nil {
 		return errors.Wrapf(err, "failed to list classic LBs")
 	}
@@ -60,7 +60,7 @@ func (h *EventHandler) Handle(_ context.Context, event events.CloudWatchEvent) e
 
 	// Delete classic ELBs
 	if !h.dryRun {
-		err = h.awsResourcer.DeleteCalssiclbs(ctx, unUsedClassiclbs)
+		err = h.awsResourcer.DeleteClassiclbs(ctx, unUsedClassiclbs)
 		if err != nil {
 			return errors.Wrapf(err, "failed to delete classic LBs")
 		}
