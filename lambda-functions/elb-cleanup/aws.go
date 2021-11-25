@@ -90,7 +90,7 @@ func (c *Client) DeleteElbs(context context.Context, unUsedLBs []elbv2.LoadBalan
 	return nil
 }
 
-// ListUnUsedCalssiclbs find unused classic LBs
+// ListUnUsedClassiclbs find unused classic LBs
 func (c *Client) ListUnUsedClassiclbs(context context.Context) ([]*elb.LoadBalancerDescription, error) {
 	input := &elb.DescribeLoadBalancersInput{
 		LoadBalancerNames: []*string{},
@@ -103,7 +103,7 @@ func (c *Client) ListUnUsedClassiclbs(context context.Context) ([]*elb.LoadBalan
 	return result.LoadBalancerDescriptions, nil
 }
 
-// DeleteCalssiclbs find & delete unused LBs
+// DeleteClassiclbs find & delete unused LBs
 func (c *Client) DeleteClassiclbs(context context.Context, elbDescList []*elb.LoadBalancerDescription) error {
 
 	for _, lb := range elbDescList {

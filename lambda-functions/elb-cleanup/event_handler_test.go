@@ -94,16 +94,16 @@ func TestHandle(t *testing.T) {
 			},
 		},
 		{
-			description: "List Classic , failed to list Calssic LBs",
+			description: "List Classic , failed to list Classic LBs",
 			ctx:         func() context.Context { return context.TODO() },
 			setup: func(ctx context.Context) {
 				awsResourcer.EXPECT().
 					ListUnUsedClassiclbs(gomock.Any()).
-					Return([]*elb.LoadBalancerDescription{}, errors.New("failed to list Calssic LBs")).MaxTimes(1)
+					Return([]*elb.LoadBalancerDescription{}, errors.New("failed to list Classic LBs")).MaxTimes(1)
 			},
 			expected: func(err error) {
 				assert.NotNil(t, err)
-				assert.Contains(t, err.Error(), "failed to list Calssic LBs")
+				assert.Contains(t, err.Error(), "failed to list Classic LBs")
 			},
 		},
 		{
