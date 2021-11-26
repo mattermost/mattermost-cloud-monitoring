@@ -1,5 +1,5 @@
 # Golang
-HANDLER ?= build/output/_bin/main
+HANDLER ?= main
 PACKAGE ?= $(HANDLER)
 GOPATH  ?= $(HOME)/go
 GOOS    ?= linux
