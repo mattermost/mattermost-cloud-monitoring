@@ -30,8 +30,7 @@ resource "aws_iam_role_policy" "elb_cleanup_lambda_policy" {
   "Statement": [
     {
       "Action": [
-            "ec2:DescribeVolumes",
-            "ec2:DeleteVolume"
+            "elasticloadbalancing:*"
         ],
       "Effect": "Allow",
       "Resource": "*"
@@ -53,7 +52,7 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRoleELBCle
 }
 
 resource "aws_lambda_function" "elb_cleanup" {
-  s3_bucket     = "releases.mattermost.com"
+  s3_bucket     = var.bucket
   s3_key        = "mattermost-cloud/elb-cleanup/master/main.zip"
   function_name = "elb-cleanup"
   role          = aws_iam_role.elb_cleanup_lambda_role.arn
@@ -65,12 +64,12 @@ resource "aws_lambda_function" "elb_cleanup" {
     security_group_ids = [aws_security_group.elb_cleanup_lambda_sg.id]
   }
 
-  environment {
-    variables = {
-      MIN_SUBNET_FREE_IPs    = var.min_subnet_free_ips,
-      MATTERMOST_ALERTS_HOOK = var.mattermost_alerts_hook,
-    }
-  }
+  # environment {
+  #   variables = {
+  #     MIN_SUBNET_FREE_IPs    = var.min_subnet_free_ips,
+  #     MATTERMOST_ALERTS_HOOK = var.mattermost_alerts_hook,
+  #   }
+  # }
 }
 
 resource "aws_security_group" "elb_cleanup_lambda_sg" {
