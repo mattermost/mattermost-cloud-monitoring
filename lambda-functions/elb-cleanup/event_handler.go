@@ -18,7 +18,7 @@ type EventHandler struct {
 
 // NewEventHandler factory method to create a new
 // event handler
-func NewEventHandler(expirationDays int, awsResourcer Resourcer, dryRun bool, logger log.FieldLogger) *EventHandler {
+func NewEventHandler(awsResourcer Resourcer, dryRun bool, logger log.FieldLogger) *EventHandler {
 	return &EventHandler{
 		logger:       logger,
 		awsResourcer: awsResourcer,
@@ -33,38 +33,50 @@ func (h *EventHandler) Handle(_ context.Context, event events.CloudWatchEvent) e
 	ctx, cancel := context.WithTimeout(context.Background(), awsTimeout)
 	defer cancel()
 
-	unUsedElbs, err := h.awsResourcer.ListUnusedElbs(ctx)
+	unUsedElbs, err := h.awsResourcer.ListUnusedElb(ctx)
 	if err != nil {
-		return errors.Wrapf(err, "failed to list LBs")
+		return errors.Wrapf(err, "failed to list ELBs")
 	}
-	for _, lb := range unUsedElbs {
-		h.logger.Info("List of unused ALBs & NLBs are ", lb.LoadBalancerName)
-	}
-	h.logger.Info("Unused ALBs & NLBs count ", len(unUsedElbs))
 
-	if !h.dryRun {
-		// Delete unused ELBs
-		err = h.awsResourcer.DeleteElbs(ctx, unUsedElbs)
-		if err != nil {
-			return errors.Wrapf(err, "failed to delete ELBs:")
+	h.logger.Info("Total Unused ElBs: ", len(unUsedElbs))
+	if len(unUsedElbs) > 0 {
+		for _, lb := range unUsedElbs {
+			if !h.dryRun {
+				// Delete unused ELBs
+				err = h.awsResourcer.DeleteElb(ctx, lb.LoadBalancerArn)
+				if err != nil {
+					return errors.Wrapf(err, "failed to delete ELB %s:", *lb.LoadBalancerArn)
+				}
+				h.logger.Info("Deleted Unused ELB ", *lb.LoadBalancerArn)
+			} else {
+				h.logger.Info("Unused ELB is ", *lb.LoadBalancerArn)
+
+			}
 		}
 	}
 
 	// classic LB
-	unUsedClassiclbs, err := h.awsResourcer.ListUnUsedClassiclbs(ctx)
+	unUsedClassiclbs, err := h.awsResourcer.ListUnUsedClassiclb(ctx)
 	if err != nil {
 		return errors.Wrapf(err, "failed to list classic LBs")
 	}
-	h.logger.Info("List of unused classic LBs are ", unUsedClassiclbs)
-	h.logger.Info("Unused classic LBs count ", len(unUsedClassiclbs))
 
-	// Delete classic ELBs
-	if !h.dryRun {
-		err = h.awsResourcer.DeleteClassiclbs(ctx, unUsedClassiclbs)
-		if err != nil {
-			return errors.Wrapf(err, "failed to delete classic LBs")
+	h.logger.Info("Total Unused classic LBs: ", len(unUsedClassiclbs))
+	if len(unUsedClassiclbs) > 0 {
+		for _, classicLB := range unUsedClassiclbs {
+			// Delete classic ELBs
+			if !h.dryRun {
+				err = h.awsResourcer.DeleteClassiclb(ctx, classicLB.LoadBalancerName)
+				if err != nil {
+					return errors.Wrapf(err, "failed to delete classic LBs %s", *classicLB.LoadBalancerName)
+				}
+				h.logger.Info("Deleted Unused classic LB ", *classicLB.LoadBalancerName)
+			} else {
+				h.logger.Info("Unused classic LB is ", *classicLB.LoadBalancerName)
+			}
 		}
 	}
+
 	h.logger.WithField("eventID", event.ID).Info("event processed succesfully")
 	return nil
 }

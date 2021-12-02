@@ -13,13 +13,15 @@ var cfg config
 // config describes the available configuration
 // of the running service
 type config struct {
-	Debug          bool
-	Region         string
-	ExpirationDays int `mapstructure:"expiration_days"`
+	Debug  bool
+	Region string
 }
 
 // Validate makes sure that the config makes sense
 func (c *config) Validate() error {
+	if len(c.Region) == 0 {
+		return errors.New("AWS Region should be set & has a valid value")
+	}
 	return nil
 }
 
@@ -29,10 +31,9 @@ func init() {
 	viper.SetEnvPrefix("elb-cleanup")
 
 	defaults := map[string]interface{}{
-		"debug":           false,
-		"environment":     "dev",
-		"region":          "us-east-1",
-		"expiration_days": 90,
+		"debug":       false,
+		"environment": "dev",
+		"region":      "us-east-1",
 	}
 	for key, value := range defaults {
 		viper.SetDefault(key, value)
@@ -43,7 +44,7 @@ func init() {
 func LoadConfig(logger log.FieldLogger) error {
 	err := viper.Unmarshal(&cfg)
 	if err != nil {
-		return errors.Wrap(err, "config load")
+		return errors.Wrap(err, "failed to load config")
 	}
-	return errors.Wrap(cfg.Validate(), "config validate")
+	return errors.Wrap(cfg.Validate(), "invalid config")
 }

@@ -36,60 +36,60 @@ func (m *MockResourcer) EXPECT() *MockResourcerMockRecorder {
 	return m.recorder
 }
 
-// DeleteClassiclbs mocks base method.
-func (m *MockResourcer) DeleteClassiclbs(context context.Context, elbDescList []*elb.LoadBalancerDescription) error {
+// DeleteClassiclb mocks base method.
+func (m *MockResourcer) DeleteClassiclb(context context.Context, LoadBalancerName *string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteClassiclbs", context, elbDescList)
+	ret := m.ctrl.Call(m, "DeleteClassiclb", context, LoadBalancerName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeleteClassiclbs indicates an expected call of DeleteClassiclbs.
-func (mr *MockResourcerMockRecorder) DeleteClassiclbs(context, elbDescList interface{}) *gomock.Call {
+// DeleteClassiclb indicates an expected call of DeleteClassiclb.
+func (mr *MockResourcerMockRecorder) DeleteClassiclb(context, LoadBalancerName interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteClassiclbs", reflect.TypeOf((*MockResourcer)(nil).DeleteClassiclbs), context, elbDescList)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteClassiclb", reflect.TypeOf((*MockResourcer)(nil).DeleteClassiclb), context, LoadBalancerName)
 }
 
-// DeleteElbs mocks base method.
-func (m *MockResourcer) DeleteElbs(context context.Context, unUsedLBs []elbv2.LoadBalancer) error {
+// DeleteElb mocks base method.
+func (m *MockResourcer) DeleteElb(context context.Context, loadBalancerArn *string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteElbs", context, unUsedLBs)
+	ret := m.ctrl.Call(m, "DeleteElb", context, loadBalancerArn)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeleteElbs indicates an expected call of DeleteElbs.
-func (mr *MockResourcerMockRecorder) DeleteElbs(context, unUsedLBs interface{}) *gomock.Call {
+// DeleteElb indicates an expected call of DeleteElb.
+func (mr *MockResourcerMockRecorder) DeleteElb(context, loadBalancerArn interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteElbs", reflect.TypeOf((*MockResourcer)(nil).DeleteElbs), context, unUsedLBs)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteElb", reflect.TypeOf((*MockResourcer)(nil).DeleteElb), context, loadBalancerArn)
 }
 
-// ListUnUsedClassiclbs mocks base method.
-func (m *MockResourcer) ListUnUsedClassiclbs(context context.Context) ([]*elb.LoadBalancerDescription, error) {
+// ListUnUsedClassiclb mocks base method.
+func (m *MockResourcer) ListUnUsedClassiclb(context context.Context) ([]*elb.LoadBalancerDescription, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListUnUsedClassiclbs", context)
+	ret := m.ctrl.Call(m, "ListUnUsedClassiclb", context)
 	ret0, _ := ret[0].([]*elb.LoadBalancerDescription)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ListUnUsedClassiclbs indicates an expected call of ListUnUsedClassiclbs.
-func (mr *MockResourcerMockRecorder) ListUnUsedClassiclbs(context interface{}) *gomock.Call {
+// ListUnUsedClassiclb indicates an expected call of ListUnUsedClassiclb.
+func (mr *MockResourcerMockRecorder) ListUnUsedClassiclb(context interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUnUsedClassiclbs", reflect.TypeOf((*MockResourcer)(nil).ListUnUsedClassiclbs), context)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUnUsedClassiclb", reflect.TypeOf((*MockResourcer)(nil).ListUnUsedClassiclb), context)
 }
 
-// ListUnusedElbs mocks base method.
-func (m *MockResourcer) ListUnusedElbs(context context.Context) ([]elbv2.LoadBalancer, error) {
+// ListUnusedElb mocks base method.
+func (m *MockResourcer) ListUnusedElb(context context.Context) ([]elbv2.LoadBalancer, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListUnusedElbs", context)
+	ret := m.ctrl.Call(m, "ListUnusedElb", context)
 	ret0, _ := ret[0].([]elbv2.LoadBalancer)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ListUnusedElbs indicates an expected call of ListUnusedElbs.
-func (mr *MockResourcerMockRecorder) ListUnusedElbs(context interface{}) *gomock.Call {
+// ListUnusedElb indicates an expected call of ListUnusedElb.
+func (mr *MockResourcerMockRecorder) ListUnusedElb(context interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUnusedElbs", reflect.TypeOf((*MockResourcer)(nil).ListUnusedElbs), context)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUnusedElb", reflect.TypeOf((*MockResourcer)(nil).ListUnusedElb), context)
 }

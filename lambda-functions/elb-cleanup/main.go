@@ -1,10 +1,8 @@
 package main
 
 import (
-	"context"
 	"os"
 
-	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -44,13 +42,14 @@ func main() {
 		return
 	}
 
+	if cfg.Debug {
+		log.Info("it is dry run")
+	} else {
+		log.Info("it is not dry run")
+	}
 	// setup the handler
 	awsResourcer := NewClient(sess)
-	handler := NewEventHandler(cfg.ExpirationDays, awsResourcer, cfg.Debug, logger)
-	if cfg.Debug {
-		handler.Handle(context.Background(), events.CloudWatchEvent{}) //nolint
-		return
-	}
+	handler := NewEventHandler(awsResourcer, cfg.Debug, logger)
 
 	lambda.Start(handler.Handle)
 }

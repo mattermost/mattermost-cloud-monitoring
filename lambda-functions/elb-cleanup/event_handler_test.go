@@ -18,7 +18,7 @@ import (
 func TestHandle(t *testing.T) {
 	gmctrl := gomock.NewController(t)
 	awsResourcer := mocks.NewMockResourcer(gmctrl)
-	eventHandler := NewEventHandler(90, awsResourcer, false, logrus.New())
+	eventHandler := NewEventHandler(awsResourcer, true, logrus.New())
 	defer gmctrl.Finish()
 
 	sampleLB := elbv2.LoadBalancer{
@@ -40,32 +40,13 @@ func TestHandle(t *testing.T) {
 			ctx:         func() context.Context { return context.TODO() },
 			setup: func(ctx context.Context) {
 				awsResourcer.EXPECT().
-					ListUnusedElbs(gomock.Any()).
-					Return([]elbv2.LoadBalancer{}, errors.New("failed to list LBs")).MaxTimes(1)
+					ListUnusedElb(gomock.Any()).
+					Return([]elbv2.LoadBalancer{}, errors.New("failed to list ELBs")).MaxTimes(1)
 
 			},
 			expected: func(err error) {
 				assert.NotNil(t, err)
-				assert.Contains(t, err.Error(), "failed to list LBs")
-			},
-		},
-		{
-			description: "Failed to delete ELBs",
-			ctx:         func() context.Context { return context.TODO() },
-			setup: func(ctx context.Context) {
-				awsResourcer.EXPECT().
-					ListUnusedElbs(gomock.Any()).
-					Return([]elbv2.LoadBalancer{
-						sampleLB,
-					}, nil).MaxTimes(2)
-
-				awsResourcer.EXPECT().DeleteElbs(gomock.Any(), []elbv2.LoadBalancer{sampleLB}).
-					Return(errors.New("Unable to delete Load balancer")).MaxTimes(1)
-
-			},
-			expected: func(err error) {
-				assert.NotNil(t, err)
-				assert.Contains(t, err.Error(), "Unable to delete Load balancer")
+				assert.Contains(t, err.Error(), "failed to list ELBs")
 			},
 		},
 		{
@@ -73,19 +54,18 @@ func TestHandle(t *testing.T) {
 			ctx:         func() context.Context { return context.TODO() },
 			setup: func(ctx context.Context) {
 				awsResourcer.EXPECT().
-					ListUnusedElbs(gomock.Any()).
+					ListUnusedElb(gomock.Any()).
 					Return([]elbv2.LoadBalancer{
 						sampleLB,
 					}, nil).MaxTimes(3)
 				awsResourcer.EXPECT().
-					ListUnUsedClassiclbs(gomock.Any()).
+					ListUnUsedClassiclb(gomock.Any()).
 					Return([]*elb.LoadBalancerDescription{}, nil)
 				awsResourcer.EXPECT().
-					DeleteClassiclbs(gomock.Any(), gomock.Any()).
-					Return(nil)
-				awsResourcer.EXPECT().DeleteElbs(gomock.Any(), []elbv2.LoadBalancer{
-					sampleLB,
-				}).Return(nil).MaxTimes(2)
+					DeleteClassiclb(gomock.Any(), gomock.Any()).
+					Return(nil).MaxTimes(5)
+				awsResourcer.EXPECT().DeleteElb(gomock.Any(), sampleLB.LoadBalancerArn).
+					Return(nil).MaxTimes(2)
 
 			},
 			expected: func(err error) {
@@ -98,7 +78,7 @@ func TestHandle(t *testing.T) {
 			ctx:         func() context.Context { return context.TODO() },
 			setup: func(ctx context.Context) {
 				awsResourcer.EXPECT().
-					ListUnUsedClassiclbs(gomock.Any()).
+					ListUnUsedClassiclb(gomock.Any()).
 					Return([]*elb.LoadBalancerDescription{}, errors.New("failed to list Classic LBs")).MaxTimes(1)
 			},
 			expected: func(err error) {
@@ -111,19 +91,17 @@ func TestHandle(t *testing.T) {
 			ctx:         func() context.Context { return context.TODO() },
 			setup: func(ctx context.Context) {
 				awsResourcer.EXPECT().
-					ListUnusedElbs(gomock.Any()).
+					ListUnusedElb(gomock.Any()).
 					Return([]elbv2.LoadBalancer{
 						sampleLB,
 					}, nil).MaxTimes(4)
 				awsResourcer.EXPECT().
-					ListUnUsedClassiclbs(gomock.Any()).
+					ListUnUsedClassiclb(gomock.Any()).
 					Return([]*elb.LoadBalancerDescription{&elb.LoadBalancerDescription{LoadBalancerName: sampleLB.LoadBalancerName}}, nil).MaxTimes(2)
 				awsResourcer.EXPECT().
-					DeleteClassiclbs(gomock.Any(), []*elb.LoadBalancerDescription{&elb.LoadBalancerDescription{LoadBalancerName: sampleLB.LoadBalancerName}}).
-					Return(nil)
-				awsResourcer.EXPECT().DeleteElbs(gomock.Any(), []elbv2.LoadBalancer{
-					sampleLB,
-				}).Return(nil).MaxTimes(2)
+					DeleteClassiclb(gomock.Any(), sampleLB.LoadBalancerName).
+					Return(nil).MaxTimes(2)
+				awsResourcer.EXPECT().DeleteElb(gomock.Any(), sampleLB.LoadBalancerArn).Return(nil).MaxTimes(2)
 
 			},
 			expected: func(err error) {
@@ -138,6 +116,7 @@ func TestHandle(t *testing.T) {
 			testCase.setup(testCase.ctx())
 
 			err := eventHandler.Handle(testCase.ctx(), events.CloudWatchEvent{})
+			// fmt.Println("t: ", testCase.description)
 			testCase.expected(err)
 		})
 	}

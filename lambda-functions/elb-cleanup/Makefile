@@ -1,5 +1,5 @@
 # Golang
-HANDLER ?= main
+HANDLER ?= build/output/_bin/main
 PACKAGE ?= $(HANDLER)
 GOPATH  ?= $(HOME)/go
 GOOS    ?= linux
@@ -27,7 +27,7 @@ build:
 ## clean: Run golangci-lint on codebase
 clean:
 	@echo "Cleaning up..."
-	@rm -rf $(HANDLER) $(PACKAGE).zip
+	@rm -rf $(HANDLER)
 
 .PHONY: dist
 ## dist: packaging binary into zip
