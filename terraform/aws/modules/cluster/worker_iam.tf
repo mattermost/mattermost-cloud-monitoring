@@ -121,6 +121,64 @@ resource "aws_iam_policy" "cost_explorer_policy" {
 EOF
 }
 
+resource "aws_iam_policy" "loki_policy" {
+  name        = "cloud-${var.cluster_short_name}-loki-policy"
+  path        = "/"
+  description = "Policy for Loki storage required permissions."
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowDynamoDBResource",
+            "Effect": "Allow",
+            "Action": [
+              "dynamodb:BatchGetItem",
+              "dynamodb:BatchWriteItem",
+              "dynamodb:DeleteItem",
+              "dynamodb:DescribeTable",
+              "dynamodb:GetItem",
+              "dynamodb:ListTagsOfResource",
+              "dynamodb:PutItem",
+              "dynamodb:Query",
+              "dynamodb:TagResource",
+              "dynamodb:UntagResource",
+              "dynamodb:UpdateItem",
+              "dynamodb:UpdateTable",
+              "dynamodb:CreateTable",
+              "dynamodb:DeleteTable"
+            ],
+            "Resource": "arn:aws:dynamodb:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:table/cloud-loki-${var.environment}"
+        },
+        {
+            "Sid": "AllowDynamoDBAll",
+            "Effect": "Allow",
+            "Action": [
+              "dynamodb:ListTables"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AllowS3",
+            "Effect": "Allow",
+            "Action": [
+              "s3:ListBucket",
+              "s3:PutObject",
+              "s3:GetObject",
+              "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::cloud-loki-${var.environment}/*",
+                "arn:aws:s3:::cloud-loki-${var.environment}"
+            ]
+        }
+    ]
+}
+EOF
+
+}
+
 resource "aws_iam_role_policy_attachment" "worker_cost_explorer_policy" {
   policy_arn = aws_iam_policy.cost_explorer_policy.arn
   role       = aws_iam_role.worker-role.name
