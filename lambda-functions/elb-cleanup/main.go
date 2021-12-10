@@ -42,11 +42,12 @@ func main() {
 		return
 	}
 
-	if cfg.Debug {
-		log.Info("it is dry run")
-	} else {
-		log.Info("it is not dry run")
+	dryrun := os.Getenv("dryrun")
+	if len(dryrun) > 0 && dryrun == "true" {
+		log.Info("Running in a dryrun mode")
+		cfg.Debug = true
 	}
+
 	// setup the handler
 	awsResourcer := NewClient(sess)
 	handler := NewEventHandler(awsResourcer, cfg.Debug, logger)
