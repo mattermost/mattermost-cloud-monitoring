@@ -302,4 +302,3 @@ workflows:
             branches:
               ignore:
                 - master
-
