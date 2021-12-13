@@ -52,11 +52,11 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRoleELBCle
 }
 
 resource "aws_lambda_function" "elb_cleanup" {
-  s3_bucket     = "mshahid-tf-dev"
+  s3_bucket     = var.bucket
   s3_key        = "mattermost-cloud/elb-cleanup/master/main.zip"
   function_name = "elb-cleanup"
   role          = aws_iam_role.elb_cleanup_lambda_role.arn
-  handler       = "main"
+  handler       = "build/output/_bin/main"
   timeout       = 120
   runtime       = "go1.x"
   vpc_config {
@@ -64,12 +64,11 @@ resource "aws_lambda_function" "elb_cleanup" {
     security_group_ids = [aws_security_group.elb_cleanup_lambda_sg.id]
   }
 
-  # environment {
-  #   variables = {
-  #     MIN_SUBNET_FREE_IPs    = var.min_subnet_free_ips,
-  #     MATTERMOST_ALERTS_HOOK = var.mattermost_alerts_hook,
-  #   }
-  # }
+  environment {
+    variables = {
+      dryrun = var.dryrun,
+    }
+  }
 }
 
 resource "aws_security_group" "elb_cleanup_lambda_sg" {

@@ -7,6 +7,5 @@ variable "deployment_name" {}
 variable "elb_cleanup_lambda_schedule" {}
 
 variable "bucket" {}
-# variable "min_subnet_free_ips" {}
+variable "dryrun" {}
 
-# variable "mattermost_alerts_hook" {}
