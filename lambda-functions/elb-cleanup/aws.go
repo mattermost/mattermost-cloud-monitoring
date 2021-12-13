@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws/awserr"
@@ -52,6 +54,7 @@ func (c *Client) ListUnusedElb(context context.Context) ([]elbv2.LoadBalancer, e
 	var isUnused bool
 	for _, lb := range result.LoadBalancers {
 		isUnused = true
+		fmt.Println("testing LB: ", *lb.LoadBalancerName+"len: "+strconv.Itoa(len(result.LoadBalancers)))
 		targetGroups, err := c.elbv2.DescribeTargetGroups(&elbv2.DescribeTargetGroupsInput{LoadBalancerArn: lb.LoadBalancerArn})
 		if err != nil {
 			if aerr, ok := err.(awserr.Error); ok {
@@ -60,9 +63,9 @@ func (c *Client) ListUnusedElb(context context.Context) ([]elbv2.LoadBalancer, e
 					unUsedLBs = append(unUsedLBs, *lb)
 					continue
 				}
+			} else {
+				return nil, errors.Wrap(err, "failed elbv2.DescribeTargetGroups")
 			}
-		} else {
-			return nil, errors.Wrap(err, "failed elbv2.DescribeTargetGroups")
 		}
 
 		for _, targetGroup := range targetGroups.TargetGroups {
