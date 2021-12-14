@@ -60,9 +60,9 @@ func (c *Client) ListUnusedElb(context context.Context) ([]elbv2.LoadBalancer, e
 					unUsedLBs = append(unUsedLBs, *lb)
 					continue
 				}
+			} else {
+				return nil, errors.Wrap(err, "failed elbv2.DescribeTargetGroups")
 			}
-		} else {
-			return nil, errors.Wrap(err, "failed elbv2.DescribeTargetGroups")
 		}
 
 		for _, targetGroup := range targetGroups.TargetGroups {

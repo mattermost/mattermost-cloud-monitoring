@@ -28,6 +28,7 @@ build:
 clean:
 	@echo "Cleaning up..."
 	@rm -rf $(HANDLER)
+	@rm -rf $(HANDLER).zip
 
 .PHONY: dist
 ## dist: packaging binary into zip
