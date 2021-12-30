@@ -43,4 +43,8 @@ module "managed_node_group" {
   min_size               = var.min_size
   node_group_name        = var.node_group_name
   cluster_short_name     = var.cluster_short_name
+  spot_desired_size      = var.spot_desired_size
+  spot_max_size          = var.spot_max_size
+  spot_min_size          = var.spot_min_size
+  spot_instance_type     = var.spot_instance_type
 }
