@@ -61,8 +61,3 @@ resource "aws_iam_role_policy_attachment" "provisioner_role_attach_tag" {
   role       = aws_iam_role.provisioner_role.name
   policy_arn = aws_iam_policy.tag.arn
 }
-
-resource "aws_iam_role_policy_attachment" "provisioner_role_attach_dynamodb" {
-  role       = aws_iam_role.provisioner_role.name
-  policy_arn = aws_iam_policy.dynamodb.arn
-}
