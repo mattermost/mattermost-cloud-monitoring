@@ -123,35 +123,6 @@ resource "aws_iam_policy" "loki_policy" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "AllowDynamoDBResource",
-            "Effect": "Allow",
-            "Action": [
-              "dynamodb:BatchGetItem",
-              "dynamodb:BatchWriteItem",
-              "dynamodb:DeleteItem",
-              "dynamodb:DescribeTable",
-              "dynamodb:GetItem",
-              "dynamodb:ListTagsOfResource",
-              "dynamodb:PutItem",
-              "dynamodb:Query",
-              "dynamodb:TagResource",
-              "dynamodb:UntagResource",
-              "dynamodb:UpdateItem",
-              "dynamodb:UpdateTable",
-              "dynamodb:CreateTable",
-              "dynamodb:DeleteTable"
-            ],
-            "Resource": "arn:aws:dynamodb:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:table/cloud-loki-${var.environment}"
-        },
-        {
-            "Sid": "AllowDynamoDBAll",
-            "Effect": "Allow",
-            "Action": [
-              "dynamodb:ListTables"
-            ],
-            "Resource": "*"
-        },
-        {
             "Sid": "AllowS3",
             "Effect": "Allow",
             "Action": [
@@ -169,6 +140,11 @@ resource "aws_iam_policy" "loki_policy" {
 }
 EOF
 
+}
+
+resource "aws_iam_role_policy_attachment" "worker_loki_policy" {
+  policy_arn = aws_iam_policy.loki_policy.arn
+  role       = aws_iam_role.worker-role.name
 }
 
 resource "aws_iam_role_policy_attachment" "worker_cost_explorer_policy" {
