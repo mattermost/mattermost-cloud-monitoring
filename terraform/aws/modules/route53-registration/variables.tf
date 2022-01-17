@@ -70,5 +70,10 @@ variable "enable_kubecost_record" {
 
 variable "enable_push_proxy_record" {
   type        = bool
-  description = "Enables to create a public route53 record for Mattermost Push Proxy"
+  description = "Enables to create a private route53 record for Mattermost Push Proxy"
+}
+
+variable "enable_loki_gateway" {
+  type        = bool
+  description = "Enables to create a private route53 record for Loki Gateway"
 }
