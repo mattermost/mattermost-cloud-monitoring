@@ -159,7 +159,7 @@ resource "aws_route53_record" "push_proxy" {
   records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
-resource "aws_route53_record" "push_proxy" {
+resource "aws_route53_record" "loki_gateway" {
   count = var.enable_loki_gateway ? 1 : 0
 
   zone_id = var.private_hosted_zoneid
