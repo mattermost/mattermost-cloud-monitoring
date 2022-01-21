@@ -29,3 +29,8 @@ variable "force_destroy_stackrox_bundle_bucket" {
   description = "Enables force destroy of a stackrox bundle bucket"
   default     = false
 }
+
+variable "awat_bucket_name" {
+  type        = string
+  description = "The name of the S3 Bucket which AWAT needs for data import"
+}

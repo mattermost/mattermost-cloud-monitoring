@@ -435,6 +435,53 @@ resource "aws_iam_policy" "tag" {
 EOF
 }
 
+
+resource "aws_iam_policy" "s3_awat" {
+  name        = "mattermost-provisioner-awat-policy${local.conditional_dash_region}"
+  path        = "/"
+  description = "S3 permissions for provisioner user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+         {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListAllMyBuckets"
+            ],
+            "Resource": "arn:aws:s3:::*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation",
+                "s3:GetBucketTagging"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.awat_bucket_name}"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:DeleteObject",
+                "s3:GetObjectVersionAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.awat_bucket_name}/*"
+            ]
+        }
+    ]
+}
+EOF
+}
+
 resource "aws_iam_user_policy_attachment" "attach_tag" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
@@ -487,4 +534,10 @@ resource "aws_iam_user_policy_attachment" "attach_kms" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.kms.arn
+}
+
+resource "aws_iam_user_policy_attachment" "attach_awat" {
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
+  policy_arn = aws_iam_policy.s3_awat.arn
 }
