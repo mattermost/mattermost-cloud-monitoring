@@ -563,8 +563,7 @@ resource "aws_iam_user_policy_attachment" "attach_awat" {
   policy_arn = aws_iam_policy.s3_awat.arn
 }
 resource "aws_iam_user_policy_attachment" "attach_kms_awat" {
-  count      = var.awat_cross_account_enabled ? 1 : 0
-  for_each   = toset(var.provisioner_users)
+  for_each   = toset(var.awat_cross_account_enabled ? var.provisioner_users : [])
   user       = each.value
   policy_arn = aws_iam_policy.kms_awat.0.arn
 }
