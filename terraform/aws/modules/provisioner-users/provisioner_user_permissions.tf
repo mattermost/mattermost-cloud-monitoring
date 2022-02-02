@@ -435,7 +435,6 @@ resource "aws_iam_policy" "tag" {
 EOF
 }
 
-
 resource "aws_iam_policy" "s3_awat" {
   name        = "mattermost-provisioner-awat-policy${local.conditional_dash_region}"
   path        = "/"
@@ -476,6 +475,28 @@ resource "aws_iam_policy" "s3_awat" {
             "Resource": [
                 "arn:aws:s3:::${var.awat_bucket_name}/*"
             ]
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "kms_awat" {
+  count       = var.awat_cross_account_enabled ? 1 : 0
+  name        = "mattermost-provisioner-kms-awat-policy${local.conditional_dash_region}"
+  path        = "/"
+  description = "KMS permissions for provisioner user for AWAT bucket"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kms:Decrypt"
+            ],
+            "Resource": "${var.awat_s3_kms_key_arn}"
         }
     ]
 }
@@ -540,4 +561,10 @@ resource "aws_iam_user_policy_attachment" "attach_awat" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.s3_awat.arn
+}
+resource "aws_iam_user_policy_attachment" "attach_kms_awat" {
+  count      = var.awat_cross_account_enabled ? 1 : 0
+  for_each   = toset(var.provisioner_users)
+  user       = each.value
+  policy_arn = aws_iam_policy.kms_awat.0.arn
 }
