@@ -1,20 +1,45 @@
 variable "environment" {
   type        = string
-  description = "The name of the environment which will deploy to and will be added as a tag"
+  description = "The name of the environment is created"
+}
+
+variable "deployment_name" {
+  type        = string
+  description = "The name of the deployment which exists in"
 }
 
 variable "provisioner_users" {
   type        = list(string)
-  description = "The IAM user names which will Allowed for S3 operation (Get, Delete Objects) in the IAM Policy Document of the bucket"
+  description = "The list defined the users can use provisioner"
 }
 
 variable "cnc_user" {
   type        = string
-  description = "The IAM user name which will Allowed  for S3 operation in the IAM Policy Document of the bucket"
+  description = "The Command And Control user"
 }
 
 variable "force_destroy_state_bucket" {
   type        = bool
-  description = "The flag to enable or disable force destroy of the S3 state"
+  description = "Enables force destroy of a provisioner state bucket"
   default     = false
+}
+
+variable "force_destroy_stackrox_bundle_bucket" {
+  type        = bool
+  description = "Enables force destroy of a stackrox bundle bucket"
+  default     = false
+}
+variable "awat_cross_account_enabled" {
+  type        = bool
+  description = "Enables cross-account policies for KMS"
+}
+
+variable "awat_bucket_name" {
+  type        = string
+  description = "The name of the S3 Bucket which AWAT needs for data import"
+}
+
+variable "awat_s3_kms_key_arn" {
+  type        = string
+  description = "The name of the S3 Bucket which AWAT needs for data import"
 }

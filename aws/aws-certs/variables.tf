@@ -1,16 +1,11 @@
+variable "validation_acm_zoneid" {
+  type        = string
+  description = "The Hosted Zone ID for certs validation"
+}
+
 variable "priv_domain" {
   type        = string
   description = "The domain name for ACM certificate for a private zone"
-}
-
-variable "priv_validation_acm_zoneid" {
-  type        = string
-  description = "The Hosted Zone id of the desired Hosted Zone"
-}
-
-variable "priv_alternative_cert_domains" {
-  type        = list(string)
-  description = "The list of alternative cert domains for private ACM certificate"
 }
 
 variable "private_tags" {
@@ -30,5 +25,5 @@ variable "public_tags" {
 
 variable "pub_validation_acm_zoneid" {
   type        = string
-  description = "The Hosted Zone id of the desired Hosted Zone for the public Route53 record"
+  description = "The desired Hosted Zone ID for the public zone"
 }

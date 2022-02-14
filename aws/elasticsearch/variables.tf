@@ -30,6 +30,11 @@ variable "mattermost_network" {}
 
 variable "private_hosted_zoneid" {}
 
+variable "custom_endpoint_enabled" {
+  type    = bool
+  default = true
+}
+
 variable "cw_retention_in_days" {
   type    = string
   default = "90"
@@ -97,6 +102,12 @@ variable "monitor_master_cpu_utilization_too_high" {
 
 variable "monitor_master_jvm_memory_pressure_too_high" {
   description = "Enable monitoring of JVM memory pressure of master nodes are too high. Only enable this wwhen dedicated master is enabled"
+  type        = bool
+  default     = true
+}
+
+variable "monitor_master_not_reachable_from_node" {
+  description = "Enable monitoring when master is not reachable from nodes"
   type        = bool
   default     = true
 }

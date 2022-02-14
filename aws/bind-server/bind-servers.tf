@@ -1,3 +1,7 @@
+data "aws_region" "current" {}
+
+data "aws_caller_identity" "current" {}
+
 # The SG of the bind server
 resource "aws_security_group" "bind_sg" {
   name        = "Bind Server SG"
@@ -8,7 +12,7 @@ resource "aws_security_group" "bind_sg" {
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
-    cidr_blocks = var.udp_cidr_blocks
+    cidr_blocks = var.cidr_blocks
   }
 
   ingress {
@@ -53,12 +57,20 @@ resource "aws_key_pair" "bind" {
   public_key = var.ssh_key_public
 }
 
-resource "aws_launch_configuration" "bind_lauch_configuration" {
-  name_prefix     = "${var.name}-"
-  image_id        = var.ami
-  instance_type   = var.instance_type
-  key_name        = "mattermost-cloud-${var.environment}-bind"
-  security_groups = [aws_security_group.bind_sg.id]
+resource "aws_launch_configuration" "bind_launch_configuration" {
+  iam_instance_profile = aws_iam_instance_profile.bind-server-instance-profile.name
+  name_prefix          = "${var.name}-"
+  image_id             = var.ami
+  instance_type        = var.instance_type
+  key_name             = "mattermost-cloud-${var.environment}-bind"
+  security_groups      = [aws_security_group.bind_sg.id]
+
+  root_block_device {
+    volume_size           = var.volume_size
+    volume_type           = var.volume_type
+    delete_on_termination = true
+  }
+
   lifecycle {
     create_before_destroy = true
   }
@@ -66,7 +78,7 @@ resource "aws_launch_configuration" "bind_lauch_configuration" {
 
 resource "aws_autoscaling_group" "bind_autoscale" {
   name                      = "autoscale-bind-server"
-  launch_configuration      = aws_launch_configuration.bind_lauch_configuration.name
+  launch_configuration      = aws_launch_configuration.bind_launch_configuration.name
   min_size                  = 3
   max_size                  = 3
   desired_capacity          = 3
@@ -110,4 +122,35 @@ resource "aws_network_interface" "bind_network_interface" {
   tags = {
     BindServer = "true"
   }
+}
+
+resource "aws_iam_instance_profile" "bind-server-instance-profile" {
+  name = "${var.environment}-bind-server-instance-profile"
+  role = aws_iam_role.bind-server-role.name
+}
+
+resource "aws_iam_role" "bind-server-role" {
+  name = "${var.environment}-bind-server-role"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "bind-cloudwatch-agent" {
+  count = length(local.role_policy_arn)
+
+  role       = aws_iam_role.bind-server-role.name
+  policy_arn = element(local.role_policy_arn, count.index)
 }

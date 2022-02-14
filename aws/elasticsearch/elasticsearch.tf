@@ -2,6 +2,12 @@ data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}
 
+data "aws_acm_certificate" "internal_cert" {
+  domain      = "*.internal.${var.environment}.cloud.mattermost.com"
+  types       = ["AMAZON_ISSUED"]
+  most_recent = true
+}
+
 resource "aws_elasticsearch_domain" "es_domain" {
   domain_name           = var.domain_name
   elasticsearch_version = var.es_version
@@ -16,6 +22,12 @@ resource "aws_elasticsearch_domain" "es_domain" {
     zone_awareness_config {
       availability_zone_count = var.es_zone_awareness_count
     }
+  }
+
+  domain_endpoint_options {
+    custom_endpoint_enabled         = var.custom_endpoint_enabled
+    custom_endpoint                 = "elasticsearch.internal.${var.environment}.cloud.mattermost.com"
+    custom_endpoint_certificate_arn = data.aws_acm_certificate.internal_cert.arn
   }
 
   vpc_options {

@@ -27,7 +27,7 @@ resource "aws_iam_policy" "utilities_policy" {
 {
     "Version": "2012-10-17",
     "Statement": [
-        {   
+        {
             "Sid": "AllS3Bucket",
             "Effect": "Allow",
             "Action": [
@@ -53,14 +53,6 @@ resource "aws_iam_policy" "utilities_policy" {
             "Resource": [
                 "arn:aws:s3:::cloud-${var.environment}-${var.cluster_short_name}/*",
                 "arn:aws:s3:::cloud-${var.environment}-prometheus-metrics/*"
-            ]
-        },
-        {
-            "Sid": "AllActionsOnTeleportDB",
-            "Effect": "Allow",
-            "Action": "dynamodb:*",
-            "Resource": [
-              "arn:aws:dynamodb:*:${data.aws_caller_identity.current.account_id}:table/cloud-${var.environment}-${var.cluster_short_name}*"
             ]
         },
         {
@@ -101,6 +93,65 @@ resource "aws_iam_policy" "cluster_autoscaler_policy" {
 EOF
 }
 
+resource "aws_iam_policy" "cost_explorer_policy" {
+  name        = "cloud-${var.cluster_short_name}-cost-explorer-policy"
+  path        = "/"
+  description = "Policy for cost explorer required permissions."
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "ce:*",
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "loki_policy" {
+  name        = "cloud-${var.cluster_short_name}-loki-policy"
+  path        = "/"
+  description = "Policy for Loki storage required permissions."
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowS3",
+            "Effect": "Allow",
+            "Action": [
+              "s3:ListBucket",
+              "s3:PutObject",
+              "s3:GetObject",
+              "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::cloud-loki-${var.environment}/*",
+                "arn:aws:s3:::cloud-loki-${var.environment}"
+            ]
+        }
+    ]
+}
+EOF
+
+}
+
+resource "aws_iam_role_policy_attachment" "worker_loki_policy" {
+  policy_arn = aws_iam_policy.loki_policy.arn
+  role       = aws_iam_role.worker-role.name
+}
+
+resource "aws_iam_role_policy_attachment" "worker_cost_explorer_policy" {
+  policy_arn = aws_iam_policy.cost_explorer_policy.arn
+  role       = aws_iam_role.worker-role.name
+}
+
 resource "aws_iam_role_policy_attachment" "worker_cluster_autoscaler_policy" {
   policy_arn = aws_iam_policy.cluster_autoscaler_policy.arn
   role       = aws_iam_role.worker-role.name
@@ -129,4 +180,46 @@ resource "aws_iam_role_policy_attachment" "worker-AmazonEC2ContainerRegistryRead
 resource "aws_iam_instance_profile" "worker-instance-profile" {
   name = "${var.deployment_name}-worker-instance-profile"
   role = aws_iam_role.worker-role.name
+}
+
+resource "aws_iam_role_policy_attachment" "amazon_eks_worker_node_policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.worker-role.name
+}
+
+resource "aws_iam_role_policy_attachment" "amazons_eks_cni_policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.worker-role.name
+}
+
+resource "aws_iam_role_policy_attachment" "amazon_ec2_container_registry_readonly" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.worker-role.name
+}
+
+resource "aws_iam_policy" "kube2iam-eks-policy" {
+  name        = "cloud-${var.cluster_short_name}-kube2iam-policy"
+  description = "kube2iam policy"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "sts:AssumeRole"
+      ],
+      "Effect": "Allow",
+      "Resource": [ "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/k8s-*",
+                     "${aws_iam_role.worker-role.arn}"
+      ]
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "kube2iam-policy-attach" {
+  policy_arn = aws_iam_policy.kube2iam-eks-policy.arn
+  role       = aws_iam_role.worker-role.name
 }

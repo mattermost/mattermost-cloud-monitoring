@@ -1,0 +1,7 @@
+region         = "us-east-1"
+environment    = "dev"
+amount         = "1500"
+currency       = "USD"
+threshold      = 90
+emails         = ["foo@bar.com"]
+sns_topic_arns = "arn:aws:sns:us-east-1:123456789012:dev"

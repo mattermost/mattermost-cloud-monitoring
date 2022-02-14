@@ -3,4 +3,3 @@ resource "kubernetes_namespace" "logging" {
     name = "logging"
   }
 }
-

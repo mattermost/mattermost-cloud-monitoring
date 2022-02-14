@@ -11,18 +11,17 @@ orgWhitelist: ""
 #   hostname: gitlab.your.org
 # (The chart will perform the base64 encoding for you for values that are stored in secrets.)
 
-
 # When referencing Terraform modules in private repositories, it may be helpful
 # (necessary?) to use redirection in a .gitconfig like so:
 # gitconfig: |
-  # [url "https://YOUR_GH_TOKEN@github.com"]
-  #   insteadOf = https://github.com
-  # [url "https://YOUR_GH_TOKEN@github.com"]
-  #   insteadOf = ssh://git@github.com
-  # [url "https://oauth2:YOUR_GITLAB_TOKEN@gitlab.com"]
-  #   insteadOf = https://gitlab.com
-  # [url "https://oauth2:YOUR_GITLAB_TOKEN@gitlab.com"]
-  #   insteadOf = ssh://git@gitlab.com
+# [url "https://YOUR_GH_TOKEN@github.com"]
+#   insteadOf = https://github.com
+# [url "https://YOUR_GH_TOKEN@github.com"]
+#   insteadOf = ssh://git@github.com
+# [url "https://oauth2:YOUR_GITLAB_TOKEN@gitlab.com"]
+#   insteadOf = https://gitlab.com
+# [url "https://oauth2:YOUR_GITLAB_TOKEN@gitlab.com"]
+#   insteadOf = ssh://git@gitlab.com
 # Source: https://stackoverflow.com/questions/42148841/github-clone-with-oauth-access-token
 
 # To specify AWS credentials to be mapped to ~/.aws:
@@ -39,7 +38,6 @@ orgWhitelist: ""
 # To reference an already existing Secret object with AWS credentials
 # awsSecretName: 'mysecretwithawscreds'
 
-
 ## -------------------------- ##
 # Default values for atlantis (override as needed).
 ## -------------------------- ##
@@ -53,58 +51,58 @@ image:
 ## ref: https://www.runatlantis.io/docs/server-side-repo-config.html
 ## Example default configuration
 repoConfig: |
- ---
- repos:
- - id: /.*/
-   apply_requirements: ["approved", "mergeable"]
-   allowed_overrides: [workflow]
-   allow_custom_workflows: true
- workflows:
-   default:
-     plan:
-       steps: [init, plan]
-     apply:
-       steps: [apply]
-   core:
-     plan:
-       steps:
-       - run: AWS_PROFILE="AWS_CORE" terraform init
-       - run: AWS_PROFILE="AWS_CORE" terraform plan
-     apply:
-       steps:
-       - run: AWS_PROFILE="AWS_CORE" terraform apply -auto-aprove
-   dev:
-     plan:
-       steps:
-       - run: AWS_PROFILE="AWS_DEV" terraform init
-       - run: AWS_PROFILE="AWS_DEV" terraform plan
-     apply:
-       steps:
-       - run: AWS_PROFILE="AWS_DEV" terraform apply -auto-aprove
-   test:
-     plan:
-       steps:
-       - run: AWS_PROFILE="AWS_TEST" terraform init
-       - run: AWS_PROFILE="AWS_TEST" terraform plan
-     apply:
-       steps:
-       - run: AWS_PROFILE="AWS_TEST" terraform apply -auto-aprove
-   staging:
-     plan:
-       steps:
-       - run: AWS_PROFILE="AWS_STAGING" terraform init
-       - run: AWS_PROFILE="AWS_STAGING" terraform plan
-     apply:
-       steps:
-       - run: AWS_PROFILE="AWS_STAGING" terraform apply -auto-aprove
-   prod:
-     plan:
-       steps:
-       - run: AWS_PROFILE="AWS_PROD" terraform init
-       - run: AWS_PROFILE="AWS_PROD" terraform plan
-     apply:
-       steps:
-       - run: AWS_PROFILE="AWS_PROD" terraform apply -auto-aprove
+  ---
+  repos:
+  - id: /.*/
+    apply_requirements: ["approved", "mergeable"]
+    allowed_overrides: [workflow]
+    allow_custom_workflows: true
+  workflows:
+    default:
+      plan:
+        steps: [init, plan]
+      apply:
+        steps: [apply]
+    core:
+      plan:
+        steps:
+        - run: AWS_PROFILE="AWS_CORE" terraform init
+        - run: AWS_PROFILE="AWS_CORE" terraform plan
+      apply:
+        steps:
+        - run: AWS_PROFILE="AWS_CORE" terraform apply -auto-approve
+    dev:
+      plan:
+        steps:
+        - run: AWS_PROFILE="AWS_DEV" terraform init
+        - run: AWS_PROFILE="AWS_DEV" terraform plan
+      apply:
+        steps:
+        - run: AWS_PROFILE="AWS_DEV" terraform apply -auto-approve
+    test:
+      plan:
+        steps:
+        - run: AWS_PROFILE="AWS_TEST" terraform init
+        - run: AWS_PROFILE="AWS_TEST" terraform plan
+      apply:
+        steps:
+        - run: AWS_PROFILE="AWS_TEST" terraform apply -auto-approve
+    staging:
+      plan:
+        steps:
+        - run: AWS_PROFILE="AWS_STAGING" terraform init
+        - run: AWS_PROFILE="AWS_STAGING" terraform plan
+      apply:
+        steps:
+        - run: AWS_PROFILE="AWS_STAGING" terraform apply -auto-approve
+    prod:
+      plan:
+        steps:
+        - run: AWS_PROFILE="AWS_PROD" terraform init
+        - run: AWS_PROFILE="AWS_PROD" terraform plan
+      apply:
+        steps:
+        - run: AWS_PROFILE="AWS_PROD" terraform apply -auto-approve
 # allowForkPRs enables atlantis to run on a fork Pull Requests
 allowForkPRs: false
 

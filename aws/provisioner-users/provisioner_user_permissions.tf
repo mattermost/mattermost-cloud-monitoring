@@ -134,6 +134,38 @@ resource "aws_iam_policy" "s3" {
                 "s3:GetObjectVersionAcl"
             ],
             "Resource": "arn:aws:s3:::cloud-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListAllMyBuckets"
+            ],
+            "Resource": "arn:aws:s3:::*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation",
+                "s3:GetBucketTagging"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.awat_bucket_name}"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:DeleteObject",
+                "s3:GetObjectVersionAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.awat_bucket_name}/*"
+            ]
         }
     ]
 }
@@ -168,7 +200,7 @@ EOF
 resource "aws_iam_policy" "ec2" {
   name        = "mattermost-provisioner-ec2-policy${local.conditional_dash_region}"
   path        = "/"
-  description = "EC2 permissions for provisioner user"
+  description = "EC2, SQS, EventBridge permissions for provisioner user"
 
   policy = <<EOF
 {
@@ -249,8 +281,14 @@ resource "aws_iam_policy" "ec2" {
                 "autoscaling:SuspendProcesses",
                 "autoscaling:TerminateInstanceInAutoScalingGroup",
                 "autoscaling:CreateOrUpdateTags",
+                "autoscaling:DescribeWarmPool",
+                "autoscaling:DescribeAutoscalingInstances",
+                "autoscaling:DescribeLifecycleHooks",
+                "autoscaling:CompleteLifecycleAction",
                 "acm:ListCertificates",
-                "acm:ListTagsForCertificate"
+                "acm:ListTagsForCertificate",
+                "sqs:ListQueues",
+                "events:ListRules"
             ],
             "Resource": "*"
         }
@@ -304,7 +342,8 @@ resource "aws_iam_policy" "iam" {
                 "iam:ListInstanceProfiles",
                 "iam:ListRolePolicies",
                 "iam:ListOpenIDConnectProviders",
-                "iam:ListAccountAliases"
+                "iam:ListAccountAliases",
+                "iam:GetOpenIDConnectProvider"
             ],
             "Resource": "*"
         },
@@ -327,7 +366,9 @@ resource "aws_iam_policy" "iam" {
                 "iam:PassRole",
                 "iam:AttachRolePolicy",
                 "iam:DetachRolePolicy",
-                "iam:ListAttachedRolePolicies"
+                "iam:ListAttachedRolePolicies",
+                "iam:TagRole",
+                "iam:TagInstanceProfile"
             ],
             "Resource": [
                 "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/masters.*",
@@ -426,35 +467,27 @@ resource "aws_iam_policy" "tag" {
 EOF
 }
 
-resource "aws_iam_policy" "dynamodb" {
-  name        = "mattermost-provisioner-dynamodb-policy${local.conditional_dash_region}"
+resource "aws_iam_policy" "kms_awat" {
+  count       = var.awat_cross_account_enabled ? 1 : 0
+  name        = "mattermost-provisioner-kms-awat-policy${local.conditional_dash_region}"
   path        = "/"
-  description = "Dynamodb permissions for provisioner user"
+  description = "KMS permissions for provisioner user for AWAT bucket"
 
   policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "dynamo0",
             "Effect": "Allow",
             "Action": [
-                "dynamodb:DeleteTable",
-                "dynamodb:DescribeTable"
+                "kms:Decrypt"
             ],
-            "Resource": "*"
+            "Resource": "${var.awat_s3_kms_key_arn}"
         }
     ]
 }
 EOF
 }
-
-resource "aws_iam_user_policy_attachment" "attach_dynamodb" {
-  for_each   = toset(var.provisioner_users)
-  user       = each.value
-  policy_arn = aws_iam_policy.dynamodb.arn
-}
-
 
 resource "aws_iam_user_policy_attachment" "attach_tag" {
   for_each   = toset(var.provisioner_users)
@@ -508,4 +541,10 @@ resource "aws_iam_user_policy_attachment" "attach_kms" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.kms.arn
+}
+
+resource "aws_iam_user_policy_attachment" "attach_kms_awat" {
+  for_each   = toset(var.awat_cross_account_enabled ? var.provisioner_users : [])
+  user       = each.value
+  policy_arn = aws_iam_policy.kms_awat.0.arn
 }

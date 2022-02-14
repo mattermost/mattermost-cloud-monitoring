@@ -39,7 +39,6 @@ controller:
   # to keep resolving names inside the k8s network, use ClusterFirstWithHostNet.
   dnsPolicy: ClusterFirst
 
-
   replicaCount: 1
 
   minAvailable: 1

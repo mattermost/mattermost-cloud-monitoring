@@ -18,6 +18,13 @@ resource "aws_iam_role" "cluster-role" {
 POLICY
 }
 
+resource "aws_iam_role_policy_attachment" "cluster-AmazonEKSCNIPolicy" {
+  count = var.enable_vpc_cni_addon ? 1 : 0
+
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.cluster-role.name
+}
+
 resource "aws_iam_role_policy_attachment" "cluster-AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.cluster-role.name

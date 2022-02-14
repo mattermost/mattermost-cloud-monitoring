@@ -12,7 +12,7 @@ variable "max_size" {}
 
 variable "min_size" {}
 
-variable "desired_capacity" {}
+variable "desired_size" {}
 
 variable "cidr_blocks" {}
 
@@ -35,3 +35,64 @@ variable "worker_private_subnet_ids" {}
 variable "cluster_short_name" {}
 
 variable "log_types" {}
+
+variable "node_volume_size" {}
+
+variable "node_volume_type" {}
+
+variable "node_group_name" {}
+
+variable "aws_reserved_sso_id" {}
+
+variable "enable_vpc_cni_addon" {
+  type        = bool
+  description = "Whether to enable the EKS AWS CNI addon or not"
+}
+
+variable "vpc_cni_addon_version" {
+  type        = string
+  description = "The version of the EKS VPC CNI addon"
+}
+
+variable "enable_coredns_addon" {
+  type        = bool
+  description = "Whether to enable the EKS CoreDNS addon or not"
+}
+
+variable "coredns_addon_version" {
+  type        = string
+  description = "The version of the EKS CoreDNS addon"
+}
+
+variable "enable_kube_proxy_addon" {
+  type        = bool
+  description = "Whether to enable the EKS Kube Proxy addon or not"
+}
+
+variable "kube_proxy_addon_version" {
+  type        = string
+  description = "The version of the EKS Kube Proxy addon"
+}
+
+variable "spot_desired_size" {
+  description = "The desired number of nodes in the spot node group"
+  default     = 0
+  type        = number
+}
+
+variable "spot_instance_type" {
+  description = "The instance type used for the nodes in the spot node group"
+  type        = string
+}
+
+variable "spot_max_size" {
+  description = "The maximum number of nodes in the spot node group"
+  default     = 1
+  type        = number
+}
+
+variable "spot_min_size" {
+  description = "The minimum number of nodes in the spot node group"
+  default     = 0
+  type        = number
+}

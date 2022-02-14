@@ -27,13 +27,12 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_priv_alternative_cert_domains"></a> [priv\_alternative\_cert\_domains](#input\_priv\_alternative\_cert\_domains) | The list of alternative cert domains for private ACM certificate | `list(string)` | n/a | yes |
 | <a name="input_priv_domain"></a> [priv\_domain](#input\_priv\_domain) | The domain name for ACM certificate for a private zone | `string` | n/a | yes |
-| <a name="input_priv_validation_acm_zoneid"></a> [priv\_validation\_acm\_zoneid](#input\_priv\_validation\_acm\_zoneid) | The Hosted Zone id of the desired Hosted Zone | `string` | n/a | yes |
 | <a name="input_private_tags"></a> [private\_tags](#input\_private\_tags) | The tags which will attached in the private ACM certificate | `map(string)` | n/a | yes |
 | <a name="input_pub_domain"></a> [pub\_domain](#input\_pub\_domain) | The domain name for ACM certificate for a public zone | `string` | n/a | yes |
-| <a name="input_pub_validation_acm_zoneid"></a> [pub\_validation\_acm\_zoneid](#input\_pub\_validation\_acm\_zoneid) | The Hosted Zone id of the desired Hosted Zone for the public Route53 record | `string` | n/a | yes |
+| <a name="input_pub_validation_acm_zoneid"></a> [pub\_validation\_acm\_zoneid](#input\_pub\_validation\_acm\_zoneid) | The desired Hosted Zone ID for the public zone | `string` | n/a | yes |
 | <a name="input_public_tags"></a> [public\_tags](#input\_public\_tags) | The tags which will attached in the public ACM certificate | `map(string)` | n/a | yes |
+| <a name="input_validation_acm_zoneid"></a> [validation\_acm\_zoneid](#input\_validation\_acm\_zoneid) | The Hosted Zone ID for certs validation | `string` | n/a | yes |
 
 ## Outputs
 

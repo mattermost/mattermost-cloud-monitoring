@@ -80,4 +80,3 @@ data "aws_iam_policy_document" "state_bucket_policy" {
   }
 
 }
-

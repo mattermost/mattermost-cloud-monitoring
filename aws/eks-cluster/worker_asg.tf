@@ -7,48 +7,6 @@ set -o xtrace
 USERDATA
 }
 
-resource "aws_launch_configuration" "worker-lc" {
-  iam_instance_profile        = aws_iam_instance_profile.worker-instance-profile.name
-  image_id                    = var.eks_ami_id
-  instance_type               = var.instance_type
-  name_prefix                 = var.deployment_name
-  security_groups             = [aws_security_group.worker-sg.id]
-  user_data_base64            = base64encode(local.worker-userdata)
-  associate_public_ip_address = false
-  key_name                    = var.key_name
-
-  root_block_device {
-    volume_size = var.volume_size
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-
-resource "aws_autoscaling_group" "worker-asg" {
-  desired_capacity     = var.desired_capacity
-  launch_configuration = aws_launch_configuration.worker-lc.id
-  max_size             = var.max_size
-  min_size             = var.min_size
-  name                 = "${var.deployment_name}-worker-asg"
-  vpc_zone_identifier  = flatten(var.worker_private_subnet_ids)
-  termination_policies = ["OldestLaunchConfiguration"]
-
-  tag {
-    key                 = "Name"
-    value               = "${var.deployment_name}-worker"
-    propagate_at_launch = true
-  }
-
-  tag {
-    key                 = "kubernetes.io/cluster/${var.deployment_name}"
-    value               = "owned"
-    propagate_at_launch = true
-  }
-}
-
 locals {
   config_map_aws_auth = <<CONFIGMAPAWSAUTH
 
@@ -66,4 +24,27 @@ data:
         - system:bootstrappers
         - system:nodes
 CONFIGMAPAWSAUTH
+}
+
+module "managed_node_group" {
+  source                 = "github.com/mattermost/terraform-modules.git//aws/eks-managed-node-groups?ref=v1.0.0"
+  vpc_security_group_ids = [aws_security_group.worker-sg.id]
+  volume_size            = var.node_volume_size
+  volume_type            = var.node_volume_type
+  image_id               = var.eks_ami_id
+  instance_type          = var.instance_type
+  user_data              = base64encode(local.worker-userdata)
+  cluster_name           = aws_eks_cluster.cluster.name
+  node_role_arn          = aws_iam_role.worker-role.arn
+  subnet_ids             = flatten(var.private_subnet_ids)
+  deployment_name        = var.deployment_name
+  desired_size           = var.desired_size
+  max_size               = var.max_size
+  min_size               = var.min_size
+  node_group_name        = var.node_group_name
+  cluster_short_name     = var.cluster_short_name
+  spot_desired_size      = var.spot_desired_size
+  spot_max_size          = var.spot_max_size
+  spot_min_size          = var.spot_min_size
+  spot_instance_type     = var.spot_instance_type
 }

@@ -1,3 +1,7 @@
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
+
 resource "aws_iam_policy" "rds_db_factory" {
   name        = "mattermost-database-factory-rds-policy"
   path        = "/"
@@ -24,16 +28,16 @@ resource "aws_iam_policy" "rds_db_factory" {
                 "rds:DescribeDBParameters",
                 "rds:DeleteDBClusterParameterGroup",
                 "rds:DeleteDBParameterGroup",
-                "rds:ModifyDBInstance"
-
+                "rds:ModifyDBInstance",
+                "rds:ResetDBParameterGroup"
             ],
             "Resource": [
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster:rds-cluster-multitenant-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster-pg:rds-cluster-multitenant-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:pg:rds-cluster-multitenant-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:cluster-pg:mattermost-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*",
-                "arn:aws:rds:us-east-1:${data.aws_caller_identity.current.account_id}:db:rds-db-instance-multitenant-*"
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster:rds-cluster-multitenant-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster-pg:rds-cluster-multitenant-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:pg:rds-cluster-multitenant-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster-pg:mattermost-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:db:rds-db-instance-multitenant-*"
             ]
         },
         {
@@ -116,7 +120,7 @@ resource "aws_iam_policy" "secrets_manager_db_factory" {
                 "secretsmanager:DescribeSecret",
                 "secretsmanager:DeleteSecret"
             ],
-            "Resource": "arn:aws:secretsmanager:us-east-1:${data.aws_caller_identity.current.account_id}:secret:rds-cluster-multitenant-*"
+            "Resource": "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:rds-cluster-multitenant-*"
         },
         {
             "Sid": "secrets1",
@@ -273,6 +277,51 @@ resource "aws_iam_policy" "sns_db_factory" {
 EOF
 }
 
+resource "aws_iam_policy" "lambda_and_logs_db_factory" {
+  name        = "mattermost-database-factory-lambda-logs-policy"
+  path        = "/"
+  description = "Lambda and Cloudwatch logs permissions for database factory user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "lambda0",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:ListFunctions",
+                "lambda:ListEventSourceMappings",
+                "lambda:GetAccountSettings",
+                "lambda:TagResource",
+                "lambda:InvokeFunction",
+                "lambda:GetLayerVersion",
+                "lambda:GetFunction",
+                "lambda:UpdateFunctionConfiguration",
+                "lambda:GetFunctionConfiguration",
+                "lambda:AddLayerVersionPermission",
+                "lambda:GetLayerVersionPolicy",
+                "lambda:RemoveLayerVersionPermission",
+                "lambda:UntagResource",
+                "lambda:GetFunctionCodeSigningConfig",
+                "lambda:UpdateFunctionCode",
+                "lambda:ListFunctionEventInvokeConfigs",
+                "lambda:AddPermission",
+                "lambda:GetFunctionConcurrency",
+                "lambda:ListTags",
+                "lambda:GetFunctionEventInvokeConfig",
+                "lambda:GetAlias",
+                "lambda:RemovePermission",
+                "lambda:GetPolicy",
+                "logs:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
 resource "aws_iam_user_policy_attachment" "attach_sns_db_factory" {
   for_each = toset(var.database_factory_users)
   user     = each.value
@@ -321,4 +370,74 @@ resource "aws_iam_user_policy_attachment" "attach_autoscaling_db_factory" {
   for_each   = toset(var.database_factory_users)
   user       = each.value
   policy_arn = aws_iam_policy.autoscaling_db_factory.arn
+}
+
+resource "aws_iam_user_policy_attachment" "attach_lambda_and_logs_db_factory" {
+  for_each   = toset(var.database_factory_users)
+  user       = each.value
+  policy_arn = aws_iam_policy.lambda_and_logs_db_factory.arn
+}
+
+resource "aws_iam_role" "db-factory-role" {
+  name = "k8s-${var.environment}-db-factory-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+       "Principal": {
+        "AWS": [ "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role" ]
+      },
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_sns" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.sns_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_rds" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.rds_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_s3" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.s3_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_secrets_manager" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.secrets_manager_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_kms" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.kms_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_iam" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.iam_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_ec2" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.ec2_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_autoscaling" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.autoscaling_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach-lambda-and-logs" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.lambda_and_logs_db_factory.arn
 }

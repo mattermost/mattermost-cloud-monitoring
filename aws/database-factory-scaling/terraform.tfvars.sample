@@ -1,0 +1,4 @@
+environment                            = "dev"
+rds_multitenant_dbinstance_name_prefix = "dev"
+db_factory_horizontal_scaling_users    = ["foobar"]
+db_factory_vertical_scaling_users      = ["foobar"]
