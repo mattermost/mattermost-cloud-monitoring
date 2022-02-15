@@ -24,9 +24,9 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_amount"></a> [amount](#input\_amount) | The amount of cost or usage being measured for a budget | `string` | n/a | yes |
 | <a name="input_currency"></a> [currency](#input\_currency) | The unit of measurement used for the budget eg. USD | `string` | n/a | yes |
-| <a name="input_emails"></a> [emails](#input\_emails) | The emails in which the notification should be sent | `list(string)` | n/a | yes |
+| <a name="input_emails"></a> [emails](#input\_emails) | The emails in which the notification should be sent | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | The name of the environment | `string` | n/a | yes |
-| <a name="input_sns_topic_arns"></a> [sns\_topic\_arns](#input\_sns\_topic\_arns) | The emails in which the notification should be sent | `list(string)` | n/a | yes |
+| <a name="input_sns_topic_arns"></a> [sns\_topic\_arns](#input\_sns\_topic\_arns) | The emails in which the notification should be sent | `string` | n/a | yes |
 | <a name="input_threshold"></a> [threshold](#input\_threshold) | The threshold when the notification should be sent | `string` | n/a | yes |
 
 ## Outputs

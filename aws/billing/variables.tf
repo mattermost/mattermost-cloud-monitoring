@@ -16,10 +16,10 @@ variable "threshold" {
   description = "The threshold when the notification should be sent"
 }
 variable "emails" {
-  type        = list(string)
+  type        = string
   description = "The emails in which the notification should be sent"
 }
 variable "sns_topic_arns" {
-  type        = list(string)
+  type        = string
   description = "The emails in which the notification should be sent"
 }
