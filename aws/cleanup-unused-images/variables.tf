@@ -18,11 +18,6 @@ variable "region" {
   description = "The region which will be used in lambda to cleanup unused images"
 }
 
-variable "account_id" {
-  type        = string
-  description = "The AWS account ID which will be used in lambda to cleanup unused images"
-}
-
 variable "bucket" {
   type        = string
   description = "The S3 bucket where the binary is located"
