@@ -63,7 +63,6 @@ resource "helm_release" "atlantis" {
 
   depends_on = [
     kubernetes_namespace.atlantis,
-    helm_release.internal_nginx,
   ]
 
   timeout = 1200

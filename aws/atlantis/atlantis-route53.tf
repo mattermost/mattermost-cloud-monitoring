@@ -1,10 +1,9 @@
 data "kubernetes_service" "internal_nginx" {
   metadata {
-    name      = "internal-nginx-ingress-controller"
+    name      = "nginx-internal-ingress-nginx-controller"
     namespace = "nginx-internal"
   }
   depends_on = [
-    helm_release.internal_nginx,
     helm_release.atlantis,
   ]
 }
@@ -19,7 +18,6 @@ resource "aws_route53_record" "atlantis" {
   records = [data.kubernetes_service.internal_nginx.load_balancer_ingress.0.hostname]
 
   depends_on = [
-    helm_release.internal_nginx,
     helm_release.atlantis,
   ]
 }
