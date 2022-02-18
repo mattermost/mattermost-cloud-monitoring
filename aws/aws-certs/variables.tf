@@ -29,6 +29,6 @@ variable "pub_validation_acm_zoneid" {
 }
 
 variable "alternative_cert_domains" {
-  type        = string
+  type        = list(string)
   description = "The alternative cert domains to be added"
 }

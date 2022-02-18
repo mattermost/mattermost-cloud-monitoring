@@ -26,6 +26,6 @@ variable "deployment_name" {
 variable "api_gateway_vpc_endpoints" {}
 
 variable "environment" {
-  type        = list(string)
-  description = "VPC endpoints of VPCs which are used in the policy of the rest API gateway"
+  type        = string
+  description = "The name of the environment which will deploy to and will be added as a tag"
 }
