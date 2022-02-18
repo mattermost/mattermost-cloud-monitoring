@@ -27,3 +27,8 @@ variable "pub_validation_acm_zoneid" {
   type        = string
   description = "The desired Hosted Zone ID for the public zone"
 }
+
+variable "alternative_cert_domains" {
+  type        = string
+  description = "The alternative cert domains to be added"
+}
