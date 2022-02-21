@@ -1,6 +1,6 @@
 data "kubernetes_service" "internal_nginx" {
   metadata {
-    name      = "internal-nginx-ingress-controller"
+    name      = "nginx-internal-ingress-nginx-controller"
     namespace = "nginx-internal"
   }
   depends_on = [
