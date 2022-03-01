@@ -21,7 +21,7 @@ The thanos tool is added on top of the Prometheus deployment and it offers a hig
 
 #### Thanos Querier:
 - Deployed in each provisioning cluster to query metrics from each Prometheus operator sidecar.
-- Deployed in the Command and Control cluster to query the Command and Control cluster Prometheus opeator sidecar, all the provisioning clusters Thanos queries and the metrics storage bucket
+- Deployed in the Command and Control cluster to query the Command and Control cluster Prometheus operator sidecar, all the provisioning clusters Thanos queries and the metrics storage bucket
   
 #### Thanos Compactor: 
 - Applies compaction procedure to block data stored in S3
@@ -31,7 +31,7 @@ The thanos tool is added on top of the Prometheus deployment and it offers a hig
 - Occupies small amounts of disk space for caching basic information about data in the S3 object storage.
 
 #### Thanos Ruler
-- Does the same thing as the querier but for Prometheus rules. It can communicate with Thanos componenets and use the Prometheus Alert manager to send metric alerts. 
+- Does the same thing as the querier but for Prometheus rules. It can communicate with Thanos components and use the Prometheus Alert manager to send metric alerts. 
 
 ### Grafana 
 
@@ -71,11 +71,11 @@ The cluster layer is responsible for the deployment of the cluster infrastructur
 
 ### 2. Cluster Post Installation Layer
 
-The cluster post installation layer is responsible for the intallation of all the applications that are required by the Mattermost command and control cluster. This includes the deployment of Prometheus, Grafana, Kibana, Fluentd, Elasticsearch and the Mattermost Provisioner applications, as well as ingress configuration, certificate management, app authentication and k8s cluster dashboard. Both the Helm and the Kubernetes Terraform providers are used for the deployment of this layer.
+The cluster post installation layer is responsible for the installation of all the applications that are required by the Mattermost command and control cluster. This includes the deployment of Prometheus, Grafana, Kibana, Fluentd, Elasticsearch and the Mattermost Provisioner applications, as well as ingress configuration, certificate management, app authentication and k8s cluster dashboard. Both the Helm and the Kubernetes Terraform providers are used for the deployment of this layer.
 
 ### 3. Route53 Registration Layer
 
-The Route53 registration layer is the last layer to get deployed. This layer is responsible for the DNS registration of all the applications that were deployed in the second layer and need to be either privately or publicly accesible.
+The Route53 registration layer is the last layer to get deployed. This layer is responsible for the DNS registration of all the applications that were deployed in the second layer and need to be either privately or publicly accessible.
 
 ### New Environment Deployment
 
