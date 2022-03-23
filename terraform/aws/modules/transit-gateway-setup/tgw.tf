@@ -1,12 +1,14 @@
+###########################
+# Resource Transit Gateway
+###########################
 resource "aws_ec2_transit_gateway" "mattermost-cloud-tgw" {
-  description     = var.description
-  amazon_side_asn = var.amazon_side_asn
-  auto_accept_shared_attachments = var.enable_auto_accept_shared_attachments
+  description                     = var.description
+  amazon_side_asn                 = var.amazon_side_asn
+  auto_accept_shared_attachments  = var.enable_auto_accept_shared_attachments
   default_route_table_association = var.enable_default_route_table_association
   default_route_table_propagation = var.enable_default_route_table_propagation
-  dns_support = var.enable_dns_support
-
-  tags = var.tags
+  dns_support                     = var.enable_dns_support
+  tags                            = var.tag
 }
 
 ##########################
