@@ -9,9 +9,11 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+# --config config.tflint.hcl
+maindir=$PWD
 for d in aws/* ; do
     pushd $d
     terraform fmt -check
-    tflint
+    tflint --config $maindir/.tflint.hcl 
     popd
 done
