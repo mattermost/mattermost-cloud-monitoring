@@ -8,7 +8,6 @@ resource "aws_acm_certificate" "pub_cert" {
     Name = ".${var.pub_domain}"
     }, var.public_tags
   )
-
   lifecycle {
     create_before_destroy = true
   }
