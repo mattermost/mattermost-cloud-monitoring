@@ -13,6 +13,6 @@ maindir=$PWD
 for d in aws/* ; do
     pushd $d
     terraform fmt -check
-    tflint
+    tflint --config $maindir/.tflint.hcl 
     popd
 done

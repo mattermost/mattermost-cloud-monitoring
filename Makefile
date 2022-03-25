@@ -11,4 +11,4 @@ setup:
 
 aws:
 ## installing aws plugin for tflint
-	tflint --init --enable-plugin=aws
+	tflint --init --config .tflint.hcl 
