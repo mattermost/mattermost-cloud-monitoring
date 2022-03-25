@@ -10,6 +10,7 @@ set -o nounset
 set -o pipefail
 
 # --config config.tflint.hcl
+tflint --init
 maindir=$PWD
 for d in aws/* ; do
     pushd $d
