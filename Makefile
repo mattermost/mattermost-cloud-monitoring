@@ -8,3 +8,7 @@ lint:
 setup:
 ## setup: install tflint
 	curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+
+aws:
+## installing aws plugin for tflint
+	tflint --init --enable-plugin=aws
