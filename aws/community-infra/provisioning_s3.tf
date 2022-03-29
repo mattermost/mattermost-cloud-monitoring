@@ -36,7 +36,7 @@ resource "aws_s3_bucket_acl" "bucket_acl" {
 }
 
 resource "aws_iam_role" "replication" {
-  count      = var.s3_crr_enable == true ? 1 : 0
+  count      = var.s3_cross_region_replication_enabled == true ? 1 : 0
   name = "replication-role-${var.vpc_id}"
 
   assume_role_policy = <<POLICY
@@ -57,7 +57,7 @@ POLICY
 }
 
 resource "aws_iam_policy" "replication" {
-  count      = var.s3_crr_enable == true ? 1 : 0
+  count      = var.s3_cross_region_replication_enabled == true ? 1 : 0
   name = "replication-policy-${var.vpc_id}"
 
   policy = <<POLICY
@@ -107,14 +107,14 @@ POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "replication" {
-  count      = var.s3_crr_enable == true ? 1 : 0
+  count      = var.s3_cross_region_replication_enabled == true ? 1 : 0
   role       = aws_iam_role.replication[count.index].name
   policy_arn = aws_iam_policy.replication[count.index].arn
 }
 
 resource "aws_s3_bucket_replication_configuration" "source_to_dest" {
   # Must have bucket versioning enabled first
-  count      = var.s3_crr_enable == true ? 1 : 0
+  count      = var.s3_cross_region_replication_enabled == true ? 1 : 0
   depends_on = [aws_s3_bucket_versioning.provisioning-bucket-versioning]
 
   role       = aws_iam_role.replication[count.index].arn
@@ -134,9 +134,8 @@ resource "aws_s3_bucket_replication_configuration" "source_to_dest" {
     destination {
       bucket        = var.destination_bucket
       encryption_configuration {
-           replica_kms_key_id = "arn:aws:kms:us-east-1:958443987980:key/c2e8ecc6-e34e-4187-89c2-8da12468ccdb"
+           replica_kms_key_id = var.destination_s3_kms_key
       }
-      # storage_class = "STANDARD"
     }
   }
 }
