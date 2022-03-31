@@ -4,21 +4,21 @@ data "aws_kms_key" "master_s3" {
 
 resource "aws_s3_bucket" "mattermost-cloud-provisioning-bucket" {
   bucket = "${var.deployment_name}-${var.vpc_id}"
-   tags = merge (
-     {
+  tags = merge(
+    {
       "Name" = "${var.deployment_name}-${var.vpc_id}"
-     }, 
-   var.tags
-   )
+    },
+    var.Tags
+  )
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "encrypting-provisioning-bucket" {
   bucket = aws_s3_bucket.mattermost-cloud-provisioning-bucket.bucket
 
   rule {
-     apply_server_side_encryption_by_default {
-        kms_master_key_id = data.aws_kms_key.master_s3.arn
-        sse_algorithm     = "aws:kms"
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = data.aws_kms_key.master_s3.arn
+      sse_algorithm     = "aws:kms"
     }
   }
 }
@@ -36,8 +36,8 @@ resource "aws_s3_bucket_acl" "bucket_acl" {
 }
 
 resource "aws_iam_role" "replication" {
-  count      = var.s3_cross_region_replication_enabled == true ? 1 : 0
-  name = "replication-role-${var.vpc_id}"
+  count = var.s3_cross_region_replication_enabled == true ? 1 : 0
+  name  = "replication-role-${var.vpc_id}"
 
   assume_role_policy = <<POLICY
 {
@@ -57,8 +57,8 @@ POLICY
 }
 
 resource "aws_iam_policy" "replication" {
-  count      = var.s3_cross_region_replication_enabled == true ? 1 : 0
-  name = "replication-policy-${var.vpc_id}"
+  count = var.s3_cross_region_replication_enabled == true ? 1 : 0
+  name  = "replication-policy-${var.vpc_id}"
 
   policy = <<POLICY
 {
@@ -117,14 +117,13 @@ resource "aws_s3_bucket_replication_configuration" "source_to_dest" {
   count      = var.s3_cross_region_replication_enabled == true ? 1 : 0
   depends_on = [aws_s3_bucket_versioning.provisioning-bucket-versioning]
 
-  role       = aws_iam_role.replication[count.index].arn
-  bucket     = aws_s3_bucket.mattermost-cloud-provisioning-bucket.id
+  role   = aws_iam_role.replication[count.index].arn
+  bucket = aws_s3_bucket.mattermost-cloud-provisioning-bucket.id
 
   rule {
     id     = "replicate-community-provisioning-data"
     prefix = ""
     status = "Enabled"
-    
     source_selection_criteria {
       sse_kms_encrypted_objects {
         status = "Enabled"
@@ -132,9 +131,9 @@ resource "aws_s3_bucket_replication_configuration" "source_to_dest" {
     }
 
     destination {
-      bucket        = var.destination_bucket
+      bucket = var.destination_bucket
       encryption_configuration {
-           replica_kms_key_id = var.destination_s3_kms_key
+        replica_kms_key_id = var.destination_s3_kms_key
       }
     }
   }

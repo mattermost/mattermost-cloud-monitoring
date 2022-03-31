@@ -32,8 +32,8 @@ resource "aws_iam_policy" "community-provisioning-policy" {
 EOF
 }
 resource "aws_iam_user" "community-provisioning-user" {
-  name          = "${var.deployment_name}-${var.vpc_id}"
-  path          = "/"
+  name = "${var.deployment_name}-${var.vpc_id}"
+  path = "/"
 }
 
 # Create the access key
