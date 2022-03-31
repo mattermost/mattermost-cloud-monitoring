@@ -9,6 +9,9 @@ resource "aws_acm_certificate" "private_cert" {
     Name = ".${var.priv_domain}"
     }, var.private_tags
   )
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_acm_certificate_validation" "private_cert_validation" {

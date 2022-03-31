@@ -16,5 +16,8 @@ jobs:
       - name: Setup
         run: make setup
 
+      - name: install-plugin
+        run: make plugin
+
       - name: Lint
         run: make lint
