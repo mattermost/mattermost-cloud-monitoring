@@ -8,7 +8,7 @@ resource "aws_s3_bucket" "mattermost-cloud-provisioning-bucket" {
     {
       "Name" = "${var.deployment_name}-${var.vpc_id}"
     },
-    var.Tags
+    var.tags
   )
 }
 
