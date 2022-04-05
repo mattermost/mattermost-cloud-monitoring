@@ -18,9 +18,9 @@ make lint
 - Re-usable modules
 - Testing Terraform code (unit, end-to-end)
 
-# Taging 
+# Tagging 
 
-We suggest & follow a **semantic version taging** for this repo. To simplify, a semantic version tag contains three parts. For example, v1.2.3
+We suggest & follow a **semantic version tagging** for this repo. To simplify, a semantic version tag contains three parts. For example, v1.2.3
 
 1. The first number is the major version, which only gets incremented when you make incompatible API or Module changes.(i.e v1 to v2)
 
