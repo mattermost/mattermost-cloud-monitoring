@@ -49,6 +49,3 @@ resource "aws_iam_user_policy_attachment" "community-provisioning-policy-attach"
 output "id" {
   value = aws_iam_access_key.community-provisioning-key.id
 }
-output "secret" {
-  value = aws_iam_access_key.community-provisioning-key.secret
-}
