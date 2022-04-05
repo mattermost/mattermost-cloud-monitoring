@@ -8,7 +8,7 @@ resource "aws_ec2_transit_gateway" "mattermost-cloud-tgw" {
   default_route_table_association = var.enable_default_route_table_association
   default_route_table_propagation = var.enable_default_route_table_propagation
   dns_support                     = var.enable_dns_support
-  tags                            = var.tag
+  tags                            = var.tags
 }
 
 ##########################
