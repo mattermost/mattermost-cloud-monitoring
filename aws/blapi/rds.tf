@@ -1,5 +1,5 @@
-resource "aws_security_group" "cec_to_postgres" {
-  name                   = "cec_to_postgres"
+resource "aws_security_group" "blapi_cec_to_postgres" {
+  name                   = "blapi_cec_to_postgres"
   description            = "Allow K8s C&C to access RDS Postgres"
   vpc_id                 = var.vpc_id
   revoke_rules_on_delete = true
@@ -38,12 +38,12 @@ resource "aws_security_group" "cec_to_postgres" {
 
 }
 
-resource "aws_db_subnet_group" "subnets_db" {
-  name       = "cloud_db_subnetgroup"
+resource "aws_db_subnet_group" "blapi_subnets_db" {
+  name       = "blapi_cloud_db_subnetgroup"
   subnet_ids = var.private_subnets
 
   tags = {
-    Name = "Cloud DB subnet group"
+    Name = "Blapi Cloud DB subnet group"
   }
 
 }
@@ -63,8 +63,8 @@ resource "aws_db_instance" "blapi" {
   apply_immediately           = true
   backup_retention_period     = var.db_backup_retention_period
   backup_window               = var.db_backup_window
-  db_subnet_group_name        = aws_db_subnet_group.subnets_db.name
-  vpc_security_group_ids      = [aws_security_group.cec_to_postgres.id]
+  db_subnet_group_name        = aws_db_subnet_group.blapi_subnets_db.name
+  vpc_security_group_ids      = [aws_security_group.blapi_cec_to_postgres.id]
   deletion_protection         = var.db_deletion_protection
   final_snapshot_identifier   = "blapi-final-${var.db_name}-${local.timestamp_now}"
   skip_final_snapshot         = false
