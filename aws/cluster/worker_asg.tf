@@ -47,4 +47,5 @@ module "managed_node_group" {
   spot_max_size          = var.spot_max_size
   spot_min_size          = var.spot_min_size
   spot_instance_type     = var.spot_instance_type
+  kubernetes_version     = var.kubernetes_version
 }
