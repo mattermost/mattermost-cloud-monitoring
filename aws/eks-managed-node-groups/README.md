@@ -1,3 +1,4 @@
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 No requirements.
@@ -31,6 +32,7 @@ No modules.
 | <a name="input_desired_size"></a> [desired\_size](#input\_desired\_size) | The desired number of nodes in the node group | `any` | n/a | yes |
 | <a name="input_image_id"></a> [image\_id](#input\_image\_id) | The AMI ID used for the nodes in the node group | `any` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The instance type used for the nodes in the node group | `any` | n/a | yes |
+| <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | EKS cluster kubernetes version | `string` | n/a | yes |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | The maximum number of nodes in the node group | `any` | n/a | yes |
 | <a name="input_min_size"></a> [min\_size](#input\_min\_size) | The minimum number of nodes in the node group | `any` | n/a | yes |
 | <a name="input_node_group_name"></a> [node\_group\_name](#input\_node\_group\_name) | A name that can be used to identify the node group | `any` | n/a | yes |
@@ -48,3 +50,4 @@ No modules.
 ## Outputs
 
 No outputs.
+<!-- END_TF_DOCS -->
