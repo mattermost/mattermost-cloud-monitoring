@@ -27,11 +27,12 @@ CONFIGMAPAWSAUTH
 }
 
 module "managed_node_group" {
-  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.3.1"
+  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.3.2"
   vpc_security_group_ids = [aws_security_group.worker-sg.id]
   volume_size            = var.node_volume_size
   volume_type            = var.node_volume_type
   image_id               = var.eks_ami_id
+  ebs_optimized          = var.ebs_optimized
   instance_type          = var.instance_type
   user_data              = base64encode(local.worker-userdata)
   cluster_name           = aws_eks_cluster.cluster.name

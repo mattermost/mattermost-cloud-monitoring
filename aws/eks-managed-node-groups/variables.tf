@@ -81,3 +81,9 @@ variable "spot_min_size" {
   type        = number
 }
 
+variable "ebs_optimized" {
+  description = "If true, the launched EC2 instance will be EBS-optimized"
+  default     = false
+  type        = bool
+}
+
