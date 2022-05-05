@@ -34,7 +34,6 @@ resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
   node_role_arn = var.node_role_arn
 
   subnet_ids = var.subnet_ids
-  version    = var.kubernetes_version
 
   tags = {
     "Name" : "${var.deployment_name}-worker",

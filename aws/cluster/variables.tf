@@ -108,7 +108,3 @@ variable "spot_min_size" {
   type        = number
 }
 
-variable "kubernetes_version" {
-  description = "EKS cluster kubernetes version"
-  type        = string
-}
