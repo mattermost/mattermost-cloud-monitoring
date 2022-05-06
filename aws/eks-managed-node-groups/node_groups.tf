@@ -15,6 +15,7 @@ resource "aws_launch_template" "cluster_nodes_eks_launch_template" {
 
   image_id      = var.image_id
   instance_type = var.instance_type
+  ebs_optimized = var.ebs_optimized
 
   user_data = var.user_data
 

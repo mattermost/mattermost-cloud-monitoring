@@ -30,6 +30,7 @@ No modules.
 | <a name="input_cluster_short_name"></a> [cluster\_short\_name](#input\_cluster\_short\_name) | A short name that identifies the cluster | `any` | n/a | yes |
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | A phrase that can be used for tagging tha identifies the deployment | `any` | n/a | yes |
 | <a name="input_desired_size"></a> [desired\_size](#input\_desired\_size) | The desired number of nodes in the node group | `any` | n/a | yes |
+| <a name="input_ebs_optimized"></a> [ebs\_optimized](#input\_ebs\_optimized) | If true, the launched EC2 instance will be EBS-optimized | `bool` | `false` | no |
 | <a name="input_image_id"></a> [image\_id](#input\_image\_id) | The AMI ID used for the nodes in the node group | `any` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The instance type used for the nodes in the node group | `any` | n/a | yes |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | The maximum number of nodes in the node group | `any` | n/a | yes |
