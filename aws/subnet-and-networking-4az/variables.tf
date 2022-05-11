@@ -23,3 +23,5 @@ variable "teleport_cidr" {}
 variable "command_and_control_private_subnet_cidrs" {}
 
 variable "vpn_cidrs" {}
+
+variable "deploy_cluster_parameter_group" {}
