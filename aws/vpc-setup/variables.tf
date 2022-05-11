@@ -9,3 +9,5 @@ variable "name" {}
 variable "enable_dns_hostnames" {}
 
 variable "tags" {}
+
+variable "deploy_node_policy" {}

@@ -13,6 +13,7 @@ locals {
 }
 
 resource "aws_iam_policy" "node_policy" {
+  count       = var.deploy_node_policy ? 1 : 0
   name        = "cloud-provisioning-node-policy${local.conditional_dash_region}"
   path        = "/"
   description = "Provisioning custom node policy"
