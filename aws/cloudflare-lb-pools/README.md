@@ -31,6 +31,7 @@ No modules.
 | <a name="input_follow_redirects"></a> [follow\_redirects](#input\_follow\_redirects) | Follow redirects if returned by the origin. Only valid if type is http or https. | `bool` | n/a | yes |
 | <a name="input_header"></a> [header](#input\_header) | Name of the header i.e Host | `string` | n/a | yes |
 | <a name="input_header_value"></a> [header\_value](#input\_header\_value) | Value for the header | `string` | n/a | yes |
+| <a name="input_interval"></a> [interval](#input\_interval) | The interval between each health check, Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations. Default: 60. | `number` | n/a | yes |
 | <a name="input_monitor_method"></a> [monitor\_method](#input\_monitor\_method) | The method to use for the health check. Valid values are any valid HTTP verb if type is http or https | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Cloudflare load balancer Pool's name | `string` | n/a | yes |
 | <a name="input_notification_email"></a> [notification\_email](#input\_notification\_email) | Email address for notofication from cloudflare | `string` | n/a | yes |
@@ -44,6 +45,8 @@ No modules.
 | <a name="input_region_2_address"></a> [region\_2\_address](#input\_region\_2\_address) | IP Address OR LB address to route the traffic | `string` | n/a | yes |
 | <a name="input_region_2_enable"></a> [region\_2\_enable](#input\_region\_2\_enable) | Used to enable/disable traffic flow for Origin 2 | `string` | n/a | yes |
 | <a name="input_region_2_weight"></a> [region\_2\_weight](#input\_region\_2\_weight) | A weight of 0 means traffic will not be sent to this origin, but health is still checked. Default: 1. | `string` | n/a | yes |
+| <a name="input_retries"></a> [retries](#input\_retries) | The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. Default: 2. | `number` | n/a | yes |
+| <a name="input_timeout"></a> [timeout](#input\_timeout) | The timeout (in seconds) before marking the health check as failed. Default: 5. | `number` | n/a | yes |
 
 ## Outputs
 

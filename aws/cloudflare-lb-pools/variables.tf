@@ -88,3 +88,18 @@ variable "monitor_method" {
   type        = string
   description = "The method to use for the health check. Valid values are any valid HTTP verb if type is http or https"
 }
+
+variable "timeout" {
+  type        = number
+  description = "The timeout (in seconds) before marking the health check as failed. Default: 5."
+}
+
+variable "interval" {
+  type        = number
+  description = "The interval between each health check, Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations. Default: 60."
+}
+
+variable "retries" {
+  type        = number
+  description = "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. Default: 2."
+}

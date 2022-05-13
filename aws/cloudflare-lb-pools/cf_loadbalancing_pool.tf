@@ -2,10 +2,10 @@ resource "cloudflare_load_balancer_monitor" "https_monitor" {
   type = "https"
   expected_codes = var.expected_codes
   method = var.monitor_method
-  timeout = 7
+  timeout = var.timeout
   path = "/"
-  interval = 60
-  retries = 3
+  interval = var.interval
+  retries = var.retries
   description = var.name
   header {
     header = var.header
