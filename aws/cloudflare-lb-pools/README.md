@@ -27,8 +27,11 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_description"></a> [description](#input\_description) | The Description about cloudflare LB Pool Usage | `string` | n/a | yes |
+| <a name="input_expected_codes"></a> [expected\_codes](#input\_expected\_codes) | The expected HTTP response code or code range of the health check. Eg 2xx. Only valid and required if type is http or https | `string` | n/a | yes |
+| <a name="input_follow_redirects"></a> [follow\_redirects](#input\_follow\_redirects) | Follow redirects if returned by the origin. Only valid if type is http or https. | `bool` | n/a | yes |
 | <a name="input_header"></a> [header](#input\_header) | Name of the header i.e Host | `string` | n/a | yes |
 | <a name="input_header_value"></a> [header\_value](#input\_header\_value) | Value for the header | `string` | n/a | yes |
+| <a name="input_monitor_method"></a> [monitor\_method](#input\_monitor\_method) | The method to use for the health check. Valid values are any valid HTTP verb if type is http or https | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Cloudflare load balancer Pool's name | `string` | n/a | yes |
 | <a name="input_notification_email"></a> [notification\_email](#input\_notification\_email) | Email address for notofication from cloudflare | `string` | n/a | yes |
 | <a name="input_policy"></a> [policy](#input\_policy) | Routing Policy for traffic. like Random etc | `string` | n/a | yes |

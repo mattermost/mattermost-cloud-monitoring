@@ -1,7 +1,7 @@
 resource "cloudflare_load_balancer_monitor" "https_monitor" {
   type = "https"
-  expected_codes = "200"
-  method = "GET"
+  expected_codes = var.expected_codes
+  method = var.monitor_method
   timeout = 7
   path = "/"
   interval = 60
@@ -12,7 +12,7 @@ resource "cloudflare_load_balancer_monitor" "https_monitor" {
     values = [var.header_value]
   }
   allow_insecure = false
-  follow_redirects = true
+  follow_redirects = var.follow_redirects
 }
 
 resource "cloudflare_load_balancer_pool" "lb-pool" {

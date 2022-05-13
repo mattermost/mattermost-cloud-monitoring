@@ -73,3 +73,18 @@ variable "header_value" {
   type        = string
   description = "Value for the header"
 }
+
+variable "follow_redirects" {
+  type        = bool
+  description = "Follow redirects if returned by the origin. Only valid if type is http or https."
+}
+
+variable "expected_codes" {
+  type        = string
+  description = "The expected HTTP response code or code range of the health check. Eg 2xx. Only valid and required if type is http or https"
+}
+
+variable "monitor_method" {
+  type        = string
+  description = "The method to use for the health check. Valid values are any valid HTTP verb if type is http or https"
+}
