@@ -9,7 +9,7 @@ resource "cloudflare_load_balancer_monitor" "https_monitor" {
   description    = var.name
   header {
     header = var.header
-    values = [var.header_value]
+    values = var.header_value
   }
   allow_insecure   = false
   follow_redirects = var.follow_redirects

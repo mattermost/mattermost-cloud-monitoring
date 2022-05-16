@@ -4,7 +4,7 @@ module "cloudflare_load_balancer_pool" {
   description = "Test TF Community Pool to support HA"
   pool_enable = true
   header = "Host"
-  header_value = "community-dr.staging.xxxx.com"
+  header_value = ["community-dr.staging.xxxx.com"]
   expected_codes="200"
   monitor_method="GET"
   follow_redirects=true

@@ -70,8 +70,8 @@ variable "header" {
 }
 
 variable "header_value" {
-  type        = string
-  description = "Value for the header"
+  type        = list(string)
+  description = "A list of string values for the header."
 }
 
 variable "follow_redirects" {
@@ -103,3 +103,4 @@ variable "retries" {
   type        = number
   description = "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. Default: 2."
 }
+
