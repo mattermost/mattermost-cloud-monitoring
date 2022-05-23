@@ -30,5 +30,9 @@ resource "aws_s3_bucket" "installation_buckets" {
     },
     var.tags
   )
+  lifecycle {
+    ignore_changes = [
+      replication_configuration
+    ]
+  }
 }
-
