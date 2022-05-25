@@ -1,6 +1,6 @@
 resource "aws_lambda_function" "lambda_promtail" {
   s3_bucket     = var.bucket
-  s3_key        = "mattermost-cloud/lambda_promtail/master/main.zip"
+  s3_key        = "mattermost-cloud/lambda_promtail/main/main.zip"
   function_name = "lambda_promtail"
   role          = aws_iam_role.iam_for_lambda.arn
 
