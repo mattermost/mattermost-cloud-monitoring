@@ -52,7 +52,7 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole" {
 
 resource "aws_lambda_function" "bind_server_network_attachment" {
   s3_bucket     = "releases.mattermost.com"
-  s3_key        = "mattermost-cloud/bind-server-network-attachment/master/main.zip"
+  s3_key        = "mattermost-cloud/bind-server-network-attachment/main/main.zip"
   function_name = "bind-server-network-attachment"
   role          = aws_iam_role.bind_lambda_role.arn
   handler       = "main"
