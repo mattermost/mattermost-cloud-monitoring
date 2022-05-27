@@ -1,3 +1,18 @@
+variable "private_subnet_ids" {
+  type        = list(string)
+  description = "The list of the private subnet IDs"
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "The ID of the vpc for the security group of Lambda"
+}
+
+variable "deployment_name" {
+  type        = string
+  description = "The name of the deployment for Lambda"
+}
+
 variable "write_address" {
   type        = string
   description = "This is the Loki Write API compatible endpoint that you want to write logs to, either promtail or Loki."
@@ -56,16 +71,4 @@ variable "batch_size" {
   type        = string
   description = "Determines when to flush the batch of logs (bytes)."
   default     = ""
-}
-
-variable "lambda_vpc_subnets" {
-  type        = list(string)
-  description = "List of subnet IDs associated with the Lambda function."
-  default     = [""]
-}
-
-variable "lambda_vpc_security_groups" {
-  type        = list(string)
-  description = "List of security group IDs associated with the Lambda function."
-  default     = [""]
 }
