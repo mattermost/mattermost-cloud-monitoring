@@ -23,7 +23,6 @@ variable "policy" {
   description = "Routing Policy for traffic. like Random etc"
 }
 
-
 variable "region_1" {
   type        = string
   description = "Region for first origin"
@@ -104,3 +103,22 @@ variable "retries" {
   description = "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. Default: 2."
 }
 
+variable "steering_policy" {
+  type        = string
+  description = "Determine which method the load balancer uses to determine the fastest route to your origin. Valid values are: 'off', 'geo', 'dynamic_latency', 'random', 'proximity'."
+}
+
+variable "proxied" {
+  type        = bool
+  description = "Whether the hostname gets Cloudflare's origin protection. Defaults to false."
+}
+
+variable "zone_id" {
+  type        = string
+  description = "The zone ID to add the load balancer to."
+}
+
+variable "lb_name" {
+  type        = string
+  description = "(Required) The DNS name (FQDN, including the zone) to associate with the load balancer."
+}
