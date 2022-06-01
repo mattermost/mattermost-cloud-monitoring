@@ -93,7 +93,7 @@ resource "aws_iam_policy" "velero_node_policy" {
                 "s3:ListMultipartUploadParts"
             ],
             "Resource": [
-                "arn:aws:s3:::cloud-velero-${var.enviornment}/*"
+                "arn:aws:s3:::cloud-velero-${var.environment}/*"
             ]
         },
         {
@@ -102,7 +102,7 @@ resource "aws_iam_policy" "velero_node_policy" {
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::cloud-velero-${var.enviornment}"
+                "arn:aws:s3:::cloud-velero-${var.environment}"
             ]
         }
     ]
