@@ -28,7 +28,7 @@ variable "engine_version" {
 variable "database_name" {
   type        = string
   description = "(Optional, Forces new resources) Name for an automatically created database on cluster creation."
-  default     = ""
+  default     = null
 }
 
 variable "primary_cluster_identifier" {
