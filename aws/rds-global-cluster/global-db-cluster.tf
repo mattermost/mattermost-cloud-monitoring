@@ -18,7 +18,7 @@ resource "aws_rds_cluster" "primary" {
   backup_retention_period   = var.backup_retention_period
   preferred_backup_window   = var.preferred_backup_window
   skip_final_snapshot       = var.skip_final_snapshot
-  final_snapshot_identifier = var.final_snapshot_identifier
+  final_snapshot_identifier = local.final_snapshot_identifier
   tags                      = var.tags
 }
 
@@ -41,7 +41,7 @@ resource "aws_rds_cluster" "secondary" {
   db_subnet_group_name      = var.secondary_db_subnet_group_name
   tags                      = var.tags
   skip_final_snapshot       = var.skip_final_snapshot
-  final_snapshot_identifier = var.final_snapshot_identifier
+  final_snapshot_identifier = local.final_snapshot_identifier
 
   depends_on = [
     aws_rds_cluster.primary

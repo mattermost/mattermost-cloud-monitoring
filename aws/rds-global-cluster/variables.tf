@@ -5,7 +5,7 @@ variable "source_region" {
 
 variable "target_region" {
   type        = string
-  description = "TThe target region for an encrypted replica DB cluster."
+  description = "The target region for an encrypted replica DB cluster."
 }
 
 
@@ -28,6 +28,7 @@ variable "engine_version" {
 variable "database_name" {
   type        = string
   description = "(Optional, Forces new resources) Name for an automatically created database on cluster creation."
+  default     = ""
 }
 
 variable "primary_cluster_identifier" {
@@ -94,13 +95,13 @@ variable "backup_retention_period" {
 variable "preferred_backup_window" {
   type        = string
   description = "The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.Time in UTC."
-  default     = "03:00-05:00"
+  default     = "02:00-03:00"
 }
 
 variable "skip_final_snapshot" {
   type        = bool
   description = "Determines whether a final DB snapshot is created before the DB cluster is deleted."
-  default     = true
+  default     = false
 }
 
 variable "final_snapshot_identifier" {

@@ -15,5 +15,6 @@ locals {
   secondary = {
     region = var.target_region
   }
-  tags = var.tags
+
+  final_snapshot_identifier = "${var.global_cluster_identifier}-${timestamp()}"
 }
