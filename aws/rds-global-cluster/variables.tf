@@ -103,10 +103,3 @@ variable "skip_final_snapshot" {
   description = "Determines whether a final DB snapshot is created before the DB cluster is deleted."
   default     = false
 }
-
-variable "final_snapshot_identifier" {
-  type        = string
-  description = "(Optional) The name of your final DB snapshot when this DB cluster is deleted. If omitted, no final snapshot will be made."
-  default     = "test-cluster-final"
-}
-
