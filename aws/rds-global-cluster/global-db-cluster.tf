@@ -43,7 +43,7 @@ resource "aws_rds_cluster" "secondary" {
   skip_final_snapshot       = var.skip_final_snapshot
   final_snapshot_identifier = var.final_snapshot_identifier
 
-   depends_on = [
+  depends_on = [
     aws_rds_cluster.primary
   ]
 }
