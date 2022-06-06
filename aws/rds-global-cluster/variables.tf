@@ -27,7 +27,7 @@ variable "engine_version" {
 
 variable "database_name" {
   type        = string
-  description = "Forces new resources) Name for an automatically created database on cluster creation."
+  description = "(Forces new resources) Name for an automatically created database on cluster creation."
 }
 
 variable "primary_cluster_identifier" {
