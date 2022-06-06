@@ -42,6 +42,10 @@ resource "aws_rds_cluster" "secondary" {
   tags                      = var.tags
   skip_final_snapshot       = var.skip_final_snapshot
   final_snapshot_identifier = var.final_snapshot_identifier
+
+   depends_on = [
+    aws_rds_cluster.primary
+  ]
 }
 
 resource "aws_rds_cluster_instance" "secondary" {
