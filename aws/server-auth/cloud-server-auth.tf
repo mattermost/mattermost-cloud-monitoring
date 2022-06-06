@@ -33,7 +33,7 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRole" {
 
 resource "aws_lambda_function" "cloud_server_auth" {
   s3_bucket     = "releases.mattermost.com"
-  s3_key        = "mattermost-cloud/cloud-server-auth/master/cloud-server-auth.zip"
+  s3_key        = "mattermost-cloud/cloud-server-auth/main/cloud-server-auth.zip"
   function_name = "cloud-server-auth"
   role          = aws_iam_role.auth_lambda_role.arn
   handler       = "cloud-server-auth"

@@ -2,7 +2,10 @@ variable "environment" {}
 
 variable "vpc_id" {}
 
-variable "region" {}
+variable "region" {
+  type        = string
+  description = "The AWS region which will be used."
+}
 
 variable "cloud_vpn_cidr" {}
 
@@ -70,4 +73,12 @@ variable "provider_role_arn" {
 variable "storage_type" {
   type    = string
   default = "gp2"
+}
+
+variable "snowflake_imports" {
+  type = string
+}
+
+variable "kms_key" {
+  type = string
 }

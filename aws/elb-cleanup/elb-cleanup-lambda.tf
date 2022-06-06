@@ -3,7 +3,7 @@ data "aws_caller_identity" "current" {}
 
 resource "aws_lambda_function" "elb_cleanup" {
   s3_bucket     = var.bucket
-  s3_key        = "mattermost-cloud/elb-cleanup/master/main.zip"
+  s3_key        = "mattermost-cloud/elb-cleanup/main/main.zip"
   function_name = "elb-cleanup"
   role          = aws_iam_role.elb_cleanup_lambda_role.arn
   handler       = "build/output/_bin/main"
