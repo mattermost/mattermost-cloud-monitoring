@@ -9,7 +9,6 @@ No requirements.
 | <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | n/a |
 | <a name="provider_null"></a> [null](#provider\_null) | n/a |
-| <a name="provider_template"></a> [template](#provider\_template) | n/a |
 
 ## Modules
 
@@ -55,7 +54,6 @@ No requirements.
 | [null_resource.cluster_services](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_eks_cluster_auth.cluster_auth](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eks_cluster_auth) | data source |
-| [template_file.kubeconfig](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
