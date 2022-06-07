@@ -15,5 +15,5 @@ locals {
   secondary = {
     region = var.target_region
   }
-  final_snapshot_identifier = "${var.global_cluster_identifier}-${formatdate("YYYYMMDDhhmm",timestamp())}"
+  final_snapshot_identifier = "${var.global_cluster_identifier}-${formatdate("YYYYMMDDhhmm", timestamp())}"
 }
