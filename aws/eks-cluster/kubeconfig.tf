@@ -10,7 +10,7 @@ resource "null_resource" "cluster_services" {
         cluster_name     = aws_eks_cluster.cluster.name,
         cluster_endpoint = aws_eks_cluster.cluster.endpoint,
         cluster_ca       = aws_eks_cluster.cluster.certificate_authority.0.data
-        }))
+      }))
     }
   }
 }
