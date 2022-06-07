@@ -30,6 +30,10 @@ resource "aws_rds_cluster_instance" "primary" {
   instance_class       = var.instance_class
   db_subnet_group_name = var.primary_db_subnet_group_name
   tags                 = var.tags
+
+   depends_on = [
+     aws_rds_cluster.primary
+  ]
 }
 
 resource "aws_rds_cluster" "secondary" {
@@ -57,6 +61,6 @@ resource "aws_rds_cluster_instance" "secondary" {
   db_subnet_group_name = var.secondary_db_subnet_group_name
 
   depends_on = [
-    aws_rds_cluster_instance.primary
+     aws_rds_cluster.secondary
   ]
 }
