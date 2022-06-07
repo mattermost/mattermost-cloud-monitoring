@@ -15,7 +15,7 @@ resource "aws_route53_record" "atlantis" {
   name    = "atlantis"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.internal_nginx.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.internal_nginx.status.load_balancer.ingress.0.hostname]
 
   depends_on = [
     helm_release.atlantis,
