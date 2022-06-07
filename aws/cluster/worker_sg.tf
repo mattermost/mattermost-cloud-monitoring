@@ -12,7 +12,7 @@ resource "aws_security_group" "worker-sg" {
   }
 
   tags = tomap({
-    "Name" = "${var.deployment_name}-worker-sg",
+    "Name"                                         = "${var.deployment_name}-worker-sg",
     "kubernetes.io/cluster/${var.deployment_name}" = "owned",
   })
 }
