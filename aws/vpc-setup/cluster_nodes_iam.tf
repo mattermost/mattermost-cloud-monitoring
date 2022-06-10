@@ -90,6 +90,7 @@ resource "aws_iam_policy" "velero_node_policy" {
                 "s3:DeleteObject",
                 "s3:PutObject",
                 "s3:AbortMultipartUpload",
+                "s3:ListBucket",
                 "s3:ListMultipartUploadParts"
             ],
             "Resource": [
