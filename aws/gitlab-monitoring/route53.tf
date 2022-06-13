@@ -11,7 +11,7 @@ resource "aws_route53_record" "prometheus" {
   name    = "prometheus"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "grafana" {
@@ -19,5 +19,5 @@ resource "aws_route53_record" "grafana" {
   name    = "grafana"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
