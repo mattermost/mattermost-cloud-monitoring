@@ -56,7 +56,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_bucket"></a> [bucket](#input\_bucket) | S3 bucket where the elb-cleanup lambda is stored | `string` | n/a | yes |
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | The name of the deployment for Lambda | `string` | n/a | yes |
-| <a name="input_dryrun"></a> [dryrun](#input\_dryrun) | S3 bucket where the elb-cleanup lambda is stored | `string` | `"true"` | no |
+| <a name="input_dryrun"></a> [dryrun](#input\_dryrun) | Defines if lambda runs on dryRunMode or if does actual changes | `string` | `"true"` | no |
 | <a name="input_elb_cleanup_lambda_schedule"></a> [elb\_cleanup\_lambda\_schedule](#input\_elb\_cleanup\_lambda\_schedule) | A rate expression starts when you create the scheduled event rule, and then runs on its defined schedule. | `string` | `"rate(7 days)"` | no |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The list of the private subnet IDs are used by elb-cleanup lambda | `list(string)` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The ID of VPC is used by the elb-cleanup lamda | `string` | n/a | yes |

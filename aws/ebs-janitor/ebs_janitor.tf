@@ -69,6 +69,7 @@ resource "aws_lambda_function" "ebs_janitor" {
     variables = {
       MIN_SUBNET_FREE_IPs    = var.min_subnet_free_ips,
       MATTERMOST_ALERTS_HOOK = var.mattermost_alerts_hook,
+      dryrun                 = var.dryrun,
     }
   }
 }

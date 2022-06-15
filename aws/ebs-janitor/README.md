@@ -1,3 +1,4 @@
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 No requirements.
@@ -33,6 +34,8 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_account_alerts_lambda_schedule"></a> [account\_alerts\_lambda\_schedule](#input\_account\_alerts\_lambda\_schedule) | The schedule expression for a Cloudwatch Event rule to run Lambda periodically | `string` | n/a | yes |
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | The name of the deployment for Lambda | `string` | n/a | yes |
+| <a name="input_dryrun"></a> [dryrun](#input\_dryrun) | Defines if lambda runs on dryRunMode or if does actual changes | `string` | `"true"` | no |
+| <a name="input_ebs_janitor_lambda_schedule"></a> [ebs\_janitor\_lambda\_schedule](#input\_ebs\_janitor\_lambda\_schedule) | The schedule for AWS Cloud Lambda event rule | `string` | n/a | yes |
 | <a name="input_mattermost_alerts_hook"></a> [mattermost\_alerts\_hook](#input\_mattermost\_alerts\_hook) | The URL webhook to send the alert which will be used in the lambda function as environment variable | `string` | n/a | yes |
 | <a name="input_min_subnet_free_ips"></a> [min\_subnet\_free\_ips](#input\_min\_subnet\_free\_ips) | The number of free IPs which will be used in the lambda function as environment variable | `string` | n/a | yes |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The list of the private subnet IDs | `list(string)` | n/a | yes |
@@ -41,3 +44,4 @@ No modules.
 ## Outputs
 
 No outputs.
+<!-- END_TF_DOCS -->
