@@ -3,7 +3,6 @@ module "atlantis" {
   deployment_name                       = var.deployment_name
   atlantis_deployment_name              = var.atlantis_deployment_name
   region                                = var.region
-  kubeconfig_dir                        = var.kubeconfig_dir
   org_whitelist                         = var.org_whitelist
   gitlab_user                           = var.gitlab_user
   gitlab_token                          = var.gitlab_token

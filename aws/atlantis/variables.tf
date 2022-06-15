@@ -8,69 +8,14 @@ variable "atlantis_deployment_name" {
   description = "The name of the deployment name which be used for ASG"
 }
 
-variable "kubeconfig_dir" {
-  type        = string
-  description = "The directory where the generated kubeconfig will be appended by terraform provider"
-}
-
 variable "private_hosted_zoneid" {
   type        = string
   description = "The ID of the Route53 private hosted zone"
 }
 
-variable "org_whitelist" {
-  type        = string
-  description = "The organization whitelist for git repositories which will be observed by atlantis"
-}
-
-variable "gitlab_user" {
-  type        = string
-  description = "The gitlab user which will be used by Atlantis to get webhook events"
-}
-
-variable "gitlab_token" {
-  type        = string
-  description = "The gitlab token which will be used by Atlantis to get webhook events"
-}
-
-variable "gitlab_webhook_secret" {
-  type        = string
-  description = "The gitlab secret which will be used by Atlantis to get webhook events"
-}
-
-variable "gitlab_hostname" {
-  type        = string
-  description = "The gitlab root hostname eg. gitlab.com"
-}
-
-variable "atlantis_hostname" {
-  type        = string
-  description = "The atlantis hostname eg. atlantis.foo.com"
-}
-
-variable "aws_secretname" {
-  type        = string
-  description = "The atlantis secret name which will be used to provide the necessary credentials profiles for terraform"
-}
-
 variable "nginx_internal_chart_values_directory" {
   type        = string
   description = "The nginx helm values directory which will be used to deploy an nginx along with it"
-}
-
-variable "atlantis_chart_values_directory" {
-  type        = string
-  description = "The atlantis helm values directory"
-}
-
-variable "atlantis_chart_version" {
-  type        = string
-  description = "The atlantis helm chart version which will be deployed in kubernetes"
-}
-
-variable "terraform_default_version" {
-  type        = string
-  description = "The terraform default version which Atlantis will use for terraform binary"
 }
 
 variable "ami_id" {
