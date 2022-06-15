@@ -3,9 +3,6 @@ data "kubernetes_service" "internal_nginx" {
     name      = "nginx-internal-ingress-nginx-controller"
     namespace = "nginx-internal"
   }
-  depends_on = [
-    helm_release.atlantis,
-  ]
 }
 
 data "aws_elb_hosted_zone_id" "main" {}
@@ -16,8 +13,4 @@ resource "aws_route53_record" "atlantis" {
   type    = "CNAME"
   ttl     = "60"
   records = [data.kubernetes_service.internal_nginx.status.0.load_balancer.0.ingress.0.hostname]
-
-  depends_on = [
-    helm_release.atlantis,
-  ]
 }
