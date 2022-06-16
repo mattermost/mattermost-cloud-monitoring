@@ -90,6 +90,8 @@ resource "aws_sns_topic_subscription" "lamba_subscriber" {
 
 // Lambda to create the Cloudwatch alarms
 resource "aws_iam_role" "lambda_role_create_elb_cloudwatch_alarm" {
+  count = var.environment == "test" ? 0 : 1
+
   name = "create_elb_cloudwatch_alarm"
 
   assume_role_policy = <<EOF
@@ -110,6 +112,8 @@ EOF
 }
 
 resource "aws_iam_role_policy" "lambda_policy_create_elb_cloudwatch_alarm" {
+  count = var.environment == "test" ? 0 : 1
+
   name = "create_elb_cloudwatch_alarm_policy"
   role = aws_iam_role.lambda_role_create_elb_cloudwatch_alarm.id
 
@@ -140,11 +144,15 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole_create" {
+  count = var.environment == "test" ? 0 : 1
+
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
   role       = aws_iam_role.lambda_role_create_elb_cloudwatch_alarm.name
 }
 
 resource "aws_lambda_function" "create_elb_cloudwatch_alarm" {
+  count = var.environment == "test" ? 0 : 1
+
   s3_bucket     = "releases.mattermost.com"
   s3_key        = "mattermost-cloud/create-elb-cloudwatch-alarm/master/main.zip"
   function_name = "create-elb-cloudwatch-alarm"
@@ -166,6 +174,8 @@ resource "aws_lambda_function" "create_elb_cloudwatch_alarm" {
 
 // Cloudwatch rule to be triggered when a LB is deleted or created
 resource "aws_cloudwatch_event_rule" "lb_updates" {
+  count = var.environment == "test" ? 0 : 1
+
   name          = "lb-registration"
   description   = "Runs when a new LB is deleted or created"
   event_pattern = <<PATTERN
@@ -194,6 +204,8 @@ resource "aws_cloudwatch_event_rule" "lb_updates" {
 }
 
 resource "aws_cloudwatch_event_target" "lb-registration" {
+  count = var.environment == "test" ? 0 : 1
+
   rule      = aws_cloudwatch_event_rule.lb_updates.name
   target_id = "create-elb-cloudwatch-alarm"
   arn       = aws_lambda_function.create_elb_cloudwatch_alarm.arn
@@ -204,6 +216,8 @@ resource "aws_cloudwatch_event_target" "lb-registration" {
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch_to_call_lb_registration" {
+  count = var.environment == "test" ? 0 : 1
+
   statement_id  = "AllowExecutionFromCloudWatch"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.create_elb_cloudwatch_alarm.function_name
