@@ -163,7 +163,7 @@ resource "aws_lambda_function" "create_elb_cloudwatch_alarm" {
 
   environment {
     variables = {
-      SNS_TOPIC = aws_sns_topic.elb_alarm_topic[0].arn,
+      SNS_TOPIC = aws_sns_topic.elb_alarm_topic.arn,
     }
   }
 
