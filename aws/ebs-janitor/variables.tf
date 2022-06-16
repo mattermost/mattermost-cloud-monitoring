@@ -32,3 +32,9 @@ variable "ebs_janitor_lambda_schedule" {
   type        = string
   description = "The schedule for AWS Cloud Lambda event rule"
 }
+
+variable "dryrun" {
+  default     = "true"
+  description = "Defines if lambda runs on dryRunMode or if does actual changes"
+  type        = string
+}
