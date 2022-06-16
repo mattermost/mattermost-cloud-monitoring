@@ -115,7 +115,7 @@ resource "aws_iam_role_policy" "lambda_policy_create_elb_cloudwatch_alarm" {
   count = var.environment == "test" ? 0 : 1
 
   name = "create_elb_cloudwatch_alarm_policy"
-  role = aws_iam_role.lambda_role_create_elb_cloudwatch_alarm.id
+  role = aws_iam_role.lambda_role_create_elb_cloudwatch_alarm[0].id
 
   policy = <<EOF
 {
@@ -147,7 +147,7 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole_create" {
   count = var.environment == "test" ? 0 : 1
 
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  role       = aws_iam_role.lambda_role_create_elb_cloudwatch_alarm.name
+  role       = aws_iam_role.lambda_role_create_elb_cloudwatch_alarm[0].name
 }
 
 resource "aws_lambda_function" "create_elb_cloudwatch_alarm" {
@@ -156,14 +156,14 @@ resource "aws_lambda_function" "create_elb_cloudwatch_alarm" {
   s3_bucket     = "releases.mattermost.com"
   s3_key        = "mattermost-cloud/create-elb-cloudwatch-alarm/master/main.zip"
   function_name = "create-elb-cloudwatch-alarm"
-  role          = aws_iam_role.lambda_role_create_elb_cloudwatch_alarm.arn
+  role          = aws_iam_role.lambda_role_create_elb_cloudwatch_alarm[0].arn
   handler       = "main"
   timeout       = 120
   runtime       = "go1.x"
 
   environment {
     variables = {
-      SNS_TOPIC = aws_sns_topic.elb_alarm_topic.arn,
+      SNS_TOPIC = aws_sns_topic.elb_alarm_topic[0].arn,
     }
   }
 
@@ -206,9 +206,9 @@ resource "aws_cloudwatch_event_rule" "lb_updates" {
 resource "aws_cloudwatch_event_target" "lb-registration" {
   count = var.environment == "test" ? 0 : 1
 
-  rule      = aws_cloudwatch_event_rule.lb_updates.name
+  rule      = aws_cloudwatch_event_rule.lb_updates[0].name
   target_id = "create-elb-cloudwatch-alarm"
-  arn       = aws_lambda_function.create_elb_cloudwatch_alarm.arn
+  arn       = aws_lambda_function.create_elb_cloudwatch_alarm[0].arn
 
   depends_on = [
     aws_lambda_function.create_elb_cloudwatch_alarm
@@ -220,9 +220,9 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_lb_registration" {
 
   statement_id  = "AllowExecutionFromCloudWatch"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.create_elb_cloudwatch_alarm.function_name
+  function_name = aws_lambda_function.create_elb_cloudwatch_alarm[0].function_name
   principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.lb_updates.arn
+  source_arn    = aws_cloudwatch_event_rule.lb_updates[0].arn
 
   depends_on = [
     aws_lambda_function.create_elb_cloudwatch_alarm
