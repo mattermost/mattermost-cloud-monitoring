@@ -6,7 +6,7 @@ resource "aws_lb" "pritunl_nlb" {
   enable_cross_zone_load_balancing = false
 
   tags = merge(
-    tomap({"Name" = "${var.name}-nlb"}),
+    tomap({ "Name" = "${var.name}-nlb" }),
     local.default_tags
   )
 
@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "pritunl_nlb_tg_webui" {
   }
 
   tags = merge(
-    tomap({"Name" = "${var.name}-tg-webui"}),
+    tomap({ "Name" = "${var.name}-tg-webui" }),
     local.default_tags
   )
 }
@@ -61,7 +61,7 @@ resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_6" {
   }
 
   tags = merge(
-    tomap({"Name" = "${var.name}-tg-vpn-6"}),
+    tomap({ "Name" = "${var.name}-tg-vpn-6" }),
     local.default_tags
   )
 }
@@ -92,7 +92,7 @@ resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_7" {
   }
 
   tags = merge(
-    tomap({"Name" = "${var.name}-tg-vpn-7"}),
+    tomap({ "Name" = "${var.name}-tg-vpn-7" }),
     local.default_tags
   )
 }
@@ -123,7 +123,7 @@ resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_8" {
   }
 
   tags = merge(
-    tomap({"Name" = "${var.name}-tg-vpn-8"}),
+    tomap({ "Name" = "${var.name}-tg-vpn-8" }),
     local.default_tags
   )
 }
@@ -154,7 +154,7 @@ resource "aws_lb_target_group" "pritunl_nlb_tg_vpn" {
   }
 
   tags = merge(
-    tomap({"Name" = "${var.name}-tg-vpn"}),
+    tomap({ "Name" = "${var.name}-tg-vpn" }),
     local.default_tags
   )
 }
@@ -185,7 +185,7 @@ resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_1" {
   }
 
   tags = merge(
-    tomap({"Name" = "${var.name}-tg-vpn-1"}),
+    tomap({ "Name" = "${var.name}-tg-vpn-1" }),
     local.default_tags
   )
 }
@@ -217,7 +217,7 @@ resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_2" {
   }
 
   tags = merge(
-    tomap({"Name" = "${var.name}-tg-vpn-2"}),
+    tomap({ "Name" = "${var.name}-tg-vpn-2" }),
     local.default_tags
   )
 }
@@ -249,7 +249,7 @@ resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_3" {
   }
 
   tags = merge(
-    tomap({"Name" = "${var.name}-tg-vpn-3"}),
+    tomap({ "Name" = "${var.name}-tg-vpn-3" }),
     local.default_tags
   )
 }
@@ -280,7 +280,7 @@ resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_4" {
   }
 
   tags = merge(
-    tomap({"Name" = "${var.name}-tg-vpn-4"}),
+    tomap({ "Name" = "${var.name}-tg-vpn-4" }),
     local.default_tags
   )
 }
@@ -311,7 +311,7 @@ resource "aws_lb_target_group" "pritunl_nlb_tg_vpn_5" {
   }
 
   tags = merge(
-    tomap({"Name" = "${var.name}-tg--5"}),
+    tomap({ "Name" = "${var.name}-tg--5" }),
     local.default_tags
   )
 }
@@ -344,7 +344,7 @@ resource "aws_lb_target_group" "pritunl_nlb_tg_http" {
   }
 
   tags = merge(
-    tomap({"Name" = "${var.name}-tg-http"}),
+    tomap({ "Name" = "${var.name}-tg-http" }),
     local.default_tags
   )
 }
