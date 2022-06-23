@@ -1,3 +1,19 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = "~> 2.0.0"
+    }
+    helm = {
+      source = "hashicorp/helm"
+      version = "~> 2.0.0"
+    }
+  }
+}
 
 data "helm_repository" "gitlab" {
   name = "gitlab"
