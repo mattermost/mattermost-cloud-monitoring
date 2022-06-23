@@ -1,6 +1,5 @@
 resource "aws_s3_bucket" "gitlab_runners" {
   bucket = "mattermost-cloud-gitlab-runners"
-  acl    = "private"
 
   server_side_encryption_configuration {
     rule {
@@ -15,4 +14,9 @@ resource "aws_s3_bucket" "gitlab_runners" {
     enabled    = true
     mfa_delete = false
   }
+}
+
+resource "aws_s3_bucket_acl" "gitlab_runners" {
+  bucket = aws_s3_bucket.gitlab_runners.id
+  acl    = "private"
 }
