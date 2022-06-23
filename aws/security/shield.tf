@@ -22,8 +22,8 @@ POLICY
 }
 
 resource "aws_s3_bucket" "waf-logs" {
-  bucket = "mattermost-${var.environment}-waf-logs"
-  acl    = "private"
+  bucket            = "mattermost-${var.environment}-waf-logs"
+  aws_s3_bucket_acl = "private"
 }
 
 resource "aws_iam_role_policy" "drt-mattermost-waf-logs-s3-access" {
