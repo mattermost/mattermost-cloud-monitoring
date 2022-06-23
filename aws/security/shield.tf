@@ -23,10 +23,6 @@ POLICY
 
 resource "aws_s3_bucket" "waf-logs" {
   bucket = "mattermost-${var.environment}-waf-logs"
-}
-
-resource "aws_s3_bucket_acl" "waf-lgos" {
-  bucket = aws_s3_bucket.waf-logs.id
   acl    = "private"
 }
 
