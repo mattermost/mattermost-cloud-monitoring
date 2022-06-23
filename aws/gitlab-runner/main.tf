@@ -21,7 +21,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "gitlab_runners" {
 resource "aws_s3_bucket_versioning" "gitlab_runners" {
   bucket = aws_s3_bucket.gitlab_runners.id
   versioning_configuration {
-    enabled    = "Enabled"
+    status     = "Enabled"
     mfa_delete = "Disabled"
   }
 }
