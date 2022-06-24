@@ -1,3 +1,20 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws",
+      version = ">= 3.55"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.0"
+    }
+  }
+}
+
 resource "aws_security_group" "cec_to_postgres" {
   name                   = "cec_to_postgress"
   description            = "Allow K8s C&C to access RDS Postgres"
@@ -53,7 +70,7 @@ resource "aws_db_instance" "chaos_engine" {
   engine                      = "postgres"
   engine_version              = var.db_engine_version
   instance_class              = var.db_instance_class
-  db_name                     = var.db_name
+  name                        = var.db_name
   username                    = var.db_username
   password                    = var.db_password
   allow_major_version_upgrade = false
