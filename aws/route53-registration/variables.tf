@@ -104,19 +104,19 @@ variable "enable_blapi_private_r53_record" {
 }
 
 variable "enabled_cloudflare_chimera" {
-  default = true
-  type    = bool
+  default     = true
+  type        = bool
   description = "Enables cloudflare for Chimera"
 }
 
 variable "chimera_cloudflare_record_name" {
-  default = "chimera"
-  type    = string
+  default     = "chimera"
+  type        = string
   description = "Cloudflare record name for Chimera"
 }
 
 variable "cloudflare_chimera_cdn" {
-  default = "chimera.test.cloud.mattermost.com.cdn.cloudflare.net"
-  type    = string
+  default     = "chimera.test.cloud.mattermost.com.cdn.cloudflare.net"
+  type        = string
   description = "CDN name for Chimera"
 }
