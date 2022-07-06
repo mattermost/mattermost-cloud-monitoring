@@ -112,9 +112,11 @@ variable "enabled_cloudflare_chimera" {
 variable "chimera_cloudflare_record_name" {
   default = "chimera"
   type    = string
+  description = "Cloudflare record name for Chimera"
 }
 
 variable "cloudflare_chimera_cdn" {
   default = "chimera.test.cloud.mattermost.com.cdn.cloudflare.net"
   type    = string
+  description = "CDN name for Chimera"
 }
