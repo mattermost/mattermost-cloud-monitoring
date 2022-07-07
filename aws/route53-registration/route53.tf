@@ -119,6 +119,16 @@ resource "aws_route53_record" "customer_web_server_api_internal" {
   records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
+resource "cloudflare_record" "chimera" {
+  count = var.enabled_cloudflare_chimera ? 1 : 0
+
+  zone_id = var.cloudflare_zone_id
+  name    = var.chimera_cloudflare_record_name
+  value   = data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname
+  type    = "CNAME"
+  proxied = true
+}
+
 resource "aws_route53_record" "chimera" {
   count = var.enable_chimera_record ? 1 : 0
 
@@ -126,7 +136,7 @@ resource "aws_route53_record" "chimera" {
   name    = "chimera"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname]
+  records = [var.enabled_cloudflare_chimera ? var.cloudflare_chimera_cdn : data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 resource "aws_route53_record" "chaos_mesh" {

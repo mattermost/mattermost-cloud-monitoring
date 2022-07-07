@@ -102,3 +102,21 @@ variable "enable_blapi_private_r53_record" {
   type        = bool
   description = "Enables to create a private CNAME route53 record for Private Blapi and Flower"
 }
+
+variable "enabled_cloudflare_chimera" {
+  default     = true
+  type        = bool
+  description = "Enables cloudflare for Chimera"
+}
+
+variable "chimera_cloudflare_record_name" {
+  default     = "chimera"
+  type        = string
+  description = "Cloudflare record name for Chimera"
+}
+
+variable "cloudflare_chimera_cdn" {
+  default     = "chimera.test.cloud.mattermost.com.cdn.cloudflare.net"
+  type        = string
+  description = "CDN name for Chimera"
+}
