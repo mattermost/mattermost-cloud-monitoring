@@ -78,6 +78,11 @@ variable "enable_loki_gateway" {
   description = "Enables to create a private route53 record for Loki Gateway"
 }
 
+variable "enable_loki_frontend" {
+  type        = bool
+  description = "Enables to create a private route53 record for Loki Frontend"
+}
+
 variable "enabled_cloudflare_blapi" {
   type        = bool
   description = "Enables cloudflare for Blapi"

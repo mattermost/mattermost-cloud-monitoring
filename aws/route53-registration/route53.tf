@@ -179,6 +179,16 @@ resource "aws_route53_record" "loki_gateway" {
   records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
+resource "aws_route53_record" "loki_frontend" {
+  count = var.enable_loki_frontend ? 1 : 0
+
+  zone_id = var.private_hosted_zoneid
+  name    = "loki-frontend"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+}
+
 resource "cloudflare_record" "blapi" {
   count = var.enabled_cloudflare_blapi ? 1 : 0
 
