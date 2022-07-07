@@ -36,6 +36,22 @@ resource "aws_security_group" "worker_sg" {
   )
 }
 
+resource "aws_security_group" "calls_sg" {
+  for_each = toset(var.vpc_cidrs)
+
+  name        = format("%s-%s-calls-sg", var.name, join("", split(".", split("/", each.value)[0])))
+  description = "Calls Nodes Security Group"
+  vpc_id      = data.aws_vpc.vpc_ids[each.value]["id"]
+
+  tags = merge(
+    {
+      "Name"     = format("%s-%s-calls-sg", var.name, join("", split(".", split("/", each.value)[0]))),
+      "NodeType" = "calls"
+    },
+    var.tags
+  )
+}
+
 resource "aws_security_group" "db_sg" {
   for_each = toset(var.vpc_cidrs)
 
@@ -149,6 +165,42 @@ resource "aws_security_group_rule" "worker_ingress_teleport" {
   protocol          = "tcp"
   cidr_blocks       = var.teleport_cidr
   security_group_id = aws_security_group.worker_sg[each.value]["id"]
+}
+
+# Calls Rules
+resource "aws_security_group_rule" "calls_egress" {
+  for_each = toset(var.vpc_cidrs)
+
+  cidr_blocks       = ["0.0.0.0/0"]
+  description       = "Outbound Traffic"
+  from_port         = 0
+  protocol          = "-1"
+  security_group_id = aws_security_group.calls_sg[each.value]["id"]
+  to_port           = 0
+  type              = "egress"
+}
+
+resource "aws_security_group_rule" "calls_ingress_rtcd" {
+  for_each = toset(var.vpc_cidrs)
+
+  source_security_group_id = aws_security_group.calls_sg[each.value]["id"]
+  description              = "UDP RTCD Port"
+  from_port                = 8443
+  protocol                 = "udp"
+  security_group_id        = aws_security_group.calls_sg[each.value]["id"]
+  to_port                  = 8443
+  type                     = "ingress"
+}
+
+resource "aws_security_group_rule" "calls_ingress_teleport" {
+  for_each = toset(var.vpc_cidrs)
+
+  type              = "ingress"
+  from_port         = 3022
+  to_port           = 3022
+  protocol          = "tcp"
+  cidr_blocks       = var.teleport_cidr
+  security_group_id = aws_security_group.calls_sg[each.value]["id"]
 }
 
 # DB Rules
