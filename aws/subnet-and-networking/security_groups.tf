@@ -196,6 +196,7 @@ resource "aws_security_group_rule" "calls_ingress_teleport" {
   for_each = toset(var.vpc_cidrs)
 
   type              = "ingress"
+  description       = "Teleport SSH Access"
   from_port         = 3022
   to_port           = 3022
   protocol          = "tcp"
