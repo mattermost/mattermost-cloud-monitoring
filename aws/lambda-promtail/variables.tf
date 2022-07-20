@@ -66,3 +66,9 @@ variable "batch_size" {
   description = "Determines when to flush the batch of logs (bytes)."
   default     = ""
 }
+
+variable "filter_pattern" {
+  type        = string
+  description = "Determines pattern to parse logs."
+  default     = ""
+}
