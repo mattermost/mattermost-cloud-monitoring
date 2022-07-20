@@ -19,6 +19,6 @@ resource "aws_cloudwatch_log_subscription_filter" "lambdafunction_logfilter" {
   log_group_name  = each.value
   destination_arn = aws_lambda_function.lambda_promtail.arn
   # required but can be empty string
-  filter_pattern = ""
+  filter_pattern = var.filter_pattern
   depends_on     = [aws_iam_role_policy.logs]
 }
