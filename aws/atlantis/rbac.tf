@@ -14,7 +14,8 @@ resource "kubernetes_cluster_role" "atlantis" {
       "configmaps",
       "namespaces",
       "serviceaccounts",
-      "services"
+      "services",
+      "deployments"
     ]
     verbs = ["watch", "list", "get"]
   }
