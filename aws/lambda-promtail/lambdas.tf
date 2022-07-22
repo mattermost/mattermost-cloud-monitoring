@@ -17,13 +17,14 @@ resource "aws_lambda_function" "lambda_promtail" {
 
   environment {
     variables = {
-      WRITE_ADDRESS = var.write_address
-      USERNAME      = var.username
-      PASSWORD      = var.password
-      KEEP_STREAM   = var.keep_stream
-      BATCH_SIZE    = var.batch_size
-      EXTRA_LABELS  = var.extra_labels
-      TENANT_ID     = var.tenant_id
+      WRITE_ADDRESS   = var.write_address
+      USERNAME        = var.username
+      PASSWORD        = var.password
+      KEEP_STREAM     = var.keep_stream
+      BATCH_SIZE      = var.batch_size
+      EXTRA_LABELS    = var.extra_labels
+      TENANT_ID       = var.tenant_id
+      INCLUDE_MESSAGE = var.include_message
     }
   }
 

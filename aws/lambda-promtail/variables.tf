@@ -72,3 +72,9 @@ variable "filter_pattern" {
   description = "Determines pattern to parse logs."
   default     = ""
 }
+
+variable "include_message" {
+  type        = string
+  description = "Determines whether to include message as a Loki label when writing logs from lambda-promtail."
+  default     = "false"
+}

@@ -38,6 +38,7 @@ No modules.
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | The name of the deployment for Lambda | `string` | n/a | yes |
 | <a name="input_extra_labels"></a> [extra\_labels](#input\_extra\_labels) | Comma separated list of extra labels, in the format 'name1,value1,name2,value2,...,nameN,valueN' to add to entries forwarded by lambda-promtail. | `string` | `""` | no |
 | <a name="input_filter_pattern"></a> [filter\_pattern](#input\_filter\_pattern) | Determines pattern to parse logs. | `string` | `""` | no |
+| <a name="input_include_message"></a> [include\_message](#input\_include\_message) | Determines whether to include message as a Loki label when writing logs from lambda-promtail. | `string` | `"false"` | no |
 | <a name="input_keep_stream"></a> [keep\_stream](#input\_keep\_stream) | Determines whether to keep the CloudWatch Log Stream value as a Loki label when writing logs from lambda-promtail. | `string` | `"false"` | no |
 | <a name="input_log_group_names"></a> [log\_group\_names](#input\_log\_group\_names) | List of CloudWatch Log Group names to create Subscription Filters for. | `list(string)` | `[]` | no |
 | <a name="input_password"></a> [password](#input\_password) | The basic auth password, necessary if writing directly to Grafana Cloud Loki. | `string` | `""` | no |
