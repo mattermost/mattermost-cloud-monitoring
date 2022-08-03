@@ -183,13 +183,13 @@ resource "aws_security_group_rule" "calls_egress" {
 resource "aws_security_group_rule" "calls_ingress_rtcd" {
   for_each = toset(var.vpc_cidrs)
 
-  source_security_group_id = aws_security_group.calls_sg[each.value]["id"]
-  description              = "UDP RTCD Port"
-  from_port                = 8443
-  protocol                 = "udp"
-  security_group_id        = aws_security_group.calls_sg[each.value]["id"]
-  to_port                  = 8443
-  type                     = "ingress"
+  cidr_blocks       = ["0.0.0.0/0"]
+  description       = "UDP RTCD Port"
+  from_port         = 8443
+  protocol          = "udp"
+  security_group_id = aws_security_group.calls_sg[each.value]["id"]
+  to_port           = 8443
+  type              = "ingress"
 }
 
 resource "aws_security_group_rule" "calls_ingress_teleport" {
