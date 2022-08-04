@@ -7,9 +7,6 @@ resource "aws_iam_policy" "rds_db_factory" {
   path        = "/"
   description = "RDS permissions for database factory user"
 
-Error: Error creating RDS Cluster: AccessDenied: User: arn:aws:iam::868251936258:user/mattermost-database-factory-test is not authorized to perform: rds:RestoreDBClusterFromSnapshot on resource: 
-arn:aws:rds:us-east-1:868251936258:cluster:rds-cluster-multitenant-06e028b33eb814076-4e13fec3 because no identity-based policy allows the rds:RestoreDBClusterFromSnapshot action
-
   policy = <<EOF
 {
     "Version": "2012-10-17",
