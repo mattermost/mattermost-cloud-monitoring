@@ -7,6 +7,9 @@ resource "aws_iam_policy" "rds_db_factory" {
   path        = "/"
   description = "RDS permissions for database factory user"
 
+Error: Error creating RDS Cluster: AccessDenied: User: arn:aws:iam::868251936258:user/mattermost-database-factory-test is not authorized to perform: rds:RestoreDBClusterFromSnapshot on resource: 
+arn:aws:rds:us-east-1:868251936258:cluster:rds-cluster-multitenant-06e028b33eb814076-4e13fec3 because no identity-based policy allows the rds:RestoreDBClusterFromSnapshot action
+
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -29,7 +32,8 @@ resource "aws_iam_policy" "rds_db_factory" {
                 "rds:DeleteDBClusterParameterGroup",
                 "rds:DeleteDBParameterGroup",
                 "rds:ModifyDBInstance",
-                "rds:ResetDBParameterGroup"
+                "rds:ResetDBParameterGroup",
+                "rds:RestoreDBClusterFromSnapshot",
             ],
             "Resource": [
                 "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster:rds-cluster-multitenant-*",
@@ -37,7 +41,8 @@ resource "aws_iam_policy" "rds_db_factory" {
                 "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:pg:rds-cluster-multitenant-*",
                 "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster-pg:mattermost-*",
                 "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*",
-                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:db:rds-db-instance-multitenant-*"
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:db:rds-db-instance-multitenant-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster:cloud-"
             ]
         },
         {
