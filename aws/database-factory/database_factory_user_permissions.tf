@@ -42,16 +42,6 @@ resource "aws_iam_policy" "rds_db_factory" {
             ]
         },
         {
-            "Sid": "rds1",
-            "Effect": "Allow",
-            "Action": [
-                "rds:RestoreDBClusterFromSnapshot"
-            ],
-            "Resource": [
-                "arn:aws:rds:::cluster-snapshot:*"
-            ]
-        },
-        {
             "Sid": "rds2",
             "Effect": "Allow",
             "Action": [
@@ -62,7 +52,8 @@ resource "aws_iam_policy" "rds_db_factory" {
                 "rds:CreateDBInstance",
                 "rds:DeleteDBInstance",
                 "rds:DescribeDBInstances",
-                "rds:ListTagsForResource"
+                "rds:ListTagsForResource",
+                "rds:RestoreDBClusterFromSnapshot"
             ],
             "Resource": "*"
         }
