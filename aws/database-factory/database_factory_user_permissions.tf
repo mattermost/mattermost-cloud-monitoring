@@ -29,8 +29,7 @@ resource "aws_iam_policy" "rds_db_factory" {
                 "rds:DeleteDBClusterParameterGroup",
                 "rds:DeleteDBParameterGroup",
                 "rds:ModifyDBInstance",
-                "rds:ResetDBParameterGroup",
-                "rds:RestoreDBClusterFromSnapshot"
+                "rds:ResetDBParameterGroup"
             ],
             "Resource": [
                 "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster:rds-cluster-multitenant-*",
@@ -53,7 +52,8 @@ resource "aws_iam_policy" "rds_db_factory" {
                 "rds:CreateDBInstance",
                 "rds:DeleteDBInstance",
                 "rds:DescribeDBInstances",
-                "rds:ListTagsForResource"
+                "rds:ListTagsForResource",
+                "rds:RestoreDBClusterFromSnapshot"
             ],
             "Resource": "*"
         }
