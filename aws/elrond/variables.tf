@@ -14,7 +14,7 @@ variable "region" {
 }
 
 variable "cloud_vpn_cidr" {
-  type        = string
+  type        = list(string)
   description = "The cidr of the Cloud VPN to allow access from"
 }
 
