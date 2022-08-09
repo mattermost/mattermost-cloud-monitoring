@@ -228,3 +228,11 @@ resource "aws_route53_record" "blapi_flower_internal" {
   ttl     = "60"
   records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
+
+resource "aws_route53_record" "elrond" {
+  zone_id = var.private_hosted_zoneid
+  name    = "elrond"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+}
