@@ -139,3 +139,9 @@ variable "cloudflare_chimera_cdn" {
   type        = string
   description = "CDN name for Chimera"
 }
+
+variable "enable_elrond_private_r53_record" {
+  default     = false
+  type        = bool
+  description = "Enables to create a private CNAME route53 record for Elrond."
+}

@@ -230,6 +230,8 @@ resource "aws_route53_record" "blapi_flower_internal" {
 }
 
 resource "aws_route53_record" "elrond" {
+  count = var.enable_elrond_private_r53_record ? 1 : 0
+
   zone_id = var.private_hosted_zoneid
   name    = "elrond"
   type    = "CNAME"
