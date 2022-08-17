@@ -49,3 +49,8 @@ resource "aws_iam_user_policy_attachment" "community-on-demand-policy-attach" {
 output "id" {
   value = aws_iam_access_key.community-on-demand-key.id
 }
+
+output "secret" {
+  value = aws_iam_access_key.community-on-demand-key.secret
+  sensitive = true
+}
