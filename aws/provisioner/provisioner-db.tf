@@ -19,6 +19,14 @@ resource "aws_security_group" "cec_to_postgress" {
     description = "CLOUD VPN"
   }
 
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = var.grafana_cidr
+    description = "Centralised Grafana"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
