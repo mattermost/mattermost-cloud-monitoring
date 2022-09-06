@@ -64,6 +64,14 @@ resource "aws_iam_role" "grafana_access_role" {
       },
       "Action": "sts:AssumeRole",
       "Condition": {}
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::${var.shared_services_account}:root"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {}
     }
   ]
 }
@@ -85,7 +93,8 @@ resource "aws_iam_role_policy" "grafana_access_policy" {
                 "cloudwatch:DescribeAlarmsForMetric",
                 "cloudwatch:ListMetrics",
                 "cloudwatch:GetMetricStatistics",
-                "cloudwatch:GetMetricData"
+                "cloudwatch:GetMetricData",
+                "logs:DescribeLogGroups"
             ],
             "Resource": "*"
         }

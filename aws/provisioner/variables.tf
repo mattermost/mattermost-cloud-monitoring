@@ -49,3 +49,8 @@ variable "provider_role_arn" {
 }
 
 variable "provisioner_users" {}
+
+variable "grafana_cidr" {
+  type        = list(any)
+  description = "The centralised CIDR"
+}
