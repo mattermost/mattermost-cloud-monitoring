@@ -21,6 +21,16 @@ resource "aws_route53_record" "prometheus" {
   records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
 }
 
+resource "aws_route53_record" "prometheus_alertmanager" {
+  count = var.enable_alertmanager_r53_record ? 1 : 0
+
+  zone_id = var.private_hosted_zoneid
+  name    = "alertmanager"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+}
+
 resource "aws_route53_record" "grafana" {
   zone_id = var.private_hosted_zoneid
   name    = "grafana"
