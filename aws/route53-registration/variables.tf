@@ -145,3 +145,9 @@ variable "enable_elrond_private_r53_record" {
   type        = bool
   description = "Enables to create a private CNAME route53 record for Elrond."
 }
+
+variable "enable_alertmanager_r53_record" {
+  default     = false
+  type        = bool
+  description = "Enable to create a private CNAME route53 record for Alertmanager."
+}
