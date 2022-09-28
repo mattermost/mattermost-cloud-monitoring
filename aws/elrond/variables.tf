@@ -8,11 +8,6 @@ variable "vpc_id" {
   description = "The VPC to deploy the Elrond resources"
 }
 
-variable "region" {
-  type        = string
-  description = "The region to deploy the Elrond resources"
-}
-
 variable "cloud_vpn_cidr" {
   type        = list(string)
   description = "The cidr of the Cloud VPN to allow access from"

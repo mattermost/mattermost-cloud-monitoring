@@ -54,12 +54,6 @@ variable "enable_dns_support" {
   default     = "enable"
 }
 
-variable "enable_vpn_ecmp_support" {
-  description = "Whether VPN Equal Cost Multipath Protocol support is enabled"
-  type        = bool
-  default     = false
-}
-
 variable "enable_default_route_table_propagation" {
   description = "Whether resource attachments automatically propagate routes to the default propagation route table"
   type        = string

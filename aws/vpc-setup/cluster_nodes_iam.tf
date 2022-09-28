@@ -1,7 +1,5 @@
 data "aws_region" "current" {}
 
-data "aws_caller_identity" "current" {}
-
 locals {
   conditional_dash_region       = data.aws_region.current.name == "us-east-1" ? "" : "-${data.aws_region.current.name}"
   region_splitted               = split("-", data.aws_region.current.name)

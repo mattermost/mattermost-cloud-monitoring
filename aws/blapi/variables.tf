@@ -1,19 +1,27 @@
-variable "environment" {}
+variable "environment" {
+  type = string
+}
 
-variable "vpc_id" {}
+variable "vpc_id" {
+  type = string
+}
 
 variable "region" {
   type        = string
   description = "The AWS region which will be used."
 }
 
-variable "cloud_vpn_cidr" {}
+variable "cloud_vpn_cidr" {
+  type = string
+}
 
 variable "db_identifier" {
   type = string
 }
 
-variable "allocated_db_storage" {}
+variable "allocated_db_storage" {
+  type = string
+}
 
 variable "db_engine_version" {
   type = string
@@ -23,7 +31,9 @@ variable "db_instance_class" {
   type = string
 }
 
-variable "db_writer_az" {}
+variable "db_writer_az" {
+  type = string
+}
 
 variable "db_name" {
   type = string
@@ -58,7 +68,9 @@ variable "storage_encrypted" {
   type = bool
 }
 
-variable "private_subnets" {}
+variable "private_subnets" {
+  type = list(string)
+}
 
 variable "db_deletion_protection" {
   type    = bool

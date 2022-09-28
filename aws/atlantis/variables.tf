@@ -13,11 +13,6 @@ variable "private_hosted_zoneid" {
   description = "The ID of the Route53 private hosted zone"
 }
 
-variable "nginx_internal_chart_values_directory" {
-  type        = string
-  description = "The nginx helm values directory which will be used to deploy an nginx along with it"
-}
-
 variable "ami_id" {
   type        = string
   description = "The AMI ID which will be used for the launch configuration where will deploy the Atlantis UI"

@@ -24,11 +24,6 @@ variable "force_destroy_state_bucket" {
   default     = false
 }
 
-variable "force_destroy_stackrox_bundle_bucket" {
-  type        = bool
-  description = "Enables force destroy of a stackrox bundle bucket"
-  default     = false
-}
 variable "awat_cross_account_enabled" {
   type        = bool
   description = "Enables cross-account policies for KMS"

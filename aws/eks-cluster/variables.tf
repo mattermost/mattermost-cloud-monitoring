@@ -1,48 +1,74 @@
-variable "vpc_id" {}
+variable "vpc_id" {
+  type = string
+}
 
-variable "public_subnet_ids" {}
+variable "public_subnet_ids" {
+  type = list(string)
+}
 
-variable "private_subnet_ids" {}
+variable "private_subnet_ids" {
+  type = list(string)
+}
 
-variable "deployment_name" {}
+variable "deployment_name" {
+  type = string
+}
 
-variable "instance_type" {}
+variable "instance_type" {
+  type = string
+}
 
-variable "max_size" {}
+variable "max_size" {
+  type = string
+}
 
-variable "min_size" {}
+variable "min_size" {
+  type = string
+}
 
-variable "desired_size" {}
+variable "desired_size" {
+  type = string
+}
 
-variable "cidr_blocks" {}
+variable "cidr_blocks" {
+  type = list(string)
+}
 
-variable "kubeconfig_dir" {}
+variable "environment" {
+  type = string
+}
 
-variable "volume_size" {}
+variable "eks_ami_id" {
+  type = string
+}
 
-variable "environment" {}
+variable "teleport_cidr" {
+  type = string
+}
 
-variable "region" {}
+variable "cluster_short_name" {
+  type = string
+}
 
-variable "eks_ami_id" {}
+variable "log_types" {
+  type = list(string)
+}
 
-variable "key_name" {}
+variable "node_volume_size" {
+  type = number
+}
 
-variable "teleport_cidr" {}
+variable "node_volume_type" {
+  type = string
+}
 
-variable "worker_private_subnet_ids" {}
+variable "node_group_name" {
+  type = string
+}
 
-variable "cluster_short_name" {}
-
-variable "log_types" {}
-
-variable "node_volume_size" {}
-
-variable "node_volume_type" {}
-
-variable "node_group_name" {}
-
-variable "aws_reserved_sso_id" {}
+variable "aws_reserved_sso_id" {
+  type = string
+}
 
 variable "enable_vpc_cni_addon" {
   type        = bool

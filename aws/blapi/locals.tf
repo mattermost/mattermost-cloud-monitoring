@@ -12,7 +12,6 @@ data "terraform_remote_state" "cluster" {
 }
 
 locals {
-  conditional_dash_region = data.aws_region.current.name == "us-east-1" ? "" : "-${data.aws_region.current.name}"
-  timestamp_now           = formatdate("YYYY-MM-DD-hh-mm", timestamp())
+  timestamp_now = formatdate("YYYY-MM-DD-hh-mm", timestamp())
 }
 

@@ -18,7 +18,7 @@ resource "aws_route53_record" "prometheus" {
   name    = "prometheus"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "prometheus_alertmanager" {
@@ -28,7 +28,7 @@ resource "aws_route53_record" "prometheus_alertmanager" {
   name    = "alertmanager"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "grafana" {
@@ -36,7 +36,7 @@ resource "aws_route53_record" "grafana" {
   name    = "grafana"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "database_factory" {
@@ -44,7 +44,7 @@ resource "aws_route53_record" "database_factory" {
   name    = "dbfactory"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "thanos" {
@@ -52,7 +52,7 @@ resource "aws_route53_record" "thanos" {
   name    = "thanos"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "blackbox" {
@@ -60,7 +60,7 @@ resource "aws_route53_record" "blackbox" {
   name    = "blackbox"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "argocd" {
@@ -68,7 +68,7 @@ resource "aws_route53_record" "argocd" {
   name    = "argocd"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "provisioner" {
@@ -76,7 +76,7 @@ resource "aws_route53_record" "provisioner" {
   name    = "provisioner"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "awat" {
@@ -86,7 +86,7 @@ resource "aws_route53_record" "awat" {
   name    = "awat"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "cloudflare_record" "customer_web_server" {
@@ -94,7 +94,7 @@ resource "cloudflare_record" "customer_web_server" {
 
   zone_id = var.cloudflare_zone_id
   name    = var.cws_cloudflare_record_name
-  value   = data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname
+  value   = data.kubernetes_service.nginx-public.status[0].load_balancer[0].ingress[0].hostname
   type    = "CNAME"
   proxied = true
 }
@@ -106,7 +106,7 @@ resource "aws_route53_record" "customer_web_server" {
   name    = "portal"
   type    = "CNAME"
   ttl     = "60"
-  records = [var.enabled_cloudflare_customer_web_server ? var.cloudflare_customer_webserver_cdn : data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname]
+  records = [var.enabled_cloudflare_customer_web_server ? var.cloudflare_customer_webserver_cdn : data.kubernetes_service.nginx-public.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "customer_web_server_internal" {
@@ -116,7 +116,7 @@ resource "aws_route53_record" "customer_web_server_internal" {
   name    = "portal"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "customer_web_server_api_internal" {
@@ -126,7 +126,7 @@ resource "aws_route53_record" "customer_web_server_api_internal" {
   name    = "api"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "cloudflare_record" "chimera" {
@@ -134,7 +134,7 @@ resource "cloudflare_record" "chimera" {
 
   zone_id = var.cloudflare_zone_id
   name    = var.chimera_cloudflare_record_name
-  value   = data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname
+  value   = data.kubernetes_service.nginx-public.status[0].load_balancer[0].ingress[0].hostname
   type    = "CNAME"
   proxied = true
 }
@@ -146,7 +146,7 @@ resource "aws_route53_record" "chimera" {
   name    = "chimera"
   type    = "CNAME"
   ttl     = "60"
-  records = [var.enabled_cloudflare_chimera ? var.cloudflare_chimera_cdn : data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname]
+  records = [var.enabled_cloudflare_chimera ? var.cloudflare_chimera_cdn : data.kubernetes_service.nginx-public.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "chaos_mesh" {
@@ -156,7 +156,7 @@ resource "aws_route53_record" "chaos_mesh" {
   name    = "chaos"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "kubecost" {
@@ -166,7 +166,7 @@ resource "aws_route53_record" "kubecost" {
   name    = "kubecost"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "push_proxy" {
@@ -176,7 +176,7 @@ resource "aws_route53_record" "push_proxy" {
   name    = "push"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "loki_gateway" {
@@ -186,7 +186,7 @@ resource "aws_route53_record" "loki_gateway" {
   name    = "loki-gateway"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "loki_frontend" {
@@ -196,7 +196,7 @@ resource "aws_route53_record" "loki_frontend" {
   name    = "loki-frontend"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "cloudflare_record" "blapi" {
@@ -204,7 +204,7 @@ resource "cloudflare_record" "blapi" {
 
   zone_id = var.cloudflare_zone_id
   name    = var.blapi_cloudflare_record_name
-  value   = data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname
+  value   = data.kubernetes_service.nginx-public.status[0].load_balancer[0].ingress[0].hostname
   type    = "CNAME"
   proxied = true
 }
@@ -216,7 +216,7 @@ resource "aws_route53_record" "blapi" {
   name    = "blapi"
   type    = "CNAME"
   ttl     = "60"
-  records = [var.enabled_cloudflare_blapi ? var.cloudflare_blapi_cdn : data.kubernetes_service.nginx-public.status.0.load_balancer.0.ingress.0.hostname]
+  records = [var.enabled_cloudflare_blapi ? var.cloudflare_blapi_cdn : data.kubernetes_service.nginx-public.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "blapi_internal" {
@@ -226,7 +226,7 @@ resource "aws_route53_record" "blapi_internal" {
   name    = "blapi"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "blapi_flower_internal" {
@@ -236,7 +236,7 @@ resource "aws_route53_record" "blapi_flower_internal" {
   name    = "blapi-flower"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
 resource "aws_route53_record" "elrond" {
@@ -246,5 +246,5 @@ resource "aws_route53_record" "elrond" {
   name    = "elrond"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }

@@ -1,27 +1,51 @@
-variable "vpc_cidrs" {}
+variable "vpc_cidrs" {
+  type = list(string)
+}
 
-variable "vpc_azs" {}
+variable "vpc_azs" {
+  type = list(string)
+}
 
-variable "tags" {}
+variable "tags" {
+  type = map(string)
+}
 
-variable "name" {}
+variable "name" {
+  type = string
+}
 
-variable "transit_gateway_id" {}
+variable "transit_gateway_id" {
+  type = string
+}
 
-variable "transit_gtw_route_destination" {}
+variable "transit_gtw_route_destination" {
+  type = string
+}
 
-variable "transit_gtw_route_destination_security" {}
+variable "transit_gtw_route_destination_security" {
+  type = string
+}
 
-variable "transit_gtw_route_destination_gitlab" {}
+variable "transit_gtw_route_destination_gitlab" {
+  type = string
+}
 
-variable "environment" {}
+variable "environment" {
+  type = string
+}
 
-variable "region" {}
+variable "teleport_cidr" {
+  type = string
+}
 
-variable "teleport_cidr" {}
+variable "command_and_control_private_subnet_cidrs" {
+  type = list(string)
+}
 
-variable "command_and_control_private_subnet_cidrs" {}
+variable "vpn_cidrs" {
+  type = list(string)
+}
 
-variable "vpn_cidrs" {}
-
-variable "deploy_cluster_parameter_group" {}
+variable "deploy_cluster_parameter_group" {
+  type = bool
+}

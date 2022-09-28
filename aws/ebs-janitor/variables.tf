@@ -13,11 +13,6 @@ variable "deployment_name" {
   description = "The name of the deployment for Lambda"
 }
 
-variable "account_alerts_lambda_schedule" {
-  type        = string
-  description = "The schedule expression for a Cloudwatch Event rule to run Lambda periodically"
-}
-
 variable "min_subnet_free_ips" {
   type        = string
   description = "The number of free IPs which will be used in the lambda function as environment variable"

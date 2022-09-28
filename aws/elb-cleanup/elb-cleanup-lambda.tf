@@ -1,6 +1,3 @@
-data "aws_caller_identity" "current" {}
-
-
 resource "aws_lambda_function" "elb_cleanup" {
   s3_bucket     = var.bucket
   s3_key        = "mattermost-cloud/elb-cleanup/main/main.zip"
