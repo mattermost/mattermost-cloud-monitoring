@@ -3,7 +3,7 @@ variable "environment" {
 }
 
 variable "vpn_cidr" {
-  type = string
+  type = list(string)
 }
 
 variable "vpc_id" {
@@ -55,7 +55,7 @@ variable "es_version" {
 }
 
 variable "mattermost_network" {
-  type = string
+  type = list(string)
 }
 
 variable "private_hosted_zoneid" {
