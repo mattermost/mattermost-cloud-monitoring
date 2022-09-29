@@ -1,5 +1,4 @@
 locals {
-  rds_enhanced_monitoring_arn  = join("", aws_iam_role.rds_enhanced_monitoring.*.arn)
   rds_enhanced_monitoring_name = join("", aws_iam_role.rds_enhanced_monitoring.*.name)
 }
 

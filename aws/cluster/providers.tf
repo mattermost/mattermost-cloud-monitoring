@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 1.1.8"
   required_providers {
     aws = {
       source  = "hashicorp/aws",
@@ -25,6 +26,6 @@ data "aws_eks_cluster_auth" "cluster_auth" {
 
 provider "kubernetes" {
   host                   = aws_eks_cluster.cluster.endpoint
-  cluster_ca_certificate = base64decode(aws_eks_cluster.cluster.certificate_authority.0.data)
+  cluster_ca_certificate = base64decode(aws_eks_cluster.cluster.certificate_authority[0].data)
   token                  = data.aws_eks_cluster_auth.cluster_auth.token
 }

@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 resource "aws_iam_role" "ebs_janitor_lambda_role" {
   name = "ebs_janitor_lambda_role"
 

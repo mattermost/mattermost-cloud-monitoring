@@ -13,7 +13,7 @@ resource "aws_route53_record" "chartmuseum" {
   name    = "chartmuseum"
   type    = "CNAME"
   ttl     = "60"
-  records = [data.kubernetes_service.internal_nginx.load_balancer_ingress.0.hostname]
+  records = [data.kubernetes_service.internal_nginx.load_balancer_ingress[0].hostname]
 
   depends_on = [
     helm_release.chartmuseum

@@ -23,7 +23,9 @@ variable "deployment_name" {
   description = "The name of the deployment"
 }
 
-variable "api_gateway_vpc_endpoints" {}
+variable "api_gateway_vpc_endpoints" {
+  type = list(string)
+}
 
 variable "environment" {
   type        = string

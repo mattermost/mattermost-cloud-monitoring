@@ -1,59 +1,99 @@
-variable "vpc_id" {}
+variable "vpc_id" {
+  type = string
+}
 
-variable "public_subnet_ids" {}
+variable "public_subnet_ids" {
+  type = list(any)
+}
 
-variable "private_subnet_ids" {}
+variable "private_subnet_ids" {
+  type = list(any)
+}
 
-variable "deployment_name" {}
+variable "deployment_name" {
+  type = string
+}
 
-variable "instance_type" {}
+variable "instance_type" {
+  type = string
+}
 
-variable "max_size" {}
+variable "max_size" {
+  type = string
+}
 
-variable "min_size" {}
+variable "min_size" {
+  type = string
+}
 
-variable "desired_size" {}
+variable "desired_size" {
+  type = string
+}
 
-variable "cidr_blocks" {}
+variable "cidr_blocks" {
+  type = list(string)
+}
 
-variable "kubeconfig_dir" {}
+variable "environment" {
+  type = string
+}
 
-variable "volume_size" {}
+variable "eks_ami_id" {
+  type = string
+}
 
-variable "environment" {}
+variable "gitlab_cidr" {
+  type = list(string)
+}
 
-variable "eks_ami_id" {}
+variable "teleport_cidr" {
+  type = list(string)
+}
 
-variable "key_name" {}
+variable "cluster_short_name" {
+  type = string
+}
 
-variable "gitlab_cidr" {}
+variable "matterwick_cluster_access_enabled" {
+  type = bool
+}
 
-variable "teleport_cidr" {}
+variable "matterwick_iam_user" {
+  type = string
+}
 
-variable "cluster_short_name" {}
-
-variable "matterwick_cluster_access_enabled" {}
-
-variable "matterwick_iam_user" {}
-
-variable "matterwick_username" {}
+variable "matterwick_username" {
+  type = string
+}
 
 variable "provider_role_arn" {
   type    = string
   default = ""
 }
 
-variable "cnc_user" {}
+variable "cnc_user" {
+  type = string
+}
 
-variable "log_types" {}
+variable "log_types" {
+  type = list(string)
+}
 
-variable "node_volume_size" {}
+variable "node_volume_size" {
+  type = number
+}
 
-variable "node_volume_type" {}
+variable "node_volume_type" {
+  type = string
+}
 
-variable "node_group_name" {}
+variable "node_group_name" {
+  type = string
+}
 
-variable "aws_reserved_sso_id" {}
+variable "aws_reserved_sso_id" {
+  type = string
+}
 
 variable "enable_vpc_cni_addon" {
   type        = bool
@@ -83,6 +123,16 @@ variable "enable_kube_proxy_addon" {
 variable "kube_proxy_addon_version" {
   type        = string
   description = "The version of the EKS Kube Proxy addon"
+}
+
+variable "enable_ebs_csi_addon" {
+  type        = bool
+  description = "Whether to enable the EKS EBS CSI addon or not"
+}
+
+variable "ebs_csi_addon_version" {
+  type        = string
+  description = "The version of the EKS EBS CSI addon"
 }
 
 variable "spot_desired_size" {

@@ -13,8 +13,6 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "region" {}
-
 variable "cloud_vpn_cidr" {
   description = "The CIDR to access VPN"
   type        = list(string)
@@ -84,12 +82,6 @@ variable "db_maintenance_window" {
   default     = "Sun:02:00-Sun:03:00"
   description = "The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00'"
   type        = string
-}
-
-variable "snapshot_identifier" {
-  description = "RDS Snapshot to restore"
-  type        = string
-
 }
 
 variable "storage_encrypted" {

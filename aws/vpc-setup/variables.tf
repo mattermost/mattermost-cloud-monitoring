@@ -1,15 +1,27 @@
-variable "vpc_cidrs" {}
+variable "vpc_cidrs" {
+  type = list(string)
+}
 
-variable "vpc_azs" {}
+variable "environment" {
+  type = string
+}
 
-variable "environment" {}
+variable "name" {
+  type = string
+}
 
-variable "name" {}
+variable "enable_dns_hostnames" {
+  type = bool
+}
 
-variable "enable_dns_hostnames" {}
+variable "tags" {
+  type = map(string)
+}
 
-variable "tags" {}
+variable "deploy_node_policy" {
+  type = bool
+}
 
-variable "deploy_node_policy" {}
-
-variable "deploy_rds_enhanced_monitoring_role" {}
+variable "deploy_rds_enhanced_monitoring_role" {
+  type = bool
+}

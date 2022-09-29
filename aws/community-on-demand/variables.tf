@@ -1,8 +1,3 @@
-variable "environment" {
-  type        = string
-  description = "The environment name like staging, staging-dr, prod etc where we want to setup resources"
-}
-
 variable "deployment_name" {
   type        = string
   description = "The name of the deployment"

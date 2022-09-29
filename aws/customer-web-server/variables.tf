@@ -1,37 +1,71 @@
-variable "environment" {}
+variable "environment" {
+  type = string
+}
 
-variable "region" {}
+variable "vpc_id" {
+  type = string
+}
 
-variable "vpc_id" {}
+variable "private_subnets" {
+  type = list(string)
+}
 
-variable "private_subnets" {}
+variable "cws_db_identifier" {
+  type = string
+}
 
-variable "cws_db_identifier" {}
+variable "cws_allocated_db_storage" {
+  type = string
+}
 
-variable "cws_allocated_db_storage" {}
+variable "cws_db_engine_version" {
+  type = string
+}
 
-variable "cws_db_engine_version" {}
+variable "cws_db_instance_class" {
+  type = string
+}
 
-variable "cws_db_instance_class" {}
+variable "cws_db_master_az" {
+  type = string
+}
 
-variable "cws_db_master_az" {}
+variable "cws_db_read_replica_az" {
+  type = string
+}
 
-variable "cws_db_read_replica_az" {}
+variable "cws_db_name" {
+  type = string
+}
 
-variable "cws_db_name" {}
+variable "cws_db_username" {
+  type = string
+}
 
-variable "cws_db_username" {}
+variable "cws_db_password" {
+  type = string
+}
 
-variable "cws_db_password" {}
+variable "cws_db_backup_retention_period" {
+  type = number
+}
 
-variable "cws_db_backup_retention_period" {}
+variable "cws_db_backup_window" {
+  type = string
+}
 
-variable "cws_db_backup_window" {}
+variable "cws_db_maintenance_window" {
+  type = string
+}
 
-variable "cws_db_maintenance_window" {}
+variable "cws_storage_encrypted" {
+  type = bool
+}
 
-variable "cws_storage_encrypted" {}
+variable "cloud_vpn_cidr" {
+  type = list(string)
+}
 
-variable "cloud_vpn_cidr" {}
-
-variable "enable_cws_read_replica" {}
+variable "enable_cws_read_replica" {
+  type = bool
+}

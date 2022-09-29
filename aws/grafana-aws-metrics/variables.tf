@@ -20,6 +20,7 @@ variable "grafana_lambda_schedule" {
 }
 
 variable "worker-role" {
+  type        = string
   description = "The IAM Role ID for Worker of an EKS cluster"
 }
 

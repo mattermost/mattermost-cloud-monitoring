@@ -1,15 +1,31 @@
-variable "subnet_ids" {}
+variable "subnet_ids" {
+  type = list(string)
+}
 
-variable "vpc_id" {}
+variable "vpc_id" {
+  type = string
+}
 
-variable "transit_gateway_id" {}
+variable "transit_gateway_id" {
+  type = string
+}
 
-variable "private_route_table_id" {}
+variable "private_route_table_id" {
+  type = string
+}
 
-variable "public_route_table_id" {}
+variable "public_route_table_id" {
+  type = string
+}
 
-variable "transit_gtw_route_destination" {}
+variable "transit_gtw_route_destination" {
+  type = string
+}
 
-variable "transit_gtw_route_destination_security" {}
+variable "transit_gtw_route_destination_security" {
+  type = string
+}
 
-variable "transit_gtw_route_destination_gitlab" {}
+variable "transit_gtw_route_destination_gitlab" {
+  type = string
+}

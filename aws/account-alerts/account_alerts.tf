@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 resource "aws_iam_role" "account_alerts_lambda_role" {
   name = "account_alerts_lambda_role"
 
