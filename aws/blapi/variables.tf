@@ -12,7 +12,7 @@ variable "region" {
 }
 
 variable "cloud_vpn_cidr" {
-  type = string
+  type = list(string)
 }
 
 variable "db_identifier" {
