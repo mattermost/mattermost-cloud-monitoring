@@ -7,7 +7,7 @@ variable "vpc_id" {
 }
 
 variable "cloud_vpn_cidr" {
-  type = string
+  type = list(string)
 }
 
 variable "awat_db_identifier" {

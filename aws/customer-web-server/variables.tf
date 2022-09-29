@@ -63,7 +63,7 @@ variable "cws_storage_encrypted" {
 }
 
 variable "cloud_vpn_cidr" {
-  type = string
+  type = list(string)
 }
 
 variable "enable_cws_read_replica" {

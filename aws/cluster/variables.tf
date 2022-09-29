@@ -3,11 +3,11 @@ variable "vpc_id" {
 }
 
 variable "public_subnet_ids" {
-  type = list(string)
+  type = list(any)
 }
 
 variable "private_subnet_ids" {
-  type = list(string)
+  type = list(any)
 }
 
 variable "deployment_name" {
@@ -43,11 +43,11 @@ variable "eks_ami_id" {
 }
 
 variable "gitlab_cidr" {
-  type = string
+  type = list(string)
 }
 
 variable "teleport_cidr" {
-  type = string
+  type = list(string)
 }
 
 variable "cluster_short_name" {
