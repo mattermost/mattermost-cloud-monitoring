@@ -35,7 +35,7 @@ variable "environment" {
 }
 
 variable "teleport_cidr" {
-  type = string
+  type = list(string)
 }
 
 variable "command_and_control_private_subnet_cidrs" {
