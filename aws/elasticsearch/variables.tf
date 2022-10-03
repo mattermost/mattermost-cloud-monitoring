@@ -67,6 +67,12 @@ variable "custom_endpoint_enabled" {
   default = true
 }
 
+
+variable "tls_security_policy" {
+  type    = string
+  default = "Policy-Min-TLS-1-0-2019-07"
+}
+
 variable "cw_retention_in_days" {
   type    = string
   default = "90"
