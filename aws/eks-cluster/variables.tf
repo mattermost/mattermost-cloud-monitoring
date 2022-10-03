@@ -43,7 +43,7 @@ variable "eks_ami_id" {
 }
 
 variable "teleport_cidr" {
-  type = string
+  type = list(string)
 }
 
 variable "cluster_short_name" {

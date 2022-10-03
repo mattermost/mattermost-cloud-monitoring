@@ -23,8 +23,7 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
   YAML
   }
   depends_on = [
-    aws_eks_cluster.cluster,
-    null_resource.cluster_services
+    aws_eks_cluster.cluster
   ]
 }
 
