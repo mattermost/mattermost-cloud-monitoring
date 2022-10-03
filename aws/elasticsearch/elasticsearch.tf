@@ -28,6 +28,7 @@ resource "aws_elasticsearch_domain" "es_domain" {
     custom_endpoint_enabled         = var.custom_endpoint_enabled
     custom_endpoint                 = "elasticsearch.internal.${var.environment}.cloud.mattermost.com"
     custom_endpoint_certificate_arn = data.aws_acm_certificate.internal_cert.arn
+    tls_security_policy             = var.tls_security_policy
   }
 
   vpc_options {
