@@ -23,6 +23,11 @@ resource "aws_iam_role_policy_attachment" "worker-AmazonEKSWorkerNodePolicy" {
   role       = aws_iam_role.worker-role.name
 }
 
+resource "aws_iam_role_policy_attachment" "worker-AmazonEKS_EBS_CSI_Policy" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+  role       = aws_iam_role.worker-role.name
+}
+
 resource "aws_iam_role_policy_attachment" "worker-AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.worker-role.name

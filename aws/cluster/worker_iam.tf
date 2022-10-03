@@ -18,15 +18,48 @@ resource "aws_iam_role" "worker-role" {
 POLICY
 }
 
-resource "aws_iam_policy" "utilities_policy" {
-  name        = "cloud-${var.cluster_short_name}-utilities-policy"
+resource "aws_iam_policy" "worker_policy" {
+  name        = "cloud-${var.cluster_short_name}-worker-policy"
   path        = "/"
-  description = "Policy for utilities required permissions."
+  description = "Policy for cnc worker permissions."
 
   policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
+        {
+            "Sid": "AllowS3",
+            "Effect": "Allow",
+            "Action": [
+              "s3:ListBucket",
+              "s3:PutObject",
+              "s3:GetObject",
+              "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::cloud-loki-${var.environment}/*",
+                "arn:aws:s3:::cloud-loki-${var.environment}"
+            ]
+        },
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "ce:*",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeLaunchConfigurations",
+                "autoscaling:DescribeTags",
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:TerminateInstanceInAutoScalingGroup",
+                "ec2:DescribeLaunchTemplateVersions"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
         {
             "Sid": "AllS3Bucket",
             "Effect": "Allow",
@@ -64,101 +97,16 @@ resource "aws_iam_policy" "utilities_policy" {
     ]
 }
 EOF
-}
-
-resource "aws_iam_policy" "cluster_autoscaler_policy" {
-  name        = "cloud-${var.cluster_short_name}-cluster-autoscaler-policy"
-  path        = "/"
-  description = "Policy for cluster autoscaler required permissions."
-
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": [
-                "autoscaling:DescribeAutoScalingGroups",
-                "autoscaling:DescribeAutoScalingInstances",
-                "autoscaling:DescribeLaunchConfigurations",
-                "autoscaling:DescribeTags",
-                "autoscaling:SetDesiredCapacity",
-                "autoscaling:TerminateInstanceInAutoScalingGroup",
-                "ec2:DescribeLaunchTemplateVersions"
-            ],
-            "Resource": "*",
-            "Effect": "Allow"
-        }
-    ]
-}
-EOF
-}
-
-resource "aws_iam_policy" "cost_explorer_policy" {
-  name        = "cloud-${var.cluster_short_name}-cost-explorer-policy"
-  path        = "/"
-  description = "Policy for cost explorer required permissions."
-
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": "ce:*",
-            "Resource": "*"
-        }
-    ]
-}
-EOF
-}
-
-resource "aws_iam_policy" "loki_policy" {
-  name        = "cloud-${var.cluster_short_name}-loki-policy"
-  path        = "/"
-  description = "Policy for Loki storage required permissions."
-
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowS3",
-            "Effect": "Allow",
-            "Action": [
-              "s3:ListBucket",
-              "s3:PutObject",
-              "s3:GetObject",
-              "s3:DeleteObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::cloud-loki-${var.environment}/*",
-                "arn:aws:s3:::cloud-loki-${var.environment}"
-            ]
-        }
-    ]
-}
-EOF
 
 }
 
-resource "aws_iam_role_policy_attachment" "worker_loki_policy" {
-  policy_arn = aws_iam_policy.loki_policy.arn
+resource "aws_iam_role_policy_attachment" "worker_policy" {
+  policy_arn = aws_iam_policy.worker_policy.arn
   role       = aws_iam_role.worker-role.name
 }
 
-resource "aws_iam_role_policy_attachment" "worker_cost_explorer_policy" {
-  policy_arn = aws_iam_policy.cost_explorer_policy.arn
-  role       = aws_iam_role.worker-role.name
-}
-
-resource "aws_iam_role_policy_attachment" "worker_cluster_autoscaler_policy" {
-  policy_arn = aws_iam_policy.cluster_autoscaler_policy.arn
-  role       = aws_iam_role.worker-role.name
-}
-
-resource "aws_iam_role_policy_attachment" "worker_utilities_policy" {
-  policy_arn = aws_iam_policy.utilities_policy.arn
+resource "aws_iam_role_policy_attachment" "worker-AmazonEKS_EBS_CSI_Policy" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
   role       = aws_iam_role.worker-role.name
 }
 
