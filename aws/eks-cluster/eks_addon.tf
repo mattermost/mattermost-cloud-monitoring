@@ -28,3 +28,12 @@ resource "aws_eks_addon" "kube_proxy" {
   addon_version     = var.kube_proxy_addon_version
   resolve_conflicts = "OVERWRITE"
 }
+
+resource "aws_eks_addon" "ebs_csi" {
+  count = var.enable_ebs_csi_addon ? 1 : 0
+
+  cluster_name      = aws_eks_cluster.cluster.name
+  addon_name        = "aws-ebs-csi-driver"
+  addon_version     = var.ebs_csi_addon_version
+  resolve_conflicts = "OVERWRITE"
+}

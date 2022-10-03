@@ -100,6 +100,16 @@ variable "kube_proxy_addon_version" {
   description = "The version of the EKS Kube Proxy addon"
 }
 
+variable "enable_ebs_csi_addon" {
+  type        = bool
+  description = "Whether to enable the EKS EBS CSI addon or not"
+}
+
+variable "ebs_csi_addon_version" {
+  type        = string
+  description = "The version of the EKS EBS CSI addon"
+}
+
 variable "spot_desired_size" {
   description = "The desired number of nodes in the spot node group"
   default     = 0
