@@ -69,7 +69,7 @@ variable "custom_endpoint_enabled" {
 
 
 variable "tls_security_policy" {
-  type = string
+  type    = string
   default = "Policy-Min-TLS-1-0-2019-07"
 }
 
