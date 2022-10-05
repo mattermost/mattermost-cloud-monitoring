@@ -47,7 +47,7 @@ resource "aws_elasticsearch_domain" "es_domain" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": ${var.elasticsearch_access_policy_principal}
+        "AWS": ${jsonencode(var.elasticsearch_access_policy_principal)}
       },
       "Action": "es:*",
       "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.domain_name}/*"
