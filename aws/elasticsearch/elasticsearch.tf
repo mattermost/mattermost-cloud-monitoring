@@ -40,8 +40,6 @@ resource "aws_elasticsearch_domain" "es_domain" {
     "rest.action.multi.allow_explicit_index" = "true"
   }
 
-
-
   access_policies = <<CONFIG
   {
   "Version": "2012-10-17",
@@ -49,7 +47,7 @@ resource "aws_elasticsearch_domain" "es_domain" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "*"
+        "AWS": ${jsonencode(var.elasticsearch_access_policy_principal)}
       },
       "Action": "es:*",
       "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.domain_name}/*"
