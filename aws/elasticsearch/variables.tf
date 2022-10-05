@@ -185,3 +185,9 @@ variable "master_jvm_memory_pressure_threshold" {
   type        = number
   default     = 80
 }
+
+variable "elasticsearch_access_policy_principal" {
+  description = "Which AWS resources should have access to the Elasticsearch cluster"
+  type        = list(string)
+  default     = ["*"]
+}
