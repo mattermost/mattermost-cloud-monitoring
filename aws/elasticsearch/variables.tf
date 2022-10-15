@@ -197,7 +197,7 @@ variable "master_user_name" {
   type        = string
 }
 
-variable "master_password" {
+variable "master_user_password" {
   description = "The master password for the Elasticsearch cluster"
   type        = string
 }
