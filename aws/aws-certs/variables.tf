@@ -23,11 +23,6 @@ variable "public_tags" {
   description = "The tags which will attached in the public ACM certificate"
 }
 
-variable "pub_validation_acm_zoneid" {
-  type        = string
-  description = "The desired Hosted Zone ID for the public zone"
-}
-
 variable "alternative_cert_domains" {
   type        = list(string)
   description = "The alternative cert domains to be added"
