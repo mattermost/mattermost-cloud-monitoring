@@ -27,10 +27,9 @@ resource "aws_elasticsearch_domain" "es_domain" {
   advanced_security_options {
     enabled                        = true
     internal_user_database_enabled = true
-
     master_user_options {
-      master_user_name      = var.master_user_name
-      master_user_password  = var.master_user_password
+      master_user_name     = var.master_user_name
+      master_user_password = var.master_user_password
     }
   }
 
