@@ -191,3 +191,13 @@ variable "elasticsearch_access_policy_principal" {
   type        = list(string)
   default     = ["*"]
 }
+
+variable "master_user_name" {
+  description = "The master user name for the Elasticsearch cluster"
+  type        = string
+}
+
+variable "master_password" {
+  description = "The master password for the Elasticsearch cluster"
+  type        = string
+}

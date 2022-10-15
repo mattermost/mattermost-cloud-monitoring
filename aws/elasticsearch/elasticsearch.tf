@@ -24,6 +24,13 @@ resource "aws_elasticsearch_domain" "es_domain" {
     }
   }
 
+  internal_user_database_enabled = true
+
+  master_user_options {
+    master_user_name = var.master_user_name
+    master_password  = var.master_password
+  }
+
   domain_endpoint_options {
     custom_endpoint_enabled         = var.custom_endpoint_enabled
     custom_endpoint                 = "elasticsearch.internal.${var.environment}.cloud.mattermost.com"
