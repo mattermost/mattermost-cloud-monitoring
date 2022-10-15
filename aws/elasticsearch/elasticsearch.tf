@@ -25,7 +25,7 @@ resource "aws_elasticsearch_domain" "es_domain" {
   }
 
   advanced_security_options {
-    enabled = true
+    enabled                        = true
     internal_user_database_enabled = true
 
     master_user_options {
