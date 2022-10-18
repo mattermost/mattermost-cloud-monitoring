@@ -233,6 +233,7 @@ resource "aws_iam_policy" "ec2" {
                 "ec2:DescribeInstanceStatus",
                 "ec2:DetachVolume",
                 "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:AuthorizeSecurityGroupIngress",
                 "ec2:ModifyVolume",
                 "ec2:TerminateInstances",
                 "ec2:DescribeTags",
@@ -269,6 +270,7 @@ resource "aws_iam_policy" "ec2" {
                 "elasticloadbalancing:AttachLoadBalancerToSubnets",
                 "elasticloadbalancing:AddTags",
                 "elasticloadbalancing:DeleteTargetGroup",
+                "elasticloadbalancing:ModifyTargetGroup",
                 "autoscaling:CreateLaunchConfiguration",
                 "autoscaling:DescribeTags",
                 "autoscaling:DescribeLaunchConfigurations",
@@ -318,6 +320,7 @@ resource "aws_iam_policy" "vpc" {
             "Action": [
                 "ec2:DeleteTags",
                 "ec2:CreateTags",
+                "ec2:CreateSubnet",
                 "ec2:CreateSecurityGroup",
                 "ec2:DeleteSecurityGroup",
                 "ec2:Describe*",
