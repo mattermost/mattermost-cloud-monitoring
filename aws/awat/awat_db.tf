@@ -49,30 +49,32 @@ resource "aws_db_subnet_group" "subnets_db" {
 }
 
 resource "aws_db_instance" "awat" {
-  identifier                  = var.awat_db_identifier
-  allocated_storage           = var.allocated_db_storage
-  storage_type                = var.awat_db_storage_type
-  engine                      = "postgres"
-  engine_version              = var.awat_db_engine_version
-  instance_class              = var.awat_db_instance_class
-  name                        = var.awat_db_name
-  username                    = var.awat_db_username
-  password                    = var.awat_db_password
-  allow_major_version_upgrade = var.allow_major_version_upgrade
-  auto_minor_version_upgrade  = true
-  apply_immediately           = true
-  backup_retention_period     = var.awat_db_backup_retention_period
-  backup_window               = var.awat_db_backup_window
-  db_subnet_group_name        = aws_db_subnet_group.subnets_db.name
-  vpc_security_group_ids      = [aws_security_group.cnc_to_awat_db.id]
-  deletion_protection         = var.awat_db_deletion_protection
-  final_snapshot_identifier   = "awat-final-${var.awat_db_name}-${local.timestamp_now}"
-  skip_final_snapshot         = false
-  maintenance_window          = var.awat_db_maintenance_window
-  publicly_accessible         = false
-  snapshot_identifier         = var.awat_snapshot_identifier
-  storage_encrypted           = var.storage_encrypted
-  availability_zone           = var.awat_db_master_az
+  identifier                            = var.awat_db_identifier
+  allocated_storage                     = var.allocated_db_storage
+  storage_type                          = var.awat_db_storage_type
+  engine                                = "postgres"
+  engine_version                        = var.awat_db_engine_version
+  instance_class                        = var.awat_db_instance_class
+  name                                  = var.awat_db_name
+  username                              = var.awat_db_username
+  password                              = var.awat_db_password
+  allow_major_version_upgrade           = var.allow_major_version_upgrade
+  auto_minor_version_upgrade            = true
+  apply_immediately                     = true
+  backup_retention_period               = var.awat_db_backup_retention_period
+  backup_window                         = var.awat_db_backup_window
+  db_subnet_group_name                  = aws_db_subnet_group.subnets_db.name
+  vpc_security_group_ids                = [aws_security_group.cnc_to_awat_db.id]
+  deletion_protection                   = var.awat_db_deletion_protection
+  final_snapshot_identifier             = "awat-final-${var.awat_db_name}-${local.timestamp_now}"
+  skip_final_snapshot                   = false
+  maintenance_window                    = var.awat_db_maintenance_window
+  publicly_accessible                   = false
+  snapshot_identifier                   = var.awat_snapshot_identifier
+  storage_encrypted                     = var.storage_encrypted
+  availability_zone                     = var.awat_db_master_az
+  performance_insights_enabled          = var.performance_insights_enabled
+  performance_insights_retention_period = var.performance_insights_retention_period
 
   tags = {
     Name         = "AWAT"

@@ -49,30 +49,32 @@ resource "aws_db_subnet_group" "blapi_subnets_db" {
 }
 
 resource "aws_db_instance" "blapi" {
-  identifier                  = var.db_identifier
-  allocated_storage           = var.allocated_db_storage
-  storage_type                = var.storage_type
-  engine                      = "postgres"
-  engine_version              = var.db_engine_version
-  instance_class              = var.db_instance_class
-  name                        = var.db_name
-  username                    = var.db_username
-  password                    = var.db_password
-  allow_major_version_upgrade = false
-  auto_minor_version_upgrade  = true
-  apply_immediately           = true
-  backup_retention_period     = var.db_backup_retention_period
-  backup_window               = var.db_backup_window
-  db_subnet_group_name        = aws_db_subnet_group.blapi_subnets_db.name
-  vpc_security_group_ids      = [aws_security_group.blapi_cec_to_postgres.id]
-  deletion_protection         = var.db_deletion_protection
-  final_snapshot_identifier   = "blapi-final-${var.db_name}-${local.timestamp_now}"
-  skip_final_snapshot         = false
-  maintenance_window          = var.db_maintenance_window
-  publicly_accessible         = false
-  snapshot_identifier         = var.snapshot_identifier
-  storage_encrypted           = var.storage_encrypted
-  availability_zone           = var.db_writer_az
+  identifier                            = var.db_identifier
+  allocated_storage                     = var.allocated_db_storage
+  storage_type                          = var.storage_type
+  engine                                = "postgres"
+  engine_version                        = var.db_engine_version
+  instance_class                        = var.db_instance_class
+  name                                  = var.db_name
+  username                              = var.db_username
+  password                              = var.db_password
+  allow_major_version_upgrade           = false
+  auto_minor_version_upgrade            = true
+  apply_immediately                     = true
+  backup_retention_period               = var.db_backup_retention_period
+  backup_window                         = var.db_backup_window
+  db_subnet_group_name                  = aws_db_subnet_group.blapi_subnets_db.name
+  vpc_security_group_ids                = [aws_security_group.blapi_cec_to_postgres.id]
+  deletion_protection                   = var.db_deletion_protection
+  final_snapshot_identifier             = "blapi-final-${var.db_name}-${local.timestamp_now}"
+  skip_final_snapshot                   = false
+  maintenance_window                    = var.db_maintenance_window
+  publicly_accessible                   = false
+  snapshot_identifier                   = var.snapshot_identifier
+  storage_encrypted                     = var.storage_encrypted
+  availability_zone                     = var.db_writer_az
+  performance_insights_enabled          = var.performance_insights_enabled
+  performance_insights_retention_period = var.performance_insights_retention_period
 
   tags = {
     Name         = "Blapi"

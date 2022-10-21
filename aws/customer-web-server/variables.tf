@@ -69,3 +69,13 @@ variable "cloud_vpn_cidr" {
 variable "enable_cws_read_replica" {
   type = bool
 }
+
+variable "performance_insights_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "performance_insights_retention_period" {
+  type    = number
+  default = 7
+}
