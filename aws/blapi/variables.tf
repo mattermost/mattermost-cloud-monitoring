@@ -94,3 +94,13 @@ variable "snowflake_imports" {
 variable "kms_key" {
   type = string
 }
+
+variable "performance_insights_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "performance_insights_retention_period" {
+  type    = number
+  default = 7
+}

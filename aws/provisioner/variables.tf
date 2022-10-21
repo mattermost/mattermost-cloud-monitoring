@@ -22,7 +22,6 @@ variable "db_engine_version" {
   type = string
 }
 
-
 variable "db_instance_class" {
   type = string
 }
@@ -92,4 +91,14 @@ variable "provisioner_users" {
 variable "grafana_cidr" {
   type        = list(any)
   description = "The centralised CIDR"
+}
+
+variable "performance_insights_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "performance_insights_retention_period" {
+  type    = number
+  default = 7
 }

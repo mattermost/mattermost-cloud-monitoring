@@ -96,3 +96,13 @@ variable "awat_db_storage_type" {
   type    = string
   default = "gp2"
 }
+
+variable "performance_insights_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "performance_insights_retention_period" {
+  type    = number
+  default = 7
+}

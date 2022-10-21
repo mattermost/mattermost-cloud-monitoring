@@ -116,6 +116,9 @@ resource "aws_db_instance" "cws_postgres_read_replica" {
   # replication read replica
   replicate_source_db = aws_db_instance.cws_postgres.identifier
 
+  performance_insights_enabled          = var.performance_insights_enabled
+  performance_insights_retention_period = var.performance_insights_retention_period
+
   tags = {
     Name         = "customer-web-server"
     Environment  = var.environment
