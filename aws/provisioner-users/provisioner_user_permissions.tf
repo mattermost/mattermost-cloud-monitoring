@@ -256,6 +256,7 @@ resource "aws_iam_policy" "ec2" {
                 "ec2:DescribeSubnets",
                 "ec2:ImportKeyPair",
                 "ec2:DeleteKeyPair",
+                "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
                 "elasticloadbalancing:DescribeTags",
                 "elasticloadbalancing:CreateLoadBalancer",
                 "elasticloadbalancing:DescribeTargetGroups",
