@@ -62,10 +62,6 @@ variable "awat_snapshot_identifier" {
   type = string
 }
 
-variable "storage_encrypted" {
-  type = bool
-}
-
 variable "private_subnets" {
   type = list(string)
 }
@@ -97,12 +93,89 @@ variable "awat_db_storage_type" {
   default = "gp2"
 }
 
-variable "performance_insights_enabled" {
+variable "awat_performance_insights_enabled" {
   type    = bool
   default = false
 }
 
-variable "performance_insights_retention_period" {
+variable "awat_performance_insights_retention_period" {
   type    = number
   default = 7
 }
+
+variable "awat_db_cluster_engine" {
+  type    = string
+  default = "aurora-postgresql"
+}
+
+variable "awat_db_cluster_engine_mode" {
+  type    = string
+  default = "provisioned"
+}
+
+variable "awat_db_cluster_engine_version" {
+  type    = string
+  default = "13.7"
+}
+
+variable "awat_db_cluster_identifier" {
+  type = string
+}
+
+variable "awat_storage_encrypted" {
+  type    = bool
+  default = true
+}
+
+variable "awat_apply_immediately" {
+  type    = bool
+  default = false
+}
+
+variable "awat_copy_tags_to_snapshot" {
+  type    = bool
+  default = true
+}
+
+variable "awat_enabled_cloudwatch_logs_exports" {
+  type    = list(string)
+  default = ["postgresql"]
+}
+
+variable "awat_monitoring_interval" {
+  type = number
+}
+
+variable "awat_service_name" {
+  type    = string
+  default = "awat"
+}
+
+variable "awat_kms_key" {
+  type = string
+}
+
+variable "awat_sns_topic_arn" {
+  type = string
+}
+
+variable "awat_aurora_family" {
+  type    = string
+  default = "aurora-postgresql12"
+}
+
+variable "awat_engine_mode_serverlessV2" {
+  type    = bool
+  default = true
+}
+
+variable "awat_min_capacity" {
+  type    = number
+  default = 0.5
+}
+
+variable "awat_max_capacity" {
+  type    = number
+  default = 4
+}
+
