@@ -88,3 +88,7 @@ resource "aws_db_instance" "blapi" {
     ]
   }
 }
+
+#module "aurora-cluster" {
+#
+#}
