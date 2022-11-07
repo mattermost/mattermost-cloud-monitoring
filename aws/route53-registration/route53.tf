@@ -31,14 +31,6 @@ resource "aws_route53_record" "prometheus_alertmanager" {
   records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
-resource "aws_route53_record" "grafana" {
-  zone_id = var.private_hosted_zoneid
-  name    = "grafana"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
-}
-
 resource "aws_route53_record" "database_factory" {
   zone_id = var.private_hosted_zoneid
   name    = "dbfactory"
