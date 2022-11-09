@@ -127,7 +127,7 @@ resource "aws_db_instance" "awat_read_replica" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/stafot/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=refactor/CLD-4009"
+  source                                = "github.com/stafot/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=CLD-4009"
   vpc_id                                = var.vpc_id
   environment                           = var.environment
   engine                                = var.awat_db_cluster_engine
