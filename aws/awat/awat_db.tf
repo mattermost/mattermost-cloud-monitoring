@@ -135,7 +135,7 @@ module "aurora-cluster" {
   engine_version                        = var.awat_db_cluster_engine_version
   username                              = var.awat_db_username
   password                              = var.awat_db_password
-  final_snapshot_identifier             = "awat-final-${var.awat_db_cluster_identifier}-${local.timestamp_now}"
+  final_snapshot_identifier_prefix      = "awat-final-${var.awat_db_cluster_identifier}-${local.timestamp_now}"
   skip_final_snapshot                   = false
   deletion_protection                   = var.awat_db_deletion_protection
   backup_retention_period               = var.awat_db_backup_retention_period

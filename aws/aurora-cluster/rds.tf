@@ -33,7 +33,7 @@ resource "aws_rds_cluster" "provisioning_rds_cluster" {
   kms_key_id                      = aws_kms_key.aurora_storage_key.arn
   master_username                 = var.username
   master_password                 = local.master_password
-  final_snapshot_identifier       = "${var.final_snapshot_identifier_prefix}-${format("%s-%s-%s", split("-", local.cluster_identifier, var.vpc_id)[1], local.database_id)}"
+  final_snapshot_identifier       = "${var.final_snapshot_identifier_prefix}-${format("%s-%s",local.cluster_identifier, var.vpc_id[1])}"
   skip_final_snapshot             = var.skip_final_snapshot
   deletion_protection             = var.deletion_protection
   backup_retention_period         = var.backup_retention_period
