@@ -146,6 +146,11 @@ variable "cluster_identifier" {
   description = "The cluster identifier. If omitted, Terraform will assign a random, unique identifier."
 }
 
+variable "cluster_instance_identifier" {
+  type        = string
+  description = "The cluster instance identifier. If omitted, Terraform will assign a random, unique identifier."
+}
+
 variable "service_name" {
   type        = string
   description = "THe name of the service"
@@ -154,12 +159,6 @@ variable "service_name" {
 variable "kms_key" {
   type        = string
   description = "Key to keep your storage data encrypted at rest in all underlying storage for DB clusters."
-}
-
-variable "sns_topic_arn" {
-  type        = string
-  description = "A logical access point that acts as a communication channel for cluster's alerts."
-  default     = ""
 }
 
 variable "vpc_security_group_ids" {
@@ -177,12 +176,6 @@ variable "aurora_family" {
 variable "db_subnet_group_name" {
   type        = string
   description = "Required if publicly_accessible = false, Optional otherwise, Forces new resource) A DB subnet group to associate with this DB instance."
-}
-
-variable "engine_mode_serverlessV2" {
-  type        = bool
-  description = "Specifies if provisioned cluster runs in serverlessV2 mode or not"
-  default     = false
 }
 
 variable "min_capacity" {

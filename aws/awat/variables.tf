@@ -122,6 +122,14 @@ variable "awat_db_cluster_identifier" {
   type = string
 }
 
+variable "awat_db_cluster_instance_identifier" {
+  type = string
+}
+
+variable "awat_replica_min" {
+  type = number
+}
+
 variable "awat_storage_encrypted" {
   type    = bool
   default = true
@@ -155,18 +163,9 @@ variable "awat_kms_key" {
   type = string
 }
 
-variable "awat_sns_topic_arn" {
-  type = string
-}
-
 variable "awat_aurora_family" {
   type    = string
-  default = "aurora-postgresql12"
-}
-
-variable "awat_engine_mode_serverlessV2" {
-  type    = bool
-  default = true
+  default = "aurora-postgresql13"
 }
 
 variable "awat_min_capacity" {
@@ -177,5 +176,15 @@ variable "awat_min_capacity" {
 variable "awat_max_capacity" {
   type    = number
   default = 4
+}
+
+variable "awat_db_cluster_instance_type" {
+  type    = string
+  default = "db.serverless"
+}
+
+variable "awat_cluster_storage_encrypted" {
+  type    = bool
+  default = true
 }
 
