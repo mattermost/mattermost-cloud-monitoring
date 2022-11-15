@@ -194,13 +194,3 @@ variable "blapi_performance_insights_retention_period" {
   type    = number
   default = 7
 }
-
-variable "elrond_min_capacity" {
-  type    = number
-  default = 0.5
-}
-
-variable "elrond_max_capacity" {
-  type    = number
-  default = 4
-}
