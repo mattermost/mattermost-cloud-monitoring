@@ -118,7 +118,7 @@ variable "elrond_db_cluster_engine_mode" {
 
 variable "elrond_db_cluster_engine_version" {
   type    = string
-  default = "13.7"
+  default = "13.8"
 }
 
 variable "elrond_db_cluster_identifier" {
