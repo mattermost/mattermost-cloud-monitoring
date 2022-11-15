@@ -127,7 +127,7 @@ resource "aws_db_instance" "awat_read_replica" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/stafot/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=CLD-4009"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.32"
   cluster_identifier                    = var.awat_db_cluster_identifier
   cluster_instance_identifier           = var.awat_db_cluster_instance_identifier
   replica_min                           = var.awat_replica_min
