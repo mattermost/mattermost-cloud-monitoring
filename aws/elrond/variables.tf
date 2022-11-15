@@ -105,3 +105,93 @@ variable "provider_role_arn" {
   default     = ""
   description = "The provider IAM role arn"
 }
+
+variable "elrond_db_cluster_engine" {
+  type    = string
+  default = "aurora-postgresql"
+}
+
+variable "elrond_db_cluster_engine_mode" {
+  type    = string
+  default = "provisioned"
+}
+
+variable "elrond_db_cluster_engine_version" {
+  type    = string
+  default = "13.7"
+}
+
+variable "elrond_db_cluster_identifier" {
+  type = string
+}
+
+variable "elrond_db_cluster_instance_identifier" {
+  type = string
+}
+
+variable "elrond_replica_min" {
+  type = number
+}
+
+variable "elrond_copy_tags_to_snapshot" {
+  type    = bool
+  default = true
+}
+
+variable "elrond_enabled_cloudwatch_logs_exports" {
+  type    = list(string)
+  default = ["postgresql"]
+}
+
+variable "elrond_monitoring_interval" {
+  type = number
+}
+
+variable "elrond_service_name" {
+  type    = string
+  default = "elrond"
+}
+
+variable "elrond_kms_key" {
+  type = string
+}
+
+variable "elrond_aurora_family" {
+  type    = string
+  default = "aurora-postgresql13"
+}
+
+variable "elrond_min_capacity" {
+  type    = number
+  default = 0.5
+}
+
+variable "elrond_max_capacity" {
+  type    = number
+  default = 4
+}
+
+variable "elrond_db_cluster_instance_type" {
+  type    = string
+  default = "db.serverless"
+}
+
+variable "elrond_cluster_storage_encrypted" {
+  type    = bool
+  default = true
+}
+
+variable "elrond_apply_immediately" {
+  type    = bool
+  default = false
+}
+
+variable "elrond_performance_insights_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "elrond_performance_insights_retention_period" {
+  type    = number
+  default = 7
+}
