@@ -120,21 +120,6 @@ variable "replica_min" {
   description = "Number of replicas to deploy initially with the RDS Cluster."
 }
 
-#variable "ram_memory_bytes" {
-#  type        = map(any)
-#  description = "The RAM memory of each instance type in Bytes. A change in this variable should be reflected in database factory vertical scaling main.go as well."
-#}
-#
-#variable "memory_cache_proportion" {
-#  description = "Proportion of memory that is used for cache. By default it is 75%. A change in this variable should be reflected in database factory vertical scaling main.go as well."
-#  type        = number
-#}
-#
-#variable "memory_alarm_limit" {
-#  description = "Limit to trigger memory alarm. Number in Bytes (100MB)"
-#  type        = string
-#}
-
 variable "creation_snapshot_arn" {
   type        = string
   description = "The ARN of the snapshot to create from"
