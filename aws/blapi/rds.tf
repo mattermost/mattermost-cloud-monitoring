@@ -73,7 +73,7 @@ resource "aws_db_instance" "blapi" {
   snapshot_identifier                   = var.snapshot_identifier
   storage_encrypted                     = var.storage_encrypted
   availability_zone                     = var.db_writer_az
-  performance_insights_enabled          = var.performance_insights_enabled
+  performance_insights_enabled          = var.blapi_performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_retention_period
 
   tags = {
@@ -90,7 +90,7 @@ resource "aws_db_instance" "blapi" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.32"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.35"
   cluster_identifier                    = var.blapi_db_cluster_identifier
   cluster_instance_identifier           = var.blapi_db_cluster_instance_identifier
   replica_min                           = var.blapi_replica_min

@@ -124,7 +124,7 @@ resource "aws_db_instance" "elrond_read_replica" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.32"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.35"
   cluster_identifier                    = var.elrond_db_cluster_identifier
   cluster_instance_identifier           = var.elrond_db_cluster_instance_identifier
   replica_min                           = var.elrond_replica_min
