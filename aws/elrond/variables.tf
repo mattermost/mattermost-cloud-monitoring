@@ -187,8 +187,7 @@ variable "elrond_apply_immediately" {
 }
 
 variable "elrond_performance_insights_enabled" {
-  type    = bool
-  default = false
+  type = bool
 }
 
 variable "elrond_performance_insights_retention_period" {
