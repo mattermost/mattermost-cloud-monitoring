@@ -101,7 +101,6 @@ resource "aws_db_instance" "provisioner_read_replica" {
   count = var.enable_provisioner_read_replica ? 1 : 0
 
   identifier                  = local.db_identifier_read_replica
-  name                        = var.db_name
   instance_class              = var.db_instance_class
   storage_type                = "gp2"
   storage_encrypted           = var.storage_encrypted
