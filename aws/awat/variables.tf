@@ -94,8 +94,7 @@ variable "awat_db_storage_type" {
 }
 
 variable "awat_performance_insights_enabled" {
-  type    = bool
-  default = false
+  type = bool
 }
 
 variable "awat_performance_insights_retention_period" {

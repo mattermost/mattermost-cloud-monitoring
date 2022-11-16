@@ -186,8 +186,7 @@ variable "blapi_apply_immediately" {
 }
 
 variable "blapi_performance_insights_enabled" {
-  type    = bool
-  default = false
+  type = bool
 }
 
 variable "blapi_performance_insights_retention_period" {
