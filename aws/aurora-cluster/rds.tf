@@ -3,7 +3,6 @@ locals {
   cluster_instance_identifier        = var.cluster_instance_identifier == "" ? var.cluster_identifier : var.cluster_instance_identifier
   cluster_instance_identifier_reader = var.cluster_instance_identifier == "" ? var.cluster_identifier : "${var.cluster_instance_identifier}-reader"
   master_password                    = var.password == "" ? random_password.master_password.result : var.password
-  performance_insights_enabled       = var.environment == "prod" ? var.performance_insights_enabled : false
 }
 
 # Random string to use as master password unless one is specified
@@ -69,7 +68,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance" {
   monitoring_role_arn                   = data.aws_iam_role.enhanced_monitoring.arn
   monitoring_interval                   = var.monitoring_interval
   promotion_tier                        = count.index + 1
-  performance_insights_enabled          = local.performance_insights_enabled
+  performance_insights_enabled          = var.performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_retention_period
   publicly_accessible                   = var.publicly_accessible
 
@@ -98,7 +97,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_reader" {
   monitoring_role_arn                   = data.aws_iam_role.enhanced_monitoring.arn
   monitoring_interval                   = var.monitoring_interval
   promotion_tier                        = count.index + 1
-  performance_insights_enabled          = local.performance_insights_enabled
+  performance_insights_enabled          = var.performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_retention_period
   publicly_accessible                   = var.publicly_accessible
 

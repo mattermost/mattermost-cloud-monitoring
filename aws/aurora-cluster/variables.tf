@@ -6,7 +6,7 @@ variable "vpc_id" {
 variable "port" {
   description = "The port on which the DB accepts connections"
   type        = string
-  default     = "5342"
+  default     = "5432"
 }
 
 variable "environment" {
@@ -112,7 +112,6 @@ variable "monitoring_interval" {
 variable "performance_insights_enabled" {
   description = "Specifies whether Performance Insights are enabled"
   type        = bool
-  default     = false
 }
 
 variable "replica_min" {
