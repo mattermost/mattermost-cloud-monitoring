@@ -93,7 +93,6 @@ resource "aws_db_instance" "awat_read_replica" {
   count = var.enable_awat_read_replica ? 1 : 0
 
   identifier                  = local.db_identifier_read_replica
-  name                        = var.awat_db_name
   instance_class              = var.awat_db_instance_class
   storage_type                = var.awat_db_storage_type
   storage_encrypted           = var.awat_storage_encrypted
