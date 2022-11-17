@@ -13,7 +13,3 @@ data "terraform_remote_state" "cluster" {
 locals {
   timestamp_now = formatdate("YYYY-MM-DD-hh-mm", timestamp())
 }
-
-locals {
-  db_identifier_read_replica = "${var.db_identifier}-read"
-}

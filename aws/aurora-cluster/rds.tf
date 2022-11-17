@@ -39,6 +39,12 @@ resource "aws_rds_cluster" "provisioning_rds_cluster" {
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   snapshot_identifier             = var.creation_snapshot_arn == "" ? null : var.creation_snapshot_arn
 
+  lifecycle {
+    ignore_changes = [
+      final_snapshot_identifier,
+    ]
+  }
+
   serverlessv2_scaling_configuration {
     max_capacity = var.max_capacity
     min_capacity = var.min_capacity
@@ -71,7 +77,6 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance" {
   performance_insights_enabled          = var.performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_retention_period
   publicly_accessible                   = var.publicly_accessible
-
 
   tags = merge(
     {
