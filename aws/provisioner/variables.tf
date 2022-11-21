@@ -102,3 +102,8 @@ variable "performance_insights_retention_period" {
   type    = number
   default = 7
 }
+
+variable "gitlab_cidr" {
+  type        = list(any)
+  description = "The gitlab CIDR"
+}
