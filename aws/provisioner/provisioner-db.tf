@@ -27,6 +27,14 @@ resource "aws_security_group" "cec_to_postgress" {
     description = "Centralised Grafana"
   }
 
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = var.gitlab_cidr
+    description = "Gitlab Access for Provisioner DB"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
