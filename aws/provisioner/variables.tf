@@ -107,3 +107,92 @@ variable "gitlab_cidr" {
   type        = list(any)
   description = "The gitlab CIDR"
 }
+
+variable "provisioner_db_cluster_engine" {
+  type    = string
+  default = "aurora-postgresql"
+}
+
+variable "provisioner_db_cluster_engine_mode" {
+  type    = string
+  default = "provisioned"
+}
+
+variable "provisioner_db_cluster_engine_version" {
+  type    = string
+  default = "13.8"
+}
+
+variable "provisioner_db_cluster_identifier" {
+  type = string
+}
+
+variable "provisioner_db_cluster_instance_identifier" {
+  type = string
+}
+
+variable "provisioner_replica_min" {
+  type = number
+}
+
+variable "provisioner_copy_tags_to_snapshot" {
+  type    = bool
+  default = true
+}
+
+variable "provisioner_enabled_cloudwatch_logs_exports" {
+  type    = list(string)
+  default = ["postgresql"]
+}
+
+variable "provisioner_monitoring_interval" {
+  type = number
+}
+
+variable "provisioner_service_name" {
+  type    = string
+  default = "provisioner"
+}
+
+variable "provisioner_kms_key" {
+  type = string
+}
+
+variable "provisioner_aurora_family" {
+  type    = string
+  default = "aurora-postgresql13"
+}
+
+variable "provisioner_min_capacity" {
+  type    = number
+  default = 0.5
+}
+
+variable "provisioner_max_capacity" {
+  type    = number
+  default = 4
+}
+
+variable "provisioner_db_cluster_instance_type" {
+  type    = string
+  default = "db.serverless"
+}
+
+variable "provisioner_cluster_storage_encrypted" {
+  type    = bool
+  default = true
+}
+
+variable "provisioner_apply_immediately" {
+  type    = bool
+  default = false
+}
+
+variable "provisioner_performance_insights_enabled" {
+  type = bool
+}
+
+variable "provisioner_performance_insights_retention_period" {
+  type    = number
+  default = 7
+}
