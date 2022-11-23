@@ -15,4 +15,5 @@ variable "force_destroy" {
 
 variable "folder_name" {
   type = string
+  default = "src"
 }
