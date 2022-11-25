@@ -67,3 +67,8 @@ resource "aws_instance" "bastion" {
     cpu_credits = var.cpu_credits
   }
 }
+
+resource "aws_eip" "bastion_ip" {
+  instance = aws_instance.bastion.id
+  vpc      = true
+}
