@@ -1,7 +1,7 @@
 module "template_files" {
   source = "hashicorp/dir/template"
 
-  base_dir = "${path.module}/${var.folder_name}"
+  base_dir = "./${var.folder_name}"
 }
 
 resource "aws_s3_bucket" "website_bucket" {
