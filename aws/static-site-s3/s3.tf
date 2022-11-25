@@ -1,7 +1,7 @@
 module "template_files" {
-  source = "hashicorp/dir/template"
-
-  base_dir = "./${var.folder_name}"
+  source   = "hashicorp/dir/template"
+  version  = "1.0.2"
+  base_dir = "${var.filepath}/${var.folder_name}"
 }
 
 resource "aws_s3_bucket" "website_bucket" {
@@ -51,7 +51,7 @@ resource "aws_s3_bucket_object" "static_files" {
   # The template_files module guarantees that only one of these two attributes
   # will be set for each file, depending on whether it is an in-memory template
   # rendering result or a static file on disk.
-  source  = each.value.source_path
+  source = each.value.source_path
 
   # Unless the bucket has encryption enabled, the ETag of each object is an
   # MD5 hash of that object.

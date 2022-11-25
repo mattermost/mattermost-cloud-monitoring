@@ -14,6 +14,11 @@ variable "force_destroy" {
 }
 
 variable "folder_name" {
-  type = string
+  type    = string
   default = "src"
+}
+
+variable "filepath" {
+  type    = string
+  default = "."
 }
