@@ -1,17 +1,23 @@
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.8 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.12 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.12 |
 | <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.5.37 |
 
 ## Resources
 
@@ -28,26 +34,48 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cloud_vpn_cidr"></a> [cloud\_vpn\_cidr](#input\_cloud\_vpn\_cidr) | n/a | `any` | n/a | yes |
-| <a name="input_cws_allocated_db_storage"></a> [cws\_allocated\_db\_storage](#input\_cws\_allocated\_db\_storage) | n/a | `any` | n/a | yes |
-| <a name="input_cws_db_backup_retention_period"></a> [cws\_db\_backup\_retention\_period](#input\_cws\_db\_backup\_retention\_period) | n/a | `any` | n/a | yes |
-| <a name="input_cws_db_backup_window"></a> [cws\_db\_backup\_window](#input\_cws\_db\_backup\_window) | n/a | `any` | n/a | yes |
-| <a name="input_cws_db_engine_version"></a> [cws\_db\_engine\_version](#input\_cws\_db\_engine\_version) | n/a | `any` | n/a | yes |
-| <a name="input_cws_db_identifier"></a> [cws\_db\_identifier](#input\_cws\_db\_identifier) | n/a | `any` | n/a | yes |
-| <a name="input_cws_db_instance_class"></a> [cws\_db\_instance\_class](#input\_cws\_db\_instance\_class) | n/a | `any` | n/a | yes |
-| <a name="input_cws_db_maintenance_window"></a> [cws\_db\_maintenance\_window](#input\_cws\_db\_maintenance\_window) | n/a | `any` | n/a | yes |
-| <a name="input_cws_db_master_az"></a> [cws\_db\_master\_az](#input\_cws\_db\_master\_az) | n/a | `any` | n/a | yes |
-| <a name="input_cws_db_name"></a> [cws\_db\_name](#input\_cws\_db\_name) | n/a | `any` | n/a | yes |
-| <a name="input_cws_db_password"></a> [cws\_db\_password](#input\_cws\_db\_password) | n/a | `any` | n/a | yes |
-| <a name="input_cws_db_read_replica_az"></a> [cws\_db\_read\_replica\_az](#input\_cws\_db\_read\_replica\_az) | n/a | `any` | n/a | yes |
-| <a name="input_cws_db_username"></a> [cws\_db\_username](#input\_cws\_db\_username) | n/a | `any` | n/a | yes |
-| <a name="input_cws_storage_encrypted"></a> [cws\_storage\_encrypted](#input\_cws\_storage\_encrypted) | n/a | `any` | n/a | yes |
-| <a name="input_enable_cws_read_replica"></a> [enable\_cws\_read\_replica](#input\_enable\_cws\_read\_replica) | n/a | `any` | n/a | yes |
-| <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
-| <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | n/a | `any` | n/a | yes |
-| <a name="input_region"></a> [region](#input\_region) | n/a | `any` | n/a | yes |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `any` | n/a | yes |
+| <a name="input_cloud_vpn_cidr"></a> [cloud\_vpn\_cidr](#input\_cloud\_vpn\_cidr) | n/a | `list(string)` | n/a | yes |
+| <a name="input_cws_allocated_db_storage"></a> [cws\_allocated\_db\_storage](#input\_cws\_allocated\_db\_storage) | n/a | `string` | n/a | yes |
+| <a name="input_cws_apply_immediately"></a> [cws\_apply\_immediately](#input\_cws\_apply\_immediately) | n/a | `bool` | `false` | no |
+| <a name="input_cws_aurora_family"></a> [cws\_aurora\_family](#input\_cws\_aurora\_family) | n/a | `string` | `"aurora-postgresql13"` | no |
+| <a name="input_cws_cluster_storage_encrypted"></a> [cws\_cluster\_storage\_encrypted](#input\_cws\_cluster\_storage\_encrypted) | n/a | `bool` | `true` | no |
+| <a name="input_cws_copy_tags_to_snapshot"></a> [cws\_copy\_tags\_to\_snapshot](#input\_cws\_copy\_tags\_to\_snapshot) | n/a | `bool` | `true` | no |
+| <a name="input_cws_db_backup_retention_period"></a> [cws\_db\_backup\_retention\_period](#input\_cws\_db\_backup\_retention\_period) | n/a | `number` | n/a | yes |
+| <a name="input_cws_db_backup_window"></a> [cws\_db\_backup\_window](#input\_cws\_db\_backup\_window) | n/a | `string` | n/a | yes |
+| <a name="input_cws_db_cluster_engine"></a> [cws\_db\_cluster\_engine](#input\_cws\_db\_cluster\_engine) | n/a | `string` | `"aurora-postgresql"` | no |
+| <a name="input_cws_db_cluster_engine_mode"></a> [cws\_db\_cluster\_engine\_mode](#input\_cws\_db\_cluster\_engine\_mode) | n/a | `string` | `"provisioned"` | no |
+| <a name="input_cws_db_cluster_engine_version"></a> [cws\_db\_cluster\_engine\_version](#input\_cws\_db\_cluster\_engine\_version) | n/a | `string` | `"13.8"` | no |
+| <a name="input_cws_db_cluster_identifier"></a> [cws\_db\_cluster\_identifier](#input\_cws\_db\_cluster\_identifier) | n/a | `string` | n/a | yes |
+| <a name="input_cws_db_cluster_instance_identifier"></a> [cws\_db\_cluster\_instance\_identifier](#input\_cws\_db\_cluster\_instance\_identifier) | n/a | `string` | n/a | yes |
+| <a name="input_cws_db_cluster_instance_type"></a> [cws\_db\_cluster\_instance\_type](#input\_cws\_db\_cluster\_instance\_type) | n/a | `string` | `"db.serverless"` | no |
+| <a name="input_cws_db_deletion_protection"></a> [cws\_db\_deletion\_protection](#input\_cws\_db\_deletion\_protection) | n/a | `bool` | `true` | no |
+| <a name="input_cws_db_engine_version"></a> [cws\_db\_engine\_version](#input\_cws\_db\_engine\_version) | n/a | `string` | n/a | yes |
+| <a name="input_cws_db_identifier"></a> [cws\_db\_identifier](#input\_cws\_db\_identifier) | n/a | `string` | n/a | yes |
+| <a name="input_cws_db_instance_class"></a> [cws\_db\_instance\_class](#input\_cws\_db\_instance\_class) | n/a | `string` | n/a | yes |
+| <a name="input_cws_db_maintenance_window"></a> [cws\_db\_maintenance\_window](#input\_cws\_db\_maintenance\_window) | n/a | `string` | n/a | yes |
+| <a name="input_cws_db_master_az"></a> [cws\_db\_master\_az](#input\_cws\_db\_master\_az) | n/a | `string` | n/a | yes |
+| <a name="input_cws_db_name"></a> [cws\_db\_name](#input\_cws\_db\_name) | n/a | `string` | n/a | yes |
+| <a name="input_cws_db_password"></a> [cws\_db\_password](#input\_cws\_db\_password) | n/a | `string` | n/a | yes |
+| <a name="input_cws_db_read_replica_az"></a> [cws\_db\_read\_replica\_az](#input\_cws\_db\_read\_replica\_az) | n/a | `string` | n/a | yes |
+| <a name="input_cws_db_username"></a> [cws\_db\_username](#input\_cws\_db\_username) | n/a | `string` | n/a | yes |
+| <a name="input_cws_enabled_cloudwatch_logs_exports"></a> [cws\_enabled\_cloudwatch\_logs\_exports](#input\_cws\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br>  "postgresql"<br>]</pre> | no |
+| <a name="input_cws_kms_key"></a> [cws\_kms\_key](#input\_cws\_kms\_key) | n/a | `string` | n/a | yes |
+| <a name="input_cws_max_capacity"></a> [cws\_max\_capacity](#input\_cws\_max\_capacity) | n/a | `number` | `4` | no |
+| <a name="input_cws_min_capacity"></a> [cws\_min\_capacity](#input\_cws\_min\_capacity) | n/a | `number` | `0.5` | no |
+| <a name="input_cws_monitoring_interval"></a> [cws\_monitoring\_interval](#input\_cws\_monitoring\_interval) | n/a | `number` | n/a | yes |
+| <a name="input_cws_performance_insights_enabled"></a> [cws\_performance\_insights\_enabled](#input\_cws\_performance\_insights\_enabled) | n/a | `bool` | n/a | yes |
+| <a name="input_cws_performance_insights_retention_period"></a> [cws\_performance\_insights\_retention\_period](#input\_cws\_performance\_insights\_retention\_period) | n/a | `number` | `7` | no |
+| <a name="input_cws_replica_min"></a> [cws\_replica\_min](#input\_cws\_replica\_min) | n/a | `number` | n/a | yes |
+| <a name="input_cws_service_name"></a> [cws\_service\_name](#input\_cws\_service\_name) | n/a | `string` | `"cws"` | no |
+| <a name="input_cws_storage_encrypted"></a> [cws\_storage\_encrypted](#input\_cws\_storage\_encrypted) | n/a | `bool` | n/a | yes |
+| <a name="input_enable_cws_read_replica"></a> [enable\_cws\_read\_replica](#input\_enable\_cws\_read\_replica) | n/a | `bool` | n/a | yes |
+| <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
+| <a name="input_performance_insights_enabled"></a> [performance\_insights\_enabled](#input\_performance\_insights\_enabled) | n/a | `bool` | `false` | no |
+| <a name="input_performance_insights_retention_period"></a> [performance\_insights\_retention\_period](#input\_performance\_insights\_retention\_period) | n/a | `number` | `7` | no |
+| <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | n/a | `list(string)` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
 
 ## Outputs
 
 No outputs.
+<!-- END_TF_DOCS -->

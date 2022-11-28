@@ -124,3 +124,39 @@ resource "aws_db_instance" "cws_postgres_read_replica" {
     DatabaseType = "cws"
   }
 }
+
+
+module "aurora-cluster" {
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.37"
+  cluster_identifier                    = var.cws_db_cluster_identifier
+  cluster_instance_identifier           = var.cws_db_cluster_instance_identifier
+  replica_min                           = var.cws_replica_min
+  vpc_id                                = var.vpc_id
+  environment                           = var.environment
+  engine                                = var.cws_db_cluster_engine
+  engine_mode                           = var.cws_db_cluster_engine_mode
+  engine_version                        = var.cws_db_cluster_engine_version
+  instance_type                         = var.cws_db_cluster_instance_type
+  username                              = var.cws_db_name
+  password                              = var.cws_db_password
+  final_snapshot_identifier_prefix      = "cws-final-${var.cws_db_cluster_identifier}-${local.timestamp_now}"
+  skip_final_snapshot                   = false
+  deletion_protection                   = var.cws_db_deletion_protection
+  backup_retention_period               = var.cws_db_backup_retention_period
+  preferred_backup_window               = var.cws_db_backup_window
+  preferred_maintenance_window          = var.cws_db_maintenance_window
+  storage_encrypted                     = var.cws_cluster_storage_encrypted
+  apply_immediately                     = var.cws_apply_immediately
+  copy_tags_to_snapshot                 = var.cws_copy_tags_to_snapshot
+  enabled_cloudwatch_logs_exports       = var.cws_enabled_cloudwatch_logs_exports
+  monitoring_interval                   = var.cws_monitoring_interval
+  performance_insights_enabled          = var.cws_performance_insights_enabled
+  performance_insights_retention_period = var.cws_performance_insights_retention_period
+  service_name                          = var.cws_service_name
+  kms_key                               = var.cws_kms_key
+  vpc_security_group_ids                = [aws_security_group.cws_postgres_sg.id]
+  aurora_family                         = var.cws_aurora_family
+  db_subnet_group_name                  = aws_db_subnet_group.subnets_db.name
+  min_capacity                          = var.cws_min_capacity
+  max_capacity                          = var.cws_max_capacity
+}
