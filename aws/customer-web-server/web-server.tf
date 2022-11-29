@@ -156,7 +156,7 @@ module "aurora-cluster" {
   kms_key                               = var.cws_kms_key
   vpc_security_group_ids                = [aws_security_group.cws_postgres_sg.id]
   aurora_family                         = var.cws_aurora_family
-  db_subnet_group_name                  = aws_db_subnet_group.subnets_db.name
+  db_subnet_group_name                  = aws_db_subnet_group.cws_subnets_db.name
   min_capacity                          = var.cws_min_capacity
   max_capacity                          = var.cws_max_capacity
 }
