@@ -137,7 +137,7 @@ module "aurora-cluster" {
   engine_mode                           = var.cws_db_cluster_engine_mode
   engine_version                        = var.cws_db_cluster_engine_version
   instance_type                         = var.cws_db_cluster_instance_type
-  username                              = var.cws_db_name
+  username                              = var.cws_db_username
   password                              = var.cws_db_password
   final_snapshot_identifier_prefix      = "cws-final-${var.cws_db_cluster_identifier}-${local.timestamp_now}"
   skip_final_snapshot                   = false
