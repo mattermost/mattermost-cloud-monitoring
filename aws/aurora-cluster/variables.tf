@@ -183,3 +183,8 @@ variable "publicly_accessible" {
   description = "Bool to control if instance is publicly accessible"
   default     = false
 }
+
+variable "log_min_duration_statement" {
+  type  = number
+  value = 2000
+}

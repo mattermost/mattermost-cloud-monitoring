@@ -136,6 +136,11 @@ resource "aws_db_parameter_group" "db_parameter_group_postgresql" {
   name   = format("%s-pg", local.cluster_identifier)
   family = var.aurora_family
 
+  parameter {
+    name  = "log_min_duration_statement"
+    value = var.log_min_duration_statement
+  }
+
   tags = merge(
     {
       "Name"         = var.service_name,
@@ -151,6 +156,10 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql" 
   name   = format("%s-pg", local.cluster_identifier)
   family = var.aurora_family
 
+  parameter {
+    name  = "log_min_duration_statement"
+    value = var.log_min_duration_statement
+  }
 
   tags = merge(
     {
