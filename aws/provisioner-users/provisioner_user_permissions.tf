@@ -126,6 +126,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation",
                 "s3:GetBucketEncryption",
+                "s3:ListBucketVersions",
                 "s3:GetBucketTagging",
                 "s3:CreateBucket",
                 "s3:PutEncryptionConfiguration",
@@ -138,6 +139,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:GetObjectAcl",
                 "s3:DeleteObject",
                 "s3:DeleteBucket",
+                "s3:DeleteObjectVersion",
                 "s3:GetObjectVersionAcl"
             ],
             "Resource": "arn:aws:s3:::cloud-*"
