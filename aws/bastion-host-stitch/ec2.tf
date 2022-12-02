@@ -34,6 +34,21 @@ resource "aws_security_group" "stitch-group" {
   }
 }
 
+resource "aws_security_group" "connect-ec2-rds" {
+  name                   = "connect_ec2_rds"
+  description            = "Allow instance to access RDS Postgres"
+  vpc_id                 = var.vpc_id
+  revoke_rules_on_delete = true
+
+  egress {
+    from_port       = 5432
+    protocol        = "TCP"
+    to_port         = 5432
+    security_groups = [var.connect_rds_ec2_security_group]
+  }
+
+}
+
 resource "aws_instance" "bastion" {
   ami                         = var.ami_id
   instance_type               = var.instance_type
@@ -45,11 +60,11 @@ resource "aws_instance" "bastion" {
   monitoring                  = var.monitoring
   key_name                    = aws_key_pair.stitch-blapi.key_name
 
-  #  user_data = file("${path.module}/templates/userdata.yml")
-  #
-  #  lifecycle {
-  #    ignore_changes = [user_data] # Allow to change ssh keys without TF replacing instance
-  #  }
+  user_data = file("${var.filepath}/templates/userdata.yml")
+
+  lifecycle {
+    ignore_changes = [user_data] # Allow to change ssh keys without TF replacing instance
+  }
 
   tags = var.tags
 
@@ -59,7 +74,7 @@ resource "aws_instance" "bastion" {
     delete_on_termination = var.delete_on_termination
   }
 
-  vpc_security_group_ids = [aws_security_group.stitch-group.id]
+  vpc_security_group_ids = [aws_security_group.stitch-group.id, aws_security_group.connect-ec2-rds.id]
 
 
 
