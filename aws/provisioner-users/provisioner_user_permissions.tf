@@ -95,7 +95,8 @@ resource "aws_iam_policy" "s3" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation",
                 "s3:GetBucketTagging",
-                "s3:GetBucketEncryption"
+                "s3:GetBucketEncryption",
+                "s3:ListBucketVersions"
             ],
             "Resource": [
                 "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}",
@@ -111,6 +112,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:GetObjectTagging",
                 "s3:GetObjectAcl",
                 "s3:DeleteObject",
+                "s3:DeleteObjectVersion",
                 "s3:GetObjectVersionAcl"
             ],
             "Resource": [
