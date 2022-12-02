@@ -14,10 +14,6 @@ locals {
   timestamp_now = formatdate("YYYY-MM-DD-hh-mm", timestamp())
 }
 
-locals {
-  db_identifier_read_replica = "${var.db_identifier}-read"
-}
-
 resource "aws_iam_access_key" "provisioner_user" {
   user = var.provisioner_users[0]
 }

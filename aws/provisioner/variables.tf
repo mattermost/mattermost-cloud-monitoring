@@ -10,34 +10,6 @@ variable "cloud_vpn_cidr" {
   type = list(string)
 }
 
-variable "db_identifier" {
-  type = string
-}
-
-variable "allocated_db_storage" {
-  type = string
-}
-
-variable "db_engine_version" {
-  type = string
-}
-
-variable "db_instance_class" {
-  type = string
-}
-
-variable "db_master_az" {
-  type = string
-}
-
-variable "db_read_replica_az" {
-  type = string
-}
-
-variable "db_name" {
-  type = string
-}
-
 variable "db_username" {
   type = string
 }
@@ -58,20 +30,8 @@ variable "db_maintenance_window" {
   type = string
 }
 
-variable "snapshot_identifier" {
-  type = string
-}
-
-variable "storage_encrypted" {
-  type = bool
-}
-
 variable "private_subnets" {
   type = list(string)
-}
-
-variable "enable_provisioner_read_replica" {
-  type = bool
 }
 
 variable "db_deletion_protection" {
@@ -91,16 +51,6 @@ variable "provisioner_users" {
 variable "grafana_cidr" {
   type        = list(any)
   description = "The centralised CIDR"
-}
-
-variable "performance_insights_enabled" {
-  type    = bool
-  default = false
-}
-
-variable "performance_insights_retention_period" {
-  type    = number
-  default = 7
 }
 
 variable "gitlab_cidr" {
