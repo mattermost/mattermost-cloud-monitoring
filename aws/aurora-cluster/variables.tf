@@ -185,6 +185,6 @@ variable "publicly_accessible" {
 }
 
 variable "log_min_duration_statement" {
-  type  = number
-  value = 2000
+  type    = number
+  default = 2000
 }
