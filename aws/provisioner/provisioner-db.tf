@@ -142,7 +142,7 @@ resource "aws_db_instance" "provisioner_read_replica" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.45"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.47"
   cluster_identifier                    = var.provisioner_db_cluster_identifier
   cluster_instance_identifier           = var.provisioner_db_cluster_instance_identifier
   replica_min                           = var.provisioner_replica_min
