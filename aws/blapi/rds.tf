@@ -90,7 +90,7 @@ resource "aws_db_instance" "blapi" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.35"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.45"
   cluster_identifier                    = var.blapi_db_cluster_identifier
   cluster_instance_identifier           = var.blapi_db_cluster_instance_identifier
   replica_min                           = var.blapi_replica_min

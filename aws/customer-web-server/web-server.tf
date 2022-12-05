@@ -127,7 +127,7 @@ resource "aws_db_instance" "cws_postgres_read_replica" {
 
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.37"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.5.45"
   cluster_identifier                    = var.cws_db_cluster_identifier
   cluster_instance_identifier           = var.cws_db_cluster_instance_identifier
   replica_min                           = var.cws_replica_min
