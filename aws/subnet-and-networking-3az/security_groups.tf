@@ -1,9 +1,3 @@
-locals {
-  dev            = var.environment == "dev" ? true : ""
-  test           = var.environment == "test" ? true : ""
-  prod           = var.environment != "dev" && var.environment != "test" ? false : ""
-  is_dev_or_test = coalesce(local.dev, local.test, local.prod)
-}
 resource "aws_security_group" "master_sg" {
   for_each = toset(var.vpc_cidrs)
 
@@ -254,7 +248,7 @@ resource "aws_security_group_rule" "db_ingress_worker_command_control_postgresql
 }
 
 resource "aws_security_group_rule" "developers_vpn_access_postgresql" {
-  for_each = local.is_dev_or_test ? toset(var.vpc_cidrs) : []
+  for_each = toset(var.vpc_cidrs)
 
   cidr_blocks       = var.vpn_cidrs
   description       = "Ingress Traffic from VPN cidrs"
