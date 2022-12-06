@@ -30,10 +30,6 @@ variable "transit_gtw_route_destination_gitlab" {
   type = string
 }
 
-variable "environment" {
-  type = string
-}
-
 variable "teleport_cidr" {
   type = list(string)
 }
