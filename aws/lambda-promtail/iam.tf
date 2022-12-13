@@ -1,5 +1,5 @@
 resource "aws_iam_role" "promtail_lambda" {
-  name                  = "promtail_lambda"
+  name                  = var.promtail_lambda_iam_role
   path                  = "/"
   force_detach_policies = false
 

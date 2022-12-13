@@ -78,3 +78,18 @@ variable "include_message" {
   description = "Determines whether to include message as a Loki label when writing logs from lambda-promtail."
   default     = "false"
 }
+
+variable "promtail_lambda_iam_role" {
+  type    = string
+  default = "promtail_lambda"
+}
+
+variable "function_name" {
+  type    = string
+  default = "lambda-promtail"
+}
+
+variable "cloudwatch_log_group" {
+  type    = string
+  default = "/aws/lambda/lambda_promtail"
+}
