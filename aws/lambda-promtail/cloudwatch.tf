@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_log_group" "lambda_promtail" {
-  name              = "/aws/lambda/lambda_promtail"
+  name              = var.cloudwatch_log_group
   retention_in_days = 14
 }
 
