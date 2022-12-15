@@ -15,7 +15,7 @@ resource "aws_lambda_permission" "lambda_promtail_allow_cloudwatch" {
 # copy this block and modify it accordingly.
 resource "aws_cloudwatch_log_subscription_filter" "lambdafunction_logfilter" {
   for_each        = toset(var.log_group_names)
-  name            = "lambdafunction_logfilter_${each.value}"
+  name            = "lambdafunction_logfilter_${aws_lambda_function.lambda_promtail.function_name}${each.value}"
   log_group_name  = each.value
   destination_arn = aws_lambda_function.lambda_promtail.arn
   # required but can be empty string
