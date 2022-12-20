@@ -507,54 +507,90 @@ resource "aws_iam_user_policy_attachment" "attach_tag" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.tag.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_route53" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.route53.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_rds" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.rds.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_s3" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.s3.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_secrets_manager" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.secrets_manager.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_ec2" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.ec2.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_vpc" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.vpc.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_iam" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.iam.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_kms" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.kms.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_kms_awat" {
