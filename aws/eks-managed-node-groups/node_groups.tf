@@ -23,7 +23,8 @@ resource "aws_launch_template" "cluster_nodes_eks_launch_template" {
     resource_type = "instance"
 
     tags = {
-      Name = "${var.cluster_short_name}-cluster-nodes"
+      Name              = "${var.cluster_short_name}-cluster-nodes"
+      KubernetesCluster = var.cluster_name
     }
   }
 }
@@ -41,6 +42,8 @@ resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
     "kubernetes.io/cluster/${var.deployment_name}" : "owned",
     "k8s.io/cluster-autoscaler/enabled" : "on",
     "k8s.io/cluster-autoscaler/${var.deployment_name}" : "on"
+    KubernetesCluster : var.cluster_name
+
   }
 
   labels = {
