@@ -42,11 +42,6 @@ resource "aws_iam_role_policy_attachment" "provisioner_role_attach_ec2" {
   policy_arn = aws_iam_policy.ec2.arn
 }
 
-resource "aws_iam_role_policy_attachment" "provisioner_role_attach_vpc" {
-  role       = aws_iam_role.provisioner_role.name
-  policy_arn = aws_iam_policy.vpc.arn
-}
-
 resource "aws_iam_role_policy_attachment" "provisioner_role_attach_iam" {
   role       = aws_iam_role.provisioner_role.name
   policy_arn = aws_iam_policy.iam.arn

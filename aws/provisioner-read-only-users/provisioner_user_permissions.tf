@@ -344,16 +344,6 @@ resource "aws_iam_user_policy_attachment" "attach_ec2" {
   ]
 }
 
-resource "aws_iam_user_policy_attachment" "attach_vpc" {
-  for_each   = toset(var.provisioner_users)
-  user       = each.value
-  policy_arn = aws_iam_policy.vpc.arn
-
-  depends_on = [
-    aws_iam_user.provisioner_users
-  ]
-}
-
 resource "aws_iam_user_policy_attachment" "attach_iam" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
