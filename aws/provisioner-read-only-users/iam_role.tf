@@ -1,5 +1,5 @@
 resource "aws_iam_role" "provisioner_role" {
-  name = "k8s-${var.environment}-provisioner_role"
+  name = "k8s-${var.environment}-provisioner_role_read-only"
 
   assume_role_policy = <<EOF
 {
