@@ -12,5 +12,3 @@ variable "provisioner_users" {
   type        = list(string)
   description = "The list defined the users can use provisioner"
 }
-
-
