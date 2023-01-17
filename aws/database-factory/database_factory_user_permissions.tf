@@ -324,7 +324,7 @@ resource "aws_iam_policy" "lambda_and_logs_db_factory" {
 EOF
 }
 
-resource "aws_iam_policy" "devops-guru_db_factory" {
+resource "aws_iam_policy" "devops_guru_db_factory" {
   name = "mattermost-database-factory-devops-guru-policy"
   path = "/"
   description = "Devops Guru permissions for database factory user"
@@ -405,7 +405,7 @@ resource "aws_iam_user_policy_attachment" "attach_lambda_and_logs_db_factory" {
 resource "aws_iam_user_policy_attachment" "attach_devops_guru_db_factory" {
   for_each   = toset(var.database_factory_users)
   user       = each.value
-  policy_arn = aws_iam_policy.devops-guru_db_factory.arn
+  policy_arn = aws_iam_policy.devops_guru_db_factory.arn
 }
 
 resource "aws_iam_role" "db-factory-role" {
@@ -474,5 +474,5 @@ resource "aws_iam_role_policy_attachment" "db-factory-role-attach-lambda-and-log
 
 resource "aws_iam_role_policy_attachment" "db-factory-role-attach_devops_guru" {
   role       = aws_iam_role.db-factory-role.name
-  policy_arn = aws_iam_policy.devops-guru_db_factory.arn
+  policy_arn = aws_iam_policy.devops_guru_db_factory.arn
 }
