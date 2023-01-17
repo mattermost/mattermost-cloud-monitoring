@@ -472,7 +472,7 @@ resource "aws_iam_role_policy_attachment" "db-factory-role-attach-lambda-and-log
   policy_arn = aws_iam_policy.lambda_and_logs_db_factory.arn
 }
 
-resource "aws_iam_role_policy_attachment" "db-factory-role-attach_devops_guru" {
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_devops-guru" {
   role       = aws_iam_role.db-factory-role.name
   policy_arn = aws_iam_policy.devops_guru_db_factory.arn
 }
