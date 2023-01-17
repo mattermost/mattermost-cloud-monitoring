@@ -325,8 +325,8 @@ EOF
 }
 
 resource "aws_iam_policy" "devops_guru_db_factory" {
-  name = "mattermost-database-factory-devops-guru-policy"
-  path = "/"
+  name        = "mattermost-database-factory-devops-guru-policy"
+  path        = "/"
   description = "Devops Guru permissions for database factory user"
 
   policy = <<EOF
