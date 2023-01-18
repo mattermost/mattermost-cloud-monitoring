@@ -47,6 +47,8 @@ resource "aws_security_group" "connect-ec2-rds" {
     security_groups = [var.connect_rds_ec2_security_group]
   }
 
+  tags = var.tags
+
 }
 
 resource "aws_instance" "bastion" {
@@ -62,10 +64,6 @@ resource "aws_instance" "bastion" {
 
   user_data = file("${var.filepath}/templates/userdata.yml")
 
-  lifecycle {
-    ignore_changes = [user_data] # Allow to change ssh keys without TF replacing instance
-  }
-
   tags = var.tags
 
   root_block_device {
@@ -75,8 +73,6 @@ resource "aws_instance" "bastion" {
   }
 
   vpc_security_group_ids = [aws_security_group.stitch-group.id, aws_security_group.connect-ec2-rds.id]
-
-
 
   credit_specification {
     cpu_credits = var.cpu_credits

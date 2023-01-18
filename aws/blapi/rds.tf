@@ -45,11 +45,13 @@ resource "aws_security_group" "connect-rds-ec2" {
   revoke_rules_on_delete = true
 
   ingress {
-    from_port = 5432
-    protocol  = "TCP"
-    to_port   = 5432
+    from_port       = 5432
+    protocol        = "TCP"
+    to_port         = 5432
     security_groups = [var.connect_ec2_rds_security_group]
   }
+
+  tags = {}
 
 }
 
