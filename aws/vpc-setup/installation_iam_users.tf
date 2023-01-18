@@ -61,7 +61,8 @@ resource "aws_iam_policy" "installation_users_s3_policy" {
             "Sid": "ListObjectsInBucket",
             "Effect": "Allow",
             "Action": [
-                "s3:ListBucket"
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
             ],
             "Resource": "${aws_s3_bucket.installation_buckets[each.value]["arn"]}"
         },
