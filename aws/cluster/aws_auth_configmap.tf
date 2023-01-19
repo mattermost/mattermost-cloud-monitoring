@@ -2,53 +2,61 @@
 locals {
   data = var.matterwick_cluster_access_enabled == true ? {
     mapRoles = <<YAML
-  - rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role"
-    username: system:node:{{EC2PrivateDNSName}}
-    groups:
-      - system:bootstrappers
-      - system:nodes
-  - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSReservedSSO_AWSAdministratorAccess_${var.aws_reserved_sso_id}
-    username: system:masters
-    groups:
-      - eks-console-dashboard-full-access-group
-  - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Cloud${title(var.environment)}Admin
-    username: system:masters
-    groups:
-      - eks-console-dashboard-full-access-group
+- rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role"
+  username: system:node:{{EC2PrivateDNSName}}
+  groups:
+    - system:bootstrappers
+    - system:nodes
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSReservedSSO_AWSAdministratorAccess_${var.aws_reserved_sso_id}
+  username: system:masters
+  groups:
+    - eks-console-dashboard-full-access-group
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Cloud${title(var.environment)}Admin
+  username: system:masters
+  groups:
+    - eks-console-dashboard-full-access-group
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ArgoCD-Deployer
+  username: argocd-deployer
+  groups:
+    - system:masters
   YAML
     mapUsers = <<YAML
-  - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.matterwick_iam_user}"
-    username: "${var.matterwick_username}"
-  - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.cnc_user}"
-    username: "${var.cnc_user}"
-    groups:
-      - system:masters
+- userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.matterwick_iam_user}"
+  username: "${var.matterwick_username}"
+- userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.cnc_user}"
+  username: "${var.cnc_user}"
+  groups:
+    - system:masters
   YAML
     } : {
     mapRoles = <<YAML
-  - rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role"
-    username: system:node:{{EC2PrivateDNSName}}
-    groups:
-      - system:bootstrappers
-      - system:nodes
-  - rolearn: "${data.aws_region.current.name == "us-east-1" ? aws_iam_role.lambda_role[0].arn : data.aws_iam_role.lambda_role[0].arn}"
-    username: admin
-    groups:
-      - system:masters${local.extra_auth_config_provider}
-  - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSReservedSSO_AWSAdministratorAccess_${var.aws_reserved_sso_id}
-    username: system:masters
-    groups:
-      - eks-console-dashboard-full-access-group
-  - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Cloud${title(var.environment)}Admin
-    username: system:masters
-    groups:
-      - eks-console-dashboard-full-access-group
+- rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role"
+  username: system:node:{{EC2PrivateDNSName}}
+  groups:
+    - system:bootstrappers
+    - system:nodes
+- rolearn: "${data.aws_region.current.name == "us-east-1" ? aws_iam_role.lambda_role[0].arn : data.aws_iam_role.lambda_role[0].arn}"
+  username: admin
+  groups:
+    - system:masters${local.extra_auth_config_provider}
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSReservedSSO_AWSAdministratorAccess_${var.aws_reserved_sso_id}
+  username: system:masters
+  groups:
+    - eks-console-dashboard-full-access-group
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Cloud${title(var.environment)}Admin
+  username: system:masters
+  groups:
+    - eks-console-dashboard-full-access-group
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ArgoCD-Deployer
+  username: argocd-deployer
+  groups:
+    - system:masters
   YAML
     mapUsers = <<YAML
-  - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.cnc_user}"
-    username: "${var.cnc_user}"
-    groups:
-      - system:masters
+- userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.cnc_user}"
+  username: "${var.cnc_user}"
+  groups:
+    - system:masters
   YAML
   }
 }
