@@ -145,3 +145,7 @@ variable "blapi_performance_insights_retention_period" {
   type    = number
   default = 7
 }
+
+variable "connect_ec2_rds_security_group" {
+  type = string
+}
