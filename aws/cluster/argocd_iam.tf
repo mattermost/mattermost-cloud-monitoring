@@ -9,7 +9,7 @@ resource "aws_iam_role" "argocd-deployer" {
     {
       "Effect": "Allow",
       "Principal": {
-        "Service": ${var.argocd_account_role}
+        "Service": "${var.argocd_account_role}"
       },
       "Action": "sts:AssumeRole"
     }
