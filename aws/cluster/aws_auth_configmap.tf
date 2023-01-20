@@ -19,6 +19,10 @@ locals {
   username: argocd-deployer
   groups:
     - system:masters
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.aws_read_only_sso_role_name}
+  username: read-only
+  groups:
+    - read-only-access-group
   YAML
     mapUsers = <<YAML
 - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.matterwick_iam_user}"
@@ -51,6 +55,10 @@ locals {
   username: argocd-deployer
   groups:
     - system:masters
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.aws_read_only_sso_role_name}
+  username: read-only
+  groups:
+    - read-only-access-group
   YAML
     mapUsers = <<YAML
 - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.cnc_user}"
@@ -118,6 +126,48 @@ resource "kubernetes_cluster_role_binding" "console_access" {
 resource "kubernetes_cluster_role" "console_access" {
   metadata {
     name = "eks-console-dashboard-full-access-clusterrole"
+  }
+
+  rule {
+    api_groups = [""]
+    resources  = ["nodes", "namespaces", "pods"]
+    verbs      = ["get", "list"]
+  }
+
+  rule {
+    api_groups = ["apps"]
+    resources  = ["deployments", "daemonsets", "statefulsets", "replicasets"]
+    verbs      = ["get", "list"]
+  }
+
+  rule {
+    api_groups = ["batch"]
+    resources  = ["jobs"]
+    verbs      = ["get", "list"]
+  }
+}
+
+resource "kubernetes_cluster_role_binding" "read_only_access" {
+  metadata {
+    name = "read-only-access-binding"
+  }
+
+  role_ref {
+    kind      = "ClusterRole"
+    name      = "read-only-access-clusterrole"
+    api_group = "rbac.authorization.k8s.io"
+  }
+
+  subject {
+    kind      = "Group"
+    name      = "read-only-access-group"
+    api_group = "rbac.authorization.k8s.io"
+  }
+}
+
+resource "kubernetes_cluster_role" "read_only_access" {
+  metadata {
+    name = "read-only-access-clusterrole"
   }
 
   rule {
