@@ -102,3 +102,8 @@ variable "ebs_optimized" {
   type        = bool
 }
 
+variable "availability_zones" {
+  description = "List of availability zones to place the instances"
+  type        = list(string)
+}
+
