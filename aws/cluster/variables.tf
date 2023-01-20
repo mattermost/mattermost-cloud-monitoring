@@ -75,6 +75,10 @@ variable "cnc_user" {
   type = string
 }
 
+variable "argocd_account_role" {
+  type = string
+}
+
 variable "log_types" {
   type = list(string)
 }
