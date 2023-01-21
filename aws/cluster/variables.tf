@@ -100,8 +100,8 @@ variable "aws_reserved_sso_id" {
 }
 
 variable "aws_read_only_sso_role_name" {
-  default = ""
-  type = string
+  default     = ""
+  type        = string
   description = "Name of the read only SSO iam role"
 }
 
