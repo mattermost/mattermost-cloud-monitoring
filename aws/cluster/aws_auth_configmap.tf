@@ -19,10 +19,6 @@ locals {
   username: argocd-deployer
   groups:
     - system:masters
-- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.aws_read_only_sso_role_name}
-  username: read-only
-  groups:
-    - read-only-access-group
   YAML
     mapUsers = <<YAML
 - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.matterwick_iam_user}"
@@ -55,10 +51,6 @@ locals {
   username: argocd-deployer
   groups:
     - system:masters
-- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.aws_read_only_sso_role_name}
-  username: read-only
-  groups:
-    - read-only-access-group
   YAML
     mapUsers = <<YAML
 - userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.cnc_user}"
@@ -67,6 +59,13 @@ locals {
     - system:masters
   YAML
   }
+
+  read_only_sso_role = <<YAML
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.aws_read_only_sso_role_name}
+  username: read-only
+  groups:
+    - read-only-access-group
+  YAML
 }
 
 resource "kubernetes_config_map" "aws_auth_configmap" {
@@ -74,7 +73,7 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     name      = "aws-auth"
     namespace = "kube-system"
   }
-  data = local.data
+  data = var.environment == "prod" ? merge(local.data, { mapRoles = format("%s\n%s", join(",", values(local.data)), local.read_only_sso_role)}) : local.data
 }
 
 
