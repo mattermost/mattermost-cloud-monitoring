@@ -99,6 +99,12 @@ variable "aws_reserved_sso_id" {
   type = string
 }
 
+variable "aws_read_only_sso_role_name" {
+  default     = ""
+  type        = string
+  description = "Name of the read only SSO iam role"
+}
+
 variable "enable_vpc_cni_addon" {
   type        = bool
   description = "Whether to enable the EKS AWS CNI addon or not"

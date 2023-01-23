@@ -59,6 +59,13 @@ locals {
     - system:masters
   YAML
   }
+
+  read_only_sso_role = <<YAML
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.aws_read_only_sso_role_name}
+  username: read-only
+  groups:
+    - read-only-access-group
+  YAML
 }
 
 resource "kubernetes_config_map" "aws_auth_configmap" {
@@ -66,7 +73,7 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     name      = "aws-auth"
     namespace = "kube-system"
   }
-  data = local.data
+  data = var.environment == "prod" ? merge(local.data, { mapRoles = format("%s\n%s", join(",", values(local.data)), local.read_only_sso_role) }) : local.data
 }
 
 
@@ -118,6 +125,48 @@ resource "kubernetes_cluster_role_binding" "console_access" {
 resource "kubernetes_cluster_role" "console_access" {
   metadata {
     name = "eks-console-dashboard-full-access-clusterrole"
+  }
+
+  rule {
+    api_groups = [""]
+    resources  = ["nodes", "namespaces", "pods"]
+    verbs      = ["get", "list"]
+  }
+
+  rule {
+    api_groups = ["apps"]
+    resources  = ["deployments", "daemonsets", "statefulsets", "replicasets"]
+    verbs      = ["get", "list"]
+  }
+
+  rule {
+    api_groups = ["batch"]
+    resources  = ["jobs"]
+    verbs      = ["get", "list"]
+  }
+}
+
+resource "kubernetes_cluster_role_binding" "read_only_access" {
+  metadata {
+    name = "read-only-access-binding"
+  }
+
+  role_ref {
+    kind      = "ClusterRole"
+    name      = "read-only-access-clusterrole"
+    api_group = "rbac.authorization.k8s.io"
+  }
+
+  subject {
+    kind      = "Group"
+    name      = "read-only-access-group"
+    api_group = "rbac.authorization.k8s.io"
+  }
+}
+
+resource "kubernetes_cluster_role" "read_only_access" {
+  metadata {
+    name = "read-only-access-clusterrole"
   }
 
   rule {
