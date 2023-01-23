@@ -1,5 +1,6 @@
 resource "aws_launch_template" "cluster_spot_nodes_eks_launch_template" {
-  name        = "${var.cluster_short_name}_spot_cluster_launch_template"
+  for_each    = toset(var.availability_zones)
+  name        = "${var.cluster_short_name}_${each.value}_spot_cluster_launch_template"
   description = "${var.cluster_short_name} spot cluster nodes launch template"
 
   vpc_security_group_ids = var.vpc_security_group_ids
@@ -19,6 +20,10 @@ resource "aws_launch_template" "cluster_spot_nodes_eks_launch_template" {
 
   user_data = var.user_data
 
+  placement {
+    availability_zone = each.value
+  }
+
   tag_specifications {
     resource_type = "instance"
 
@@ -31,7 +36,8 @@ resource "aws_launch_template" "cluster_spot_nodes_eks_launch_template" {
 
 resource "aws_eks_node_group" "spot_nodes_eks_cluster_ng" {
   cluster_name    = var.cluster_name
-  node_group_name = "${var.node_group_name}-spot-nodes"
+  for_each        = toset(var.availability_zones)
+  node_group_name = "${var.node_group_name}-spot-nodes-${each.value}"
 
   node_role_arn = var.node_role_arn
 
@@ -57,8 +63,8 @@ resource "aws_eks_node_group" "spot_nodes_eks_cluster_ng" {
   }
 
   launch_template {
-    name    = aws_launch_template.cluster_spot_nodes_eks_launch_template.name
-    version = aws_launch_template.cluster_spot_nodes_eks_launch_template.latest_version
+    name    = aws_launch_template.cluster_spot_nodes_eks_launch_template[each.key].name
+    version = aws_launch_template.cluster_spot_nodes_eks_launch_template[each.key].latest_version
   }
 
   lifecycle {
