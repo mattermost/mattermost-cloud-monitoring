@@ -107,3 +107,9 @@ variable "availability_zones" {
   type        = list(string)
 }
 
+variable "subnets" {
+  description = "Map of availability zones and their subnets"
+  type        = map(any)
+}
+
+
