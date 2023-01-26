@@ -147,6 +147,7 @@ resource "kubernetes_cluster_role" "console_access" {
 }
 
 resource "kubernetes_cluster_role_binding" "read_only_access" {
+  count = var.environment == "prod" ? 1 : 0
   metadata {
     name = "read-only-access-binding"
   }
@@ -165,6 +166,7 @@ resource "kubernetes_cluster_role_binding" "read_only_access" {
 }
 
 resource "kubernetes_cluster_role" "read_only_access" {
+  count = var.environment == "prod" ? 1 : 0
   metadata {
     name = "read-only-access-clusterrole"
   }
