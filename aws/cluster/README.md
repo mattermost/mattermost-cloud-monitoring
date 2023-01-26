@@ -19,7 +19,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_managed_node_group"></a> [managed\_node\_group](#module\_managed\_node\_group) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups | v1.5.53 |
+| <a name="module_managed_node_group"></a> [managed\_node\_group](#module\_managed\_node\_group) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups | v1.5.61 |
 
 ## Resources
 
@@ -75,6 +75,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_argocd_account_role"></a> [argocd\_account\_role](#input\_argocd\_account\_role) | n/a | `string` | n/a | yes |
+| <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | List of availability zones to place the instances | `list(string)` | n/a | yes |
 | <a name="input_aws_read_only_sso_role_name"></a> [aws\_read\_only\_sso\_role\_name](#input\_aws\_read\_only\_sso\_role\_name) | Name of the read only SSO iam role | `string` | `""` | no |
 | <a name="input_aws_reserved_sso_id"></a> [aws\_reserved\_sso\_id](#input\_aws\_reserved\_sso\_id) | n/a | `string` | n/a | yes |
 | <a name="input_cidr_blocks"></a> [cidr\_blocks](#input\_cidr\_blocks) | n/a | `list(string)` | n/a | yes |
@@ -95,6 +96,7 @@
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | n/a | `string` | n/a | yes |
 | <a name="input_kube_proxy_addon_version"></a> [kube\_proxy\_addon\_version](#input\_kube\_proxy\_addon\_version) | The version of the EKS Kube Proxy addon | `string` | n/a | yes |
 | <a name="input_log_types"></a> [log\_types](#input\_log\_types) | n/a | `list(string)` | n/a | yes |
+| <a name="input_map_subnets"></a> [map\_subnets](#input\_map\_subnets) | Map of availability zones and their subnets | `map(any)` | n/a | yes |
 | <a name="input_matterwick_cluster_access_enabled"></a> [matterwick\_cluster\_access\_enabled](#input\_matterwick\_cluster\_access\_enabled) | n/a | `bool` | n/a | yes |
 | <a name="input_matterwick_iam_user"></a> [matterwick\_iam\_user](#input\_matterwick\_iam\_user) | n/a | `string` | n/a | yes |
 | <a name="input_matterwick_username"></a> [matterwick\_username](#input\_matterwick\_username) | n/a | `string` | n/a | yes |
