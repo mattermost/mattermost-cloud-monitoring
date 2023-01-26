@@ -191,19 +191,19 @@ resource "kubernetes_cluster_role" "read_only_access" {
 
   rule {
     api_groups = ["rbac.authorization.k8s.io"]
-    resources = ["clusterrolebindings", "clusterroles", "rolebindings", "roles"]
-    verbs = ["get", "list"]
+    resources  = ["clusterrolebindings", "clusterroles", "rolebindings", "roles"]
+    verbs      = ["get", "list"]
   }
 
   rule {
     api_groups = ["networking.k8s.io"]
-    resources = ["ingresses", "ingressclasses", "networkpolicies"]
-    verbs = ["get", "list"]
+    resources  = ["ingresses", "ingressclasses", "networkpolicies"]
+    verbs      = ["get", "list"]
   }
 
   rule {
     api_groups = ["storage.k8s.io"]
-    resources = ["storageclasses"]
-    verbs = ["get", "list"]
+    resources  = ["storageclasses"]
+    verbs      = ["get", "list"]
   }
 }
