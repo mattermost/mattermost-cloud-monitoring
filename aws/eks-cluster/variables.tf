@@ -132,3 +132,13 @@ variable "spot_min_size" {
   default     = 0
   type        = number
 }
+
+variable "availability_zones" {
+  description = "List of availability zones to place the instances"
+  type        = list(string)
+}
+
+variable "map_subnets" {
+  description = "Map of availability zones and their subnets"
+  type        = map(any)
+}
