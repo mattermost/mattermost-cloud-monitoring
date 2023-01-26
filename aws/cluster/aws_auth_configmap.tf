@@ -73,7 +73,7 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     name      = "aws-auth"
     namespace = "kube-system"
   }
-  data = var.environment == "prod" ? merge(local.data, { mapRoles = format("%s\n%s", join(",", values(local.data)), local.read_only_sso_role) }) : local.data
+  data = var.environment == "prod" ? merge(local.data, { mapRoles = format("%s%s", join("", values(tomap({ mapRoles = lookup(local.data, "mapRoles", "default") }))), local.read_only_sso_role) }) : local.data
 }
 
 
