@@ -173,7 +173,7 @@ resource "kubernetes_cluster_role" "read_only_access" {
 
   rule {
     api_groups = [""]
-    resources  = ["nodes", "namespaces", "pods"]
+    resources  = ["*"]
     verbs      = ["get", "list"]
   }
 
@@ -185,13 +185,25 @@ resource "kubernetes_cluster_role" "read_only_access" {
 
   rule {
     api_groups = ["batch"]
-    resources  = ["jobs"]
+    resources  = ["jobs", "cronjobs"]
     verbs      = ["get", "list"]
   }
 
   rule {
     api_groups = ["rbac.authorization.k8s.io"]
     resources = ["clusterrolebindings", "clusterroles", "rolebindings", "roles"]
+    verbs = ["get", "list"]
+  }
+
+  rule {
+    api_groups = ["networking.k8s.io"]
+    resources = ["ingresses", "ingressclasses", "networkpolicies"]
+    verbs = ["get", "list"]
+  }
+
+  rule {
+    api_groups = ["storage.k8s.io"]
+    resources = ["storageclasses"]
     verbs = ["get", "list"]
   }
 }
