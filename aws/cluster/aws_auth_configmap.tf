@@ -188,4 +188,10 @@ resource "kubernetes_cluster_role" "read_only_access" {
     resources  = ["jobs"]
     verbs      = ["get", "list"]
   }
+
+  rule {
+    api_groups = ["rbac.authorization.k8s.io"]
+    resources = ["clusterrolebindings", "clusterroles", "rolebindings", "roles"]
+    verbs = ["get", "list"]
+  }
 }
