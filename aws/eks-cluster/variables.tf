@@ -70,6 +70,10 @@ variable "aws_reserved_sso_id" {
   type = string
 }
 
+variable "argocd_account_role" {
+  type = string
+}
+
 variable "enable_vpc_cni_addon" {
   type        = bool
   description = "Whether to enable the EKS AWS CNI addon or not"
