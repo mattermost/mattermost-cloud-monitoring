@@ -1,5 +1,7 @@
 #############» ArgoCD Deployer IAM Role###################
 resource "aws_iam_role" "argocd-deployer" {
+  count = var.argocd_account_role == "" ? 0 : 1
+
   name = "ArgoCD-Deployer"
 
   assume_role_policy = <<POLICY
