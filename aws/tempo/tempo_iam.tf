@@ -4,7 +4,7 @@ resource "aws_iam_user" "tempo_user" {
 }
 
 resource "aws_iam_policy" "s3" {
-  name        = "mattermost-tempo-route53-policy${local.conditional_dash_region}"
+  name        = "mattermost-tempo-route53-policy"
   path        = "/"
   description = "Route53 permissions for tempo user"
 
