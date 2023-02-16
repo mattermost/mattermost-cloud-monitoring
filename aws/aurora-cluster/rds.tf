@@ -12,7 +12,7 @@ resource "random_password" "master_password" {
 }
 
 data "aws_iam_role" "enhanced_monitoring" {
-  name = "rds-enhanced-monitoring-mattermost-cloud-${var.environment}-provisioning"
+  name = substr("rds-enhanced-monitoring-mattermost-cloud-${var.environment}-provisioning", 0, 64)
 }
 
 resource "aws_rds_cluster" "provisioning_rds_cluster" {
