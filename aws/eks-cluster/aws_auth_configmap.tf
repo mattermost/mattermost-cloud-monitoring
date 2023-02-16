@@ -26,8 +26,8 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     - system:masters
   YAML
     mapUsers = <<YAML
-- userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/atlantis-${var.environment}"
-  username: "atlantis-${var.environment}"
+- userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.atlantis_user}"
+  username: "${var.atlantis_user}"
   groups:
     - system:masters
   YAML

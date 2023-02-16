@@ -183,3 +183,8 @@ variable "map_subnets" {
   description = "Map of availability zones and their subnets"
   type        = map(any)
 }
+
+variable "atlantis_user" {
+  description = "The atlantis user used for IaaC"
+  type        = string
+}
