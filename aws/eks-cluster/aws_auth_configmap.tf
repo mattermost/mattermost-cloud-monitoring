@@ -25,6 +25,12 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
   groups:
     - system:masters
   YAML
+    mapUsers = <<YAML
+- userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/atlantis-${var.environment}"
+  username: "atlantis-${var.environment}"
+  groups:
+    - system:masters
+  YAML
   }
   depends_on = [
     aws_eks_cluster.cluster
