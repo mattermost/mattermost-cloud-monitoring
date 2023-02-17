@@ -10,6 +10,6 @@ resource "kubernetes_storage_class_v1" "gp3" {
   volume_binding_mode    = "WaitForFirstConsumer"
   allow_volume_expansion = true
   parameters = {
-    type = "gp3"
+    type = var.storage_class_volume_type
   }
 }

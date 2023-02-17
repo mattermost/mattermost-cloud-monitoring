@@ -200,3 +200,9 @@ variable "is_gp3_default" {
   type        = string
   default     = "true"
 }
+
+variable "storage_class_volume_type" {
+  description = "Type of volume"
+  type        = string
+  default     = "gp3"
+}
