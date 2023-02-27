@@ -3,7 +3,7 @@ resource "aws_launch_template" "pritunl_lt" {
   name          = "${var.name}-lt-${count.index}"
   image_id      = data.aws_ami.ubuntu_image.id
   instance_type = var.instance_type_for_lt
-  user_data     = base64encode(data.template_file.pritunl_app.rendered)
+  user_data     = base64encode(templatefile("${path.module}/userdata.sh", { mongodb_uri = var.mongodb_uri }))
 
   block_device_mappings {
     device_name = "/dev/xvdb"
@@ -81,13 +81,5 @@ resource "aws_autoscaling_group" "pritunl_app" {
 
   lifecycle {
     create_before_destroy = true
-  }
-}
-
-data "template_file" "pritunl_app" {
-  template = file("${path.module}/userdata.sh")
-
-  vars = {
-    mongodb_uri = var.mongodb_uri
   }
 }

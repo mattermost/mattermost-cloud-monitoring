@@ -24,10 +24,20 @@ resource "aws_elasticsearch_domain" "es_domain" {
     }
   }
 
+  advanced_security_options {
+    enabled                        = true
+    internal_user_database_enabled = true
+    master_user_options {
+      master_user_name     = var.master_user_name
+      master_user_password = var.master_user_password
+    }
+  }
+
   domain_endpoint_options {
     custom_endpoint_enabled         = var.custom_endpoint_enabled
     custom_endpoint                 = "elasticsearch.internal.${var.environment}.cloud.mattermost.com"
     custom_endpoint_certificate_arn = data.aws_acm_certificate.internal_cert.arn
+    tls_security_policy             = var.tls_security_policy
   }
 
   vpc_options {
@@ -39,8 +49,6 @@ resource "aws_elasticsearch_domain" "es_domain" {
     "rest.action.multi.allow_explicit_index" = "true"
   }
 
-
-
   access_policies = <<CONFIG
   {
   "Version": "2012-10-17",
@@ -48,7 +56,7 @@ resource "aws_elasticsearch_domain" "es_domain" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "*"
+        "AWS": ${jsonencode(var.elasticsearch_access_policy_principal)}
       },
       "Action": "es:*",
       "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.domain_name}/*"

@@ -12,11 +12,6 @@ variable "deployment_name" {
   type        = string
 }
 
-variable "region" {
-  description = "The region which will be used in logs-to-opensearch lamda"
-  type        = string
-}
-
 variable "bucket" {
   description = "S3 bucket where the logs-to-opensearch lambda is stored"
   type        = string

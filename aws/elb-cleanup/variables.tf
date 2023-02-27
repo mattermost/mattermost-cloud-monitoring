@@ -26,6 +26,6 @@ variable "elb_cleanup_lambda_schedule" {
 
 variable "dryrun" {
   default     = "true"
-  description = "S3 bucket where the elb-cleanup lambda is stored"
+  description = "Defines if lambda runs on dryRunMode or if does actual changes"
   type        = string
 }

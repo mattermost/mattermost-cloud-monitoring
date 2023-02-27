@@ -94,7 +94,9 @@ resource "aws_iam_policy" "s3" {
             "Action": [
                 "s3:ListBucket",
                 "s3:GetBucketLocation",
-                "s3:GetBucketTagging"
+                "s3:GetBucketTagging",
+                "s3:GetBucketEncryption",
+                "s3:ListBucketVersions"
             ],
             "Resource": [
                 "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}",
@@ -107,8 +109,10 @@ resource "aws_iam_policy" "s3" {
                 "s3:PutObject",
                 "s3:PutObjectAcl",
                 "s3:GetObject",
+                "s3:GetObjectTagging",
                 "s3:GetObjectAcl",
                 "s3:DeleteObject",
+                "s3:DeleteObjectVersion",
                 "s3:GetObjectVersionAcl"
             ],
             "Resource": [
@@ -121,6 +125,9 @@ resource "aws_iam_policy" "s3" {
             "Action": [
                 "s3:ListBucket",
                 "s3:GetBucketLocation",
+                "s3:GetBucketEncryption",
+                "s3:ListBucketVersions",
+                "s3:GetBucketTagging",
                 "s3:CreateBucket",
                 "s3:PutEncryptionConfiguration",
                 "s3:PutBucketPublicAccessBlock",
@@ -128,9 +135,11 @@ resource "aws_iam_policy" "s3" {
                 "s3:PutObject",
                 "s3:PutObjectAcl",
                 "s3:GetObject",
+                "s3:GetObjectTagging",
                 "s3:GetObjectAcl",
                 "s3:DeleteObject",
                 "s3:DeleteBucket",
+                "s3:DeleteObjectVersion",
                 "s3:GetObjectVersionAcl"
             ],
             "Resource": "arn:aws:s3:::cloud-*"
@@ -228,6 +237,7 @@ resource "aws_iam_policy" "ec2" {
                 "ec2:DescribeInstanceStatus",
                 "ec2:DetachVolume",
                 "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:AuthorizeSecurityGroupIngress",
                 "ec2:ModifyVolume",
                 "ec2:TerminateInstances",
                 "ec2:DescribeTags",
@@ -250,6 +260,7 @@ resource "aws_iam_policy" "ec2" {
                 "ec2:DescribeSubnets",
                 "ec2:ImportKeyPair",
                 "ec2:DeleteKeyPair",
+                "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
                 "elasticloadbalancing:DescribeTags",
                 "elasticloadbalancing:CreateLoadBalancer",
                 "elasticloadbalancing:DescribeTargetGroups",
@@ -264,6 +275,7 @@ resource "aws_iam_policy" "ec2" {
                 "elasticloadbalancing:AttachLoadBalancerToSubnets",
                 "elasticloadbalancing:AddTags",
                 "elasticloadbalancing:DeleteTargetGroup",
+                "elasticloadbalancing:ModifyTargetGroup",
                 "autoscaling:CreateLaunchConfiguration",
                 "autoscaling:DescribeTags",
                 "autoscaling:DescribeLaunchConfigurations",
@@ -285,6 +297,7 @@ resource "aws_iam_policy" "ec2" {
                 "autoscaling:DescribeAutoscalingInstances",
                 "autoscaling:DescribeLifecycleHooks",
                 "autoscaling:CompleteLifecycleAction",
+                "autoscaling:SetInstanceProtection",
                 "acm:ListCertificates",
                 "acm:ListTagsForCertificate",
                 "sqs:ListQueues",
@@ -312,6 +325,7 @@ resource "aws_iam_policy" "vpc" {
             "Action": [
                 "ec2:DeleteTags",
                 "ec2:CreateTags",
+                "ec2:CreateSubnet",
                 "ec2:CreateSecurityGroup",
                 "ec2:DeleteSecurityGroup",
                 "ec2:Describe*",
@@ -493,58 +507,94 @@ resource "aws_iam_user_policy_attachment" "attach_tag" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.tag.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_route53" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.route53.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_rds" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.rds.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_s3" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.s3.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_secrets_manager" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.secrets_manager.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_ec2" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.ec2.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_vpc" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.vpc.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_iam" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.iam.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_kms" {
   for_each   = toset(var.provisioner_users)
   user       = each.value
   policy_arn = aws_iam_policy.kms.arn
+
+  depends_on = [
+    "aws_iam_user.provisioner_users"
+  ]
 }
 
 resource "aws_iam_user_policy_attachment" "attach_kms_awat" {
   for_each   = toset(var.awat_cross_account_enabled ? var.provisioner_users : [])
   user       = each.value
-  policy_arn = aws_iam_policy.kms_awat.0.arn
+  policy_arn = aws_iam_policy.kms_awat[0].arn
 }

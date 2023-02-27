@@ -34,6 +34,18 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group" {
     value        = 16000
   }
 
+  parameter {
+    apply_method = "immediate"
+    name         = "long_query_time"
+    value        = 5
+  }
+
+  parameter {
+    apply_method = "immediate"
+    name         = "slow_query_log"
+    value        = 1
+  }
+
   tags = merge(
     {
       "MattermostCloudInstallationDatabase" = "MYSQL/Aurora"

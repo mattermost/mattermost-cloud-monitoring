@@ -1,48 +1,78 @@
-variable "vpc_id" {}
+variable "vpc_id" {
+  type = string
+}
 
-variable "public_subnet_ids" {}
+variable "public_subnet_ids" {
+  type = list(string)
+}
 
-variable "private_subnet_ids" {}
+variable "private_subnet_ids" {
+  type = list(string)
+}
 
-variable "deployment_name" {}
+variable "deployment_name" {
+  type = string
+}
 
-variable "instance_type" {}
+variable "instance_type" {
+  type = string
+}
 
-variable "max_size" {}
+variable "max_size" {
+  type = string
+}
 
-variable "min_size" {}
+variable "min_size" {
+  type = string
+}
 
-variable "desired_size" {}
+variable "desired_size" {
+  type = string
+}
 
-variable "cidr_blocks" {}
+variable "cidr_blocks" {
+  type = list(string)
+}
 
-variable "kubeconfig_dir" {}
+variable "environment" {
+  type = string
+}
 
-variable "volume_size" {}
+variable "eks_ami_id" {
+  type = string
+}
 
-variable "environment" {}
+variable "teleport_cidr" {
+  type = list(string)
+}
 
-variable "region" {}
+variable "cluster_short_name" {
+  type = string
+}
 
-variable "eks_ami_id" {}
+variable "log_types" {
+  type = list(string)
+}
 
-variable "key_name" {}
+variable "node_volume_size" {
+  type = number
+}
 
-variable "teleport_cidr" {}
+variable "node_volume_type" {
+  type = string
+}
 
-variable "worker_private_subnet_ids" {}
+variable "node_group_name" {
+  type = string
+}
 
-variable "cluster_short_name" {}
+variable "aws_reserved_sso_id" {
+  type = string
+}
 
-variable "log_types" {}
-
-variable "node_volume_size" {}
-
-variable "node_volume_type" {}
-
-variable "node_group_name" {}
-
-variable "aws_reserved_sso_id" {}
+variable "argocd_account_role" {
+  type = string
+}
 
 variable "enable_vpc_cni_addon" {
   type        = bool
@@ -74,6 +104,16 @@ variable "kube_proxy_addon_version" {
   description = "The version of the EKS Kube Proxy addon"
 }
 
+variable "enable_ebs_csi_addon" {
+  type        = bool
+  description = "Whether to enable the EKS EBS CSI addon or not"
+}
+
+variable "ebs_csi_addon_version" {
+  type        = string
+  description = "The version of the EKS EBS CSI addon"
+}
+
 variable "spot_desired_size" {
   description = "The desired number of nodes in the spot node group"
   default     = 0
@@ -95,4 +135,19 @@ variable "spot_min_size" {
   description = "The minimum number of nodes in the spot node group"
   default     = 0
   type        = number
+}
+
+variable "availability_zones" {
+  description = "List of availability zones to place the instances"
+  type        = list(string)
+}
+
+variable "map_subnets" {
+  description = "Map of availability zones and their subnets"
+  type        = map(any)
+}
+
+variable "atlantis_user" {
+  description = "The atlantis user used for IaaC"
+  type        = string
 }

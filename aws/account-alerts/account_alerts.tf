@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 resource "aws_iam_role" "account_alerts_lambda_role" {
   name = "account_alerts_lambda_role"
 
@@ -54,7 +52,7 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRoleAccoun
 
 resource "aws_lambda_function" "account_alerts" {
   s3_bucket     = "releases.mattermost.com"
-  s3_key        = "mattermost-cloud/account-alerts/master/main.zip"
+  s3_key        = "mattermost-cloud/account-alerts/main/main.zip"
   function_name = "account-alerts"
   role          = aws_iam_role.account_alerts_lambda_role.arn
   handler       = "main"

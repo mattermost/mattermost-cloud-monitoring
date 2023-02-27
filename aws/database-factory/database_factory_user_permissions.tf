@@ -37,7 +37,8 @@ resource "aws_iam_policy" "rds_db_factory" {
                 "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:pg:rds-cluster-multitenant-*",
                 "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster-pg:mattermost-*",
                 "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:subgrp:mattermost-*",
-                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:db:rds-db-instance-multitenant-*"
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:db:rds-db-instance-multitenant-*",
+                "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster:cloud-"
             ]
         },
         {
@@ -51,7 +52,8 @@ resource "aws_iam_policy" "rds_db_factory" {
                 "rds:CreateDBInstance",
                 "rds:DeleteDBInstance",
                 "rds:DescribeDBInstances",
-                "rds:ListTagsForResource"
+                "rds:ListTagsForResource",
+                "rds:RestoreDBClusterFromSnapshot"
             ],
             "Resource": "*"
         }
@@ -322,6 +324,28 @@ resource "aws_iam_policy" "lambda_and_logs_db_factory" {
 EOF
 }
 
+resource "aws_iam_policy" "devops_guru_db_factory" {
+  name        = "mattermost-database-factory-devops-guru-policy"
+  path        = "/"
+  description = "Devops Guru permissions for database factory user"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "DevOpsGuru0",
+            "Effect": "Allow",
+            "Action": [
+                "devops-guru:UpdateResourceCollection"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
 resource "aws_iam_user_policy_attachment" "attach_sns_db_factory" {
   for_each = toset(var.database_factory_users)
   user     = each.value
@@ -376,6 +400,12 @@ resource "aws_iam_user_policy_attachment" "attach_lambda_and_logs_db_factory" {
   for_each   = toset(var.database_factory_users)
   user       = each.value
   policy_arn = aws_iam_policy.lambda_and_logs_db_factory.arn
+}
+
+resource "aws_iam_user_policy_attachment" "attach_devops_guru_db_factory" {
+  for_each   = toset(var.database_factory_users)
+  user       = each.value
+  policy_arn = aws_iam_policy.devops_guru_db_factory.arn
 }
 
 resource "aws_iam_role" "db-factory-role" {
@@ -440,4 +470,9 @@ resource "aws_iam_role_policy_attachment" "db-factory-role-attach_autoscaling" {
 resource "aws_iam_role_policy_attachment" "db-factory-role-attach-lambda-and-logs" {
   role       = aws_iam_role.db-factory-role.name
   policy_arn = aws_iam_policy.lambda_and_logs_db_factory.arn
+}
+
+resource "aws_iam_role_policy_attachment" "db-factory-role-attach_devops-guru" {
+  role       = aws_iam_role.db-factory-role.name
+  policy_arn = aws_iam_policy.devops_guru_db_factory.arn
 }

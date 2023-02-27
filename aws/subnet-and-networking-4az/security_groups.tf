@@ -1,9 +1,3 @@
-locals {
-  dev            = var.environment == "dev" ? true : ""
-  test           = var.environment == "test" ? true : ""
-  prod           = var.environment != "dev" && var.environment != "test" ? false : ""
-  is_dev_or_test = coalesce(local.dev, local.test, local.prod)
-}
 resource "aws_security_group" "master_sg" {
   for_each = toset(var.vpc_cidrs)
 
@@ -31,6 +25,22 @@ resource "aws_security_group" "worker_sg" {
     {
       "Name"     = format("%s-%s-worker-sg", var.name, join("", split(".", split("/", each.value)[0]))),
       "NodeType" = "worker"
+    },
+    var.tags
+  )
+}
+
+resource "aws_security_group" "calls_sg" {
+  for_each = toset(var.vpc_cidrs)
+
+  name        = format("%s-%s-calls-sg", var.name, join("", split(".", split("/", each.value)[0])))
+  description = "Calls Nodes Security Group"
+  vpc_id      = data.aws_vpc.vpc_ids[each.value]["id"]
+
+  tags = merge(
+    {
+      "Name"     = format("%s-%s-calls-sg", var.name, join("", split(".", split("/", each.value)[0]))),
+      "NodeType" = "calls"
     },
     var.tags
   )
@@ -151,6 +161,42 @@ resource "aws_security_group_rule" "worker_ingress_teleport" {
   security_group_id = aws_security_group.worker_sg[each.value]["id"]
 }
 
+# Calls Rules
+resource "aws_security_group_rule" "calls_egress" {
+  for_each = toset(var.vpc_cidrs)
+
+  cidr_blocks       = ["0.0.0.0/0"]
+  description       = "Outbound Traffic"
+  from_port         = 0
+  protocol          = "-1"
+  security_group_id = aws_security_group.calls_sg[each.value]["id"]
+  to_port           = 0
+  type              = "egress"
+}
+
+resource "aws_security_group_rule" "calls_ingress_rtcd" {
+  for_each = toset(var.vpc_cidrs)
+
+  cidr_blocks       = ["0.0.0.0/0"]
+  description       = "UDP RTCD Port"
+  from_port         = 8443
+  protocol          = "udp"
+  security_group_id = aws_security_group.calls_sg[each.value]["id"]
+  to_port           = 8443
+  type              = "ingress"
+}
+
+resource "aws_security_group_rule" "calls_ingress_teleport" {
+  for_each = toset(var.vpc_cidrs)
+
+  type              = "ingress"
+  from_port         = 3022
+  to_port           = 3022
+  protocol          = "tcp"
+  cidr_blocks       = var.teleport_cidr
+  security_group_id = aws_security_group.calls_sg[each.value]["id"]
+}
+
 # DB Rules
 resource "aws_security_group_rule" "db_ingress_worker" {
   for_each = toset(var.vpc_cidrs)
@@ -202,7 +248,7 @@ resource "aws_security_group_rule" "db_ingress_worker_command_control_postgresql
 }
 
 resource "aws_security_group_rule" "developers_vpn_access_postgresql" {
-  for_each = local.is_dev_or_test ? toset(var.vpc_cidrs) : []
+  for_each = toset(var.vpc_cidrs)
 
   cidr_blocks       = var.vpn_cidrs
   description       = "Ingress Traffic from VPN cidrs"

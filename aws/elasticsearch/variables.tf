@@ -1,38 +1,76 @@
-variable "environment" {}
+variable "environment" {
+  type = string
+}
 
-variable "vpn_cidr" {}
+variable "vpn_cidr" {
+  type = list(string)
+}
 
-variable "vpc_id" {}
+variable "vpc_id" {
+  type = string
+}
 
-variable "private_subnet_ids" {}
+variable "private_subnet_ids" {
+  type = list(string)
+}
 
-variable "es_instance_type" {}
+variable "es_instance_type" {
+  type = string
+}
 
-variable "es_volume_size" {}
+variable "es_volume_size" {
+  type = string
+}
 
-variable "instance_count" {}
+variable "instance_count" {
+  type = number
+}
 
-variable "dedicated_master_enabled" {}
+variable "dedicated_master_enabled" {
+  type = bool
+}
 
-variable "dedicated_master_count" {}
+variable "dedicated_master_count" {
+  type = number
+}
 
-variable "dedicated_master_type" {}
+variable "dedicated_master_type" {
+  type = string
+}
 
-variable "es_zone_awareness" {}
+variable "es_zone_awareness" {
+  type = bool
+}
 
-variable "es_zone_awareness_count" {}
+variable "es_zone_awareness_count" {
+  type = number
+}
 
-variable "domain_name" {}
+variable "domain_name" {
+  type = string
+}
 
-variable "es_version" {}
+variable "es_version" {
+  type = string
+}
 
-variable "mattermost_network" {}
+variable "mattermost_network" {
+  type = list(string)
+}
 
-variable "private_hosted_zoneid" {}
+variable "private_hosted_zoneid" {
+  type = string
+}
 
 variable "custom_endpoint_enabled" {
   type    = bool
   default = true
+}
+
+
+variable "tls_security_policy" {
+  type    = string
+  default = "Policy-Min-TLS-1-0-2019-07"
 }
 
 variable "cw_retention_in_days" {
@@ -146,4 +184,20 @@ variable "master_jvm_memory_pressure_threshold" {
   description = "The maximum percentage of the Java heap used for master nodes in the cluster"
   type        = number
   default     = 80
+}
+
+variable "elasticsearch_access_policy_principal" {
+  description = "Which AWS resources should have access to the Elasticsearch cluster"
+  type        = list(string)
+  default     = ["*"]
+}
+
+variable "master_user_name" {
+  description = "The master user name for the Elasticsearch cluster"
+  type        = string
+}
+
+variable "master_user_password" {
+  description = "The master password for the Elasticsearch cluster"
+  type        = string
 }

@@ -50,6 +50,7 @@ variable "cidr_blocks" {
 }
 
 variable "ssh_key_public" {
+  type        = string
   description = "The contect of the SSH public key"
 }
 

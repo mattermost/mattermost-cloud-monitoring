@@ -7,24 +7,33 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
   }
   data = {
     mapRoles = <<YAML
-  - rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role"
-    username: system:node:{{EC2PrivateDNSName}}
-    groups:
-      - system:bootstrappers
-      - system:nodes
-  - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSReservedSSO_AWSAdministratorAccess_${var.aws_reserved_sso_id}
-    username: system:masters
-    groups:
-      - eks-console-dashboard-full-access-group
-  - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Cloud${title(var.environment)}Admin
-    username: system:masters
-    groups:
-      - eks-console-dashboard-full-access-group
+- rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role"
+  username: system:node:{{EC2PrivateDNSName}}
+  groups:
+    - system:bootstrappers
+    - system:nodes
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSReservedSSO_AWSAdministratorAccess_${var.aws_reserved_sso_id}
+  username: system:masters
+  groups:
+    - eks-console-dashboard-full-access-group
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Cloud${title(var.environment)}Admin
+  username: system:masters
+  groups:
+    - eks-console-dashboard-full-access-group
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ArgoCD-Deployer
+  username: argocd-deployer
+  groups:
+    - system:masters
+  YAML
+    mapUsers = <<YAML
+- userarn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.atlantis_user}"
+  username: "${var.atlantis_user}"
+  groups:
+    - system:masters
   YAML
   }
   depends_on = [
-    aws_eks_cluster.cluster,
-    null_resource.cluster_services
+    aws_eks_cluster.cluster
   ]
 }
 

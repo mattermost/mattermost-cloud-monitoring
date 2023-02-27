@@ -1,9 +1,15 @@
 terraform {
+  required_version = ">= 1.1.8"
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
       version = "~> 3.0"
     }
+    aws = {
+      source  = "hashicorp/aws",
+      version = ">= 3.55"
+    }
+    kubernetes = "~> 2.4.1"
   }
 }
 
@@ -17,6 +23,6 @@ data "aws_eks_cluster" "cluster" {
 
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
   token                  = data.aws_eks_cluster_auth.cluster_auth.token
 }

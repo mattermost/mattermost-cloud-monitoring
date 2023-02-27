@@ -1,7 +1,5 @@
 data "aws_region" "current" {}
 
-data "aws_caller_identity" "current" {}
-
 locals {
   conditional_dash_region       = data.aws_region.current.name == "us-east-1" ? "" : "-${data.aws_region.current.name}"
   region_splitted               = split("-", data.aws_region.current.name)
@@ -49,11 +47,63 @@ resource "aws_iam_policy" "node_policy" {
         },
         {
             "Action": [
-                "autoscaling:DescribeAutoScalingInstances"
+                "autoscaling:DescribeAutoScalingInstances",
+                "elasticloadbalancing:ModifyTargetGroup",
+                "ec2:AuthorizeSecurityGroupIngress"
             ],
             "Effect": "Allow",
             "Resource": [
                 "*"
+            ]
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "velero_node_policy" {
+  count       = var.deploy_node_policy ? 1 : 0
+  name        = "cloud-provisioning-node-policy-velero${local.conditional_dash_region}"
+  path        = "/"
+  description = "Provisioning custom node policy"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeVolumes",
+                "ec2:DescribeSnapshots",
+                "ec2:CreateTags",
+                "ec2:CreateVolume",
+                "ec2:CreateSnapshot",
+                "ec2:DeleteSnapshot"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:DeleteObject",
+                "s3:PutObject",
+                "s3:AbortMultipartUpload",
+                "s3:ListBucket",
+                "s3:ListMultipartUploadParts"
+            ],
+            "Resource": [
+                "arn:aws:s3:::cloud-velero-${var.environment}/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::cloud-velero-${var.environment}"
             ]
         }
     ]

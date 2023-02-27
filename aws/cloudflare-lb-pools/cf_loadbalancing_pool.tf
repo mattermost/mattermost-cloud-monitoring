@@ -38,3 +38,13 @@ resource "cloudflare_load_balancer_pool" "lb-pool" {
     weight  = var.region_2_weight
   }
 }
+
+resource "cloudflare_load_balancer" "load_balancer" {
+  zone_id          = var.zone_id
+  name             = var.lb_name
+  fallback_pool_id = cloudflare_load_balancer_pool.lb-pool.id
+  default_pool_ids = [cloudflare_load_balancer_pool.lb-pool.id]
+  description      = var.description
+  proxied          = var.proxied
+  steering_policy  = var.steering_policy
+}

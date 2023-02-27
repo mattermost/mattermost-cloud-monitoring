@@ -1,4 +1,3 @@
-data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 data "terraform_remote_state" "cnc_cluster" {
@@ -13,8 +12,4 @@ data "terraform_remote_state" "cnc_cluster" {
 locals {
   conditional_dash_region = data.aws_region.current.name == "us-east-1" ? "" : "-${data.aws_region.current.name}"
   timestamp_now           = formatdate("YYYY-MM-DD-hh-mm", timestamp())
-}
-
-locals {
-  db_identifier_read_replica = "${var.awat_db_identifier}-read"
 }

@@ -1,25 +1,51 @@
-variable "name" {}
+variable "name" {
+  type = string
+}
 
-variable "domain" {}
+variable "domain" {
+  type = string
+}
 
-variable "tags" {}
+variable "tags" {
+  type = map(string)
+}
 
-variable "mongodb_uri" {}
+variable "mongodb_uri" {
+  type = string
+}
 
-variable "instance_type_for_lt" {}
+variable "instance_type_for_lt" {
+  type = string
+}
 
-variable "public_hosted_zoneid" {}
+variable "public_hosted_zoneid" {
+  type = string
+}
 
-variable "ubuntu_account_number" {}
+variable "ubuntu_account_number" {
+  type = string
+}
 
-variable "vpc_id" {}
+variable "vpc_id" {
+  type = string
+}
 
-variable "public_subnet_ids" {}
+variable "public_subnet_ids" {
+  type = list(string)
+}
 
-variable "pritunl_app_count" {}
+variable "pritunl_app_count" {
+  type = string
+}
 
-variable "volume_size" {}
+variable "volume_size" {
+  type = string
+}
 
-variable "fixed_eni" {}
+variable "fixed_eni" {
+  type = list(any)
+}
 
-variable "az_list" {}
+variable "az_list" {
+  type = list(any)
+}

@@ -1,9 +1,4 @@
 ################» EKS Master Cluster########################
-
-provider "aws" {
-  alias = "deployment"
-}
-
 resource "aws_eks_cluster" "cluster" {
   name     = var.deployment_name
   role_arn = aws_iam_role.cluster-role.arn

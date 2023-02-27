@@ -1,37 +1,129 @@
-variable "environment" {}
+variable "environment" {
+  type = string
+}
 
-variable "region" {}
+variable "vpc_id" {
+  type = string
+}
 
-variable "vpc_id" {}
+variable "private_subnets" {
+  type = list(string)
+}
 
-variable "private_subnets" {}
+variable "cws_db_username" {
+  type = string
+}
 
-variable "cws_db_identifier" {}
+variable "cws_db_password" {
+  type = string
+}
 
-variable "cws_allocated_db_storage" {}
+variable "cws_db_backup_retention_period" {
+  type = number
+}
 
-variable "cws_db_engine_version" {}
+variable "cws_db_backup_window" {
+  type = string
+}
 
-variable "cws_db_instance_class" {}
+variable "cws_db_maintenance_window" {
+  type = string
+}
 
-variable "cws_db_master_az" {}
+variable "cloud_vpn_cidr" {
+  type = list(string)
+}
 
-variable "cws_db_read_replica_az" {}
+variable "cws_db_deletion_protection" {
+  type    = bool
+  default = true
+}
 
-variable "cws_db_name" {}
+variable "cws_db_cluster_engine" {
+  type    = string
+  default = "aurora-postgresql"
+}
 
-variable "cws_db_username" {}
+variable "cws_db_cluster_engine_mode" {
+  type    = string
+  default = "provisioned"
+}
 
-variable "cws_db_password" {}
+variable "cws_db_cluster_engine_version" {
+  type    = string
+  default = "13.8"
+}
 
-variable "cws_db_backup_retention_period" {}
+variable "cws_db_cluster_identifier" {
+  type = string
+}
 
-variable "cws_db_backup_window" {}
+variable "cws_db_cluster_instance_identifier" {
+  type = string
+}
 
-variable "cws_db_maintenance_window" {}
+variable "cws_replica_min" {
+  type = number
+}
 
-variable "cws_storage_encrypted" {}
+variable "cws_copy_tags_to_snapshot" {
+  type    = bool
+  default = true
+}
 
-variable "cloud_vpn_cidr" {}
+variable "cws_enabled_cloudwatch_logs_exports" {
+  type    = list(string)
+  default = ["postgresql"]
+}
 
-variable "enable_cws_read_replica" {}
+variable "cws_monitoring_interval" {
+  type = number
+}
+
+variable "cws_service_name" {
+  type    = string
+  default = "cws"
+}
+
+variable "cws_kms_key" {
+  type = string
+}
+
+variable "cws_aurora_family" {
+  type    = string
+  default = "aurora-postgresql13"
+}
+
+variable "cws_min_capacity" {
+  type    = number
+  default = 0.5
+}
+
+variable "cws_max_capacity" {
+  type    = number
+  default = 4
+}
+
+variable "cws_db_cluster_instance_type" {
+  type    = string
+  default = "db.serverless"
+}
+
+variable "cws_cluster_storage_encrypted" {
+  type    = bool
+  default = true
+}
+
+variable "cws_apply_immediately" {
+  type    = bool
+  default = false
+}
+
+variable "cws_performance_insights_enabled" {
+  type = bool
+}
+
+variable "cws_performance_insights_retention_period" {
+  type    = number
+  default = 7
+}

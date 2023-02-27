@@ -3,7 +3,7 @@ locals {
   worker-userdata = <<USERDATA
 #!/bin/bash
 set -o xtrace
-/etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.cluster.endpoint}' --b64-cluster-ca '${aws_eks_cluster.cluster.certificate_authority.0.data}' '${var.deployment_name}' --kubelet-extra-args "--kube-reserved cpu=250m,memory=1Gi,ephemeral-storage=1Gi --system-reserved cpu=250m,memory=0.2Gi,ephemeral-storage=1Gi --eviction-hard memory.available<0.2Gi,nodefs.available<10%"
+/etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.cluster.endpoint}' --b64-cluster-ca '${aws_eks_cluster.cluster.certificate_authority[0].data}' '${var.deployment_name}' --kubelet-extra-args "--kube-reserved cpu=250m,memory=1Gi,ephemeral-storage=1Gi --system-reserved cpu=250m,memory=0.2Gi,ephemeral-storage=1Gi --eviction-hard memory.available<0.2Gi,nodefs.available<10%"
 USERDATA
 }
 
@@ -27,7 +27,7 @@ CONFIGMAPAWSAUTH
 }
 
 module "managed_node_group" {
-  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.3.2"
+  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.5.61"
   vpc_security_group_ids = [aws_security_group.worker-sg.id]
   volume_size            = var.node_volume_size
   volume_type            = var.node_volume_type
@@ -48,4 +48,6 @@ module "managed_node_group" {
   spot_max_size          = var.spot_max_size
   spot_min_size          = var.spot_min_size
   spot_instance_type     = var.spot_instance_type
+  availability_zones     = var.availability_zones
+  subnets                = var.map_subnets
 }

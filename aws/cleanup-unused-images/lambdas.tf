@@ -1,7 +1,7 @@
 # Lambda function for cleaning up old and unused images.
 resource "aws_lambda_function" "deckhand" {
   s3_bucket     = var.bucket
-  s3_key        = "mattermost-cloud/deckhand/master/main.zip"
+  s3_key        = "mattermost-cloud/deckhand/main/main.zip"
   function_name = "deckhand"
   description   = "Lambda"
   role          = aws_iam_role.cleanup_old_images_lambda.arn
