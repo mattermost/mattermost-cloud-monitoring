@@ -191,5 +191,5 @@ variable "atlantis_user" {
 
 variable "eks_node_group_subnets" {
   description = "The Subnets used for the EKS node group"
-  type    = list(string)
+  type        = list(string)
 }
