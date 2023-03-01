@@ -188,8 +188,3 @@ variable "atlantis_user" {
   description = "The atlantis user used for IaaC"
   type        = string
 }
-
-variable "eks_node_group_subnets" {
-  description = "The Subnets used for the EKS node group"
-  type        = list(string)
-}
