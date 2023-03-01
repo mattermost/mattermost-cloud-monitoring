@@ -37,7 +37,7 @@ module "managed_node_group" {
   user_data              = base64encode(local.worker-userdata)
   cluster_name           = aws_eks_cluster.cluster.name
   node_role_arn          = aws_iam_role.worker-role.arn
-  subnet_ids             = flatten(var.private_subnet_ids)
+  subnet_ids             = flatten(var.eks_node_group_subnets)
   deployment_name        = var.deployment_name
   desired_size           = var.desired_size
   max_size               = var.max_size
