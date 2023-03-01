@@ -49,5 +49,5 @@ module "managed_node_group" {
   spot_min_size          = var.spot_min_size
   spot_instance_type     = var.spot_instance_type
   availability_zones     = var.availability_zones
-  subnets                = var.map_subnets
+  subnets                = var.eks_node_group_subnets
 }
