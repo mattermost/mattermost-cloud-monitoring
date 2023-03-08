@@ -18,6 +18,93 @@ resource "aws_iam_role" "worker-role" {
 POLICY
 }
 
+resource "aws_iam_policy" "worker_policy" {
+  name        = "cloud-${var.cluster_short_name}-worker-policy"
+  path        = "/"
+  description = "Policy for cnc worker permissions."
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowS3",
+            "Effect": "Allow",
+            "Action": [
+              "s3:ListBucket",
+              "s3:PutObject",
+              "s3:GetObject",
+              "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::cloud-loki-${var.environment}/*",
+                "arn:aws:s3:::cloud-loki-${var.environment}"
+            ]
+        },
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "ce:*",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeLaunchConfigurations",
+                "autoscaling:DescribeTags",
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:TerminateInstanceInAutoScalingGroup",
+                "ec2:DescribeLaunchTemplateVersions"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Sid": "AllS3Bucket",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:ListBucketVersions",
+                "s3:CreateBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::cloud-${var.environment}-${var.cluster_short_name}",
+                "arn:aws:s3:::cloud-${var.environment}-prometheus-metrics"
+
+            ]
+        },
+        {
+            "Sid": "AllS3Object",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::cloud-${var.environment}-${var.cluster_short_name}/*",
+                "arn:aws:s3:::cloud-${var.environment}-prometheus-metrics/*"
+            ]
+        },
+        {
+            "Sid": "Route53Access",
+            "Effect": "Allow",
+            "Action": "route53:ListResourceRecordSets",
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+
+}
+
+resource "aws_iam_role_policy_attachment" "worker_policy" {
+  policy_arn = aws_iam_policy.worker_policy.arn
+  role       = aws_iam_role.worker-role.name
+}
+
 resource "aws_iam_role_policy_attachment" "worker-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.worker-role.name
