@@ -41,3 +41,9 @@ variable "command_and_control_private_subnet_cidrs" {
 variable "vpn_cidrs" {
   type = list(string)
 }
+
+variable "gitlab_cidr" {
+  type        = list(any)
+  description = "The gitlab CIDR"
+  default     = ["10.243.0.0/19"]
+}

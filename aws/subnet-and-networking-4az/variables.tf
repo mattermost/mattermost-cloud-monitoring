@@ -45,3 +45,8 @@ variable "vpn_cidrs" {
 variable "deploy_cluster_parameter_group" {
   type = bool
 }
+
+variable "gitlab_cidr" {
+  type        = list(any)
+  description = "The gitlab CIDR"
+}

@@ -258,3 +258,15 @@ resource "aws_security_group_rule" "developers_vpn_access_postgresql" {
   to_port           = 5432
   type              = "ingress"
 }
+
+resource "aws_security_group_rule" "gitlab_access_postgresql" {
+  for_each = toset(var.vpc_cidrs)
+
+  cidr_blocks       = var.gitlab_cidr
+  description       = "Ingress Traffic from VPN cidrs"
+  from_port         = 5432
+  protocol          = "TCP"
+  security_group_id = aws_security_group.db_sg_postgresql[each.value]["id"]
+  to_port           = 5432
+  type              = "ingress"
+}
