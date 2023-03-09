@@ -65,11 +65,11 @@ resource "aws_security_group" "calls_offloader" {
 }
 
 resource "aws_instance" "call_offloader" {
-  ami                         = var.ami_id
-  instance_type               = var.instance_type
-  subnet_id                   = var.subnet_id
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  subnet_id     = var.subnet_id
 
-  vpc_security_group_ids      = [aws_security_group.calls_offloader.id]
+  vpc_security_group_ids = [aws_security_group.calls_offloader.id]
 
   tags = {
     Name    = "Call Offloader"
