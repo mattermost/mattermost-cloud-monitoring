@@ -1,3 +1,8 @@
+variable "environment" {
+  type        = string
+  description = "The name of the environment which will deploy to and will be added as a tag"
+}
+
 variable "instance_type" {
   description = "Instance type for the call offloader"
   type        = string
