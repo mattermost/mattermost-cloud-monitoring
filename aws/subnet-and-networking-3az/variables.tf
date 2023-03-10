@@ -45,5 +45,4 @@ variable "vpn_cidrs" {
 variable "gitlab_cidr" {
   type        = list(any)
   description = "The gitlab CIDR"
-  default     = ["10.243.0.0/19"]
 }
