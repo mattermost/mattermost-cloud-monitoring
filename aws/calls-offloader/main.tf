@@ -8,6 +8,16 @@ terraform {
   }
 }
 
+resource "aws_key_pair" "calls_offloader" {
+  key_name   = "calls_offloader-${var.environment}"
+  public_key = var.public_key
+
+  tags = {
+    Name    = "Call Offloader ${var.environment} Key"
+    Created = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+  }
+}
+
 resource "aws_security_group" "calls_offloader" {
   name                   = "calls_offloader_sg"
   description            = "Allow worker nodes access to Calls Offloader Service"
@@ -68,8 +78,13 @@ resource "aws_instance" "call_offloader" {
   ami           = var.ami_id
   instance_type = var.instance_type
   subnet_id     = var.subnet_id
+  key_name      = aws_key_pair.calls_offloader.key_name
 
   vpc_security_group_ids = [aws_security_group.calls_offloader.id]
+
+  root_block_device {
+    volume_size = 100
+  }
 
   tags = {
     Name    = "Call Offloader"

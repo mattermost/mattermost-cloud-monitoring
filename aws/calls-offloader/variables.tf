@@ -33,3 +33,8 @@ variable "vpc_worker_sg_id" {
   description = "Security Group ID for the worker nodes in the VPC"
   type        = list(string)
 }
+
+variable "public_key" {
+  description = "Public key to use for the call offloader"
+  type        = string
+}
