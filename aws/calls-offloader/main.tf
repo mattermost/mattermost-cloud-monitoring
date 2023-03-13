@@ -74,20 +74,55 @@ resource "aws_security_group" "calls_offloader" {
   }
 }
 
-resource "aws_instance" "call_offloader" {
-  ami           = var.ami_id
-  instance_type = var.instance_type
-  subnet_id     = var.subnet_id
-  key_name      = aws_key_pair.calls_offloader.key_name
-
-  vpc_security_group_ids = [aws_security_group.calls_offloader.id]
+resource "aws_launch_configuration" "calls_offloader" {
+  image_id                    = var.ami_id
+  instance_type               = var.instance_type
+  name_prefix                 = "calls-offloader-"
+  security_groups             = [aws_security_group.calls_offloader.id]
+  associate_public_ip_address = false
+  key_name                    = aws_key_pair.calls_offloader.key_name
 
   root_block_device {
     volume_size = 100
   }
 
-  tags = {
-    Name    = "Call Offloader"
-    Created = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_autoscaling_group" "calls_offloader" {
+  desired_capacity     = var.min_size
+  launch_configuration = aws_launch_configuration.calls_offloader.id
+  max_size             = var.max_size
+  min_size             = var.min_size
+  name                 = "calls-offloader-asg"
+  vpc_zone_identifier  = [var.subnet_id]
+  termination_policies = ["OldestInstance"]
+
+  target_group_arns = [
+    aws_lb_target_group.calls_offloader.arn
+  ]
+
+  tags = [
+    {
+      "key"                 = "Name"
+      "value"               = "Call Offloader ASG"
+      "propagate_at_launch" = true
+    },
+    {
+      "key"                 = "Purpose"
+      "value"               = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+      "propagate_at_launch" = true
+    },
+    {
+      "key"                 = "Environment"
+      "value"               = var.environment
+      "propagate_at_launch" = true
+    }
+  ]
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
