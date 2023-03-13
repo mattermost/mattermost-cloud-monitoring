@@ -6,7 +6,7 @@ variable "environment" {
 variable "instance_type" {
   description = "Instance type for the call offloader"
   type        = string
-  default     = "c5.2xlarge"
+  default     = "c5.xlarge"
 }
 
 variable "ami_id" {
@@ -41,5 +41,22 @@ variable "vpc_worker_sg_id" {
 
 variable "public_key" {
   description = "Public key to use for the call offloader"
+  type        = string
+}
+
+variable "min_size" {
+  description = "Minimum number of instances to run"
+  type        = number
+  default     = 1
+}
+
+variable "max_size" {
+  description = "Minimum number of instances to run"
+  type        = number
+  default     = 2
+}
+
+variable "private_hosted_zoneid" {
+  description = "Private Hosted Zone ID for the VPC"
   type        = string
 }
