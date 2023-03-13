@@ -106,18 +106,18 @@ resource "aws_autoscaling_group" "calls_offloader" {
 
   tags = [
     {
-      "key" = "Name"
-      "value" = "Call Offloader ASG"
+      "key"                 = "Name"
+      "value"               = "Call Offloader ASG"
       "propagate_at_launch" = true
     },
     {
-      "key" = "Purpose"
-      "value" = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+      "key"                 = "Purpose"
+      "value"               = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
       "propagate_at_launch" = true
     },
     {
-      "key" = "Environment"
-      "value" = var.environment
+      "key"                 = "Environment"
+      "value"               = var.environment
       "propagate_at_launch" = true
     }
   ]
