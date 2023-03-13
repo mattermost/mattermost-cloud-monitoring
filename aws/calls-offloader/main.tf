@@ -100,6 +100,10 @@ resource "aws_autoscaling_group" "calls_offloader" {
   vpc_zone_identifier  = [var.subnet_id]
   termination_policies = ["OldestInstance"]
 
+  target_group_arns = [
+    aws_lb_target_group.calls_offloader.arn
+  ]
+
   tags = [
     {
       "key" = "Name"

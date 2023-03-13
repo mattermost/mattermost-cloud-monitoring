@@ -62,8 +62,3 @@ resource "aws_lb_listener" "calls_offloader" {
     Environment = var.environment
   }
 }
-
-resource "aws_autoscaling_attachment" "asg_attachment_bar" {
-  autoscaling_group_name = aws_autoscaling_group.calls_offloader.id
-  lb_target_group_arn    = aws_lb_target_group.calls_offloader.arn
-}
