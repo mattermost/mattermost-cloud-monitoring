@@ -65,9 +65,10 @@ resource "aws_lambda_function" "ebs_janitor" {
 
   environment {
     variables = {
-      MIN_SUBNET_FREE_IPs    = var.min_subnet_free_ips,
-      MATTERMOST_ALERTS_HOOK = var.mattermost_alerts_hook,
-      dryrun                 = var.dryrun,
+      MIN_SUBNET_FREE_IPs     = var.min_subnet_free_ips,
+      MATTERMOST_ALERTS_HOOK  = var.mattermost_alerts_hook,
+      JANITOR_DEBUG           = var.dryrun,
+      JANITOR_EXPIRATION_DAYS = var.expiration_days
     }
   }
 }

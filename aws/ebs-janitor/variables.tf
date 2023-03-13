@@ -33,3 +33,10 @@ variable "dryrun" {
   description = "Defines if lambda runs on dryRunMode or if does actual changes"
   type        = string
 }
+
+variable "expiration_days" {
+  default     = 90
+  description = "Defines after how many days EBS volumes can be deleted"
+  type        = number
+}
+
