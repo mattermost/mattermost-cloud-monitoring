@@ -100,10 +100,23 @@ resource "aws_autoscaling_group" "calls_offloader" {
   vpc_zone_identifier  = [var.subnet_id]
   termination_policies = ["OldestInstance"]
 
-  tags = {
-    Name        = "Call Offloader ASG"
-    Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
-  }
+  tags = [
+    {
+      "key" = "Name"
+      "value" = "Call Offloader ASG"
+      "propagate_at_launch" = true
+    },
+    {
+      "key" = "Purpose"
+      "value" = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+      "propagate_at_launch" = true
+    },
+    {
+      "key" = "Environment"
+      "value" = var.environment
+      "propagate_at_launch" = true
+    }
+  ]
 
   lifecycle {
     create_before_destroy = true

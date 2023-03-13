@@ -20,6 +20,7 @@ resource "aws_lb" "calls_offloader" {
   tags = {
     Name        = "Call Offloader LB"
     Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+    Environment = var.environment
   }
 }
 
@@ -40,6 +41,7 @@ resource "aws_lb_target_group" "calls_offloader" {
   tags = {
     Name        = "Call Offloader TG"
     Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+    Environment = var.environment
   }
 }
 
@@ -57,6 +59,7 @@ resource "aws_lb_listener" "calls_offloader" {
   tags = {
     Name        = "Call Offloader Listener"
     Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+    Environment = var.environment
   }
 }
 
