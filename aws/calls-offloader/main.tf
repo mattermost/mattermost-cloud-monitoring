@@ -101,7 +101,7 @@ resource "aws_autoscaling_group" "calls_offloader" {
   termination_policies = ["OldestInstance"]
 
   tags = {
-    Name        = "Call Offloader SG"
+    Name        = "Call Offloader ASG"
     Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
     Environment = var.environment
   }

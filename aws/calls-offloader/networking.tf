@@ -18,7 +18,7 @@ resource "aws_lb" "calls_offloader" {
   subnets            = [var.subnet_id]
 
   tags = {
-    Name        = "Call Offloader SG"
+    Name        = "Call Offloader LB"
     Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
     Environment = var.environment
   }
@@ -39,7 +39,7 @@ resource "aws_lb_target_group" "calls_offloader" {
   }
 
   tags = {
-    Name        = "Call Offloader SG"
+    Name        = "Call Offloader TG"
     Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
     Environment = var.environment
   }
@@ -54,6 +54,12 @@ resource "aws_lb_listener" "calls_offloader" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.calls_offloader.arn
+  }
+
+    tags = {
+    Name        = "Call Offloader Listener"
+    Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+    Environment = var.environment
   }
 }
 
