@@ -45,3 +45,13 @@ variable "vpn_cidrs" {
 variable "deploy_cluster_parameter_group" {
   type = bool
 }
+
+variable "multi_route_table_deployment" {
+  type        = bool
+  description = "This will defined whether a dedicated route table per subnet will be created"
+}
+
+variable "single_route_table_deployment" {
+  type        = bool
+  description = "This will defined whether a single route table for all subnets will be created"
+}
