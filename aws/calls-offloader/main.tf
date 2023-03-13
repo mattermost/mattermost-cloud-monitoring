@@ -103,7 +103,6 @@ resource "aws_autoscaling_group" "calls_offloader" {
   tags = {
     Name        = "Call Offloader ASG"
     Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
-    Environment = var.environment
   }
 
   lifecycle {

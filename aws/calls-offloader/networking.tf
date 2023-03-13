@@ -12,7 +12,7 @@ resource "aws_route53_record" "calls_offloader" {
 
 
 resource "aws_lb" "calls_offloader" {
-  name               = "${var.name}-nlb"
+  name               = "calls-offloader-nlb"
   internal           = true
   load_balancer_type = "network"
   subnets            = [var.subnet_id]
@@ -20,13 +20,12 @@ resource "aws_lb" "calls_offloader" {
   tags = {
     Name        = "Call Offloader LB"
     Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
-    Environment = var.environment
   }
 }
 
 # webui 443
 resource "aws_lb_target_group" "calls_offloader" {
-  name     = "calls_offloader"
+  name     = "calls-offloader"
   port     = 4545
   protocol = "TCP"
   vpc_id   = var.vpc_id
@@ -41,7 +40,6 @@ resource "aws_lb_target_group" "calls_offloader" {
   tags = {
     Name        = "Call Offloader TG"
     Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
-    Environment = var.environment
   }
 }
 
@@ -56,10 +54,9 @@ resource "aws_lb_listener" "calls_offloader" {
     target_group_arn = aws_lb_target_group.calls_offloader.arn
   }
 
-    tags = {
+  tags = {
     Name        = "Call Offloader Listener"
     Created     = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
-    Environment = var.environment
   }
 }
 
