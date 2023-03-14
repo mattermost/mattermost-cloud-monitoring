@@ -13,8 +13,7 @@ resource "aws_key_pair" "calls_offloader" {
   public_key = var.public_key
 
   tags = {
-    Name    = "Call Offloader ${var.environment} Key"
-    Created = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+    Name = "Call Offloader ${var.environment} Key"
   }
 }
 
@@ -71,8 +70,7 @@ resource "aws_security_group" "calls_offloader" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name    = "Call Offloader SG"
-    Created = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+    Name = "Call Offloader SG"
   }
 
   lifecycle {
@@ -116,11 +114,6 @@ resource "aws_autoscaling_group" "calls_offloader" {
     {
       "key"                 = "Name"
       "value"               = "Call Offloader ASG"
-      "propagate_at_launch" = true
-    },
-    {
-      "key"                 = "Purpose"
-      "value"               = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
       "propagate_at_launch" = true
     },
     {
