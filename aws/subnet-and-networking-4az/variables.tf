@@ -46,6 +46,11 @@ variable "deploy_cluster_parameter_group" {
   type = bool
 }
 
+variable "gitlab_cidr" {
+  type        = list(any)
+  description = "The gitlab CIDR"
+}
+
 variable "multi_route_table_deployment" {
   type        = bool
   description = "This will defined whether a dedicated route table per subnet will be created"
