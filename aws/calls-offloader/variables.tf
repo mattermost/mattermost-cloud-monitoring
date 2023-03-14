@@ -34,6 +34,11 @@ variable "cloud_vpn_cidr" {
   type        = list(string)
 }
 
+variable "vpc_cidr_block" {
+  description = "The VPC CIDR for calls offloader access and load balancer access"
+  type        = list(string)
+}
+
 variable "vpc_worker_sg_id" {
   description = "Security Group ID for the worker nodes in the VPC"
   type        = list(string)

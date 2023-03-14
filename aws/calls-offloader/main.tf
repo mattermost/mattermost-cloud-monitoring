@@ -33,6 +33,14 @@ resource "aws_security_group" "calls_offloader" {
   }
 
   ingress {
+    from_port   = 4545
+    to_port     = 4545
+    protocol    = "tcp"
+    cidr_blocks = var.vpc_cidr_block
+    description = "VPC internal ingress - Load Balancer"
+  }
+
+  ingress {
     from_port       = 4545
     to_port         = 4545
     protocol        = "tcp"
