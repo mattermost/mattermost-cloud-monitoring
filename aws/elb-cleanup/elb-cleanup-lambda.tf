@@ -13,7 +13,8 @@ resource "aws_lambda_function" "elb_cleanup" {
 
   environment {
     variables = {
-      dryrun = var.dryrun,
+      dryrun            = var.dryrun,
+      ELB_CLEANUP_DEBUG = var.dryrun
     }
   }
 }
