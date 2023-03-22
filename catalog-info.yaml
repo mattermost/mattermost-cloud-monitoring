@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: Cloud- IaC modules
+  annotations:
+    github.com/project-slug: mattermost/mattermost-cloud-monitoring
+    backstage.io/adr-location: docs/adrs
+spec:
+  type: "infrastructure"
+  owner: "cloud-sre"
+  system: "cloud-infrastructure"
