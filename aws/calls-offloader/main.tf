@@ -80,7 +80,7 @@ resource "aws_security_group" "calls_offloader" {
   }
 }
 
-resource "aws_launch_configuration" "calls_offloader" {
+resource "aws_launch_template" "calls_offloader" {
   image_id                    = var.ami_id
   instance_type               = var.instance_type
   name_prefix                 = "calls-offloader-"
@@ -88,8 +88,12 @@ resource "aws_launch_configuration" "calls_offloader" {
   associate_public_ip_address = false
   key_name                    = aws_key_pair.calls_offloader.key_name
 
-  root_block_device {
-    volume_size = 100
+  block_device_mappings {
+    device_name = "/dev/sda1"
+
+    ebs {
+      volume_size = 100
+    }
   }
 
   lifecycle {
@@ -99,12 +103,16 @@ resource "aws_launch_configuration" "calls_offloader" {
 
 resource "aws_autoscaling_group" "calls_offloader" {
   desired_capacity     = var.min_size
-  launch_configuration = aws_launch_configuration.calls_offloader.id
   max_size             = var.max_size
   min_size             = var.min_size
   name                 = "calls-offloader-asg"
   vpc_zone_identifier  = [var.subnet_id]
   termination_policies = ["OldestInstance"]
+
+  launch_template {
+    id      = aws_launch_template.calls_offloader.id
+    version = aws_launch_template.calls_offloader.latest_version
+  }
 
   target_group_arns = [
     aws_lb_target_group.calls_offloader.arn
@@ -113,7 +121,7 @@ resource "aws_autoscaling_group" "calls_offloader" {
   tags = [
     {
       "key"                 = "Name"
-      "value"               = "Call Offloader ASG"
+      "value"               = "Call Offloader"
       "propagate_at_launch" = true
     },
     {
