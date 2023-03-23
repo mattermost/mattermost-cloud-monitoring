@@ -1,5 +1,5 @@
 resource "aws_launch_template" "cluster_spot_nodes_eks_launch_template" {
-  for_each    = toset(var.availability_zones)
+  for_each    = var.enable_spot_nodes ? [] : toset(var.availability_zones)
   name        = "${var.cluster_short_name}_${each.value}_spot_cluster_launch_template"
   description = "${var.cluster_short_name} spot cluster nodes launch template"
 
@@ -35,8 +35,9 @@ resource "aws_launch_template" "cluster_spot_nodes_eks_launch_template" {
 }
 
 resource "aws_eks_node_group" "spot_nodes_eks_cluster_ng" {
+  for_each        = var.enable_spot_nodes ? [] : toset(var.availability_zones)
+
   cluster_name    = var.cluster_name
-  for_each        = toset(var.availability_zones)
   node_group_name = "${var.node_group_name}-spot-nodes-${each.value}"
 
   node_role_arn = var.node_role_arn
