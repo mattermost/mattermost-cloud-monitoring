@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Resource
 metadata:
-  name: Terraform IaC modules
+  name: terraform-iac-modules
   annotations:
     github.com/project-slug: mattermost/mattermost-cloud-monitoring
     backstage.io/adr-location: docs/adrs
