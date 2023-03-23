@@ -81,10 +81,10 @@ resource "aws_security_group" "calls_offloader" {
 }
 
 resource "aws_launch_template" "calls_offloader" {
-  image_id                    = var.ami_id
-  instance_type               = var.instance_type
-  name_prefix                 = "calls-offloader-"
-  key_name                    = aws_key_pair.calls_offloader.key_name
+  image_id      = var.ami_id
+  instance_type = var.instance_type
+  name_prefix   = "calls-offloader-"
+  key_name      = aws_key_pair.calls_offloader.key_name
 
   network_interfaces {
     security_groups             = [aws_security_group.calls_offloader.id]
