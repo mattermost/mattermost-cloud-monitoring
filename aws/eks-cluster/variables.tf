@@ -114,6 +114,12 @@ variable "ebs_csi_addon_version" {
   description = "The version of the EKS EBS CSI addon"
 }
 
+variable "enable_spot_nodes" {
+  description = "If true, spot nodes will be created"
+  default     = false
+  type        = bool
+}
+
 variable "spot_desired_size" {
   description = "The desired number of nodes in the spot node group"
   default     = 0
