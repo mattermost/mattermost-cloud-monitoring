@@ -110,7 +110,7 @@ resource "aws_autoscaling_group" "calls_offloader" {
   max_size             = var.max_size
   min_size             = var.min_size
   name                 = "calls-offloader-asg"
-  vpc_zone_identifier  = [var.subnet_id]
+  vpc_zone_identifier  = var.subnet_ids
   termination_policies = ["OldestInstance"]
 
   launch_template {

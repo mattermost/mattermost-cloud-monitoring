@@ -19,9 +19,9 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "subnet_id" {
-  description = "Subnet ID to use for the call offloader"
-  type        = string
+variable "subnet_ids" {
+  description = "List Subnet ID to use for the call offloader ASG"
+  type        = list(string)
 }
 
 variable "teleport_cidr" {

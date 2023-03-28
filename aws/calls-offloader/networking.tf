@@ -15,7 +15,7 @@ resource "aws_lb" "calls_offloader" {
   name               = "calls-offloader-nlb"
   internal           = true
   load_balancer_type = "network"
-  subnets            = [var.subnet_id]
+  subnets            = var.subnet_ids
 
   tags = {
     Name        = "Call Offloader LB"
