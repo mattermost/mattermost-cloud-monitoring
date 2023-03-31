@@ -87,7 +87,7 @@ module "aurora-cluster" {
   performance_insights_retention_period = var.cws_performance_insights_retention_period
   service_name                          = var.cws_service_name
   kms_key                               = var.cws_kms_key
-  vpc_security_group_ids                = [aws_security_group.cws_postgres_sg.id]
+  vpc_security_group_ids                = [aws_security_group.cws_postgres_sg.id, var.connect_rds_ec2_security_group]
   aurora_family                         = var.cws_aurora_family
   db_subnet_group_name                  = aws_db_subnet_group.cws_subnets_db.name
   min_capacity                          = var.cws_min_capacity
