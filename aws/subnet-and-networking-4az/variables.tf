@@ -53,10 +53,10 @@ variable "gitlab_cidr" {
 
 variable "multi_route_table_deployment" {
   type        = bool
-  description = "This will defined whether a dedicated route table per subnet will be created"
+  description = "This will defined whether a dedicated route table per subnet will be created. multi_route_table_deployment and single_route_table_deployment cannot be both set to true"
 }
 
 variable "single_route_table_deployment" {
   type        = bool
-  description = "This will defined whether a single route table for all subnets will be created"
+  description = "This will defined whether a single route table for all subnets will be created. multi_route_table_deployment and single_route_table_deployment cannot be both set to true"
 }
