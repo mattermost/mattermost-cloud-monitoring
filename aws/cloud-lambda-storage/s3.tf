@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "lambdas_bucket" {
 resource "aws_s3_bucket_acl" "lambdas_bucket" {
   bucket = aws_s3_bucket.lambdas_bucket.id
 
-  acl    = "private"
+  acl = "private"
 }
 
 resource "aws_s3_bucket_versioning" "lambdas_bucket" {
