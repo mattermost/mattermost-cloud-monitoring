@@ -1,6 +1,6 @@
 
 module "billing" {
-  source         = "github.com/mattermost/mattermost-terraform-modules.git//aws/billing?ref=v1.0.0"
+  source         = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/billing?ref=v1.6.0"
   environment    = "dev"
   amount         = "1500"
   currency       = "USD"

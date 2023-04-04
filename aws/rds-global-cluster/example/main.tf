@@ -1,5 +1,5 @@
 module "global-db-cluster-test" {
-  source                         = "git::https://github.com/mattermost/mattermost-cloud-monitoring.git//aws/rds-global-cluster?ref=v1.4.2"
+  source                         = "git::https://github.com/mattermost/mattermost-cloud-monitoring.git//aws/rds-global-cluster?ref=v1.6.0"
   source_region                  = "us-east-1" # use your desired source region
   target_region                  = "us-west-2" # use your desired target region
   global_cluster_identifier      = "global-test"

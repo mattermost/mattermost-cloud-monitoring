@@ -1,5 +1,5 @@
 module "chartmuseum" {
-  source                             = "github.com/mattermost/mattermost-terraform-modules.git//aws/chartmuseum?ref=v1.0.0"
+  source                             = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/chartmuseum?ref=v1.6.0"
   deployment_name                    = var.deployment_name
   kubeconfig_dir                     = var.kubeconfig_dir
   chartmuseum_chart_values_directory = var.chartmuseum_chart_values_directory
