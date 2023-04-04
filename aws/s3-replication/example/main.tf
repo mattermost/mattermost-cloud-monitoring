@@ -1,5 +1,5 @@
 module "s3-enable-replication" {
-  source                 = "git::https://github.com/mattermost/mattermost-cloud-monitoring.git//aws/s3-replication?ref=1.6.0"
+  source                 = "git::https://github.com/mattermost/mattermost-cloud-monitoring.git//aws/s3-replication?ref=v1.6.0"
   deployment_name        = var.deployment_name
   vpc_id                 = var.vpc_id
   source_bucket          = var.source_bucket

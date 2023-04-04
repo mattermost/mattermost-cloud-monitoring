@@ -1,5 +1,5 @@
 module "atlantis" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/atlantis?ref=1.6.0"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/atlantis?ref=v1.6.0"
   deployment_name                       = var.deployment_name
   atlantis_deployment_name              = var.atlantis_deployment_name
   region                                = var.region
