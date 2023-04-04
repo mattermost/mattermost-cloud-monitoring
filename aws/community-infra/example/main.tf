@@ -1,5 +1,5 @@
 module "community-dr-infra" {
-  source                              = "git::https://github.com/mattermost/mattermost-cloud-monitoring.git//aws/community-infra?ref=v1.0.0"
+  source                              = "git::https://github.com/mattermost/mattermost-cloud-monitoring.git//aws/community-infra?ref=1.6.0"
   environment                         = "Testing"
   vpc_id                              = var.vpc_id
   deployment_name                     = var.deployment_name

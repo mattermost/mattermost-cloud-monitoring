@@ -1,5 +1,5 @@
 module "aws-certs" {
-  source                    = "github.com/mattermost/mattermost-terraform-modules.git//aws/aws-certs?ref=v1.0.0"
+  source                    = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aws-certs?ref=1.6.0"
   pub_domain                = "mattermost.com"
   priv_domain               = "internal.mattermost.com"
   alternative_cert_domains  = ["*.prometheus.internal.mattermost.com", "*.thanos.internal.mattermost.com", ]

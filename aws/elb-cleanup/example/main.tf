@@ -1,5 +1,5 @@
 module "elb-cleanup" {
-  source                      = "github.com/mattermost/mattermost-terraform-modules.git//aws/elb-cleanup?ref=v1.0.0"
+  source                      = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/elb-cleanup?ref=1.6.0"
   private_subnet_ids          = var.private_subnet_ids
   vpc_id                      = var.vpc_id
   deployment_name             = var.deployment_name

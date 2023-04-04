@@ -1,5 +1,5 @@
 module "community-on-demand" {
-  source          = "git::https://github.com/mattermost/mattermost-cloud-monitoring.git//aws/community-on-demand?ref=v1.18.1"
+  source          = "git::https://github.com/mattermost/mattermost-cloud-monitoring.git//aws/community-on-demand?ref=1.6.0"
   environment     = var.environment
   vpc_id          = var.vpc_id
   deployment_name = var.deployment_name

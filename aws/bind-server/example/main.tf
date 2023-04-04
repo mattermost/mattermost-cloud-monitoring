@@ -1,5 +1,5 @@
 module "bind-server" {
-  source         = "github.com/mattermost/mattermost-terraform-modules.git//aws/bind-server?ref=v1.0.0"
+  source         = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/bind-server?ref=1.6.0"
   name           = "dns"
   ami            = var.bind_server_ami
   environment    = var.environment
