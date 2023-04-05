@@ -131,3 +131,8 @@ variable "cws_performance_insights_retention_period" {
 variable "connect_rds_ec2_security_group" {
   type = string
 }
+
+variable "enable_cws_read_replica" {
+  type    = bool
+  default = true
+}

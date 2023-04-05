@@ -49,10 +49,11 @@ resource "aws_db_subnet_group" "grafana_subnets_db" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.6.0"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.6.2"
   cluster_identifier                    = var.grafana_db_cluster_identifier
   cluster_instance_identifier           = var.grafana_db_cluster_instance_identifier
   replica_min                           = var.grafana_replica_min
+  enable_rds_reader                     = var.enable_grafana_read_replica
   vpc_id                                = var.vpc_id
   environment                           = var.environment
   engine                                = var.grafana_db_cluster_engine

@@ -188,3 +188,8 @@ variable "log_min_duration_statement" {
   type    = number
   default = 2000
 }
+
+variable "enable_rds_reader" {
+  type    = bool
+  default = true
+}

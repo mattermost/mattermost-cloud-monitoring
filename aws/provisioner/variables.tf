@@ -146,3 +146,8 @@ variable "provisioner_performance_insights_retention_period" {
   type    = number
   default = 7
 }
+
+variable "enable_provisioner_read_replica" {
+  type    = bool
+  default = true
+}

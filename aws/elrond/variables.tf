@@ -144,3 +144,8 @@ variable "elrond_performance_insights_retention_period" {
   type    = number
   default = 7
 }
+
+variable "enable_elrond_read_replica" {
+  type    = bool
+  default = true
+}
