@@ -1,6 +1,3 @@
-data "aws_caller_identity" "current" {}
-
-
 resource "aws_iam_role" "velero-role" {
   name               = "k8s-${var.environment}-velero"
   assume_role_policy = <<EOF
