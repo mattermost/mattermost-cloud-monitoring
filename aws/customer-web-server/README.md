@@ -4,20 +4,20 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.8 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.12 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.61.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.12 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.61.0 |
 | <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.5.47 |
+| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.6.2 |
 
 ## Resources
 
@@ -59,6 +59,7 @@
 | <a name="input_cws_performance_insights_retention_period"></a> [cws\_performance\_insights\_retention\_period](#input\_cws\_performance\_insights\_retention\_period) | n/a | `number` | `7` | no |
 | <a name="input_cws_replica_min"></a> [cws\_replica\_min](#input\_cws\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_cws_service_name"></a> [cws\_service\_name](#input\_cws\_service\_name) | n/a | `string` | `"cws"` | no |
+| <a name="input_enable_cws_read_replica"></a> [enable\_cws\_read\_replica](#input\_enable\_cws\_read\_replica) | n/a | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | n/a | `list(string)` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |

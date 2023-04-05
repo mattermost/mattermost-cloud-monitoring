@@ -89,7 +89,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance" {
 }
 
 resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_reader" {
-  count                                 = var.replica_min
+  count                                 = var.enable_rds_reader ? var.replica_min : 0
   identifier                            = local.cluster_instance_identifier_reader
   cluster_identifier                    = aws_rds_cluster.provisioning_rds_cluster.id
   engine                                = var.engine

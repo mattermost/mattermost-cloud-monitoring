@@ -136,3 +136,7 @@ variable "awat_cluster_storage_encrypted" {
   default = true
 }
 
+variable "enable_awat_read_replica" {
+  type    = bool
+  default = true
+}
