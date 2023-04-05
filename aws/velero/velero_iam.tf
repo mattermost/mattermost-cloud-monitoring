@@ -1,6 +1,3 @@
-data "aws_caller_identity" "current" {}
-
-
 resource "aws_iam_role" "velero-role" {
   name               = "k8s-${var.environment}-velero"
   assume_role_policy = <<EOF
@@ -11,9 +8,14 @@ resource "aws_iam_role" "velero-role" {
       "Sid": "",
       "Effect": "Allow",
       "Principal": {
-         "AWS": [ "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role" ]
+        "Federated": "${var.open_oidc_provider_arn}"
       },
-      "Action": "sts:AssumeRole"
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "${var.open_oidc_provider_url}:sub": "system:serviceaccount:${var.namespace}:${var.serviceaccount}"
+        }
+      }
     }
   ]
 }
