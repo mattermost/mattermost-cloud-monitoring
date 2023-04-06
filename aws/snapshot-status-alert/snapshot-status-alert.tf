@@ -5,11 +5,11 @@ resource "aws_cloudwatch_event_rule" "snapshot_status_alert" {
   description = "Capture snapshot status errors and alert"
 
   event_pattern = jsonencode({
-    "source": ["aws.ec2"],
-    "detail-type": ["EBS Snapshot Notification"],
-    "detail": {
-      "event": ["createSnapshot"],
-      "result": ["failed"]
+    "source" : ["aws.ec2"],
+    "detail-type" : ["EBS Snapshot Notification"],
+    "detail" : {
+      "event" : ["createSnapshot"],
+      "result" : ["failed"]
     }
   })
 }
