@@ -13,11 +13,6 @@ variable "deployment_name" {
   type        = string
 }
 
-variable "bucket" {
-  description = "S3 bucket where the elb-cleanup lambda is stored"
-  type        = string
-}
-
 variable "elb_cleanup_lambda_schedule" {
   default     = "rate(7 days)"
   description = "A rate expression and then runs on its defined schedule."
@@ -28,4 +23,14 @@ variable "dryrun" {
   default     = "true"
   description = "Defines if lambda runs on dryRunMode or if does actual changes"
   type        = string
+}
+
+variable "lambda_s3_bucket" {
+  type        = string
+  description = "The S3 bucket where the lambda function is stored"
+}
+
+variable "lambda_s3_key" {
+  type        = string
+  description = "The S3 key where the lambda function is stored"
 }

@@ -12,11 +12,6 @@ variable "deployment_name" {
   type        = string
 }
 
-variable "bucket" {
-  description = "S3 bucket where the logs-to-opensearch lambda is stored"
-  type        = string
-}
-
 variable "es_endpoint" {
   description = "The endpoint of AWS Opensearch service"
   type        = string
@@ -38,4 +33,14 @@ variable "alarm_threshold" {
   default     = 1
   description = "The value against which the specified statistic is compared"
   type        = number
+}
+
+variable "lambda_s3_bucket" {
+  type        = string
+  description = "The S3 bucket where the lambda function is stored"
+}
+
+variable "lambda_s3_key" {
+  type        = string
+  description = "The S3 key where the lambda function is stored"
 }

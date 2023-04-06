@@ -27,3 +27,13 @@ variable "mattermost_alerts_hook" {
   type        = string
   description = "The URL webhook to send the alert which will be used in the lambda function as environment variable"
 }
+
+variable "lambda_s3_bucket" {
+  type        = string
+  description = "The S3 bucket where the lambda function is stored"
+}
+
+variable "lambda_s3_key" {
+  type        = string
+  description = "The S3 key where the lambda function is stored"
+}

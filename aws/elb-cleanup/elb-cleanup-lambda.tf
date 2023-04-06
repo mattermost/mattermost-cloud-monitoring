@@ -1,6 +1,6 @@
 resource "aws_lambda_function" "elb_cleanup" {
-  s3_bucket     = var.bucket
-  s3_key        = "mattermost-cloud/elb-cleanup/main/main.zip"
+  s3_bucket     = var.lambda_s3_bucket
+  s3_key        = var.lambda_s3_key
   function_name = "elb-cleanup"
   role          = aws_iam_role.elb_cleanup_lambda_role.arn
   handler       = "main"

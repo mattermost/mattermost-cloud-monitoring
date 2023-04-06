@@ -26,8 +26,8 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole_alert" {
 
 
 resource "aws_lambda_function" "rds_cluster_events" {
-  s3_bucket     = "releases.mattermost.com"
-  s3_key        = "mattermost-cloud/rds-cluster-events/main/main.zip"
+  s3_bucket     = var.lambda_s3_bucket
+  s3_key        = var.lambda_s3_key
   function_name = "rds-cluster-events"
   role          = aws_iam_role.lambda_role_rds_cluster_events.arn
   handler       = "main"

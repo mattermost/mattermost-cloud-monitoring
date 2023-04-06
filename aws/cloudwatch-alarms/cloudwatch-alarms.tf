@@ -47,8 +47,8 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole_alert" {
 }
 
 resource "aws_lambda_function" "alert_elb_cloudwatch_alarm" {
-  s3_bucket     = "releases.mattermost.com"
-  s3_key        = "mattermost-cloud/alert-elb-cloudwatch-alarm/master/main.zip"
+  s3_bucket     = var.lambda_s3_bucket
+  s3_key        = var.lambda_alert_elb_s3_key
   function_name = "receive-elb-cloudwatch-alarm"
   role          = aws_iam_role.lambda_role_receive_elb_cloudwatch_alarm.arn
   handler       = "main"
@@ -145,8 +145,8 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole_create" {
 }
 
 resource "aws_lambda_function" "create_elb_cloudwatch_alarm" {
-  s3_bucket     = "releases.mattermost.com"
-  s3_key        = "mattermost-cloud/create-elb-cloudwatch-alarm/master/main.zip"
+  s3_bucket     = var.lambda_s3_bucket
+  s3_key        = var.lambda_create_elb_s3_key
   function_name = "create-elb-cloudwatch-alarm"
   role          = aws_iam_role.lambda_role_create_elb_cloudwatch_alarm.arn
   handler       = "main"
@@ -273,8 +273,8 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole_rds_creat
 }
 
 resource "aws_lambda_function" "create_rds_cloudwatch_alarm" {
-  s3_bucket     = "releases.mattermost.com"
-  s3_key        = "mattermost-cloud/create-rds-cloudwatch-alarm/master/main.zip"
+  s3_bucket     = var.lambda_s3_bucket
+  s3_key        = var.lambda_create_rds_s3_key
   function_name = "create-rds-cloudwatch-alarm"
   role          = aws_iam_role.lambda_role_create_rds_cloudwatch_alarm.arn
   handler       = "main"

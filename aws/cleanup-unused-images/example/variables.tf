@@ -23,8 +23,13 @@ variable "account_id" {
   description = "The AWS account ID which will be used in lambda to cleanup unused images"
 }
 
-variable "bucket" {
+
+variable "lambda_s3_bucket" {
   type        = string
-  description = "The S3 bucket where the binary is located"
+  description = "The S3 bucket where the lambda function is stored"
 }
 
+variable "lambda_s3_key" {
+  type        = string
+  description = "The S3 key where the lambda function is stored"
+}
