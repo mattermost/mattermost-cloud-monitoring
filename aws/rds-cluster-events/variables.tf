@@ -17,3 +17,13 @@ variable "environment" {
   type        = string
   description = "The name of the environment"
 }
+
+variable "lambda_s3_bucket" {
+  type        = string
+  description = "The S3 bucket where the lambda function is stored"
+}
+
+variable "lambda_s3_key" {
+  type        = string
+  description = "The S3 key where the lambda function is stored"
+}

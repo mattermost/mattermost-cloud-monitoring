@@ -1,7 +1,7 @@
 # Lambda function for shipping cloudwatch logs to Opensearch
 resource "aws_lambda_function" "logs_to_opensearch" {
-  s3_bucket     = var.bucket
-  s3_key        = "mattermost-cloud/logs-to-opensearch/main/logs-to-opensearch.zip"
+  s3_bucket     = var.lambda_s3_bucket
+  s3_key        = var.lambda_s3_key
   function_name = "logs-to-opensearch"
   description   = "Lambda"
   role          = aws_iam_role.logs_to_opensearch.arn

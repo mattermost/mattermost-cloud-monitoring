@@ -51,8 +51,8 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRoleEBSJan
 }
 
 resource "aws_lambda_function" "ebs_janitor" {
-  s3_bucket     = "releases.mattermost.com"
-  s3_key        = "mattermost-cloud/ebs-janitor/main/main.zip"
+  s3_bucket     = var.lambda_s3_bucket
+  s3_key        = var.lambda_s3_key
   function_name = "ebs-janitor"
   role          = aws_iam_role.ebs_janitor_lambda_role.arn
   handler       = "main"

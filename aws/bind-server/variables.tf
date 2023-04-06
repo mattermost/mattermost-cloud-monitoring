@@ -71,3 +71,13 @@ variable "hosts_list" {
   description = "The list of bind servers hosts"
   default     = []
 }
+
+variable "lambda_s3_bucket" {
+  type        = string
+  description = "The S3 bucket where the lambda function is stored"
+}
+
+variable "lambda_s3_key" {
+  type        = string
+  description = "The S3 key where the lambda function is stored"
+}

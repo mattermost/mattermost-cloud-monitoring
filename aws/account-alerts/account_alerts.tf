@@ -51,8 +51,8 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRoleAccoun
 }
 
 resource "aws_lambda_function" "account_alerts" {
-  s3_bucket     = "releases.mattermost.com"
-  s3_key        = "mattermost-cloud/account-alerts/main/main.zip"
+  s3_bucket     = var.lambda_s3_bucket
+  s3_key        = var.lambda_s3_key
   function_name = "account-alerts"
   role          = aws_iam_role.account_alerts_lambda_role.arn
   handler       = "main"

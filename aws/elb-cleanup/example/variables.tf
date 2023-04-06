@@ -13,9 +13,14 @@ variable "deployment_name" {
   type        = string
 }
 
-variable "bucket" {
-  description = "S3 bucket where the elb-cleanup lambda is stored"
+variable "lambda_s3_bucket" {
   type        = string
+  description = "The S3 bucket where the lambda function is stored"
+}
+
+variable "lambda_s3_key" {
+  type        = string
+  description = "The S3 key where the lambda function is stored"
 }
 
 variable "elb_cleanup_lambda_schedule" {

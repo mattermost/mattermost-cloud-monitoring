@@ -115,8 +115,8 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaVPCAccessExecutionRoleGrafan
 }
 
 resource "aws_lambda_function" "grafana_aws_metrics" {
-  s3_bucket     = "releases.mattermost.com"
-  s3_key        = "mattermost-cloud/grafana-aws-metrics/main/main.zip"
+  s3_bucket     = var.lambda_s3_bucket
+  s3_key        = var.lambda_s3_key
   function_name = "grafana-aws-metrics"
   role          = aws_iam_role.grafana_lambda_role.arn
   handler       = "main"

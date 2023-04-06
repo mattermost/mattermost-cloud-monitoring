@@ -40,3 +40,12 @@ variable "expiration_days" {
   type        = number
 }
 
+variable "lambda_s3_bucket" {
+  type        = string
+  description = "The S3 bucket where the lambda function is stored"
+}
+
+variable "lambda_s3_key" {
+  type        = string
+  description = "The S3 key where the lambda function is stored"
+}
