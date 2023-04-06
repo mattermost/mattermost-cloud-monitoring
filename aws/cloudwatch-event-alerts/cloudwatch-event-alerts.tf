@@ -25,7 +25,7 @@ resource "aws_iam_role_policy_attachment" "AWSLambdaBasicExecutionRole_alert" {
 }
 
 
-resource "aws_lambda_function" "rds_cluster_events" {
+resource "aws_lambda_function" "cloudwatch_event_alerts" {
   s3_bucket     = var.lambda_s3_bucket
   s3_key        = var.lambda_s3_key
   function_name = "cloudwatch-event-alerts"
@@ -46,30 +46,30 @@ resource "aws_lambda_function" "rds_cluster_events" {
 }
 
 // SNS topic
-resource "aws_sns_topic" "rds_cluster_events_topic" {
+resource "aws_sns_topic" "cloudwatch_event_alerts_topic" {
   name = "cloudwatch-event-alerts"
 
   depends_on = [
-    aws_lambda_function.rds_cluster_events
+    aws_lambda_function.cloudwatch_event_alerts
   ]
 }
 
 
 // SNS topic that the alarm will be sent
-resource "aws_sns_topic_subscription" "rds_cluster_events_sub" {
-  topic_arn = aws_sns_topic.rds_cluster_events_topic.arn
+resource "aws_sns_topic_subscription" "cloudwatch_event_alerts_sub" {
+  topic_arn = aws_sns_topic.cloudwatch_event_alerts_topic.arn
   protocol  = "lambda"
-  endpoint  = aws_lambda_function.rds_cluster_events.arn
+  endpoint  = aws_lambda_function.cloudwatch_event_alerts.arn
 
   depends_on = [
-    aws_lambda_function.rds_cluster_events
+    aws_lambda_function.cloudwatch_event_alerts
   ]
 }
 
-resource "aws_lambda_permission" "rds_cluster_events_topic_perm" {
+resource "aws_lambda_permission" "cloudwatch_event_alerts_topic_perm" {
   statement_id  = "AllowExecutionFromSNS"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.rds_cluster_events.function_name
+  function_name = aws_lambda_function.cloudwatch_event_alerts.function_name
   principal     = "sns.amazonaws.com"
-  source_arn    = aws_sns_topic.rds_cluster_events_topic.arn
+  source_arn    = aws_sns_topic.cloudwatch_event_alerts_topic.arn
 }
