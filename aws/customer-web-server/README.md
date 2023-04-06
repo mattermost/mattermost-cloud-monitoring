@@ -17,7 +17,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.6.2 |
+| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.6.5 |
 
 ## Resources
 
@@ -50,6 +50,7 @@
 | <a name="input_cws_db_maintenance_window"></a> [cws\_db\_maintenance\_window](#input\_cws\_db\_maintenance\_window) | n/a | `string` | n/a | yes |
 | <a name="input_cws_db_password"></a> [cws\_db\_password](#input\_cws\_db\_password) | n/a | `string` | n/a | yes |
 | <a name="input_cws_db_username"></a> [cws\_db\_username](#input\_cws\_db\_username) | n/a | `string` | n/a | yes |
+| <a name="input_cws_enable_bastion"></a> [cws\_enable\_bastion](#input\_cws\_enable\_bastion) | n/a | `bool` | `true` | no |
 | <a name="input_cws_enabled_cloudwatch_logs_exports"></a> [cws\_enabled\_cloudwatch\_logs\_exports](#input\_cws\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br>  "postgresql"<br>]</pre> | no |
 | <a name="input_cws_kms_key"></a> [cws\_kms\_key](#input\_cws\_kms\_key) | n/a | `string` | n/a | yes |
 | <a name="input_cws_max_capacity"></a> [cws\_max\_capacity](#input\_cws\_max\_capacity) | n/a | `number` | `4` | no |

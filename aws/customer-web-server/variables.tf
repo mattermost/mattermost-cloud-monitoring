@@ -136,3 +136,8 @@ variable "enable_cws_read_replica" {
   type    = bool
   default = true
 }
+
+variable "cws_enable_bastion" {
+  type    = bool
+  default = true
+}
