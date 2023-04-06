@@ -18,3 +18,15 @@ resource "aws_eks_cluster" "cluster" {
     aws_iam_role.cluster-role,
   ]
 }
+
+# Get EKS cluster certificate thumbprint
+data "tls_certificate" "cluster-openid-issuer" {
+  url = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
+}
+
+# Create the OIDC provider
+resource "aws_iam_openid_connect_provider" "eks_cluster_openid_provider" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.cluster-openid-issuer.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
+}
