@@ -16,7 +16,8 @@ resource "aws_iam_policy" "db_disaster_recovery" {
     Statement = [
       {
         Action = [
-          "rds:*"
+          "rds:*",
+          "kms:*"
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -31,4 +32,3 @@ resource "aws_iam_user_policy_attachment" "db_disaster_recovery" {
   user       = aws_iam_user.db_disaster_recovery[0].name
   policy_arn = aws_iam_policy.db_disaster_recovery[0].arn
 }
-
