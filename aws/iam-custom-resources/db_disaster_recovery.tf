@@ -23,11 +23,11 @@ resource "aws_iam_policy" "db_disaster_recovery" {
         Resource = "*"
       },
       {
-            "Action": [
-                "secretsmanager:GetSecretValue"
-            ],
-            "Effect": "Allow",
-            "Resource": local.secret_manager_rds
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ],
+        Effect   = "Allow",
+        Resource = local.secret_manager_rds
       },
     ]
   })
