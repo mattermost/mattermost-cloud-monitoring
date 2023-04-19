@@ -10,12 +10,12 @@ variable "transit_gateway_id" {
   type = string
 }
 
-variable "private_route_table_id" {
-  type = string
+variable "private_route_table_ids" {
+  type = list(string)
 }
 
-variable "public_route_table_id" {
-  type = string
+variable "public_route_table_ids" {
+  type = list(string)
 }
 
 variable "transit_gtw_route_destination" {
