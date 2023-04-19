@@ -12,6 +12,10 @@ resource "aws_eks_cluster" "cluster" {
 
   enabled_cluster_log_types = var.log_types
 
+  tags = {
+    VpcID = var.vpc_id
+  }
+
   depends_on = [
     aws_iam_role_policy_attachment.cluster-AmazonEKSClusterPolicy,
     aws_iam_role_policy_attachment.cluster-AmazonEKSServicePolicy,
