@@ -118,4 +118,7 @@ variable "subnets" {
   type        = map(any)
 }
 
-
+variable "vpc_id" {
+  description = "VPC ID to use for the EKS cluster"
+  type        = string
+}

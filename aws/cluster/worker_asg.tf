@@ -51,4 +51,5 @@ module "managed_node_group" {
   availability_zones     = var.availability_zones
   subnets                = var.map_subnets
   enable_spot_nodes      = var.enable_spot_nodes
+  vpc_id                 = var.vpc_id
 }
