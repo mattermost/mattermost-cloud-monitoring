@@ -31,6 +31,7 @@ resource "aws_launch_template" "cluster_spot_nodes_eks_launch_template" {
     tags = {
       Name              = "${var.cluster_short_name}-spot-cluster-nodes"
       KubernetesCluster = var.cluster_name
+      VpcID             = var.vpc_id
     }
   }
 }
