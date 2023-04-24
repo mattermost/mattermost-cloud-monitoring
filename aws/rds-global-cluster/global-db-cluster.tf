@@ -25,6 +25,8 @@ resource "aws_rds_cluster" "primary" {
 resource "aws_rds_cluster_instance" "primary" {
   count                = var.primary_instances_count
   provider             = aws.primary
+  engine               = aws_rds_global_cluster.global-cluster.engine
+  engine_version       = aws_rds_global_cluster.global-cluster.engine_version
   identifier           = "${var.primary_cluster_identifier}-${count.index}"
   cluster_identifier   = aws_rds_cluster.primary.id
   instance_class       = var.instance_class
@@ -55,6 +57,8 @@ resource "aws_rds_cluster" "secondary" {
 resource "aws_rds_cluster_instance" "secondary" {
   count                = var.secondary_instances_count
   provider             = aws.secondary
+  engine               = aws_rds_global_cluster.global-cluster.engine
+  engine_version       = aws_rds_global_cluster.global-cluster.engine_version
   identifier           = "${var.secondary_cluster_identifier}-${count.index}"
   cluster_identifier   = aws_rds_cluster.secondary.id
   instance_class       = var.instance_class
