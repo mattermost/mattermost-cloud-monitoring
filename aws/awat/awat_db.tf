@@ -50,7 +50,7 @@ resource "aws_db_subnet_group" "subnets_db" {
 
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.6.5"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.6.17"
   cluster_identifier                    = var.awat_db_cluster_identifier
   cluster_instance_identifier           = var.awat_db_cluster_instance_identifier
   replica_min                           = var.awat_replica_min
