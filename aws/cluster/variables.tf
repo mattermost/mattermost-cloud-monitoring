@@ -194,15 +194,3 @@ variable "atlantis_user" {
   description = "The atlantis user used for IaaC"
   type        = string
 }
-
-variable "is_gp3_default" {
-  description = "Set to true to set gp3 storageClass as default"
-  type        = string
-  default     = "true"
-}
-
-variable "storage_class_volume_type" {
-  description = "Type of volume"
-  type        = string
-  default     = "gp3"
-}
