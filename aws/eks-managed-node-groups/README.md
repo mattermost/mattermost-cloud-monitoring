@@ -4,14 +4,14 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.8 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.55 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.61.0 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.7.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.55 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.61.0 |
 
 ## Modules
 
@@ -36,6 +36,7 @@ No modules.
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | A phrase that can be used for tagging tha identifies the deployment | `string` | n/a | yes |
 | <a name="input_desired_size"></a> [desired\_size](#input\_desired\_size) | The desired number of nodes in the node group | `string` | n/a | yes |
 | <a name="input_ebs_optimized"></a> [ebs\_optimized](#input\_ebs\_optimized) | If true, the launched EC2 instance will be EBS-optimized | `bool` | `null` | no |
+| <a name="input_enable_spot_nodes"></a> [enable\_spot\_nodes](#input\_enable\_spot\_nodes) | If true, spot nodes will be created | `bool` | `false` | no |
 | <a name="input_image_id"></a> [image\_id](#input\_image\_id) | The AMI ID used for the nodes in the node group | `string` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The instance type used for the nodes in the node group | `string` | n/a | yes |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | The maximum number of nodes in the node group | `string` | n/a | yes |
@@ -51,6 +52,7 @@ No modules.
 | <a name="input_user_data"></a> [user\_data](#input\_user\_data) | User data passed in the launch template to run in instance boot | `string` | n/a | yes |
 | <a name="input_volume_size"></a> [volume\_size](#input\_volume\_size) | The size of the node volumes | `string` | n/a | yes |
 | <a name="input_volume_type"></a> [volume\_type](#input\_volume\_type) | The type of the node volumes. For example gp2 | `string` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID to use for the EKS cluster | `string` | n/a | yes |
 | <a name="input_vpc_security_group_ids"></a> [vpc\_security\_group\_ids](#input\_vpc\_security\_group\_ids) | The IDs of the security groups that will be assigned to the cluster nodes | `list(string)` | n/a | yes |
 
 ## Outputs
