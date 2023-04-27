@@ -1,3 +1,18 @@
+variable "environment" {
+  description = "The name of the environment which will deploy to and will be added as a tag"
+  type        = string
+}
+
+variable "primary_vpc_id" {
+  description = "The VPC ID of the primary database cluster"
+  type        = string
+}
+
+variable "secondary_vpc_id" {
+  description = "The VPC ID of the secondary database cluster"
+  type        = string
+}
+
 variable "source_region" {
   type        = string
   description = "The source region for an encrypted replica DB cluster."
@@ -101,4 +116,52 @@ variable "skip_final_snapshot" {
   type        = bool
   description = "Determines whether a final DB snapshot is created before the DB cluster is deleted."
   default     = false
+}
+
+variable "storage_encrypted" {
+  description = "Specifies whether the DB cluster is encrypted"
+  type        = bool
+}
+
+variable "apply_immediately" {
+  description = "Specifies whether any cluster modifications are applied immediately, or during the next maintenance window"
+  type        = bool
+}
+
+variable "monitoring_interval" {
+  description = "The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance"
+  type        = number
+}
+
+variable "performance_insights_enabled" {
+  description = "Specifies whether Performance Insights are enabled"
+  type        = bool
+}
+
+variable "aurora_family" {
+  type        = string
+  description = "The family of the DB parameter group."
+  default     = "aurora-postgresql12"
+
+}
+
+variable "performance_insights_retention_period" {
+  type        = number
+  description = "Amount of time in days to retain Performance Insights data"
+  default     = 7
+}
+
+variable "log_min_duration_statement" {
+  type    = number
+  default = 2000
+}
+
+variable "primary_vpc_security_group_ids" {
+  type        = list(string)
+  description = "The IDs of the security groups that will be assigned to the cluster nodes"
+}
+
+variable "secondary_vpc_security_group_ids" {
+  type        = list(string)
+  description = "The IDs of the security groups that will be assigned to the cluster nodes"
 }
