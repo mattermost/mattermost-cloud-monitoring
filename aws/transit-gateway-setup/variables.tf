@@ -65,3 +65,29 @@ variable "ram_principals" {
   type        = list(string)
   default     = []
 }
+
+variable "security_destination_cidr_block" {
+  type        = string
+  description = "Value of the cidr block for the security TGW"
+}
+
+variable "cloud_destination_cidr_block" {
+  type        = string
+  description = "Value of the cidr block for the cloud core TGW"
+}
+
+variable "vpc_destination_cidr_block" {
+  type        = string
+  description = "Value of the cidr block for the VPC in the cross region we want to attach to the TGW"
+}
+
+variable "tgw_attachment_vpc_id" {
+  type        = string
+  description = "The VPC in the cross region we want to attach to the TGW"
+}
+
+variable "tgw_attachment_subnet_ids" {
+  type        = list(string)
+  default     = [""]
+  description = "The Subnet IDs in the prod us-west-2 region we want to attach to the TGW"
+}
