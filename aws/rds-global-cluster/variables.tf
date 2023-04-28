@@ -165,3 +165,13 @@ variable "secondary_vpc_security_group_ids" {
   type        = list(string)
   description = "The IDs of the security groups that will be assigned to the cluster nodes"
 }
+
+variable "primary_kms_key" {
+  type        = string
+  description = "Key to keep your storage data encrypted at rest in all underlying storage for DB clusters."
+}
+
+variable "secondary_kms_key" {
+  type        = string
+  description = "Key to keep your storage data encrypted at rest in all underlying storage for DB clusters."
+}
