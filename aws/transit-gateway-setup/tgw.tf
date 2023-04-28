@@ -49,6 +49,10 @@ resource "aws_ec2_transit_gateway_peering_attachment" "use1_usw2" {
   peer_region             = var.peer_region
   peer_transit_gateway_id = var.peer_transit_gateway_id
   transit_gateway_id      = aws_ec2_transit_gateway.mattermost-cloud-tgw.id
+
+  tags = {
+    Name = var.tgw_peering_attachment_name
+  }
 }
 
 resource "aws_ec2_transit_gateway_route" "external_vpc" {

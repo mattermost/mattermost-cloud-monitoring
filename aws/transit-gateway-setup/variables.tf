@@ -91,3 +91,23 @@ variable "tgw_attachment_subnet_ids" {
   default     = [""]
   description = "The Subnet IDs in the prod us-west-2 region we want to attach to the TGW"
 }
+
+variable "tgw_peering_attachment_name" {
+  type        = string
+  description = "The name of the peering attachment"
+}
+
+variable "peer_account_id" {
+  type        = string
+  description = "The account ID of the peer account"
+}
+
+variable "peer_region" {
+  type        = string
+  description = "The region we want to peer with (us-east-1)"
+}
+
+variable "peer_transit_gateway_id" {
+  type        = string
+  description = "The ID for the TGW in us-east-1 that we want to peer with"
+}
