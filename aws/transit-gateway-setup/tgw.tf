@@ -55,12 +55,6 @@ resource "aws_ec2_transit_gateway_peering_attachment" "use1_usw2" {
   }
 }
 
-resource "aws_ec2_transit_gateway_route" "external_vpc" {
-  destination_cidr_block         = var.vpc_destination_cidr_block
-  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.external.id
-  transit_gateway_route_table_id = aws_ec2_transit_gateway.mattermost-cloud-tgw.association_default_route_table_id
-}
-
 resource "aws_ec2_transit_gateway_route" "cloud" {
   destination_cidr_block         = var.cloud_destination_cidr_block
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_peering_attachment.use1_usw2.id
