@@ -15,7 +15,8 @@ resource "aws_nat_gateway" "nat_gtws" {
   subnet_id     = each.value != "" ? aws_subnet.public_1a[each.value]["id"] : ""
   tags = merge(
     {
-      "Name" = format("%s-%s", var.name, join("", split(".", split("/", each.value)[0]))),
+      "Name"  = format("%s-%s", var.name, join("", split(".", split("/", each.value)[0]))),
+      "VpcID" = data.aws_vpc.vpc_ids[each.value]["id"],
     },
     var.tags,
   )
@@ -95,7 +96,8 @@ resource "aws_nat_gateway" "nat_gtw_1a" {
   subnet_id     = each.value != "" ? aws_subnet.public_1a[each.value]["id"] : ""
   tags = merge(
     {
-      "Name" = format("%s-%s-1a", var.name, join("", split(".", split("/", each.value)[0]))),
+      "Name"  = format("%s-%s-1a", var.name, join("", split(".", split("/", each.value)[0]))),
+      "VpcID" = data.aws_vpc.vpc_ids[each.value]["id"],
     },
     var.tags,
   )
@@ -109,7 +111,8 @@ resource "aws_nat_gateway" "nat_gtw_1b" {
   subnet_id     = each.value != "" ? aws_subnet.public_1b[each.value]["id"] : ""
   tags = merge(
     {
-      "Name" = format("%s-%s-1b", var.name, join("", split(".", split("/", each.value)[0]))),
+      "Name"  = format("%s-%s-1b", var.name, join("", split(".", split("/", each.value)[0]))),
+      "VpcID" = data.aws_vpc.vpc_ids[each.value]["id"],
     },
     var.tags,
   )
@@ -123,7 +126,8 @@ resource "aws_nat_gateway" "nat_gtw_1c" {
   subnet_id     = each.value != "" ? aws_subnet.public_1c[each.value]["id"] : ""
   tags = merge(
     {
-      "Name" = format("%s-%s-1c", var.name, join("", split(".", split("/", each.value)[0]))),
+      "Name"  = format("%s-%s-1c", var.name, join("", split(".", split("/", each.value)[0]))),
+      "VpcID" = data.aws_vpc.vpc_ids[each.value]["id"],
     },
     var.tags,
   )
@@ -137,7 +141,8 @@ resource "aws_nat_gateway" "nat_gtw_1d" {
   subnet_id     = each.value != "" ? aws_subnet.public_1d[each.value]["id"] : ""
   tags = merge(
     {
-      "Name" = format("%s-%s-1d", var.name, join("", split(".", split("/", each.value)[0]))),
+      "Name"  = format("%s-%s-1d", var.name, join("", split(".", split("/", each.value)[0]))),
+      "VpcID" = data.aws_vpc.vpc_ids[each.value]["id"],
     },
     var.tags,
   )
@@ -151,7 +156,8 @@ resource "aws_nat_gateway" "nat_gtw_1e" {
   subnet_id     = each.value != "" ? aws_subnet.public_1e[each.value]["id"] : ""
   tags = merge(
     {
-      "Name" = format("%s-%s-1e", var.name, join("", split(".", split("/", each.value)[0]))),
+      "Name"  = format("%s-%s-1e", var.name, join("", split(".", split("/", each.value)[0]))),
+      "VpcID" = data.aws_vpc.vpc_ids[each.value]["id"],
     },
     var.tags,
   )
@@ -165,7 +171,8 @@ resource "aws_nat_gateway" "nat_gtw_1f" {
   subnet_id     = each.value != "" ? aws_subnet.public_1f[each.value]["id"] : ""
   tags = merge(
     {
-      "Name" = format("%s-%s-1f", var.name, join("", split(".", split("/", each.value)[0]))),
+      "Name"  = format("%s-%s-1f", var.name, join("", split(".", split("/", each.value)[0]))),
+      "VpcID" = data.aws_vpc.vpc_ids[each.value]["id"],
     },
     var.tags,
   )
