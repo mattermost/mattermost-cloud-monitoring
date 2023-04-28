@@ -3,6 +3,7 @@ resource "aws_rds_global_cluster" "global-cluster" {
   engine                    = var.engine
   engine_version            = var.engine_version
   database_name             = var.database_name
+  storage_encrypted         = var.storage_encrypted
 }
 
 data "aws_iam_role" "enhanced_monitoring" {
