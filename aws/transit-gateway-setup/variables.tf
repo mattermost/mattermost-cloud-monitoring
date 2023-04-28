@@ -76,11 +76,6 @@ variable "cloud_destination_cidr_block" {
   description = "Value of the cidr block for the cloud core TGW"
 }
 
-variable "vpc_destination_cidr_block" {
-  type        = string
-  description = "Value of the cidr block for the VPC in the cross region we want to attach to the TGW"
-}
-
 variable "tgw_attachment_vpc_id" {
   type        = string
   description = "The VPC in the cross region we want to attach to the TGW"
