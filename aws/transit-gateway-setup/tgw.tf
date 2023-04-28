@@ -37,3 +37,38 @@ resource "aws_ram_principal_association" "ram-principal" {
   principal          = var.ram_principals[0]
   resource_share_arn = aws_ram_resource_share.tgw-share.arn
 }
+
+resource "aws_ec2_transit_gateway_vpc_attachment" "external" {
+  subnet_ids         = var.tgw_attachment_subnet_ids
+  transit_gateway_id = aws_ec2_transit_gateway.mattermost-cloud-tgw.id
+  vpc_id             = var.tgw_attachment_vpc_id
+}
+
+resource "aws_ec2_transit_gateway_peering_attachment" "use1_usw2" {
+  peer_account_id         = var.peer_account_id
+  peer_region             = var.peer_region
+  peer_transit_gateway_id = var.peer_transit_gateway_id
+  transit_gateway_id      = aws_ec2_transit_gateway.mattermost-cloud-tgw.id
+
+  tags = {
+    Name = var.tgw_peering_attachment_name
+  }
+}
+
+resource "aws_ec2_transit_gateway_route" "external_vpc" {
+  destination_cidr_block         = var.vpc_destination_cidr_block
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.external.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway.mattermost-cloud-tgw.association_default_route_table_id
+}
+
+resource "aws_ec2_transit_gateway_route" "cloud" {
+  destination_cidr_block         = var.cloud_destination_cidr_block
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_peering_attachment.use1_usw2.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway.mattermost-cloud-tgw.association_default_route_table_id
+}
+
+resource "aws_ec2_transit_gateway_route" "security" {
+  destination_cidr_block         = var.security_destination_cidr_block
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_peering_attachment.use1_usw2.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway.mattermost-cloud-tgw.association_default_route_table_id
+}
