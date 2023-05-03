@@ -82,4 +82,5 @@ module "aurora-cluster" {
   db_subnet_group_name                  = aws_db_subnet_group.grafana_subnets_db.name
   min_capacity                          = var.grafana_min_capacity
   max_capacity                          = var.grafana_max_capacity
+  enable_rds_alerting                   = var.grafana_enable_rds_alerting
 }

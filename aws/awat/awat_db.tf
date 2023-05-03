@@ -83,4 +83,5 @@ module "aurora-cluster" {
   db_subnet_group_name                  = aws_db_subnet_group.subnets_db.name
   min_capacity                          = var.awat_min_capacity
   max_capacity                          = var.awat_max_capacity
+  enable_rds_alerting                   = var.awat_enable_rds_alerting
 }

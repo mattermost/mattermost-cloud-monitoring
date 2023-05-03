@@ -154,3 +154,8 @@ variable "enable_blapi_read_replica" {
   type    = bool
   default = true
 }
+
+variable "blapi_enable_rds_alerting" {
+  type    = bool
+  default = false
+}

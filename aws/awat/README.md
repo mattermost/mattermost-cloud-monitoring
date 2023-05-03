@@ -24,9 +24,9 @@
 | Name | Type |
 |------|------|
 | [aws_db_subnet_group.subnets_db](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group) | resource |
-| [aws_iam_policy.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
-| [aws_iam_user.awat_user](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user) | resource |
-| [aws_iam_user_policy_attachment.attach_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
+| [aws_iam_policy.awat-policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_role.awat-role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy_attachment.awat-policy-attach](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_s3_bucket.awat_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_security_group.cnc_to_awat_db](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_iam_policy_document.awat_bucket_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -55,6 +55,7 @@
 | <a name="input_awat_db_maintenance_window"></a> [awat\_db\_maintenance\_window](#input\_awat\_db\_maintenance\_window) | n/a | `string` | n/a | yes |
 | <a name="input_awat_db_password"></a> [awat\_db\_password](#input\_awat\_db\_password) | n/a | `string` | n/a | yes |
 | <a name="input_awat_db_username"></a> [awat\_db\_username](#input\_awat\_db\_username) | n/a | `string` | n/a | yes |
+| <a name="input_awat_enable_rds_alerting"></a> [awat\_enable\_rds\_alerting](#input\_awat\_enable\_rds\_alerting) | n/a | `bool` | `false` | no |
 | <a name="input_awat_enabled_cloudwatch_logs_exports"></a> [awat\_enabled\_cloudwatch\_logs\_exports](#input\_awat\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br>  "postgresql"<br>]</pre> | no |
 | <a name="input_awat_kms_key"></a> [awat\_kms\_key](#input\_awat\_kms\_key) | n/a | `string` | n/a | yes |
 | <a name="input_awat_max_capacity"></a> [awat\_max\_capacity](#input\_awat\_max\_capacity) | n/a | `number` | `4` | no |
@@ -69,7 +70,11 @@
 | <a name="input_enable_awat_bucket_restriction"></a> [enable\_awat\_bucket\_restriction](#input\_enable\_awat\_bucket\_restriction) | n/a | `bool` | n/a | yes |
 | <a name="input_enable_awat_read_replica"></a> [enable\_awat\_read\_replica](#input\_enable\_awat\_read\_replica) | n/a | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | The namespace, which host the service account & target application | `string` | n/a | yes |
+| <a name="input_open_oidc_provider_arn"></a> [open\_oidc\_provider\_arn](#input\_open\_oidc\_provider\_arn) | The Open OIDC Provider ARN for a specific cluster | `string` | n/a | yes |
+| <a name="input_open_oidc_provider_url"></a> [open\_oidc\_provider\_url](#input\_open\_oidc\_provider\_url) | The Open OIDC Provider URL for a specific cluster | `string` | n/a | yes |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | n/a | `list(string)` | n/a | yes |
+| <a name="input_serviceaccount"></a> [serviceaccount](#input\_serviceaccount) | Service Account, with which we want to associate IAM permission | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
 
 ## Outputs

@@ -151,3 +151,8 @@ variable "enable_provisioner_read_replica" {
   type    = bool
   default = true
 }
+
+variable "provisioner_enable_rds_alerting" {
+  type    = bool
+  default = false
+}

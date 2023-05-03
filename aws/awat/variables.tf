@@ -160,3 +160,8 @@ variable "namespace" {
   type        = string
   description = "The namespace, which host the service account & target application "
 }
+
+variable "awat_enable_rds_alerting" {
+  type    = bool
+  default = false
+}
