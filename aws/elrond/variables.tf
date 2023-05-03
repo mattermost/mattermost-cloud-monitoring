@@ -149,3 +149,8 @@ variable "enable_elrond_read_replica" {
   type    = bool
   default = true
 }
+
+variable "elrond_enable_rds_alerting" {
+  type    = bool
+  default = false
+}

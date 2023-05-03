@@ -141,3 +141,8 @@ variable "cws_enable_bastion" {
   type    = bool
   default = true
 }
+
+variable "cws_enable_rds_alerting" {
+  type    = bool
+  default = false
+}

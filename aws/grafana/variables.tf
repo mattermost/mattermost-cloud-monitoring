@@ -137,3 +137,8 @@ variable "enable_grafana_read_replica" {
   type    = bool
   default = true
 }
+
+variable "grafana_enable_rds_alerting" {
+  type    = bool
+  default = false
+}

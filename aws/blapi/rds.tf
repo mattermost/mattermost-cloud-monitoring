@@ -99,4 +99,5 @@ module "aurora-cluster" {
   db_subnet_group_name                  = aws_db_subnet_group.blapi_subnets_db.name
   min_capacity                          = var.blapi_min_capacity
   max_capacity                          = var.blapi_max_capacity
+  enable_rds_alerting                   = var.blapi_enable_rds_alerting
 }
