@@ -48,9 +48,7 @@ data "aws_iam_policy_document" "awat_bucket_policy" {
       test     = "StringNotLike"
       variable = "aws:userId"
 
-      values = flatten([[
-        aws_iam_user.awat_user.unique_id
-      ], ["AROA*"]])
+      values = flatten([["AROA*"]])
     }
   }
 
