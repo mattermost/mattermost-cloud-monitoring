@@ -1,12 +1,31 @@
-resource "aws_iam_user" "awat_user" {
-  name = "mattermost-awat-${var.environment}"
-  path = "/"
+resource "aws_iam_role" "awat-role" {
+  name               = "k8s-${var.environment}-awat"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "${var.open_oidc_provider_arn}"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "${var.open_oidc_provider_url}:sub": "system:serviceaccount:${var.namespace}:${var.serviceaccount}"
+        }
+      }
+    }
+  ]
+}
+EOF
 }
 
-resource "aws_iam_policy" "s3" {
+resource "aws_iam_policy" "awat-policy" {
   name        = "mattermost-awat-route53-policy${local.conditional_dash_region}"
   path        = "/"
-  description = "Route53 permissions for awat user"
+  description = "Route53 permissions for awat role"
 
   policy = <<EOF
 {
@@ -49,7 +68,7 @@ resource "aws_iam_policy" "s3" {
 EOF
 }
 
-resource "aws_iam_user_policy_attachment" "attach_s3" {
-  user       = aws_iam_user.awat_user.name
-  policy_arn = aws_iam_policy.s3.arn
+resource "aws_iam_role_policy_attachment" "awat-policy-attach" {
+  role       = aws_iam_role.awat-role.name
+  policy_arn = aws_iam_policy.awat-policy.arn
 }
