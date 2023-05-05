@@ -24,4 +24,5 @@ variable "create_apps_deployer_user" {
 variable "apps_deployer_assume_role_arn" {
   description = "The ARN of the role to assume for the apps deployer user"
   type        = string
+  default     = ""
 }
