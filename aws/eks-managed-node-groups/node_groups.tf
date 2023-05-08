@@ -1,5 +1,7 @@
 resource "aws_launch_template" "cluster_nodes_eks_launch_template" {
-  name        = "${var.cluster_short_name}_cluster_launch_template"
+  for_each = var.node_group
+
+  name        = "${var.cluster_short_name}_cluster_launch_template_${each.key}"
   description = "${var.cluster_short_name} cluster nodes launch template"
 
   vpc_security_group_ids = var.vpc_security_group_ids
@@ -14,7 +16,7 @@ resource "aws_launch_template" "cluster_nodes_eks_launch_template" {
   }
 
   image_id      = var.image_id
-  instance_type = var.instance_type
+  instance_type = each.key
   ebs_optimized = var.ebs_optimized
 
   user_data = var.user_data
@@ -23,7 +25,7 @@ resource "aws_launch_template" "cluster_nodes_eks_launch_template" {
     resource_type = "instance"
 
     tags = {
-      Name              = "${var.cluster_short_name}-cluster-nodes"
+      Name              = "${var.cluster_short_name}-cluster-nodes-${each.key}"
       KubernetesCluster = var.cluster_name
       VpcID             = var.vpc_id
     }
@@ -31,15 +33,17 @@ resource "aws_launch_template" "cluster_nodes_eks_launch_template" {
 }
 
 resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
+  for_each = var.node_group
+
   cluster_name    = var.cluster_name
-  node_group_name = "${var.node_group_name}-nodes"
+  node_group_name = "${each.value.name}-nodes"
 
   node_role_arn = var.node_role_arn
 
   subnet_ids = var.subnet_ids
 
   tags = {
-    "Name" : "${var.deployment_name}-worker",
+    "Name" : "${var.deployment_name}-worker-${each.value.name}",
     "kubernetes.io/cluster/${var.deployment_name}" : "owned",
     "k8s.io/cluster-autoscaler/enabled" : "on",
     "k8s.io/cluster-autoscaler/${var.deployment_name}" : "on"
@@ -48,18 +52,18 @@ resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
   }
 
   labels = {
-    Name = "${var.node_group_name}_nodes"
+    Name = "${each.value.name}_nodes"
   }
 
   scaling_config {
-    desired_size = var.desired_size
-    max_size     = var.max_size
-    min_size     = var.min_size
+    desired_size = each.value.desired_size
+    max_size     = each.value.max_size
+    min_size     = each.value.min_size
   }
 
   launch_template {
-    name    = aws_launch_template.cluster_nodes_eks_launch_template.name
-    version = aws_launch_template.cluster_nodes_eks_launch_template.latest_version
+    name    = aws_launch_template.cluster_nodes_eks_launch_template[each.key]["name"]
+    version = aws_launch_template.cluster_nodes_eks_launch_template[each.key]["latest_version"]
   }
 
   lifecycle {

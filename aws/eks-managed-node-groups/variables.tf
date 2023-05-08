@@ -18,9 +18,14 @@ variable "image_id" {
   description = "The AMI ID used for the nodes in the node group"
 }
 
-variable "instance_type" {
-  type        = string
-  description = "The instance type used for the nodes in the node group"
+variable "node_group" {
+  type = map(object({
+    name         = string
+    max_size     = number
+    min_size     = number
+    desired_size = number
+  }))
+  description = "The node group block template"
 }
 
 variable "user_data" {
@@ -46,21 +51,6 @@ variable "subnet_ids" {
 variable "deployment_name" {
   type        = string
   description = "A phrase that can be used for tagging tha identifies the deployment"
-}
-
-variable "desired_size" {
-  type        = string
-  description = "The desired number of nodes in the node group"
-}
-
-variable "max_size" {
-  type        = string
-  description = "The maximum number of nodes in the node group"
-}
-
-variable "min_size" {
-  type        = string
-  description = "The minimum number of nodes in the node group"
 }
 
 variable "node_group_name" {
