@@ -223,6 +223,18 @@ resource "aws_security_group_rule" "db_ingress_worker_command_control" {
   type              = "ingress"
 }
 
+resource "aws_security_group_rule" "db_ingress_from_crossregion" {
+  for_each = toset(var.vpc_cidrs)
+
+  cidr_blocks       = var.cross_region_vpc_cidrs_db_access
+  description       = "Ingress Traffic from Cross region VPCs"
+  from_port         = 3306
+  protocol          = "TCP"
+  security_group_id = aws_security_group.db_sg[each.value]["id"]
+  to_port           = 3306
+  type              = "ingress"
+}
+
 resource "aws_security_group_rule" "developers_vpn_access" {
   for_each = toset(var.vpc_cidrs)
 
