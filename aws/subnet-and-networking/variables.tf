@@ -60,5 +60,5 @@ variable "single_route_table_deployment" {
 variable "cross_region_vpc_cidrs_db_access" {
   default     = [""]
   type        = list(string)
-  description = "The CIDRs of the cross region Vpcs to be allowed by the provisioning DBs"
+  description = "The CIDRs of the cross region Vpcs to be allowed by the customer DBs"
 }

@@ -222,7 +222,7 @@ resource "aws_security_group_rule" "db_ingress_worker_command_control" {
   type              = "ingress"
 }
 
-resource "aws_security_group_rule" "db_ingress_from_uswest2" {
+resource "aws_security_group_rule" "db_ingress_from_crossregion" {
   for_each = toset(var.vpc_cidrs)
 
   cidr_blocks       = var.cross_region_vpc_cidrs_db_access
