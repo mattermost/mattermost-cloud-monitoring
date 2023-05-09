@@ -56,3 +56,9 @@ variable "single_route_table_deployment" {
   type        = bool
   description = "This will defined whether a single route table for all subnets will be created. multi_route_table_deployment and single_route_table_deployment cannot be both set to true"
 }
+
+variable "cross_region_vpc_cidrs_db_access" {
+  default     = [""]
+  type        = list(string)
+  description = "The CIDRs of the cross region Vpcs to be allowed by the provisioning DBs"
+}
