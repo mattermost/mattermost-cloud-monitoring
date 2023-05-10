@@ -1,6 +1,6 @@
 resource "aws_vpc_endpoint" "s3_us_east_1" {
   for_each     = toset(var.vpc_cidrs)
-  vpc_id       = each.value
+  vpc_id       = data.aws_vpc.vpc_ids[each.value]["id"]
   service_name = "com.amazonaws.us-east-1.s3"
 
   tags = {
