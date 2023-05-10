@@ -37,7 +37,7 @@ No modules.
 | <a name="input_ebs_optimized"></a> [ebs\_optimized](#input\_ebs\_optimized) | If true, the launched EC2 instance will be EBS-optimized | `bool` | `null` | no |
 | <a name="input_enable_spot_nodes"></a> [enable\_spot\_nodes](#input\_enable\_spot\_nodes) | If true, spot nodes will be created | `bool` | `false` | no |
 | <a name="input_image_id"></a> [image\_id](#input\_image\_id) | The AMI ID used for the nodes in the node group | `string` | n/a | yes |
-| <a name="input_node_group"></a> [node\_group](#input\_node\_group) | The node group block template | <pre>map(object({<br>      name         = string<br>      max_size     = number<br>      min_size     = number<br>      desired_size = number<br>  }))</pre> | n/a | yes |
+| <a name="input_node_group"></a> [node\_group](#input\_node\_group) | The node group block template | `any` | n/a | yes |
 | <a name="input_node_group_name"></a> [node\_group\_name](#input\_node\_group\_name) | A name that can be used to identify the node group | `string` | n/a | yes |
 | <a name="input_node_role_arn"></a> [node\_role\_arn](#input\_node\_role\_arn) | The ARN of the IAM role attached to the node group | `string` | n/a | yes |
 | <a name="input_spot_desired_size"></a> [spot\_desired\_size](#input\_spot\_desired\_size) | The desired number of nodes in the spot node group | `number` | `0` | no |

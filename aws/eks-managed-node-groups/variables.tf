@@ -19,7 +19,7 @@ variable "image_id" {
 }
 
 variable "node_group" {
-  type = any
+  type        = any
   description = "The node group block template"
 }
 

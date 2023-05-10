@@ -80,7 +80,7 @@ variable "node_group_name" {
 }
 
 variable "node_group" {
-  type = any
+  type        = any
   description = "The node group block template"
 }
 

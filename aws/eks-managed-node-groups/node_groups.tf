@@ -68,14 +68,14 @@ resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
 
   dynamic "taint" {
     for_each = each.value.enable_taint == true ? [for i in each.value.taints : {
-      key = i.key
-      value = i.value
+      key    = i.key
+      value  = i.value
       effect = i.effect
-      }] : []
-      content {
-        key    = taint.value.key
-        value  = taint.value.value
-        effect = taint.value.effect
+    }] : []
+    content {
+      key    = taint.value.key
+      value  = taint.value.value
+      effect = taint.value.effect
     }
   }
 

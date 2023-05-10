@@ -21,7 +21,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_managed_node_group"></a> [managed\_node\_group](#module\_managed\_node\_group) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups | v1.6.30 |
+| <a name="module_managed_node_group"></a> [managed\_node\_group](#module\_managed\_node\_group) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups | v1.6.34 |
 
 ## Resources
 
@@ -104,7 +104,7 @@
 | <a name="input_matterwick_cluster_access_enabled"></a> [matterwick\_cluster\_access\_enabled](#input\_matterwick\_cluster\_access\_enabled) | n/a | `bool` | n/a | yes |
 | <a name="input_matterwick_iam_user"></a> [matterwick\_iam\_user](#input\_matterwick\_iam\_user) | n/a | `string` | n/a | yes |
 | <a name="input_matterwick_username"></a> [matterwick\_username](#input\_matterwick\_username) | n/a | `string` | n/a | yes |
-| <a name="input_node_group"></a> [node\_group](#input\_node\_group) | The node group block template | <pre>map(object({<br>      name         = string<br>      max_size     = number<br>      min_size     = number<br>      desired_size = number<br>  }))</pre> | n/a | yes |
+| <a name="input_node_group"></a> [node\_group](#input\_node\_group) | The node group block template | `any` | n/a | yes |
 | <a name="input_node_group_name"></a> [node\_group\_name](#input\_node\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_node_volume_size"></a> [node\_volume\_size](#input\_node\_volume\_size) | n/a | `number` | n/a | yes |
 | <a name="input_node_volume_type"></a> [node\_volume\_type](#input\_node\_volume\_type) | n/a | `string` | n/a | yes |
