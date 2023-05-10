@@ -19,12 +19,7 @@ variable "image_id" {
 }
 
 variable "node_group" {
-  type = map(object({
-    name         = string
-    max_size     = number
-    min_size     = number
-    desired_size = number
-  }))
+  type = any
   description = "The node group block template"
 }
 
