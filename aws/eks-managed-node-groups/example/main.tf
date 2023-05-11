@@ -1,0 +1,24 @@
+module "managed_node_group" {
+  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.6.34"
+  vpc_security_group_ids = [aws_security_group.worker-sg.id]
+  volume_size            = var.node_volume_size
+  volume_type            = var.node_volume_type
+  image_id               = var.eks_ami_id
+  ebs_optimized          = var.ebs_optimized
+  user_data              = base64encode(local.worker-userdata)
+  cluster_name           = aws_eks_cluster.cluster.name
+  node_role_arn          = aws_iam_role.worker-role.arn
+  subnet_ids             = flatten(var.private_subnet_ids)
+  deployment_name        = var.deployment_name
+  node_group_name        = var.node_group_name
+  node_group             = var.node_group
+  cluster_short_name     = var.cluster_short_name
+  spot_desired_size      = var.spot_desired_size
+  spot_max_size          = var.spot_max_size
+  spot_min_size          = var.spot_min_size
+  spot_instance_type     = var.spot_instance_type
+  availability_zones     = var.availability_zones
+  subnets                = var.map_subnets
+  enable_spot_nodes      = var.enable_spot_nodes
+  vpc_id                 = var.vpc_id
+}
