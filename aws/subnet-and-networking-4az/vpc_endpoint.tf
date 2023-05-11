@@ -61,14 +61,14 @@ resource "aws_vpc_endpoint_route_table_association" "endpoint_public_1b" {
   for_each = var.multi_route_table_deployment == true ? toset(var.vpc_cidrs) : []
 
   vpc_endpoint_id = aws_vpc_endpoint.s3_us_east_1[each.value]["id"]
-  route_table_id  = aws_route_table.public_1b[each.value]["id"] 
+  route_table_id  = aws_route_table.public_1b[each.value]["id"]
 }
 
 resource "aws_vpc_endpoint_route_table_association" "endpoint_public_1c" {
   for_each = var.multi_route_table_deployment == true ? toset(var.vpc_cidrs) : []
 
   vpc_endpoint_id = aws_vpc_endpoint.s3_us_east_1[each.value]["id"]
-  route_table_id  = aws_route_table.public_1c[each.value]["id"] 
+  route_table_id  = aws_route_table.public_1c[each.value]["id"]
 }
 
 resource "aws_vpc_endpoint_route_table_association" "endpoint_public_1d" {
