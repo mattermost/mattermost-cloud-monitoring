@@ -16,7 +16,7 @@ resource "aws_launch_template" "cluster_nodes_eks_launch_template" {
   }
 
   image_id      = var.image_id
-  instance_type = each.key
+  instance_type = each.value.instance_type
   ebs_optimized = var.ebs_optimized
 
   user_data = var.user_data
@@ -36,14 +36,14 @@ resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
   for_each = var.node_group
 
   cluster_name    = var.cluster_name
-  node_group_name = "${each.value.name}-nodes"
+  node_group_name = "${each.key}-nodes"
 
   node_role_arn = var.node_role_arn
 
   subnet_ids = var.subnet_ids
 
   tags = {
-    "Name" : "${var.deployment_name}-worker-${each.value.name}",
+    "Name" : "${var.deployment_name}-worker-${each.key}",
     "kubernetes.io/cluster/${var.deployment_name}" : "owned",
     "k8s.io/cluster-autoscaler/enabled" : "on",
     "k8s.io/cluster-autoscaler/${var.deployment_name}" : "on"
@@ -52,7 +52,7 @@ resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
   }
 
   labels = {
-    Name = "${each.value.name}_nodes"
+    Name = "${each.key}_nodes"
   }
 
   scaling_config {
