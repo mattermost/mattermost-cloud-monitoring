@@ -11,5 +11,5 @@ variable "public_route_table_ids" {
 }
 
 variable "region" {
-    type = string
+  type = string
 }
