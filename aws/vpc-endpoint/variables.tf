@@ -9,3 +9,7 @@ variable "private_route_table_ids" {
 variable "public_route_table_ids" {
   type = list(string)
 }
+
+variable "region" {
+    type = string
+}
