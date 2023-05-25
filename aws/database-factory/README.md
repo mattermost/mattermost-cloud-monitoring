@@ -4,13 +4,13 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.8 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.55 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.61.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.55 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.61.0 |
 
 ## Modules
 
@@ -41,16 +41,6 @@ No modules.
 | [aws_iam_role_policy_attachment.db-factory-role-attach_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.db-factory-role-attach_secrets_manager](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.db-factory-role-attach_sns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
-| [aws_iam_user_policy_attachment.attach_autoscaling_db_factory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
-| [aws_iam_user_policy_attachment.attach_devops_guru_db_factory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
-| [aws_iam_user_policy_attachment.attach_ec2_db_factory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
-| [aws_iam_user_policy_attachment.attach_iam_db_factory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
-| [aws_iam_user_policy_attachment.attach_kms_db_factory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
-| [aws_iam_user_policy_attachment.attach_lambda_and_logs_db_factory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
-| [aws_iam_user_policy_attachment.attach_rds_db_factory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
-| [aws_iam_user_policy_attachment.attach_s3_db_factory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
-| [aws_iam_user_policy_attachment.attach_secrets_manager_db_factory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
-| [aws_iam_user_policy_attachment.attach_sns_db_factory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
@@ -58,9 +48,11 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_database_factory_users"></a> [database\_factory\_users](#input\_database\_factory\_users) | The users to attach the IAM policies | `list(string)` | n/a | yes |
-| <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | The name of the deployment | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment will be created | `string` | n/a | yes |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | The namespace, which host the service account & target application | `string` | n/a | yes |
+| <a name="input_open_oidc_provider_arn"></a> [open\_oidc\_provider\_arn](#input\_open\_oidc\_provider\_arn) | The Open OIDC Provider ARN for a specific cluster | `string` | n/a | yes |
+| <a name="input_open_oidc_provider_url"></a> [open\_oidc\_provider\_url](#input\_open\_oidc\_provider\_url) | The Open OIDC Provider URL for a specific cluster | `string` | n/a | yes |
+| <a name="input_serviceaccount"></a> [serviceaccount](#input\_serviceaccount) | Service Account, with which we want to associate IAM permission | `string` | n/a | yes |
 
 ## Outputs
 

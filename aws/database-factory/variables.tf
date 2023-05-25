@@ -3,12 +3,22 @@ variable "environment" {
   description = "The environment will be created"
 }
 
-variable "deployment_name" {
+variable "open_oidc_provider_url" {
   type        = string
-  description = "The name of the deployment"
+  description = "The Open OIDC Provider URL for a specific cluster"
 }
 
-variable "database_factory_users" {
-  type        = list(string)
-  description = "The users to attach the IAM policies"
+variable "open_oidc_provider_arn" {
+  type        = string
+  description = "The Open OIDC Provider ARN for a specific cluster"
+}
+
+variable "serviceaccount" {
+  type        = string
+  description = "Service Account, with which we want to associate IAM permission"
+}
+
+variable "namespace" {
+  type        = string
+  description = "The namespace, which host the service account & target application "
 }
