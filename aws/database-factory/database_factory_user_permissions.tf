@@ -346,81 +346,24 @@ resource "aws_iam_policy" "devops_guru_db_factory" {
 EOF
 }
 
-resource "aws_iam_user_policy_attachment" "attach_sns_db_factory" {
-  for_each = toset(var.database_factory_users)
-  user     = each.value
-
-  policy_arn = aws_iam_policy.sns_db_factory.arn
-}
-
-resource "aws_iam_user_policy_attachment" "attach_rds_db_factory" {
-  for_each = toset(var.database_factory_users)
-  user     = each.value
-
-  policy_arn = aws_iam_policy.rds_db_factory.arn
-}
-
-resource "aws_iam_user_policy_attachment" "attach_s3_db_factory" {
-  for_each   = toset(var.database_factory_users)
-  user       = each.value
-  policy_arn = aws_iam_policy.s3_db_factory.arn
-}
-
-resource "aws_iam_user_policy_attachment" "attach_secrets_manager_db_factory" {
-  for_each   = toset(var.database_factory_users)
-  user       = each.value
-  policy_arn = aws_iam_policy.secrets_manager_db_factory.arn
-}
-
-resource "aws_iam_user_policy_attachment" "attach_kms_db_factory" {
-  for_each   = toset(var.database_factory_users)
-  user       = each.value
-  policy_arn = aws_iam_policy.kms_db_factory.arn
-}
-
-resource "aws_iam_user_policy_attachment" "attach_iam_db_factory" {
-  for_each   = toset(var.database_factory_users)
-  user       = each.value
-  policy_arn = aws_iam_policy.iam_db_factory.arn
-}
-
-resource "aws_iam_user_policy_attachment" "attach_ec2_db_factory" {
-  for_each   = toset(var.database_factory_users)
-  user       = each.value
-  policy_arn = aws_iam_policy.ec2_db_factory.arn
-}
-
-resource "aws_iam_user_policy_attachment" "attach_autoscaling_db_factory" {
-  for_each   = toset(var.database_factory_users)
-  user       = each.value
-  policy_arn = aws_iam_policy.autoscaling_db_factory.arn
-}
-
-resource "aws_iam_user_policy_attachment" "attach_lambda_and_logs_db_factory" {
-  for_each   = toset(var.database_factory_users)
-  user       = each.value
-  policy_arn = aws_iam_policy.lambda_and_logs_db_factory.arn
-}
-
-resource "aws_iam_user_policy_attachment" "attach_devops_guru_db_factory" {
-  for_each   = toset(var.database_factory_users)
-  user       = each.value
-  policy_arn = aws_iam_policy.devops_guru_db_factory.arn
-}
-
 resource "aws_iam_role" "db-factory-role" {
-  name = "k8s-${var.environment}-db-factory-role"
-
+  name               = "k8s-${var.environment}-db-factory-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": "sts:AssumeRole",
-       "Principal": {
-        "AWS": [ "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.deployment_name}-worker-role" ]
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "${var.open_oidc_provider_arn}"
       },
-      "Effect": "Allow"
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "${var.open_oidc_provider_url}:sub": "system:serviceaccount:${var.namespace}:${var.serviceaccount}"
+        }
+      }
     }
   ]
 }
