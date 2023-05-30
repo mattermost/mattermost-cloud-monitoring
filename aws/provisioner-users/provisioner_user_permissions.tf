@@ -278,6 +278,7 @@ resource "aws_iam_policy" "ec2" {
                 "elasticloadbalancing:ModifyTargetGroup",
                 "autoscaling:CreateLaunchConfiguration",
                 "autoscaling:DescribeTags",
+                "autoscaling:DeleteTags",
                 "autoscaling:DescribeLaunchConfigurations",
                 "autoscaling:CreateAutoScalingGroup",
                 "autoscaling:DeleteLaunchConfiguration",
