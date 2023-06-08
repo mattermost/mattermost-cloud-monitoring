@@ -276,6 +276,7 @@ resource "aws_iam_policy" "ec2" {
                 "elasticloadbalancing:AddTags",
                 "elasticloadbalancing:DeleteTargetGroup",
                 "elasticloadbalancing:ModifyTargetGroup",
+                "elasticloadbalancing:ModifyListener",
                 "autoscaling:CreateLaunchConfiguration",
                 "autoscaling:DescribeTags",
                 "autoscaling:DeleteTags",
