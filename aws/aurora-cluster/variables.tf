@@ -239,3 +239,9 @@ variable "enable_rds_alerting" {
   type    = bool
   default = false
 }
+
+variable "rds_sns_topic" {
+  default     = "rds-cluster-events"
+  description = "RDS events sns topic"
+  type        = string
+}
