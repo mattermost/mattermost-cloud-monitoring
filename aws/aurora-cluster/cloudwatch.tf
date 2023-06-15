@@ -1,5 +1,5 @@
 data "aws_sns_topic" "aurora_cluster_topic" {
-  name = "aurora-cluster-${var.environment}"
+  name = var.rds_sns_topic
 }
 
 resource "aws_cloudwatch_metric_alarm" "db_instances_alarm_cpu" {

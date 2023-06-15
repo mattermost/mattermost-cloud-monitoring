@@ -17,7 +17,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.6.17 |
+| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.6.41 |
 
 ## Resources
 
@@ -62,7 +62,7 @@
 | <a name="input_awat_min_capacity"></a> [awat\_min\_capacity](#input\_awat\_min\_capacity) | n/a | `number` | `0.5` | no |
 | <a name="input_awat_monitoring_interval"></a> [awat\_monitoring\_interval](#input\_awat\_monitoring\_interval) | n/a | `number` | n/a | yes |
 | <a name="input_awat_performance_insights_enabled"></a> [awat\_performance\_insights\_enabled](#input\_awat\_performance\_insights\_enabled) | n/a | `bool` | n/a | yes |
-| <a name="input_awat_performance_insights_retention_period"></a> [awat\_performance\_insights\_retention\_period](#input\_awat\_performance\_insights\_retention\_period) | n/a | `number` | `7` | no |
+| <a name="input_awat_performance_insights_retention_period"></a> [awat\_performance\_insights\_retention\_period](#input\_awat\_performance\_insights\_retention\_period) | n/a | `number` | n/a | yes |
 | <a name="input_awat_replica_min"></a> [awat\_replica\_min](#input\_awat\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_awat_service_name"></a> [awat\_service\_name](#input\_awat\_service\_name) | n/a | `string` | `"awat"` | no |
 | <a name="input_cloud_vpn_cidr"></a> [cloud\_vpn\_cidr](#input\_cloud\_vpn\_cidr) | n/a | `list(string)` | n/a | yes |

@@ -65,7 +65,7 @@ resource "aws_db_subnet_group" "subnets_db" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.6.17"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.6.41"
   cluster_identifier                    = var.provisioner_db_cluster_identifier
   cluster_instance_identifier           = var.provisioner_db_cluster_instance_identifier
   replica_min                           = var.provisioner_replica_min
@@ -90,7 +90,7 @@ module "aurora-cluster" {
   enabled_cloudwatch_logs_exports       = var.provisioner_enabled_cloudwatch_logs_exports
   monitoring_interval                   = var.provisioner_monitoring_interval
   performance_insights_enabled          = var.provisioner_performance_insights_enabled
-  performance_insights_retention_period = var.provisioner_performance_insights_retention_period
+  performance_insights_retention_period = var.provisioner_performance_insights_enabled ? var.provisioner_performance_insights_retention_period : null
   service_name                          = var.provisioner_service_name
   kms_key                               = var.provisioner_kms_key
   vpc_security_group_ids                = [aws_security_group.cec_to_postgress.id]

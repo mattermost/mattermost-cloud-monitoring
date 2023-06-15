@@ -66,7 +66,7 @@ resource "aws_db_subnet_group" "blapi_subnets_db" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.6.17"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.6.41"
   cluster_identifier                    = var.blapi_db_cluster_identifier
   cluster_instance_identifier           = var.blapi_db_cluster_instance_identifier
   replica_min                           = var.blapi_replica_min
@@ -91,7 +91,7 @@ module "aurora-cluster" {
   enabled_cloudwatch_logs_exports       = var.blapi_enabled_cloudwatch_logs_exports
   monitoring_interval                   = var.blapi_monitoring_interval
   performance_insights_enabled          = var.blapi_performance_insights_enabled
-  performance_insights_retention_period = var.blapi_performance_insights_retention_period
+  performance_insights_retention_period = var.blapi_performance_insights_enabled ? var.blapi_performance_insights_retention_period : null
   service_name                          = var.blapi_service_name
   kms_key                               = var.blapi_kms_key
   vpc_security_group_ids                = [aws_security_group.blapi_cec_to_postgres.id, aws_security_group.connect-rds-ec2.id]

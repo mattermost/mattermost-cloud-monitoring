@@ -75,7 +75,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance" {
   monitoring_interval                   = var.monitoring_interval
   promotion_tier                        = count.index + 1
   performance_insights_enabled          = var.performance_insights_enabled
-  performance_insights_retention_period = var.performance_insights_retention_period
+  performance_insights_retention_period = var.performance_insights_enabled ? var.performance_insights_retention_period : null
   publicly_accessible                   = var.publicly_accessible
 
   tags = merge(
@@ -103,7 +103,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_reader" {
   monitoring_interval                   = var.monitoring_interval
   promotion_tier                        = count.index + 1
   performance_insights_enabled          = var.performance_insights_enabled
-  performance_insights_retention_period = var.performance_insights_retention_period
+  performance_insights_retention_period = var.performance_insights_enabled ? var.performance_insights_retention_period : null
   publicly_accessible                   = var.publicly_accessible
 
 

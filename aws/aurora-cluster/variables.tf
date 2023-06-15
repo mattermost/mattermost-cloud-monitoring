@@ -175,7 +175,6 @@ variable "max_capacity" {
 variable "performance_insights_retention_period" {
   type        = number
   description = "Amount of time in days to retain Performance Insights data"
-  default     = 7
 }
 
 variable "publicly_accessible" {
@@ -238,4 +237,10 @@ variable "memory_cache_proportion" {
 variable "enable_rds_alerting" {
   type    = bool
   default = false
+}
+
+variable "rds_sns_topic" {
+  default     = "rds-cluster-events"
+  description = "RDS events sns topic"
+  type        = string
 }
