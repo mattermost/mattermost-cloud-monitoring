@@ -56,7 +56,7 @@
 | <a name="input_elrond_min_capacity"></a> [elrond\_min\_capacity](#input\_elrond\_min\_capacity) | n/a | `number` | `0.5` | no |
 | <a name="input_elrond_monitoring_interval"></a> [elrond\_monitoring\_interval](#input\_elrond\_monitoring\_interval) | n/a | `number` | n/a | yes |
 | <a name="input_elrond_performance_insights_enabled"></a> [elrond\_performance\_insights\_enabled](#input\_elrond\_performance\_insights\_enabled) | n/a | `bool` | n/a | yes |
-| <a name="input_elrond_performance_insights_retention_period"></a> [elrond\_performance\_insights\_retention\_period](#input\_elrond\_performance\_insights\_retention\_period) | n/a | `number` | `7` | no |
+| <a name="input_elrond_performance_insights_retention_period"></a> [elrond\_performance\_insights\_retention\_period](#input\_elrond\_performance\_insights\_retention\_period) | n/a | `number` | n/a | yes |
 | <a name="input_elrond_replica_min"></a> [elrond\_replica\_min](#input\_elrond\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_elrond_service_name"></a> [elrond\_service\_name](#input\_elrond\_service\_name) | n/a | `string` | `"elrond"` | no |
 | <a name="input_enable_elrond_read_replica"></a> [enable\_elrond\_read\_replica](#input\_enable\_elrond\_read\_replica) | n/a | `bool` | `true` | no |

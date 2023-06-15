@@ -143,8 +143,7 @@ variable "provisioner_performance_insights_enabled" {
 }
 
 variable "provisioner_performance_insights_retention_period" {
-  type    = number
-  default = 7
+  type = number
 }
 
 variable "enable_provisioner_read_replica" {

@@ -124,8 +124,7 @@ variable "cws_performance_insights_enabled" {
 }
 
 variable "cws_performance_insights_retention_period" {
-  type    = number
-  default = 7
+  type = number
 }
 
 variable "connect_rds_ec2_security_group" {

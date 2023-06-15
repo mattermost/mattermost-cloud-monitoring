@@ -75,7 +75,7 @@ module "aurora-cluster" {
   enabled_cloudwatch_logs_exports       = var.awat_enabled_cloudwatch_logs_exports
   monitoring_interval                   = var.awat_monitoring_interval
   performance_insights_enabled          = var.awat_performance_insights_enabled
-  performance_insights_retention_period = var.awat_performance_insights_retention_period
+  performance_insights_retention_period = var.awat_performance_insights_enabled ? var.awat_performance_insights_retention_period : null
   service_name                          = var.awat_service_name
   kms_key                               = var.awat_kms_key
   vpc_security_group_ids                = [aws_security_group.cnc_to_awat_db.id]

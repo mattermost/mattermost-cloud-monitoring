@@ -74,7 +74,7 @@ module "aurora-cluster" {
   enabled_cloudwatch_logs_exports       = var.grafana_enabled_cloudwatch_logs_exports
   monitoring_interval                   = var.grafana_monitoring_interval
   performance_insights_enabled          = var.grafana_performance_insights_enabled
-  performance_insights_retention_period = var.grafana_performance_insights_retention_period
+  performance_insights_retention_period = var.grafana_performance_insights_enabled ? var.grafana_performance_insights_retention_period : null
   service_name                          = var.grafana_service_name
   kms_key                               = var.grafana_kms_key
   vpc_security_group_ids                = [aws_security_group.grafana_cec_to_postgres.id]

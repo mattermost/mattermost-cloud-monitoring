@@ -74,7 +74,7 @@ module "aurora-cluster" {
   enabled_cloudwatch_logs_exports       = var.elrond_enabled_cloudwatch_logs_exports
   monitoring_interval                   = var.elrond_monitoring_interval
   performance_insights_enabled          = var.elrond_performance_insights_enabled
-  performance_insights_retention_period = var.elrond_performance_insights_retention_period
+  performance_insights_retention_period = var.elrond_performance_insights_enabled ? var.elrond_performance_insights_retention_period : null
   service_name                          = var.elrond_service_name
   kms_key                               = var.elrond_kms_key
   vpc_security_group_ids                = [aws_security_group.cnc_to_elrond_postgress.id]

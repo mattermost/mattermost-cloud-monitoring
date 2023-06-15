@@ -58,7 +58,7 @@
 | <a name="input_grafana_min_capacity"></a> [grafana\_min\_capacity](#input\_grafana\_min\_capacity) | n/a | `number` | `0.5` | no |
 | <a name="input_grafana_monitoring_interval"></a> [grafana\_monitoring\_interval](#input\_grafana\_monitoring\_interval) | n/a | `number` | n/a | yes |
 | <a name="input_grafana_performance_insights_enabled"></a> [grafana\_performance\_insights\_enabled](#input\_grafana\_performance\_insights\_enabled) | n/a | `bool` | n/a | yes |
-| <a name="input_grafana_performance_insights_retention_period"></a> [grafana\_performance\_insights\_retention\_period](#input\_grafana\_performance\_insights\_retention\_period) | n/a | `number` | `7` | no |
+| <a name="input_grafana_performance_insights_retention_period"></a> [grafana\_performance\_insights\_retention\_period](#input\_grafana\_performance\_insights\_retention\_period) | n/a | `number` | n/a | yes |
 | <a name="input_grafana_replica_min"></a> [grafana\_replica\_min](#input\_grafana\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_grafana_service_name"></a> [grafana\_service\_name](#input\_grafana\_service\_name) | n/a | `string` | `"grafana"` | no |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | n/a | `list(string)` | n/a | yes |

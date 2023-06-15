@@ -175,7 +175,6 @@ variable "max_capacity" {
 variable "performance_insights_retention_period" {
   type        = number
   description = "Amount of time in days to retain Performance Insights data"
-  default     = 7
 }
 
 variable "publicly_accessible" {

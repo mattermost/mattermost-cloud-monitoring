@@ -57,7 +57,7 @@
 | <a name="input_blapi_min_capacity"></a> [blapi\_min\_capacity](#input\_blapi\_min\_capacity) | n/a | `number` | `0.5` | no |
 | <a name="input_blapi_monitoring_interval"></a> [blapi\_monitoring\_interval](#input\_blapi\_monitoring\_interval) | n/a | `number` | n/a | yes |
 | <a name="input_blapi_performance_insights_enabled"></a> [blapi\_performance\_insights\_enabled](#input\_blapi\_performance\_insights\_enabled) | n/a | `bool` | n/a | yes |
-| <a name="input_blapi_performance_insights_retention_period"></a> [blapi\_performance\_insights\_retention\_period](#input\_blapi\_performance\_insights\_retention\_period) | n/a | `number` | `7` | no |
+| <a name="input_blapi_performance_insights_retention_period"></a> [blapi\_performance\_insights\_retention\_period](#input\_blapi\_performance\_insights\_retention\_period) | n/a | `number` | n/a | yes |
 | <a name="input_blapi_replica_min"></a> [blapi\_replica\_min](#input\_blapi\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_blapi_service_name"></a> [blapi\_service\_name](#input\_blapi\_service\_name) | n/a | `string` | `"blapi"` | no |
 | <a name="input_cloud_vpn_cidr"></a> [cloud\_vpn\_cidr](#input\_cloud\_vpn\_cidr) | n/a | `list(string)` | n/a | yes |

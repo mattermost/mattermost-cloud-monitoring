@@ -63,7 +63,7 @@
 | <a name="input_provisioner_min_capacity"></a> [provisioner\_min\_capacity](#input\_provisioner\_min\_capacity) | n/a | `number` | `0.5` | no |
 | <a name="input_provisioner_monitoring_interval"></a> [provisioner\_monitoring\_interval](#input\_provisioner\_monitoring\_interval) | n/a | `number` | n/a | yes |
 | <a name="input_provisioner_performance_insights_enabled"></a> [provisioner\_performance\_insights\_enabled](#input\_provisioner\_performance\_insights\_enabled) | n/a | `bool` | n/a | yes |
-| <a name="input_provisioner_performance_insights_retention_period"></a> [provisioner\_performance\_insights\_retention\_period](#input\_provisioner\_performance\_insights\_retention\_period) | n/a | `number` | `7` | no |
+| <a name="input_provisioner_performance_insights_retention_period"></a> [provisioner\_performance\_insights\_retention\_period](#input\_provisioner\_performance\_insights\_retention\_period) | n/a | `number` | n/a | yes |
 | <a name="input_provisioner_replica_min"></a> [provisioner\_replica\_min](#input\_provisioner\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_provisioner_service_name"></a> [provisioner\_service\_name](#input\_provisioner\_service\_name) | n/a | `string` | `"provisioner"` | no |
 | <a name="input_provisioner_users"></a> [provisioner\_users](#input\_provisioner\_users) | n/a | `list(string)` | n/a | yes |

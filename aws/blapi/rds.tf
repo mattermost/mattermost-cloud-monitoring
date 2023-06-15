@@ -91,7 +91,7 @@ module "aurora-cluster" {
   enabled_cloudwatch_logs_exports       = var.blapi_enabled_cloudwatch_logs_exports
   monitoring_interval                   = var.blapi_monitoring_interval
   performance_insights_enabled          = var.blapi_performance_insights_enabled
-  performance_insights_retention_period = var.blapi_performance_insights_retention_period
+  performance_insights_retention_period = var.blapi_performance_insights_enabled ? var.blapi_performance_insights_retention_period : null
   service_name                          = var.blapi_service_name
   kms_key                               = var.blapi_kms_key
   vpc_security_group_ids                = [aws_security_group.blapi_cec_to_postgres.id, aws_security_group.connect-rds-ec2.id]

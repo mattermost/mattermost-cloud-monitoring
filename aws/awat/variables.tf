@@ -52,8 +52,7 @@ variable "awat_performance_insights_enabled" {
 }
 
 variable "awat_performance_insights_retention_period" {
-  type    = number
-  default = 7
+  type = number
 }
 
 variable "awat_db_cluster_engine" {
