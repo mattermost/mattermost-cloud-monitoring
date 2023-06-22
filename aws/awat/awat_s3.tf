@@ -1,20 +1,34 @@
 resource "aws_s3_bucket" "awat_bucket" {
   bucket = "cloud-awat-${var.environment}"
-  acl    = "private"
+}
+
+resource "aws_s3_bucket_policy" "awat_bucket" {
+  bucket = aws_s3_bucket.awat_bucket.id
   policy = var.enable_awat_bucket_restriction ? data.aws_iam_policy_document.awat_bucket_policy.json : ""
+}
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = data.aws_kms_key.master_s3.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
+resource "aws_s3_bucket_acl" "awat_bucket" {
+  bucket = aws_s3_bucket.awat_bucket.id
+
+  acl = "private"
+}
+
+resource "aws_s3_bucket_versioning" "awat_bucket" {
+  bucket = aws_s3_bucket.awat_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
   }
+}
 
-  versioning {
-    enabled    = true
-    mfa_delete = false
+resource "aws_s3_bucket_server_side_encryption_configuration" "awat_bucket" {
+  bucket = aws_s3_bucket.awat_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = data.aws_kms_key.master_s3.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
