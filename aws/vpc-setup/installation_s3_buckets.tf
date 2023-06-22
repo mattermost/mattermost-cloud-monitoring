@@ -6,21 +6,6 @@ resource "aws_s3_bucket" "installation_buckets" {
   for_each = toset(var.vpc_cidrs)
 
   bucket = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"])
-  acl    = "private"
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = data.aws_kms_key.master_s3.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
-
-  versioning {
-    enabled    = true
-    mfa_delete = false
-  }
 
   tags = merge(
     {
@@ -34,5 +19,30 @@ resource "aws_s3_bucket" "installation_buckets" {
     ignore_changes = [
       replication_configuration
     ]
+  }
+}
+
+resource "aws_s3_bucket_acl" "installation_buckets" {
+  bucket = aws_s3_bucket.installation_buckets.id
+
+  acl = "private"
+}
+
+resource "aws_s3_bucket_versioning" "installation_buckets" {
+  bucket = aws_s3_bucket.installation_buckets.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "installation_buckets" {
+  bucket = aws_s3_bucket.installation_buckets.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = data.aws_kms_key.master_s3.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }

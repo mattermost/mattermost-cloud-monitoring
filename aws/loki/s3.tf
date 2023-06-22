@@ -1,20 +1,34 @@
 resource "aws_s3_bucket" "loki_bucket" {
   bucket = "cloud-loki-${var.environment}"
-  acl    = "private"
+}
+
+resource "aws_s3_bucket_policy" "loki_bucket" {
+  bucket = aws_s3_bucket.loki_bucket.id
   policy = var.enable_loki_bucket_restriction ? data.aws_iam_policy_document.loki_bucket_policy.json : ""
+}
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = data.aws_kms_key.master_s3.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
+resource "aws_s3_bucket_acl" "loki_bucket" {
+  bucket = aws_s3_bucket.loki_bucket.id
+
+  acl = "private"
+}
+
+resource "aws_s3_bucket_versioning" "loki_bucket" {
+  bucket = aws_s3_bucket.loki_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
   }
+}
 
-  versioning {
-    enabled    = true
-    mfa_delete = false
+resource "aws_s3_bucket_server_side_encryption_configuration" "loki_bucket" {
+  bucket = aws_s3_bucket.loki_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = data.aws_kms_key.master_s3.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 

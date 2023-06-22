@@ -1,18 +1,28 @@
 resource "aws_s3_bucket" "gitlab_runners" {
   bucket = "mattermost-cloud-gitlab-runners"
-  acl    = "private"
+}
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = data.aws_kms_key.master_s3.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
+resource "aws_s3_bucket_acl" "gitlab_runners" {
+  bucket = aws_s3_bucket.gitlab_runners.id
+
+  acl = "private"
+}
+
+resource "aws_s3_bucket_versioning" "awat_bucket" {
+  bucket = aws_s3_bucket.gitlab_runners.id
+
+  versioning_configuration {
+    status = "Enabled"
   }
+}
 
-  versioning {
-    enabled    = true
-    mfa_delete = false
+resource "aws_s3_bucket_server_side_encryption_configuration" "awat_bucket" {
+  bucket = aws_s3_bucket.gitlab_runners.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = data.aws_kms_key.master_s3.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
