@@ -122,18 +122,18 @@ resource "aws_autoscaling_group" "calls_offloader" {
     aws_lb_target_group.calls_offloader.arn
   ]
 
-  tags = [
-    {
-      "key"                 = "Name"
-      "value"               = "Call Offloader"
-      "propagate_at_launch" = true
-    },
-    {
-      "key"                 = "Environment"
-      "value"               = var.environment
-      "propagate_at_launch" = true
+  tag {
+      key                 = "Name"
+      value               = "Call Offloader"
+      propagate_at_launch = true
     }
-  ]
+
+  tag  {
+      key                 = "Environment"
+      value               = var.environment
+      propagate_at_launch = true
+    }
+
 
   lifecycle {
     create_before_destroy = true
