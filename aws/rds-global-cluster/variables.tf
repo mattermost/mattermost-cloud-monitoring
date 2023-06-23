@@ -175,3 +175,13 @@ variable "secondary_kms_key" {
   type        = string
   description = "Key to keep your storage data encrypted at rest in all underlying storage for DB clusters."
 }
+
+variable "primary_enabled_cloudwatch_logs_exports" {
+  description = "Set of log types to enable for exporting to CloudWatch logs"
+  type        = list(string)
+}
+
+variable "secondary_enabled_cloudwatch_logs_exports" {
+  description = "Set of log types to enable for exporting to CloudWatch logs"
+  type        = list(string)
+}

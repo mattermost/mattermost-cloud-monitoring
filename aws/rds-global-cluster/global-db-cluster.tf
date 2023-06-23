@@ -29,6 +29,7 @@ resource "aws_rds_cluster" "primary" {
   preferred_backup_window         = var.preferred_backup_window
   skip_final_snapshot             = var.skip_final_snapshot
   final_snapshot_identifier       = local.final_snapshot_identifier
+  enabled_cloudwatch_logs_exports  = var.primary_enabled_cloudwatch_logs_exports
   tags = merge(
     {
       "VpcID"                 = var.primary_vpc_id,
@@ -77,6 +78,7 @@ resource "aws_rds_cluster" "secondary" {
   storage_encrypted               = var.storage_encrypted
   apply_immediately               = var.apply_immediately
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.cluster_parameter_group_postgresql.id
+  enabled_cloudwatch_logs_exports  = var.secondary_enabled_cloudwatch_logs_exports
   tags = merge(
     {
       "VpcID"                 = var.secondary_vpc_id,
