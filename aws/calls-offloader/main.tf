@@ -123,16 +123,16 @@ resource "aws_autoscaling_group" "calls_offloader" {
   ]
 
   tag {
-      key                 = "Name"
-      value               = "Call Offloader"
-      propagate_at_launch = true
-    }
+    key                 = "Name"
+    value               = "Call Offloader"
+    propagate_at_launch = true
+  }
 
-  tag  {
-      key                 = "Environment"
-      value               = var.environment
-      propagate_at_launch = true
-    }
+  tag {
+    key                 = "Environment"
+    value               = var.environment
+    propagate_at_launch = true
+  }
 
 
   lifecycle {
