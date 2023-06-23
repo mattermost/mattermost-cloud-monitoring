@@ -24,14 +24,14 @@ resource "aws_s3_bucket" "installation_buckets" {
 
 resource "aws_s3_bucket_acl" "installation_buckets" {
   for_each = toset(var.vpc_cidrs)
-  bucket   = aws_s3_bucket.installation_buckets[each.key]
+  bucket   = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"])
 
   acl = "private"
 }
 
 resource "aws_s3_bucket_versioning" "installation_buckets" {
   for_each = toset(var.vpc_cidrs)
-  bucket   = aws_s3_bucket.installation_buckets[each.key]
+  bucket   = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"])
 
   versioning_configuration {
     status = "Enabled"
@@ -40,7 +40,7 @@ resource "aws_s3_bucket_versioning" "installation_buckets" {
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "installation_buckets" {
   for_each = toset(var.vpc_cidrs)
-  bucket   = aws_s3_bucket.installation_buckets[each.key]
+  bucket   = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"])
 
   rule {
     apply_server_side_encryption_by_default {
