@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "loki_bucket" {
 
 resource "aws_s3_bucket_policy" "loki_bucket" {
   bucket = aws_s3_bucket.loki_bucket.id
-  policy = var.enable_loki_bucket_restriction ? data.aws_iam_policy_document.loki_bucket_policy.json : {}
+  policy = var.enable_loki_bucket_restriction ? data.aws_iam_policy_document.loki_bucket_policy.json : "{}"
 }
 
 resource "aws_s3_bucket_acl" "loki_bucket" {
