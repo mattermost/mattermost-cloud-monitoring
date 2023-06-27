@@ -3,8 +3,9 @@ resource "aws_s3_bucket" "tempo_bucket" {
 }
 
 resource "aws_s3_bucket_policy" "tempo_bucket" {
+  count  = var.enable_tempo_bucket_restriction ? 1 : 0
   bucket = aws_s3_bucket.tempo_bucket.id
-  policy = var.enable_tempo_bucket_restriction ? data.aws_iam_policy_document.tempo_bucket_policy.json : "{}"
+  policy = data.aws_iam_policy_document.tempo_bucket_policy.json
 }
 
 resource "aws_s3_bucket_acl" "tempo_bucket" {
