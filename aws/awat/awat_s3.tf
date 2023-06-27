@@ -3,8 +3,9 @@ resource "aws_s3_bucket" "awat_bucket" {
 }
 
 resource "aws_s3_bucket_policy" "awat_bucket" {
+  count  = var.enable_awat_bucket_restriction ? 1 : 0
   bucket = aws_s3_bucket.awat_bucket.id
-  policy = var.enable_awat_bucket_restriction ? data.aws_iam_policy_document.awat_bucket_policy.json : "{}"
+  policy = data.aws_iam_policy_document.awat_bucket_policy.json
 }
 
 resource "aws_s3_bucket_acl" "awat_bucket" {
