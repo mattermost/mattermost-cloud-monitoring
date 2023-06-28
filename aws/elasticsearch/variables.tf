@@ -67,6 +67,14 @@ variable "custom_endpoint_enabled" {
   default = true
 }
 
+variable "audit_logs_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "cloudwatch_log_group_arn" {
+  type = string
+}
 
 variable "tls_security_policy" {
   type    = string
