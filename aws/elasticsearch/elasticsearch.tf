@@ -84,6 +84,12 @@ resource "aws_elasticsearch_domain" "es_domain" {
     log_type                 = "ES_APPLICATION_LOGS"
   }
 
+  log_publishing_options {
+    cloudwatch_log_group_arn = var.cloudwatch_log_group_arn
+    enabled                  = var.audit_logs_enabled
+    log_type                 = "AUDIT_LOGS"
+  }
+
   ebs_options {
     ebs_enabled = true
     volume_size = var.es_volume_size
