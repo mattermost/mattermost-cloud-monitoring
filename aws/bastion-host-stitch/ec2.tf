@@ -40,16 +40,33 @@ resource "aws_security_group" "connect-ec2-rds" {
   vpc_id                 = var.vpc_id
   revoke_rules_on_delete = true
 
-  egress {
+  tags = var.tags
+}
+
+resource "aws_security_group" "connect-rds-ec2" {
+  name                   = "connect_rds_ec2"
+  description            = "Allow ec2 bastion to access RDS Postgres"
+  vpc_id                 = var.vpc_id
+  revoke_rules_on_delete = true
+
+  ingress {
     from_port       = 5432
     protocol        = "TCP"
     to_port         = 5432
-    security_groups = [var.connect_rds_ec2_security_group]
+    security_groups = [aws_security_group.connect-ec2-rds.id]
   }
 
   tags = var.tags
-
 }
+
+resource "aws_security_group_rule" "connect-ec2-rds-to-connect-rds-ec2" {
+  security_group_id        = aws_security_group.connect-ec2-rds.id
+  source_security_group_id = aws_security_group.connect-rds-ec2.id
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+}
+
 
 resource "aws_instance" "bastion" {
   ami                         = var.ami_id

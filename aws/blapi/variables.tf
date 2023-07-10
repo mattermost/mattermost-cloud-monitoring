@@ -145,10 +145,6 @@ variable "blapi_performance_insights_retention_period" {
   type = number
 }
 
-variable "connect_ec2_rds_security_group" {
-  type = string
-}
-
 variable "enable_blapi_read_replica" {
   type    = bool
   default = true

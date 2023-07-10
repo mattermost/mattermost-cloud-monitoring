@@ -89,7 +89,3 @@ variable "filepath" {
   type    = string
   default = "."
 }
-
-variable "connect_rds_ec2_security_group" {
-  type = string
-}
