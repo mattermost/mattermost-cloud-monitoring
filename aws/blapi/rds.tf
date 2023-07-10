@@ -38,23 +38,6 @@ resource "aws_security_group" "blapi_cec_to_postgres" {
 
 }
 
-resource "aws_security_group" "connect-rds-ec2" {
-  name                   = "connect_rds_ec2"
-  description            = "Allow ec2 bastion to access RDS Postgres"
-  vpc_id                 = var.vpc_id
-  revoke_rules_on_delete = true
-
-  ingress {
-    from_port       = 5432
-    protocol        = "TCP"
-    to_port         = 5432
-    security_groups = [var.connect_ec2_rds_security_group]
-  }
-
-  tags = {}
-
-}
-
 resource "aws_db_subnet_group" "blapi_subnets_db" {
   name       = "blapi_cloud_db_subnetgroup"
   subnet_ids = var.private_subnets
