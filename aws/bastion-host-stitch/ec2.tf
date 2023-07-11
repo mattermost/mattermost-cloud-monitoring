@@ -60,6 +60,7 @@ resource "aws_security_group" "connect-rds-ec2" {
 }
 
 resource "aws_security_group_rule" "connect-ec2-rds-to-connect-rds-ec2" {
+  type                     = "egress"
   security_group_id        = aws_security_group.connect-ec2-rds.id
   source_security_group_id = aws_security_group.connect-rds-ec2.id
   from_port                = 5432
