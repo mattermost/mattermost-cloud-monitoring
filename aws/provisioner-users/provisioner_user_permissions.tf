@@ -127,6 +127,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:GetBucketLocation",
                 "s3:GetBucketEncryption",
                 "s3:ListBucketVersions",
+                "s3:GetBucketVersioning",
                 "s3:GetBucketTagging",
                 "s3:CreateBucket",
                 "s3:PutEncryptionConfiguration",
