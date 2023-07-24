@@ -20,3 +20,9 @@ variable "create_exports_user" {
   type        = bool
   default     = false
 }
+
+variable "exports_bucket_arn" {
+  description = "The bucket that will be used for data exports. Needed only when create_exports_users is set to true"
+  type        = string
+  default     = ""
+}
