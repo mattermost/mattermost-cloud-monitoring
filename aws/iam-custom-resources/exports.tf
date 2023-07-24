@@ -21,7 +21,7 @@ resource "aws_iam_policy" "exports" {
           "s3:GetBucketTagging"
         ]
         Effect   = "Allow"
-        Resource = "${var.exports_bucket_arn}"
+        Resource = var.exports_bucket_arn
       },
       {
         Action = [
