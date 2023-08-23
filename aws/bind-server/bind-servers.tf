@@ -55,28 +55,45 @@ resource "aws_key_pair" "bind" {
   public_key = var.ssh_key_public
 }
 
-resource "aws_launch_configuration" "bind_launch_configuration" {
-  iam_instance_profile = aws_iam_instance_profile.bind-server-instance-profile.name
-  name_prefix          = "${var.name}-"
-  image_id             = var.ami
-  instance_type        = var.instance_type
-  key_name             = "mattermost-cloud-${var.environment}-bind"
-  security_groups      = [aws_security_group.bind_sg.id]
+resource "aws_launch_template" "bind_launch_template" {
+  iam_instance_profile {
+    name = aws_iam_instance_profile.bind-server-instance-profile.name
+  }
 
-  root_block_device {
-    volume_size           = var.volume_size
-    volume_type           = var.volume_type
-    delete_on_termination = true
+  name_prefix     = "${var.name}-"
+  image_id        = var.ami
+  instance_type   = var.instance_type
+  key_name        = "mattermost-cloud-${var.environment}-bind"
+  security_groups = [aws_security_group.bind_sg.id]
+
+  block_device_mappings {
+    device_name = "/dev/xvda"
+    ebs {
+      volume_size           = var.volume_size
+      volume_type           = var.volume_type
+      delete_on_termination = true
+    }
   }
 
   lifecycle {
     create_before_destroy = true
   }
+
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "Bind-Server"
+    }
+  }
+
 }
 
 resource "aws_autoscaling_group" "bind_autoscale" {
-  name                      = "autoscale-bind-server"
-  launch_configuration      = aws_launch_configuration.bind_launch_configuration.name
+  name = "autoscale-bind-server"
+  launch_template {
+    id      = aws_launch_template.bind_launch_template.id
+    version = aws_launch_template.bind_launch_template.latest_version
+  }
   min_size                  = 3
   max_size                  = 3
   desired_capacity          = 3

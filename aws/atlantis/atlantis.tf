@@ -65,8 +65,10 @@ resource "aws_iam_instance_profile" "atlantis-instance-profile" {
   role = aws_iam_role.atlantis.name
 }
 
-resource "aws_launch_configuration" "atlantis-lc" {
-  iam_instance_profile        = aws_iam_instance_profile.atlantis-instance-profile.name
+resource "aws_launch_template" "atlantis-launch-template" {
+  iam_instance_profile {
+    name = aws_iam_instance_profile.atlantis-instance-profile.name
+  }
   image_id                    = var.ami_id
   instance_type               = var.instance_type
   name_prefix                 = var.deployment_name
@@ -74,18 +76,24 @@ resource "aws_launch_configuration" "atlantis-lc" {
   associate_public_ip_address = false
   key_name                    = var.key_name
 
-  root_block_device {
-    volume_size = var.volume_size
+  block_device_mappings {
+    device_name = "/dev/xvda"
+    ebs {
+      volume_size           = var.volume_size
+      delete_on_termination = true
+    }
   }
-
   lifecycle {
     create_before_destroy = true
   }
 }
 
 resource "aws_autoscaling_group" "atlantis-asg" {
-  desired_capacity     = var.desired_capacity
-  launch_configuration = aws_launch_configuration.atlantis-lc.id
+  desired_capacity = var.desired_capacity
+  launch_template {
+    id      = aws_launch_template.atlantis-launch-template.id
+    version = aws_launch_template.atlantis-launch-template.latest_version
+  }
   max_size             = var.max_size
   min_size             = var.min_size
   name                 = "${var.atlantis_deployment_name}-atlantis-asg"
