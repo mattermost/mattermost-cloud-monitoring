@@ -25,3 +25,8 @@ variable "deploy_node_policy" {
 variable "deploy_rds_enhanced_monitoring_role" {
   type = bool
 }
+
+variable "custom_vpc_kms_keys" {
+  type    = map(string)
+  default = {}
+}

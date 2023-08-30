@@ -43,6 +43,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_custom_vpc_kms_keys"></a> [custom\_vpc\_kms\_keys](#input\_custom\_vpc\_kms\_keys) | n/a | `map(string)` | `{}` | no |
 | <a name="input_deploy_node_policy"></a> [deploy\_node\_policy](#input\_deploy\_node\_policy) | n/a | `bool` | n/a | yes |
 | <a name="input_deploy_rds_enhanced_monitoring_role"></a> [deploy\_rds\_enhanced\_monitoring\_role](#input\_deploy\_rds\_enhanced\_monitoring\_role) | n/a | `bool` | n/a | yes |
 | <a name="input_enable_dns_hostnames"></a> [enable\_dns\_hostnames](#input\_enable\_dns\_hostnames) | n/a | `bool` | n/a | yes |
