@@ -60,11 +60,11 @@ resource "aws_launch_template" "bind_launch_template" {
     name = aws_iam_instance_profile.bind-server-instance-profile.name
   }
 
-  name_prefix     = "${var.name}-"
-  image_id        = var.ami
-  instance_type   = var.instance_type
-  key_name        = "mattermost-cloud-${var.environment}-bind"
-  security_groups = [aws_security_group.bind_sg.id]
+  name_prefix            = "${var.name}-"
+  image_id               = var.ami
+  instance_type          = var.instance_type
+  key_name               = "mattermost-cloud-${var.environment}-bind"
+  vpc_security_group_ids = [aws_security_group.bind_sg.id]
 
   block_device_mappings {
     device_name = "/dev/xvda"
