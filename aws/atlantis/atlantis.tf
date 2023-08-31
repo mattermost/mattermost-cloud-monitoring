@@ -69,12 +69,15 @@ resource "aws_launch_template" "atlantis-launch-template" {
   iam_instance_profile {
     name = aws_iam_instance_profile.atlantis-instance-profile.name
   }
-  image_id                    = var.ami_id
-  instance_type               = var.instance_type
-  name_prefix                 = var.deployment_name
-  security_groups             = var.security_groups
-  associate_public_ip_address = false
-  key_name                    = var.key_name
+  image_id      = var.ami_id
+  instance_type = var.instance_type
+  name_prefix   = var.deployment_name
+
+  network_interfaces {
+    security_groups             = var.security_groups
+    associate_public_ip_address = false
+  }
+  key_name = var.key_name
 
   block_device_mappings {
     device_name = "/dev/xvda"
