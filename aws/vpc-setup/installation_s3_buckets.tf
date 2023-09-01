@@ -44,10 +44,11 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "installation_buck
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256" # Default encryption if no custom key provided
+      sse_algorithm = "aws:kms" # Default encryption if no custom key provided
 
       // Set the KMS key ID conditionally based on whether a custom key is provided
-      kms_master_key_id = var.custom_vpc_kms_keys[each.key] != "" ? var.custom_vpc_kms_keys[each.key] : data.aws_kms_key.master_s3.arn
+      kms_master_key_id = contains(keys(var.custom_vpc_kms_keys), each.key) ? var.custom_vpc_kms_keys[each.key] : data.aws_kms_key.master_s3.arn
+
     }
   }
 }
