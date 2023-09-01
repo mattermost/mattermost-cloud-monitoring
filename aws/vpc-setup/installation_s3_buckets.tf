@@ -22,6 +22,15 @@ resource "aws_s3_bucket" "installation_buckets" {
   }
 }
 
+resource "aws_s3_bucket_ownership_controls" "installation_buckets" {
+  for_each = toset(var.vpc_cidrs)
+  bucket   = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"])
+
+  rule {
+    object_ownership = "ObjectWriter"
+  }
+}
+
 resource "aws_s3_bucket_acl" "installation_buckets" {
   for_each = toset(var.vpc_cidrs)
   bucket   = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"])
