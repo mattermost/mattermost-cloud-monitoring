@@ -356,6 +356,8 @@ resource "aws_iam_policy" "iam" {
             "Sid": "iam0",
             "Effect": "Allow",
             "Action": [
+                "iam:GetRole",
+                "iam:GetInstanceProfile",
                 "iam:ListRoles",
                 "iam:ListInstanceProfiles",
                 "iam:ListRolePolicies",
