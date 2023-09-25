@@ -17,7 +17,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.6.41 |
+| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.6.63 |
 
 ## Resources
 
@@ -41,6 +41,7 @@
 | <a name="input_db_username"></a> [db\_username](#input\_db\_username) | The Elrond DB username | `string` | n/a | yes |
 | <a name="input_elrond_apply_immediately"></a> [elrond\_apply\_immediately](#input\_elrond\_apply\_immediately) | n/a | `bool` | `false` | no |
 | <a name="input_elrond_aurora_family"></a> [elrond\_aurora\_family](#input\_elrond\_aurora\_family) | n/a | `string` | `"aurora-postgresql13"` | no |
+| <a name="input_elrond_ca_cert_identifier"></a> [elrond\_ca\_cert\_identifier](#input\_elrond\_ca\_cert\_identifier) | Identifier of the CA certificate for the DB instance. | `string` | `"rds-ca-rsa4096-g1"` | no |
 | <a name="input_elrond_cluster_storage_encrypted"></a> [elrond\_cluster\_storage\_encrypted](#input\_elrond\_cluster\_storage\_encrypted) | n/a | `bool` | `true` | no |
 | <a name="input_elrond_copy_tags_to_snapshot"></a> [elrond\_copy\_tags\_to\_snapshot](#input\_elrond\_copy\_tags\_to\_snapshot) | n/a | `bool` | `true` | no |
 | <a name="input_elrond_db_cluster_engine"></a> [elrond\_db\_cluster\_engine](#input\_elrond\_db\_cluster\_engine) | n/a | `string` | `"aurora-postgresql"` | no |

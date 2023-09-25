@@ -17,7 +17,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.6.41 |
+| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.6.63 |
 
 ## Resources
 
@@ -43,6 +43,7 @@
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
 | <a name="input_grafana_apply_immediately"></a> [grafana\_apply\_immediately](#input\_grafana\_apply\_immediately) | n/a | `bool` | `false` | no |
 | <a name="input_grafana_aurora_family"></a> [grafana\_aurora\_family](#input\_grafana\_aurora\_family) | n/a | `string` | `"aurora-postgresql13"` | no |
+| <a name="input_grafana_ca_cert_identifier"></a> [grafana\_ca\_cert\_identifier](#input\_grafana\_ca\_cert\_identifier) | Identifier of the CA certificate for the DB instance. | `string` | `"rds-ca-rsa4096-g1"` | no |
 | <a name="input_grafana_cluster_storage_encrypted"></a> [grafana\_cluster\_storage\_encrypted](#input\_grafana\_cluster\_storage\_encrypted) | n/a | `bool` | `true` | no |
 | <a name="input_grafana_copy_tags_to_snapshot"></a> [grafana\_copy\_tags\_to\_snapshot](#input\_grafana\_copy\_tags\_to\_snapshot) | n/a | `bool` | `true` | no |
 | <a name="input_grafana_db_cluster_engine"></a> [grafana\_db\_cluster\_engine](#input\_grafana\_db\_cluster\_engine) | n/a | `string` | `"aurora-postgresql"` | no |

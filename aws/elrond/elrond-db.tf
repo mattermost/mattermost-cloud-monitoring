@@ -49,9 +49,10 @@ resource "aws_db_subnet_group" "subnets_db" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.6.41"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.6.63"
   cluster_identifier                    = var.elrond_db_cluster_identifier
   cluster_instance_identifier           = var.elrond_db_cluster_instance_identifier
+  ca_cert_identifier                    = var.elrond_ca_cert_identifier
   replica_min                           = var.elrond_replica_min
   enable_rds_reader                     = var.enable_elrond_read_replica
   vpc_id                                = var.vpc_id

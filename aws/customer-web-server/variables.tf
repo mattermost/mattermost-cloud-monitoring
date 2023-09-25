@@ -145,3 +145,9 @@ variable "cws_enable_rds_alerting" {
   type    = bool
   default = false
 }
+
+variable "cws_ca_cert_identifier" {
+  type        = string
+  description = "Identifier of the CA certificate for the DB instance."
+  default     = "rds-ca-rsa4096-g1"
+}
