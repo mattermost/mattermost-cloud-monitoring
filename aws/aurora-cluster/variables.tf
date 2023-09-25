@@ -130,6 +130,12 @@ variable "cluster_identifier" {
   description = "The cluster identifier. If omitted, Terraform will assign a random, unique identifier."
 }
 
+variable "ca_cert_identifier" {
+  type        = string
+  description = "Identifier of the CA certificate for the DB instance."
+  default     = "rds-ca-rsa4096-g1"
+}
+
 variable "cluster_instance_identifier" {
   type        = string
   description = "The cluster instance identifier. If omitted, Terraform will assign a random, unique identifier."

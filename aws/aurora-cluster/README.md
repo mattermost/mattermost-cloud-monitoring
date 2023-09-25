@@ -44,6 +44,7 @@ No modules.
 | <a name="input_apply_immediately"></a> [apply\_immediately](#input\_apply\_immediately) | Specifies whether any cluster modifications are applied immediately, or during the next maintenance window | `bool` | n/a | yes |
 | <a name="input_aurora_family"></a> [aurora\_family](#input\_aurora\_family) | The family of the DB parameter group. | `string` | `"aurora-postgresql12"` | no |
 | <a name="input_backup_retention_period"></a> [backup\_retention\_period](#input\_backup\_retention\_period) | The days to retain backups for | `string` | `"7"` | no |
+| <a name="input_ca_cert_identifier"></a> [ca\_cert\_identifier](#input\_ca\_cert\_identifier) | Identifier of the CA certificate for the DB instance. | `string` | `"rds-ca-rsa4096-g1"` | no |
 | <a name="input_cluster_identifier"></a> [cluster\_identifier](#input\_cluster\_identifier) | The cluster identifier. If omitted, Terraform will assign a random, unique identifier. | `string` | n/a | yes |
 | <a name="input_cluster_instance_identifier"></a> [cluster\_instance\_identifier](#input\_cluster\_instance\_identifier) | The cluster instance identifier. If omitted, Terraform will assign a random, unique identifier. | `string` | n/a | yes |
 | <a name="input_copy_tags_to_snapshot"></a> [copy\_tags\_to\_snapshot](#input\_copy\_tags\_to\_snapshot) | Copy all Cluster tags to snapshots | `bool` | n/a | yes |
