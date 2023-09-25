@@ -64,6 +64,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance" {
   count                                 = var.replica_min
   identifier                            = local.cluster_instance_identifier
   cluster_identifier                    = aws_rds_cluster.provisioning_rds_cluster.id
+  ca_cert_identifier                    = var.ca_cert_identifier
   engine                                = var.engine
   engine_version                        = var.engine_version
   instance_class                        = var.instance_type
@@ -92,6 +93,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_reader" {
   count                                 = var.enable_rds_reader ? var.replica_min : 0
   identifier                            = local.cluster_instance_identifier_reader
   cluster_identifier                    = aws_rds_cluster.provisioning_rds_cluster.id
+  ca_cert_identifier                    = var.ca_cert_identifier
   engine                                = var.engine
   engine_version                        = var.engine_version
   instance_class                        = var.instance_type
