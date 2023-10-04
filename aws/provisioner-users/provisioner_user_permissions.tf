@@ -95,7 +95,7 @@ resource "aws_iam_policy" "s3" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation",
                 "s3:GetBucketTagging",
-                "s3:GetBucketEncryption",
+                "s3:GetEncryptionConfiguration",
                 "s3:ListBucketVersions"
             ],
             "Resource": [
@@ -125,7 +125,7 @@ resource "aws_iam_policy" "s3" {
             "Action": [
                 "s3:ListBucket",
                 "s3:GetBucketLocation",
-                "s3:GetBucketEncryption",
+                "s3:GetEncryptionConfiguration",
                 "s3:ListBucketVersions",
                 "s3:GetBucketVersioning",
                 "s3:GetBucketTagging",
