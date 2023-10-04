@@ -15,3 +15,11 @@ resource "aws_s3_bucket_versioning" "lambdas_bucket" {
     status = "Enabled"
   }
 }
+
+resource "aws_s3_bucket_ownership_controls" "lambdas_bucket" {
+  bucket = aws_s3_bucket.lambdas_bucket.id
+
+  rule {
+    object_ownership = "ObjectWriter"
+  }
+}
