@@ -1,7 +1,5 @@
 data "aws_caller_identity" "current" {}
 
-data "aws_region" "current" {}
-
 resource "aws_kms_grant" "byok" {
   for_each = var.custom_vpc_kms_keys
 
