@@ -36,6 +36,8 @@ resource "aws_s3_bucket_acl" "installation_buckets" {
   bucket   = format("%s-%s", var.name, aws_vpc.vpc_creation[each.value]["id"])
 
   acl = "private"
+
+  depends_on = [aws_s3_bucket_ownership_controls.installation_buckets]
 }
 
 resource "aws_s3_bucket_versioning" "installation_buckets" {
