@@ -8,16 +8,6 @@ variable "secondary_vpc_id" {
   type        = string
 }
 
-variable "primary_region" {
-  description = "The region of the primary database cluster"
-  type        = string
-}
-
-variable "secondary_region" {
-  description = "The region of the secondary database cluster"
-  type        = string
-}
-
 variable "db_id" {
   description = "The unique database ID of the cluster"
   type        = string
