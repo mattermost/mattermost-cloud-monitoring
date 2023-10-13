@@ -3,8 +3,8 @@ locals {
   database_id                   = var.db_id == "" ? random_string.db_cluster_identifier.result : var.db_id
   max_connections               = var.ram_memory_bytes[var.instance_type] / 9531392
   performance_insights_enabled  = var.environment == "prod" ? var.performance_insights_enabled : false
-  cluster_kms_key_arn_primary   = var.kms_key_id == "" ? aws_kms_key.aurora_storage_key_primary[0].arn : var.kms_key_id
-  cluster_kms_key_arn_secondary = var.kms_key_id == "" && var.enable_global_cluster ? aws_kms_key.aurora_storage_key_secondary[0].arn : var.kms_key_id
+  cluster_kms_key_arn_primary   = var.kms_key_id_primary == "" ? aws_kms_key.aurora_storage_key_primary[0].arn : var.kms_key_id_primary
+  cluster_kms_key_arn_secondary = var.kms_key_id_secondary == "" && var.enable_global_cluster ? aws_kms_key.aurora_storage_key_secondary[0].arn : var.kms_key_id_secondary
 }
 
 # Random string to use as master password unless one is specified
@@ -18,26 +18,26 @@ data "aws_iam_role" "enhanced_monitoring" {
 }
 
 resource "aws_kms_key" "aurora_storage_key_primary" {
-  count                   = var.kms_key_id == "" ? 1 : 0
+  count                   = var.kms_key_id_primary == "" ? 1 : 0
   description             = format("rds-multitenant-storage-key-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)
   deletion_window_in_days = 7
 }
 
 resource "aws_kms_key" "aurora_storage_key_secondary" {
-  count                   = var.kms_key_id == "" && var.enable_global_cluster ? 1 : 0
+  count                   = var.kms_key_id_secondary == "" && var.enable_global_cluster ? 1 : 0
   provider                = aws.secondary
   description             = format("rds-multitenant-storage-key-%s-%s", split("-", var.secondary_vpc_id)[1], local.database_id)
   deletion_window_in_days = 7
 }
 
 resource "aws_kms_alias" "aurora_storage_alias_primary" {
-  count         = var.kms_key_id == "" ? 1 : 0
+  count         = var.kms_key_id_primary == "" ? 1 : 0
   name          = "alias/${format("rds-multitenant-storage-key-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)}"
   target_key_id = local.cluster_kms_key_arn_primary
 }
 
 resource "aws_kms_alias" "aurora_storage_alias_secondary" {
-  count         = var.kms_key_id == "" && var.enable_global_cluster ? 1 : 0
+  count         = var.kms_key_id_secondary == "" && var.enable_global_cluster ? 1 : 0
   provider      = aws.secondary
   name          = "alias/${format("rds-multitenant-storage-key-%s-%s", split("-", var.secondary_vpc_id)[1], local.database_id)}"
   target_key_id = local.cluster_kms_key_arn_secondary
@@ -134,7 +134,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_primary" {
   monitoring_interval             = var.monitoring_interval
   promotion_tier                  = count.index + 1
   performance_insights_enabled    = local.performance_insights_enabled
-  performance_insights_kms_key_id = local.performance_insights_enabled ? var.kms_key_id : ""
+  performance_insights_kms_key_id = local.performance_insights_enabled ? local.cluster_kms_key_arn_primary : ""
 
   tags = merge(
     {
@@ -206,7 +206,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_secondary" {
   monitoring_interval             = var.monitoring_interval
   promotion_tier                  = count.index + 1
   performance_insights_enabled    = local.performance_insights_enabled
-  performance_insights_kms_key_id = local.performance_insights_enabled ? var.kms_key_id : ""
+  performance_insights_kms_key_id = local.performance_insights_enabled ? local.cluster_kms_key_arn_secondary : ""
 
   tags = merge(
     {

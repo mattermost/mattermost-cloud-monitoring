@@ -205,10 +205,16 @@ variable "enabled_cloudwatch_logs_exports" {
   type        = list(string)
 }
 
-variable "kms_key_id" {
+variable "kms_key_id_primary" {
   default     = ""
   type        = string
-  description = "ARN for the KMS encryption key if one is set to the cluster"
+  description = "ARN for the primary KMS encryption key if one is set to the cluster"
+}
+
+variable "kms_key_id_secondary" {
+  default     = ""
+  type        = string
+  description = "ARN for the secondary KMS encryption key if one is set to the cluster"
 }
 
 variable "enable_global_cluster" {
