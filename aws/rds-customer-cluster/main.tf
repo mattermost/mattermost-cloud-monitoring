@@ -1,10 +1,10 @@
 locals {
-  master_password                = var.password == "" ? random_password.master_password.result : var.password
-  database_id                    = var.db_id == "" ? random_string.db_cluster_identifier.result : var.db_id
-  max_connections                = var.ram_memory_bytes[var.instance_type] / 9531392
-  performance_insights_enabled   = var.environment == "prod" ? var.performance_insights_enabled : false
-  cluster_kms_key_arn_primary    = var.kms_key_id == "" ? aws_kms_key.aurora_storage_key_primary[0].arn : var.kms_key_id
-  cluster_kms_key_arn_secondary  = var.kms_key_id == ""  && var.enable_global_cluster ? aws_kms_key.aurora_storage_key_secondary[0].arn : var.kms_key_id
+  master_password               = var.password == "" ? random_password.master_password.result : var.password
+  database_id                   = var.db_id == "" ? random_string.db_cluster_identifier.result : var.db_id
+  max_connections               = var.ram_memory_bytes[var.instance_type] / 9531392
+  performance_insights_enabled  = var.environment == "prod" ? var.performance_insights_enabled : false
+  cluster_kms_key_arn_primary   = var.kms_key_id == "" ? aws_kms_key.aurora_storage_key_primary[0].arn : var.kms_key_id
+  cluster_kms_key_arn_secondary = var.kms_key_id == "" && var.enable_global_cluster ? aws_kms_key.aurora_storage_key_secondary[0].arn : var.kms_key_id
 }
 
 # Random string to use as master password unless one is specified
@@ -46,13 +46,13 @@ resource "aws_kms_alias" "aurora_storage_alias_secondary" {
 
 data "aws_security_group" "db_sg_primary" {
   provider = aws.primary
-  name = format("mattermost-cloud-%s-provisioning-%s-db-postgresql-sg", var.environment, join("", split(".", split("/", data.aws_vpc.provisioning_vpc_primary.cidr_block)[0])))
+  name     = format("mattermost-cloud-%s-provisioning-%s-db-postgresql-sg", var.environment, join("", split(".", split("/", data.aws_vpc.provisioning_vpc_primary.cidr_block)[0])))
 }
 
 data "aws_security_group" "db_sg_secondary" {
-  count = var.enable_global_cluster ? 1 : 0
+  count    = var.enable_global_cluster ? 1 : 0
   provider = aws.secondary
-  name  = format("mattermost-cloud-%s-provisioning-%s-db-postgresql-sg", var.environment, join("", split(".", split("/", data.aws_vpc.provisioning_vpc_secondary[0].cidr_block)[0])))
+  name     = format("mattermost-cloud-%s-provisioning-%s-db-postgresql-sg", var.environment, join("", split(".", split("/", data.aws_vpc.provisioning_vpc_secondary[0].cidr_block)[0])))
 }
 
 data "aws_vpc" "provisioning_vpc_primary" {
@@ -61,15 +61,15 @@ data "aws_vpc" "provisioning_vpc_primary" {
 }
 
 data "aws_vpc" "provisioning_vpc_secondary" {
-  count = var.enable_global_cluster ? 1 : 0
+  count    = var.enable_global_cluster ? 1 : 0
   provider = aws.secondary
-  id    = var.secondary_vpc_id
+  id       = var.secondary_vpc_id
 }
 
 resource "aws_rds_global_cluster" "global-cluster" {
-  count                     = var.enable_global_cluster ? 1 : 0
-  force_destroy             = true
-  global_cluster_identifier = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)
+  count                        = var.enable_global_cluster ? 1 : 0
+  force_destroy                = true
+  global_cluster_identifier    = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)
   source_db_cluster_identifier = aws_rds_cluster.provisioning_rds_cluster_primary.arn
 }
 
@@ -336,7 +336,7 @@ resource "aws_secretsmanager_secret_version" "master_password" {
 }
 
 resource "aws_db_parameter_group" "db_parameter_group_postgresql_primary" {
-  provider                         = aws.primary
+  provider = aws.primary
 
   name_prefix = format("rds-cluster-multitenant-%s-%s-pg", split("-", var.primary_vpc_id)[1], random_string.db_cluster_identifier.result)
   family      = "aurora-postgresql13"
@@ -386,7 +386,7 @@ resource "aws_db_parameter_group" "db_parameter_group_postgresql_primary" {
 }
 
 resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_primary" {
-  provider                         = aws.primary
+  provider = aws.primary
 
   name_prefix = format("rds-cluster-multitenant-%s-%s-cluster-pg", split("-", var.primary_vpc_id)[1], random_string.db_cluster_identifier.result)
   family      = "aurora-postgresql13"
@@ -437,8 +437,8 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_p
 }
 
 resource "aws_db_parameter_group" "db_parameter_group_postgresql_secondary" {
-  count                            = var.enable_global_cluster ? 1 : 0
-  provider                         = aws.secondary
+  count    = var.enable_global_cluster ? 1 : 0
+  provider = aws.secondary
 
   name_prefix = format("rds-cluster-multitenant-%s-%s-pg", split("-", var.primary_vpc_id)[1], random_string.db_cluster_identifier.result)
   family      = "aurora-postgresql13"
@@ -488,8 +488,8 @@ resource "aws_db_parameter_group" "db_parameter_group_postgresql_secondary" {
 }
 
 resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_secondary" {
-  count                            = var.enable_global_cluster ? 1 : 0
-  provider                         = aws.secondary
+  count    = var.enable_global_cluster ? 1 : 0
+  provider = aws.secondary
 
   name_prefix = format("rds-cluster-multitenant-%s-%s-cluster-pg", split("-", var.primary_vpc_id)[1], random_string.db_cluster_identifier.result)
   family      = "aurora-postgresql13"
