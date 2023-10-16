@@ -56,3 +56,8 @@ variable "single_route_table_deployment" {
   type        = bool
   description = "This will defined whether a single route table for all subnets will be created. multi_route_table_deployment and single_route_table_deployment cannot be both set to true"
 }
+
+variable "vpc_endpoint_service" {
+  type        = string
+  description = "This the VPC endpoint service, for example com.amazonaws.us-east-1.s3"
+}
