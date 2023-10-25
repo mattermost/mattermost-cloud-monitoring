@@ -5,8 +5,8 @@ resource "aws_lambda_function" "deckhand" {
   function_name = "deckhand"
   description   = "Lambda"
   role          = aws_iam_role.cleanup_old_images_lambda.arn
-  handler       = "main"
-  runtime       = "go1.x"
+  handler       = "bootstrap"
+  runtime       = "provided.al2"
   timeout       = "600"
 
   # Enable active tracing : X-ray
