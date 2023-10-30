@@ -8,7 +8,7 @@ resource "aws_s3_bucket_acl" "gitlab_runners" {
   acl = "private"
 }
 
-resource "aws_s3_bucket_versioning" "awat_bucket" {
+resource "aws_s3_bucket_versioning" "gitlab_runners" {
   bucket = aws_s3_bucket.gitlab_runners.id
 
   versioning_configuration {
@@ -16,7 +16,7 @@ resource "aws_s3_bucket_versioning" "awat_bucket" {
   }
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "awat_bucket" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "gitlab_runners" {
   bucket = aws_s3_bucket.gitlab_runners.id
 
   rule {

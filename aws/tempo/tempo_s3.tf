@@ -22,7 +22,7 @@ resource "aws_s3_bucket_versioning" "tempo_bucket" {
   }
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "awat_bucket" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "tempo_bucket" {
   bucket = aws_s3_bucket.tempo_bucket.id
 
   rule {
