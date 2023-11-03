@@ -30,9 +30,9 @@ resource "aws_lambda_function" "rds_cluster_events" {
   s3_key        = var.lambda_s3_key
   function_name = "rds-cluster-events"
   role          = aws_iam_role.lambda_role_rds_cluster_events.arn
-  handler       = "main"
+  handler       = "bootstrap"
   timeout       = 120
-  runtime       = "go1.x"
+  runtime       = "provided.al2"
 
   environment {
     variables = {

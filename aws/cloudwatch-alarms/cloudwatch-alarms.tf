@@ -51,9 +51,9 @@ resource "aws_lambda_function" "alert_elb_cloudwatch_alarm" {
   s3_key        = var.lambda_alert_elb_s3_key
   function_name = "receive-elb-cloudwatch-alarm"
   role          = aws_iam_role.lambda_role_receive_elb_cloudwatch_alarm.arn
-  handler       = "main"
+  handler       = "bootstrap"
   timeout       = 120
-  runtime       = "go1.x"
+  runtime       = "provided.al2"
 
   environment {
     variables = {
@@ -149,9 +149,9 @@ resource "aws_lambda_function" "create_elb_cloudwatch_alarm" {
   s3_key        = var.lambda_create_elb_s3_key
   function_name = "create-elb-cloudwatch-alarm"
   role          = aws_iam_role.lambda_role_create_elb_cloudwatch_alarm.arn
-  handler       = "main"
+  handler       = "bootstrap"
   timeout       = 120
-  runtime       = "go1.x"
+  runtime       = "provided.al2"
 
   environment {
     variables = {
@@ -277,9 +277,9 @@ resource "aws_lambda_function" "create_rds_cloudwatch_alarm" {
   s3_key        = var.lambda_create_rds_s3_key
   function_name = "create-rds-cloudwatch-alarm"
   role          = aws_iam_role.lambda_role_create_rds_cloudwatch_alarm.arn
-  handler       = "main"
+  handler       = "bootstrap"
   timeout       = 120
-  runtime       = "go1.x"
+  runtime       = "provided.al2"
 
   environment {
     variables = {

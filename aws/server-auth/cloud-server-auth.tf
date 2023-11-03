@@ -36,9 +36,9 @@ resource "aws_lambda_function" "cloud_server_auth" {
   s3_key        = var.lambda_s3_key
   function_name = "cloud-server-auth"
   role          = aws_iam_role.auth_lambda_role.arn
-  handler       = "cloud-server-auth"
+  handler       = "bootstrap"
   timeout       = 180
-  runtime       = "go1.x"
+  runtime       = "provided.al2"
   vpc_config {
     subnet_ids         = flatten(var.auth_private_subnet_ids)
     security_group_ids = [aws_security_group.auth_lambda_sg.id]

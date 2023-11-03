@@ -30,9 +30,9 @@ resource "aws_lambda_function" "cloudwatch_event_alerts" {
   s3_key        = var.lambda_s3_key
   function_name = "cloudwatch-event-alerts"
   role          = aws_iam_role.lambda_role_cloudwatch_event_alerts.arn
-  handler       = "main"
+  handler       = "bootstrap"
   timeout       = 120
-  runtime       = "go1.x"
+  runtime       = "provided.al2"
 
   environment {
     variables = {

@@ -3,9 +3,9 @@ resource "aws_lambda_function" "elb_cleanup" {
   s3_key        = var.lambda_s3_key
   function_name = "elb-cleanup"
   role          = aws_iam_role.elb_cleanup_lambda_role.arn
-  handler       = "main"
+  handler       = "bootstrap"
   timeout       = 120
-  runtime       = "go1.x"
+  runtime       = "provided.al2"
   vpc_config {
     subnet_ids         = flatten(var.private_subnet_ids)
     security_group_ids = [aws_security_group.elb_cleanup_lambda_sg.id]
