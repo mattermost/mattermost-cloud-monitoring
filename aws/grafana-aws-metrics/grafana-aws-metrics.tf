@@ -119,9 +119,9 @@ resource "aws_lambda_function" "grafana_aws_metrics" {
   s3_key        = var.lambda_s3_key
   function_name = "grafana-aws-metrics"
   role          = aws_iam_role.grafana_lambda_role.arn
-  handler       = "main"
+  handler       = "bootstrap"
   timeout       = 120
-  runtime       = "go1.x"
+  runtime       = "provided.al2"
   vpc_config {
     subnet_ids         = flatten(var.private_subnet_ids)
     security_group_ids = [aws_security_group.grafana_lambda_sg.id]

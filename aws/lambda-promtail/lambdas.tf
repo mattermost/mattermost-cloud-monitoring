@@ -3,8 +3,8 @@ resource "aws_lambda_function" "lambda_promtail" {
   s3_key        = var.lambda_s3_key
   function_name = var.function_name
   role          = aws_iam_role.promtail_lambda.arn
-  handler       = "main"
-  runtime       = "go1.x"
+  handler       = "bootstrap"
+  runtime       = "provided.al2"
   timeout       = 60
   memory_size   = 128
 

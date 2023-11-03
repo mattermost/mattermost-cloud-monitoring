@@ -55,9 +55,9 @@ resource "aws_lambda_function" "ebs_janitor" {
   s3_key        = var.lambda_s3_key
   function_name = "ebs-janitor"
   role          = aws_iam_role.ebs_janitor_lambda_role.arn
-  handler       = "main"
+  handler       = "bootstrap"
   timeout       = 120
-  runtime       = "go1.x"
+  runtime       = "provided.al2"
   vpc_config {
     subnet_ids         = flatten(var.private_subnet_ids)
     security_group_ids = [aws_security_group.ebs_janitor_lambda_sg.id]
