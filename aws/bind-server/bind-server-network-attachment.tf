@@ -55,9 +55,9 @@ resource "aws_lambda_function" "bind_server_network_attachment" {
   s3_key        = var.lambda_s3_key
   function_name = "bind-server-network-attachment"
   role          = aws_iam_role.bind_lambda_role.arn
-  handler       = "main"
+  handler       = "bootstrap"
   timeout       = 120
-  runtime       = "go1.x"
+  runtime       = "provided.al2"
   vpc_config {
     subnet_ids         = flatten([var.subnet_ids])
     security_group_ids = [aws_security_group.bind_lambda_sg.id]
