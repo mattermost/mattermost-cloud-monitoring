@@ -221,3 +221,15 @@ variable "enable_global_cluster" {
   type        = bool
   description = "Whether to deploy a global RDS cluster"
 }
+
+variable "performance_kms_key_id_primary" {
+  default     = ""
+  type        = string
+  description = "ARN for the primary performance insights KMS encryption key if one is set to the cluster"
+}
+
+variable "performance_kms_key_id_secondary" {
+  default     = ""
+  type        = string
+  description = "ARN for the secondary performance insights KMS encryption key if one is set to the cluster"
+}

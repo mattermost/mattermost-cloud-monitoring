@@ -142,7 +142,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_primary" {
   monitoring_interval             = var.monitoring_interval
   promotion_tier                  = count.index + 1
   performance_insights_enabled    = local.performance_insights_enabled
-  performance_insights_kms_key_id = local.performance_insights_enabled ? local.cluster_kms_key_arn_primary : ""
+  performance_insights_kms_key_id = local.performance_insights_enabled ? (var.performance_kms_key_id_primary != "" ? var.performance_kms_key_id_primary : local.cluster_kms_key_arn_primary) : ""
 
   tags = merge(
     {
@@ -214,7 +214,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_secondary" {
   monitoring_interval             = var.monitoring_interval
   promotion_tier                  = count.index + 1
   performance_insights_enabled    = local.performance_insights_enabled
-  performance_insights_kms_key_id = local.performance_insights_enabled ? local.cluster_kms_key_arn_secondary : ""
+  performance_insights_kms_key_id = local.performance_insights_enabled ? (var.performance_kms_key_id_secondary != "" ? var.performance_kms_key_id_secondary : local.cluster_kms_key_arn_secondary) : ""
 
   tags = merge(
     {
