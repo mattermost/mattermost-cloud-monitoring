@@ -5,13 +5,6 @@ data "aws_kms_key" "master_s3" {
 resource "aws_s3_bucket" "velero_bucket" {
   bucket = "cloud-velero-${var.environment}"
 }
-
-resource "aws_s3_bucket_acl" "velero_bucket" {
-  bucket = aws_s3_bucket.velero_bucket.id
-
-  acl = "private"
-}
-
 resource "aws_s3_bucket_versioning" "velero_bucket" {
   bucket = aws_s3_bucket.velero_bucket.id
 
