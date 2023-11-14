@@ -1,6 +1,7 @@
 resource "aws_lambda_function" "provisioner-notification" {
   function_name = "provisioner-notification"
   runtime       = "provided.al2"
+  role          = aws_iam_role.generic-webhook.arn
   memory_size   = 128
   timeout       = 120
   handler       = "bootstrap"
@@ -26,6 +27,7 @@ resource "aws_lambda_function" "provisioner-notification" {
 resource "aws_lambda_function" "elrond-notification" {
   function_name = "elrond-notification"
   runtime       = "provided.al2"
+  role          = aws_iam_role.generic-webhook.arn
   memory_size   = 128
   timeout       = 120
   handler       = "bootstrap"
@@ -52,6 +54,7 @@ resource "aws_lambda_function" "elrond-notification" {
 resource "aws_lambda_function" "gitlab-webhook" {
   function_name = "gitlab-webhook"
   runtime       = "provided.al2"
+  role          = aws_iam_role.generic-webhook.arn
   memory_size   = 128
   timeout       = 120
   handler       = "bootstrap"
