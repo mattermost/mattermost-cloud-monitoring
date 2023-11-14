@@ -8,6 +8,11 @@ resource "aws_lambda_function" "provisioner-notification" {
   s3_bucket = var.lambda_s3_bucket
   s3_key    = var.lambda_provisioner_notification_s3_key
 
+  vpc_config {
+    subnet_ids         = flatten(var.private_subnet_ids)
+    security_group_ids = [aws_security_group.generic-lambda_sg.id]
+  }
+
   environment {
     variables = {
       MATTERMOST_WEBHOOK_PROD       = var.mattermost_webhook_prod
@@ -27,6 +32,11 @@ resource "aws_lambda_function" "elrond-notification" {
 
   s3_bucket = var.lambda_s3_bucket
   s3_key    = var.lambda_elrond_notification_s3_key
+
+  vpc_config {
+    subnet_ids         = flatten(var.private_subnet_ids)
+    security_group_ids = [aws_security_group.generic-lambda_sg.id]
+  }
 
   environment {
     variables = {
@@ -48,6 +58,11 @@ resource "aws_lambda_function" "gitlab-webhook" {
 
   s3_bucket = var.lambda_s3_bucket
   s3_key    = var.lambda_gitlab_webhook_s3_key
+
+  vpc_config {
+    subnet_ids         = flatten(var.private_subnet_ids)
+    security_group_ids = [aws_security_group.generic-lambda_sg.id]
+  }
 
   environment {
     variables = {
@@ -83,6 +98,24 @@ resource "aws_lambda_permission" "gitlab-webhook-permission" {
 
   source_arn = "${aws_api_gateway_rest_api.core-generic-webhook-notification.execution_arn}/*/${aws_api_gateway_method.gitlab-webhook-post.http_method}/${aws_api_gateway_resource.gitlab-webhook-resource.path_part}"
 }
+
+resource "aws_security_group" "generic-lambda_sg" {
+  name        = "${var.deployment_name}-generic-webhook-lambda-sg"
+  description = "generic webhook lambdas"
+  vpc_id      = var.vpc_id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.deployment_name}-generic-webhook-lambda-sg"
+  }
+}
+
 
 
 

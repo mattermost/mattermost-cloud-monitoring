@@ -1,3 +1,18 @@
+variable "private_subnet_ids" {
+  type        = list(string)
+  description = "The list of the private subnet IDs are used by generic-webhook lambdas"
+}
+
+variable "vpc_id" {
+  description = "The ID of VPC is used by the generic-webhook lambdas"
+  type        = string
+}
+
+variable "deployment_name" {
+  description = "The name of the deployment for Lambda"
+  type        = string
+}
+
 variable "mattermost_webhook_prod" {
   type = string
 }

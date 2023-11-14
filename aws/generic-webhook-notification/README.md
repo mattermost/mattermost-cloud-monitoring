@@ -37,11 +37,13 @@ No modules.
 | [aws_lambda_permission.elrond-notification-permission](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_lambda_permission.gitlab-webhook-permission](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_lambda_permission.provisioner-notification-permission](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
+| [aws_security_group.generic-lambda_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | The name of the deployment for Lambda | `string` | n/a | yes |
 | <a name="input_lambda_elrond_notification_s3_key"></a> [lambda\_elrond\_notification\_s3\_key](#input\_lambda\_elrond\_notification\_s3\_key) | The S3 key where the elrond notification lambda function is stored | `string` | n/a | yes |
 | <a name="input_lambda_gitlab_webhook_s3_key"></a> [lambda\_gitlab\_webhook\_s3\_key](#input\_lambda\_gitlab\_webhook\_s3\_key) | The S3 key where the gitlab webhook lambda function is stored | `string` | n/a | yes |
 | <a name="input_lambda_provisioner_notification_s3_key"></a> [lambda\_provisioner\_notification\_s3\_key](#input\_lambda\_provisioner\_notification\_s3\_key) | The S3 key where the provisioner notification lambda function is stored | `string` | n/a | yes |
@@ -52,6 +54,8 @@ No modules.
 | <a name="input_mattermost_webhook_prod"></a> [mattermost\_webhook\_prod](#input\_mattermost\_webhook\_prod) | n/a | `string` | n/a | yes |
 | <a name="input_opsgenie_apikey"></a> [opsgenie\_apikey](#input\_opsgenie\_apikey) | n/a | `string` | n/a | yes |
 | <a name="input_opsgenie_scheduler_team"></a> [opsgenie\_scheduler\_team](#input\_opsgenie\_scheduler\_team) | n/a | `string` | n/a | yes |
+| <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The list of the private subnet IDs are used by generic-webhook lambdas | `list(string)` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The ID of VPC is used by the generic-webhook lambdas | `string` | n/a | yes |
 
 ## Outputs
 
