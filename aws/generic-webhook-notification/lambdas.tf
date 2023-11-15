@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "provisioner-notification" {
-  function_name = "provisioner-notification"
+  function_name = "${var.deployment_name}-notification"
   runtime       = "provided.al2"
   role          = aws_iam_role.generic-webhook.arn
   memory_size   = 128
@@ -14,6 +14,10 @@ resource "aws_lambda_function" "provisioner-notification" {
     security_group_ids = [aws_security_group.generic-lambda_sg.id]
   }
 
+  tracing_config {
+    mode = "PassThrough"
+  }
+
   environment {
     variables = {
       MATTERMOST_WEBHOOK_PROD       = var.mattermost_webhook_prod
@@ -22,10 +26,19 @@ resource "aws_lambda_function" "provisioner-notification" {
       OPSGENIE_SCHEDULER_TEAM       = var.opsgenie_scheduler_team
     }
   }
+
+  ephemeral_storage {
+    size = 512
+  }
+
+  tags_all = var.tags
+
 }
 
+
+
 resource "aws_lambda_function" "elrond-notification" {
-  function_name = "elrond-notification"
+  function_name = "${var.deployment_name}-elrond-notification"
   runtime       = "provided.al2"
   role          = aws_iam_role.generic-webhook.arn
   memory_size   = 128
@@ -40,6 +53,10 @@ resource "aws_lambda_function" "elrond-notification" {
     security_group_ids = [aws_security_group.generic-lambda_sg.id]
   }
 
+  tracing_config {
+    mode = "PassThrough"
+  }
+
   environment {
     variables = {
       MATTERMOST_ELROND_WEBHOOK_PROD = var.mattermost_elrond_webhook_prod
@@ -49,10 +66,16 @@ resource "aws_lambda_function" "elrond-notification" {
       ENVIRONMENT                    = "PROD"
     }
   }
+
+  ephemeral_storage {
+    size = 512
+  }
+
+  tags_all = var.tags
 }
 
 resource "aws_lambda_function" "gitlab-webhook" {
-  function_name = "gitlab-webhook"
+  function_name = "${var.deployment_name}-gitlab-webhook"
   runtime       = "provided.al2"
   role          = aws_iam_role.generic-webhook.arn
   memory_size   = 128
@@ -67,11 +90,22 @@ resource "aws_lambda_function" "gitlab-webhook" {
     security_group_ids = [aws_security_group.generic-lambda_sg.id]
   }
 
+  tracing_config {
+    mode = "PassThrough"
+  }
+
   environment {
     variables = {
       MATTERMOST_NOTIFICATION_HOOK = var.mattermost_notification_hook
     }
   }
+
+  ephemeral_storage {
+    size = 512
+  }
+
+  tags_all = var.tags
+
 }
 
 resource "aws_lambda_permission" "provisioner-notification-permission" {
