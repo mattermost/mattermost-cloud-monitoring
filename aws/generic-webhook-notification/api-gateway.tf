@@ -6,7 +6,7 @@ resource "aws_api_gateway_rest_api" "core-generic-webhook-notification" {
 resource "aws_api_gateway_resource" "provisioner-notification-resource" {
   rest_api_id = aws_api_gateway_rest_api.core-generic-webhook-notification.id
   parent_id   = aws_api_gateway_rest_api.core-generic-webhook-notification.root_resource_id
-  path_part   = "notification"
+  path_part   = "/api/v1/notification"
 }
 
 resource "aws_api_gateway_method" "notification-post" {
@@ -29,7 +29,7 @@ resource "aws_api_gateway_integration" "notification-integration" {
 resource "aws_api_gateway_resource" "elrond-notification-resource" {
   rest_api_id = aws_api_gateway_rest_api.core-generic-webhook-notification.id
   parent_id   = aws_api_gateway_rest_api.core-generic-webhook-notification.root_resource_id
-  path_part   = "elrond-notification"
+  path_part   = "/api/v1/elrond-notification"
 }
 
 resource "aws_api_gateway_method" "elrond-notification-post" {
@@ -52,7 +52,7 @@ resource "aws_api_gateway_integration" "elrond-notification-integration" {
 resource "aws_api_gateway_resource" "gitlab-webhook-resource" {
   rest_api_id = aws_api_gateway_rest_api.core-generic-webhook-notification.id
   parent_id   = aws_api_gateway_rest_api.core-generic-webhook-notification.root_resource_id
-  path_part   = "gitlab-webhook"
+  path_part   = "/api/v1/gitlab-webhook"
 }
 
 resource "aws_api_gateway_method" "gitlab-webhook-post" {
