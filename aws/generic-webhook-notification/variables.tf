@@ -56,3 +56,7 @@ variable "lambda_provisioner_notification_s3_key" {
   type        = string
   description = "The S3 key where the provisioner notification lambda function is stored"
 }
+
+variable "tags" {
+  type = map(string)
+}
