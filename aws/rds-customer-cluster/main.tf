@@ -127,7 +127,7 @@ resource "aws_rds_cluster" "provisioning_rds_cluster_primary" {
 }
 
 resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_primary" {
-  count                           = var.replica_min
+  count                           = var.replica_min_primary
   provider                        = aws.primary
   identifier                      = format("rds-db-instance-multitenant-%s-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id, (count.index + 1))
   cluster_identifier              = aws_rds_cluster.provisioning_rds_cluster_primary.id
@@ -199,7 +199,7 @@ resource "aws_rds_cluster" "provisioning_rds_cluster_secondary" {
 }
 
 resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_secondary" {
-  count                           = var.enable_global_cluster ? var.replica_min : 0
+  count                           = var.enable_global_cluster ? var.replica_min_secondary : 0
   provider                        = aws.secondary
   identifier                      = format("rds-db-instance-multitenant-%s-%s-sec-%s", split("-", var.secondary_vpc_id)[1], local.database_id, (count.index + 1))
   cluster_identifier              = aws_rds_cluster.provisioning_rds_cluster_secondary[0].id
@@ -231,7 +231,7 @@ This command will always run and "|| true will prevent it to broke when enabled_
 The local exec is a temporary solution until terraform supports devops-guru https://github.com/hashicorp/terraform-provider-aws/issues/17919
 */
 resource "null_resource" "enable_devops_guru_primary" {
-  count = var.replica_min
+  count = var.replica_min_primary
   provisioner "local-exec" {
     command = <<-EOF
       sleep 3 \
@@ -250,7 +250,7 @@ EOF
 }
 
 resource "null_resource" "enable_devops_guru_secondary" {
-  count = var.enable_global_cluster ? var.replica_min : 0
+  count = var.enable_global_cluster ? var.replica_min_secondary : 0
   provisioner "local-exec" {
     command = <<-EOF
       sleep 3 \

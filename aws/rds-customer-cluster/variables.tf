@@ -118,9 +118,14 @@ variable "replica_scale_min" {
   type        = number
 }
 
-variable "replica_min" {
+variable "replica_min_primary" {
   type        = number
-  description = "Number of replicas to deploy initially with the RDS Cluster."
+  description = "Number of replicas to deploy initially with the primary RDS Cluster."
+}
+
+variable "replica_min_secondary" {
+  type        = number
+  description = "Number of replicas to deploy initially with the secondary RDS Cluster."
 }
 
 variable "predefined_metric_type" {
