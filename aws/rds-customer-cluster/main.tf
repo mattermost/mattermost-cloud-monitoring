@@ -77,7 +77,7 @@ data "aws_vpc" "provisioning_vpc_secondary" {
 resource "aws_rds_global_cluster" "global-cluster" {
   count                        = var.enable_global_cluster ? 1 : 0
   force_destroy                = true
-  database_name                = "postgres"
+  database_name                = var.global_database_name == "" ? null : var.global_database_name
   global_cluster_identifier    = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)
   source_db_cluster_identifier = aws_rds_cluster.provisioning_rds_cluster_primary.arn
 }
