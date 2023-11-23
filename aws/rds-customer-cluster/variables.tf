@@ -238,3 +238,9 @@ variable "performance_kms_key_id_secondary" {
   type        = string
   description = "ARN for the secondary performance insights KMS encryption key if one is set to the cluster"
 }
+
+variable "global_database_name" {
+  default     = ""
+  type        = string
+  description = "The database name for the global cluster. When creating global cluster from existing db cluster leave empty"
+}
