@@ -85,6 +85,7 @@ resource "aws_rds_global_cluster" "global-cluster" {
 resource "aws_rds_cluster" "provisioning_rds_cluster_primary" {
   provider                         = aws.primary
   cluster_identifier               = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)
+  ca_cert_identifier               = var.ca_cert_identifier
   engine                           = var.engine
   engine_version                   = var.engine_version
   kms_key_id                       = local.cluster_kms_key_arn_primary
@@ -132,6 +133,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_primary" {
   provider                        = aws.primary
   identifier                      = format("rds-db-instance-multitenant-%s-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id, (count.index + 1))
   cluster_identifier              = aws_rds_cluster.provisioning_rds_cluster_primary.id
+  ca_cert_identifier              = var.ca_cert_identifier
   engine                          = var.engine
   engine_version                  = var.engine_version
   instance_class                  = var.instance_type
@@ -204,6 +206,7 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_secondary" {
   provider                        = aws.secondary
   identifier                      = format("rds-db-instance-multitenant-%s-%s-sec-%s", split("-", var.secondary_vpc_id)[1], local.database_id, (count.index + 1))
   cluster_identifier              = aws_rds_cluster.provisioning_rds_cluster_secondary[0].id
+  ca_cert_identifier              = var.ca_cert_identifier
   engine                          = var.engine
   engine_version                  = var.engine_version
   instance_class                  = var.instance_type
