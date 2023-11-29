@@ -244,3 +244,9 @@ variable "global_database_name" {
   type        = string
   description = "The database name for the global cluster. When creating global cluster from existing db cluster leave empty"
 }
+
+variable "ca_cert_identifier" {
+  type        = string
+  description = "Identifier of the CA certificate for the DB instance."
+  default     = "rds-ca-rsa4096-g1"
+}
