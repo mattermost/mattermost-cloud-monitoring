@@ -85,7 +85,6 @@ resource "aws_rds_global_cluster" "global-cluster" {
 resource "aws_rds_cluster" "provisioning_rds_cluster_primary" {
   provider                         = aws.primary
   cluster_identifier               = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)
-  ca_cert_identifier               = var.ca_cert_identifier
   engine                           = var.engine
   engine_version                   = var.engine_version
   kms_key_id                       = local.cluster_kms_key_arn_primary
