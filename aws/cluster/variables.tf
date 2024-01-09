@@ -14,22 +14,6 @@ variable "deployment_name" {
   type = string
 }
 
-variable "instance_type" {
-  type = string
-}
-
-variable "max_size" {
-  type = string
-}
-
-variable "min_size" {
-  type = string
-}
-
-variable "desired_size" {
-  type = string
-}
-
 variable "cidr_blocks" {
   type = list(string)
 }
@@ -93,6 +77,11 @@ variable "node_volume_type" {
 
 variable "node_group_name" {
   type = string
+}
+
+variable "node_group" {
+  type        = any
+  description = "The node group block template"
 }
 
 variable "aws_reserved_sso_id" {

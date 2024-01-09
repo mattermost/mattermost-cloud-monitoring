@@ -137,7 +137,7 @@ resource "kubernetes_cluster_role" "console_access" {
 
   rule {
     api_groups = [""]
-    resources  = ["nodes", "namespaces", "pods"]
+    resources  = ["nodes", "namespaces", "pods", "configmaps"]
     verbs      = ["get", "list"]
   }
 
@@ -150,6 +150,18 @@ resource "kubernetes_cluster_role" "console_access" {
   rule {
     api_groups = ["batch"]
     resources  = ["jobs"]
+    verbs      = ["get", "list"]
+  }
+
+  rule {
+    api_groups = ["storage.k8s.io"]
+    resources  = ["storageclasses"]
+    verbs      = ["get", "list"]
+  }
+
+  rule {
+    api_groups = ["rbac.authorization.k8s.io"]
+    resources  = ["clusterrolebindings", "clusterroles", "rolebindings", "roles"]
     verbs      = ["get", "list"]
   }
 }
