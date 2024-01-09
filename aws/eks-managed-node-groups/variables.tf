@@ -122,3 +122,28 @@ variable "vpc_id" {
   description = "VPC ID to use for the EKS cluster"
   type        = string
 }
+
+variable "arm_image_id" {
+  type        = string
+  description = "The AMI ID used for the nodes in the node group"
+}
+
+variable "arm_instance_type" {
+  type        = string
+  description = "The instance type used for the arm nodes in the node group"
+}
+
+variable "arm_desired_size" {
+  type        = string
+  description = "The desired number of arm nodes in the node group"
+}
+
+variable "arm_max_size" {
+  type        = string
+  description = "The maximum number of arm nodes in the node group"
+}
+
+variable "arm_min_size" {
+  type        = string
+  description = "The minimum number of arm nodes in the node group"
+}
