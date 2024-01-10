@@ -27,13 +27,15 @@ CONFIGMAPAWSAUTH
 }
 
 module "managed_node_group" {
-  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.6.19"
+  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.6.90"
   vpc_security_group_ids = [aws_security_group.worker-sg.id]
   volume_size            = var.node_volume_size
   volume_type            = var.node_volume_type
   image_id               = var.eks_ami_id
   ebs_optimized          = var.ebs_optimized
   instance_type          = var.instance_type
+  arm_image_id           = var.eks_arm_image_id
+  arm_instance_type      = var.arm_instance_type
   user_data              = base64encode(local.worker-userdata)
   cluster_name           = aws_eks_cluster.cluster.name
   node_role_arn          = aws_iam_role.worker-role.arn
@@ -52,4 +54,7 @@ module "managed_node_group" {
   subnets                = var.map_subnets
   enable_spot_nodes      = var.enable_spot_nodes
   vpc_id                 = var.vpc_id
+  arm_desired_size       = var.arm_desired_size
+  arm_max_size           = var.arm_max_size
+  arm_min_size           = var.arm_min_size
 }
