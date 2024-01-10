@@ -21,7 +21,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_managed_node_group"></a> [managed\_node\_group](#module\_managed\_node\_group) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups | v1.6.19 |
+| <a name="module_managed_node_group"></a> [managed\_node\_group](#module\_managed\_node\_group) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups | v1.6.90 |
 
 ## Resources
 
@@ -78,6 +78,10 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_argocd_account_role"></a> [argocd\_account\_role](#input\_argocd\_account\_role) | n/a | `string` | n/a | yes |
+| <a name="input_arm_desired_size"></a> [arm\_desired\_size](#input\_arm\_desired\_size) | The desired number of arm nodes in the node group | `string` | n/a | yes |
+| <a name="input_arm_instance_type"></a> [arm\_instance\_type](#input\_arm\_instance\_type) | The instance type used for the arm nodes in the node group | `string` | n/a | yes |
+| <a name="input_arm_max_size"></a> [arm\_max\_size](#input\_arm\_max\_size) | The maximum number of arm nodes in the node group | `string` | n/a | yes |
+| <a name="input_arm_min_size"></a> [arm\_min\_size](#input\_arm\_min\_size) | The minimum number of arm nodes in the node group | `string` | n/a | yes |
 | <a name="input_atlantis_user"></a> [atlantis\_user](#input\_atlantis\_user) | The atlantis user used for IaaC | `string` | n/a | yes |
 | <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | List of availability zones to place the instances | `list(string)` | n/a | yes |
 | <a name="input_aws_read_only_sso_role_name"></a> [aws\_read\_only\_sso\_role\_name](#input\_aws\_read\_only\_sso\_role\_name) | Name of the read only SSO iam role | `string` | `""` | no |
@@ -91,6 +95,7 @@
 | <a name="input_ebs_csi_addon_version"></a> [ebs\_csi\_addon\_version](#input\_ebs\_csi\_addon\_version) | The version of the EKS EBS CSI addon | `string` | n/a | yes |
 | <a name="input_ebs_optimized"></a> [ebs\_optimized](#input\_ebs\_optimized) | If true, the launched EC2 instance will be EBS-optimized | `bool` | `null` | no |
 | <a name="input_eks_ami_id"></a> [eks\_ami\_id](#input\_eks\_ami\_id) | n/a | `string` | n/a | yes |
+| <a name="input_eks_arm_image_id"></a> [eks\_arm\_image\_id](#input\_eks\_arm\_image\_id) | The AMI ID used for the arm nodes in the node group | `string` | n/a | yes |
 | <a name="input_enable_coredns_addon"></a> [enable\_coredns\_addon](#input\_enable\_coredns\_addon) | Whether to enable the EKS CoreDNS addon or not | `bool` | n/a | yes |
 | <a name="input_enable_ebs_csi_addon"></a> [enable\_ebs\_csi\_addon](#input\_enable\_ebs\_csi\_addon) | Whether to enable the EKS EBS CSI addon or not | `bool` | n/a | yes |
 | <a name="input_enable_kube_proxy_addon"></a> [enable\_kube\_proxy\_addon](#input\_enable\_kube\_proxy\_addon) | Whether to enable the EKS Kube Proxy addon or not | `bool` | n/a | yes |
