@@ -30,7 +30,7 @@ resource "aws_launch_template" "cluster_nodes_eks_arm_launch_template" {
   }
 }
 
-resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
+resource "aws_eks_node_group" "general_arm_nodes_eks_cluster_ng" {
   cluster_name    = var.cluster_name
   node_group_name = "${var.node_group_name}-arm-nodes"
 
