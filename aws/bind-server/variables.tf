@@ -81,3 +81,46 @@ variable "lambda_s3_key" {
   type        = string
   description = "The S3 key where the lambda function is stored"
 }
+
+variable "max_size" {
+  type    = number
+  default = 3
+}
+
+variable "min_size" {
+  type    = number
+  default = 3
+}
+
+variable "desired_size" {
+  type    = number
+  default = 3
+}
+
+variable "arm_ami" {
+  type        = string
+  description = "Custom AMI to use for ARM/Graviton instances."
+}
+
+variable "arm_instance_type" {
+  type        = string
+  description = "The instance type used for the arm nodes in the node group"
+}
+
+variable "arm_desired_size" {
+  type        = number
+  description = "The desired number of arm nodes in the arm node group"
+  default     = 0
+}
+
+variable "arm_max_size" {
+  type        = number
+  description = "The maximum number of arm nodes in the arm node group"
+  default     = 0
+}
+
+variable "arm_min_size" {
+  type        = number
+  description = "The minimum number of arm nodes in the arm node group"
+  default     = 0
+}
