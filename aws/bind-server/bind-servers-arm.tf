@@ -1,11 +1,13 @@
-resource "aws_launch_template" "bind_launch_template" {
+data "aws_caller_identity" "current" {}
+
+resource "aws_launch_template" "bind_arm_launch_template" {
   iam_instance_profile {
     name = aws_iam_instance_profile.bind-server-instance-profile.name
   }
 
-  name_prefix            = "${var.name}-"
-  image_id               = var.ami
-  instance_type          = var.instance_type
+  name_prefix            = "${var.name}-arm-"
+  image_id               = var.arm_ami
+  instance_type          = var.arm_instance_type
   key_name               = "mattermost-cloud-${var.environment}-bind"
   vpc_security_group_ids = [aws_security_group.bind_sg.id]
 
@@ -31,15 +33,15 @@ resource "aws_launch_template" "bind_launch_template" {
 
 }
 
-resource "aws_autoscaling_group" "bind_autoscale" {
-  name = "autoscale-bind-server"
+resource "aws_autoscaling_group" "bind_arm_autoscale" {
+  name = "autoscale-arm-bind-server"
   launch_template {
-    id      = aws_launch_template.bind_launch_template.id
-    version = aws_launch_template.bind_launch_template.latest_version
+    id      = aws_launch_template.bind_arm_launch_template.id
+    version = aws_launch_template.bind_arm_launch_template.latest_version
   }
-  min_size                  = var.min_size
-  max_size                  = var.max_size
-  desired_capacity          = var.desired_size
+  min_size                  = var.arm_min_size
+  max_size                  = var.arm_max_size
+  desired_capacity          = var.arm_desired_size
   vpc_zone_identifier       = [var.subnet_ids[0], var.subnet_ids[1], var.subnet_ids[2]]
   default_cooldown          = 30
   health_check_grace_period = 30
