@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 resource "aws_launch_template" "bind_arm_launch_template" {
   iam_instance_profile {
     name = aws_iam_instance_profile.bind-server-instance-profile.name
