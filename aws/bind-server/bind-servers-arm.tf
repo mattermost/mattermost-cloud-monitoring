@@ -40,7 +40,7 @@ resource "aws_autoscaling_group" "bind_arm_autoscale" {
   min_size                  = var.arm_min_size
   max_size                  = var.arm_max_size
   desired_capacity          = var.arm_desired_size
-  vpc_zone_identifier       = [var.subnet_ids[0], var.subnet_ids[1], var.subnet_ids[2]]
+  vpc_zone_identifier       = var.subnet_ids_arm
   default_cooldown          = 30
   health_check_grace_period = 30
   health_check_type         = "EC2"
