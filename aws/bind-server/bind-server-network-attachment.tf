@@ -94,7 +94,8 @@ resource "aws_cloudwatch_event_rule" "autoscaling_bind_updates" {
       ],
       "detail": {
         "AutoScalingGroupName": [
-          "autoscale-bind-server"
+          "autoscale-bind-server",
+          "autoscale-arm-bind-server"
         ]
       }
     }
