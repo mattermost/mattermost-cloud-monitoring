@@ -6,6 +6,14 @@ resource "aws_autoscaling_lifecycle_hook" "bind_lifecycle_hook" {
   lifecycle_transition   = "autoscaling:EC2_INSTANCE_LAUNCHING"
 }
 
+resource "aws_autoscaling_lifecycle_hook" "bind_lifecycle_hook_arm" {
+  name                   = "bind-lifecycle-hook-arm"
+  autoscaling_group_name = aws_autoscaling_group.bind_arm_autoscale.name
+  default_result         = "ABANDON"
+  heartbeat_timeout      = 60
+  lifecycle_transition   = "autoscaling:EC2_INSTANCE_LAUNCHING"
+}
+
 resource "aws_network_interface" "bind_network_interface" {
   count           = length(var.subnet_ids) - 1
   subnet_id       = var.subnet_ids[count.index]
