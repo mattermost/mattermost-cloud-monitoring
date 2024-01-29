@@ -49,7 +49,8 @@ resource "aws_iam_policy" "packer" {
           "ec2:RunInstances",
           "ec2:StopInstances",
           "ec2:TerminateInstances",
-          "ec2:DescribeVpcs"
+          "ec2:DescribeVpcs",
+          "ssm:GetParameter"
         ]
         Effect   = "Allow"
         Resource = "*"
