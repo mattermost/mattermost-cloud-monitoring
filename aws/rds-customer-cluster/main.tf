@@ -153,6 +153,8 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_primary" {
     },
     var.tags,
   [var.enable_devops_guru ? { "devops-guru-default" = replace("${aws_rds_cluster.provisioning_rds_cluster_primary.cluster_identifier}-${count.index + 1}", "/rds-cluster/", "rds-db-instance") } : null]...)
+
+  depends_on = [ aws_db_parameter_group.db_parameter_group_postgresql_primary ]
 }
 
 resource "aws_rds_cluster" "provisioning_rds_cluster_secondary" {
@@ -357,7 +359,7 @@ resource "aws_db_parameter_group" "db_parameter_group_postgresql_primary" {
   provider = aws.primary
 
   name_prefix = format("rds-cluster-multitenant-%s-%s-pg", split("-", var.primary_vpc_id)[1], local.database_id)
-  family      = "aurora-postgresql13"
+  family      = format("%s%s", var.engine, regex("[0-9].?", var.engine_version))
 
   parameter {
     apply_method = "pending-reboot"
@@ -407,7 +409,7 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_p
   provider = aws.primary
 
   name_prefix = format("rds-cluster-multitenant-%s-%s-cluster-pg", split("-", var.primary_vpc_id)[1], local.database_id)
-  family      = "aurora-postgresql13"
+  family      = format("%s%s", var.engine, regex("[0-9].?", var.engine_version))
 
 
   parameter {
@@ -459,7 +461,7 @@ resource "aws_db_parameter_group" "db_parameter_group_postgresql_secondary" {
   provider = aws.secondary
 
   name_prefix = format("rds-cluster-multitenant-%s-%s-pg", split("-", var.primary_vpc_id)[1], local.database_id)
-  family      = "aurora-postgresql13"
+  family      = format("%s%s", var.engine, regex("[0-9].?", var.engine_version))
 
   parameter {
     apply_method = "pending-reboot"
@@ -510,7 +512,7 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_s
   provider = aws.secondary
 
   name_prefix = format("rds-cluster-multitenant-%s-%s-cluster-pg", split("-", var.primary_vpc_id)[1], local.database_id)
-  family      = "aurora-postgresql13"
+  family      = format("%s%s", var.engine, regex("[0-9].?", var.engine_version))
 
 
   parameter {
