@@ -154,7 +154,8 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_primary" {
     var.tags,
   [var.enable_devops_guru ? { "devops-guru-default" = replace("${aws_rds_cluster.provisioning_rds_cluster_primary.cluster_identifier}-${count.index + 1}", "/rds-cluster/", "rds-db-instance") } : null]...)
 
-  depends_on = [ aws_db_parameter_group.db_parameter_group_postgresql_primary ]
+  depends_on = [aws_db_parameter_group.db_parameter_group_postgresql_primary]
+
 }
 
 resource "aws_rds_cluster" "provisioning_rds_cluster_secondary" {
