@@ -445,12 +445,12 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_p
   }
 
   parameter {
-    name = "password_encryption"
+    name  = "password_encryption"
     value = var.password_encryption
   }
 
   parameter {
-    name = "rds.accepted_password_auth_method"
+    name  = "rds.accepted_password_auth_method"
     value = var.accepted_password_auth_method
   }
 
@@ -559,12 +559,12 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_s
   }
 
   parameter {
-    name = "password_encryption"
+    name  = "password_encryption"
     value = var.password_encryption
   }
 
   parameter {
-    name = "rds.accepted_password_auth_method"
+    name  = "rds.accepted_password_auth_method"
     value = var.accepted_password_auth_method
   }
 
