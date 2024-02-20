@@ -444,6 +444,17 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_p
     value = var.environment == "prod" ? 2000 : var.log_min_duration_statement
   }
 
+  parameter {
+    name = "password_encryption"
+    value = var.password_encryption
+  }
+
+  parameter {
+    name = "rds.accepted_password_auth_method"
+    value = var.accepted_password_auth_method
+  }
+
+
   tags = merge(
     {
       "MattermostCloudInstallationDatabase" = "PostgreSQL/Aurora",
@@ -545,6 +556,16 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_s
   parameter {
     name  = "log_min_duration_statement"
     value = var.environment == "prod" ? 2000 : var.log_min_duration_statement
+  }
+
+  parameter {
+    name = "password_encryption"
+    value = var.password_encryption
+  }
+
+  parameter {
+    name = "rds.accepted_password_auth_method"
+    value = var.accepted_password_auth_method
   }
 
   tags = merge(

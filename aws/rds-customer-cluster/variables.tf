@@ -250,3 +250,13 @@ variable "ca_cert_identifier" {
   description = "Identifier of the CA certificate for the DB instance."
   default     = "rds-ca-rsa4096-g1"
 }
+
+variable "password_encryption" {
+  type        = string
+  description = "The password encryption method to use for the DB instance. Valid values: md5 or scram-sha-256"
+}
+
+variable "accepted_password_auth_method" {
+  type        = string
+  description = "The authentication method to use for the DB instance. Valid values: md5+scram or scram"
+}
