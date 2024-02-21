@@ -1,3 +1,8 @@
+resource "aws_iam_user" "awat_user" {
+  name = "awat-${var.environment}"
+  path = "/"
+}
+
 resource "aws_s3_bucket" "awat_bucket" {
   bucket = "cloud-awat-${var.environment}"
 }
@@ -75,6 +80,15 @@ data "aws_iam_policy_document" "awat_bucket_policy" {
       "arn:aws:s3:::cloud-awat-${var.environment}",
       "arn:aws:s3:::cloud-awat-${var.environment}/*"
     ]
+
+    condition {
+      test = "StringLike"
+      variable = "aws:userId"
+
+      values = [
+        aws_iam_user.awat_user.user_id
+      ]
+    }
   }
 }
 
