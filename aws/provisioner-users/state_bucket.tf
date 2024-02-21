@@ -2,10 +2,6 @@ data "aws_kms_key" "master_s3" {
   key_id = "alias/aws/s3"
 }
 
-data "aws_iam_user" "cnc_user" {
-  user_name = var.cnc_user
-}
-
 resource "aws_s3_bucket" "state_bucket" {
   bucket        = "mattermost-kops-state-${var.environment}${local.conditional_dash_region}"
   force_destroy = var.force_destroy_state_bucket
@@ -82,15 +78,5 @@ data "aws_iam_policy_document" "state_bucket_policy" {
       "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}",
       "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}/*"
     ]
-
-    condition {
-      test     = "StringLike"
-      variable = "aws:userId"
-
-      values = [
-        data.aws_iam_user.cnc_user.user_id
-      ]
-    }
   }
-
 }

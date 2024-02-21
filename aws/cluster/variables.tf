@@ -71,10 +71,6 @@ variable "provider_role_arn" {
   default = ""
 }
 
-variable "cnc_user" {
-  type = string
-}
-
 variable "argocd_account_role" {
   type = string
 }

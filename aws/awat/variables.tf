@@ -43,10 +43,6 @@ variable "enable_awat_bucket_restriction" {
   type = bool
 }
 
-variable "cnc_user" {
-  type = string
-}
-
 variable "awat_performance_insights_enabled" {
   type = bool
 }
