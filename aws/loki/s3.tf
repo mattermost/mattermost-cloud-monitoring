@@ -37,10 +37,6 @@ data "aws_kms_key" "master_s3" {
   key_id = "alias/aws/s3"
 }
 
-data "aws_iam_user" "cnc_user" {
-  user_name = var.cnc_user
-}
-
 
 data "aws_iam_policy_document" "loki_bucket_policy" {
 
@@ -80,15 +76,5 @@ data "aws_iam_policy_document" "loki_bucket_policy" {
       "arn:aws:s3:::cloud-loki-${var.environment}",
       "arn:aws:s3:::cloud-loki-${var.environment}/*"
     ]
-
-    condition {
-      test     = "StringLike"
-      variable = "aws:userId"
-
-      values = [
-        data.aws_iam_user.cnc_user.user_id
-      ]
-    }
   }
-
 }

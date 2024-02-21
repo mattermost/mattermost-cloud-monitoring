@@ -8,11 +8,6 @@ variable "provisioner_users" {
   description = "The list defined the users can use provisioner"
 }
 
-variable "cnc_user" {
-  type        = string
-  description = "The Command And Control user"
-}
-
 variable "force_destroy_state_bucket" {
   type        = bool
   description = "Enables force destroy of a provisioner state bucket"

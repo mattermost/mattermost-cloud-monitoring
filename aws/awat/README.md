@@ -34,7 +34,6 @@
 | [aws_s3_bucket_versioning.awat_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_security_group.cnc_to_awat_db](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_iam_policy_document.awat_bucket_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_user.cnc_user](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_user) | data source |
 | [aws_kms_key.master_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [terraform_remote_state.cnc_cluster](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/data-sources/remote_state) | data source |
@@ -71,7 +70,6 @@
 | <a name="input_awat_replica_min"></a> [awat\_replica\_min](#input\_awat\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_awat_service_name"></a> [awat\_service\_name](#input\_awat\_service\_name) | n/a | `string` | `"awat"` | no |
 | <a name="input_cloud_vpn_cidr"></a> [cloud\_vpn\_cidr](#input\_cloud\_vpn\_cidr) | n/a | `list(string)` | n/a | yes |
-| <a name="input_cnc_user"></a> [cnc\_user](#input\_cnc\_user) | n/a | `string` | n/a | yes |
 | <a name="input_enable_awat_bucket_restriction"></a> [enable\_awat\_bucket\_restriction](#input\_enable\_awat\_bucket\_restriction) | n/a | `bool` | n/a | yes |
 | <a name="input_enable_awat_read_replica"></a> [enable\_awat\_read\_replica](#input\_enable\_awat\_read\_replica) | n/a | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |

@@ -58,7 +58,6 @@ No modules.
 | [aws_s3_bucket_versioning.state_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy_document.state_bucket_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_user.cnc_user](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_user) | data source |
 | [aws_kms_key.master_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
@@ -69,7 +68,6 @@ No modules.
 | <a name="input_awat_bucket_name"></a> [awat\_bucket\_name](#input\_awat\_bucket\_name) | The name of the S3 Bucket which AWAT needs for data import | `string` | n/a | yes |
 | <a name="input_awat_cross_account_enabled"></a> [awat\_cross\_account\_enabled](#input\_awat\_cross\_account\_enabled) | Enables cross-account policies for KMS | `bool` | n/a | yes |
 | <a name="input_awat_s3_kms_key_arn"></a> [awat\_s3\_kms\_key\_arn](#input\_awat\_s3\_kms\_key\_arn) | The name of the S3 Bucket which AWAT needs for data import | `string` | n/a | yes |
-| <a name="input_cnc_user"></a> [cnc\_user](#input\_cnc\_user) | The Command And Control user | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | The name of the environment is created | `string` | n/a | yes |
 | <a name="input_force_destroy_state_bucket"></a> [force\_destroy\_state\_bucket](#input\_force\_destroy\_state\_bucket) | Enables force destroy of a provisioner state bucket | `bool` | `false` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The namespace, which host the service account & target application | `string` | n/a | yes |
