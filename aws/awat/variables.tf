@@ -166,3 +166,8 @@ variable "awat_ca_cert_identifier" {
   description = "Identifier of the CA certificate for the DB instance."
   default     = "rds-ca-rsa4096-g1"
 }
+
+variable "cloud_import_account_number" {
+  type = string
+  description = "value of the account number of the import account"
+}

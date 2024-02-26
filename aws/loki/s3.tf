@@ -62,19 +62,4 @@ data "aws_iam_policy_document" "loki_bucket_policy" {
       values = ["AROA*"]
     }
   }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:*"
-    ]
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
-    resources = [
-      "arn:aws:s3:::cloud-loki-${var.environment}",
-      "arn:aws:s3:::cloud-loki-${var.environment}/*"
-    ]
-  }
 }

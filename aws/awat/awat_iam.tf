@@ -16,6 +16,13 @@ resource "aws_iam_role" "awat-role" {
           "${var.open_oidc_provider_url}:sub": "system:serviceaccount:${var.namespace}:${var.serviceaccount}"
         }
       }
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
+          "AWS": "arn:aws:iam::${var.cloud_import_account_number}:root"
+      },
+      "Action": "sts:AssumeRole"
     }
   ]
 }
@@ -46,7 +53,9 @@ resource "aws_iam_policy" "awat-policy" {
                 "s3:GetBucketTagging"
             ],
             "Resource": [
-                "arn:aws:s3:::cloud-awat-${var.environment}"
+                "arn:aws:s3:::cloud-awat-${var.environment}",
+                "arn:aws:s3:::mattermost-cloud-data-import",
+                "arn:aws:s3:::mattermost-cloud-exports"
             ]
         },
         {
@@ -60,7 +69,9 @@ resource "aws_iam_policy" "awat-policy" {
                 "s3:GetObjectVersionAcl"
             ],
             "Resource": [
-                "arn:aws:s3:::cloud-awat-${var.environment}/*"
+                "arn:aws:s3:::cloud-awat-${var.environment}/*",
+                "arn:aws:s3:::mattermost-cloud-data-import/*",
+                "arn:aws:s3:::mattermost-cloud-exports/*"
             ]
         }
     ]
