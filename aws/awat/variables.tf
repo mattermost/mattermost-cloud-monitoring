@@ -168,6 +168,6 @@ variable "awat_ca_cert_identifier" {
 }
 
 variable "cloud_import_account_number" {
-  type = string
+  type        = string
   description = "value of the account number of the import account"
 }
