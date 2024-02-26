@@ -61,20 +61,5 @@ data "aws_iam_policy_document" "awat_bucket_policy" {
       values = flatten([["AROA*"]])
     }
   }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:*"
-    ]
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
-    resources = [
-      "arn:aws:s3:::cloud-awat-${var.environment}",
-      "arn:aws:s3:::cloud-awat-${var.environment}/*"
-    ]
-  }
 }
 

@@ -64,21 +64,5 @@ data "aws_iam_policy_document" "tempo_bucket_policy" {
       ], ["AROA*"]])
     }
   }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:*"
-    ]
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
-    resources = [
-      "arn:aws:s3:::cloud-tempo-${var.environment}",
-      "arn:aws:s3:::cloud-tempo-${var.environment}/*"
-    ]
-  }
-
 }
 
