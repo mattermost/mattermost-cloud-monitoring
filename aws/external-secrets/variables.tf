@@ -24,20 +24,26 @@ variable "namespace" {
 }
 
 variable "applications" {
-  description = "A map of application names to their secrets"
+  description = "A map of application names to their keys and optional lengths"
   type = map(object({
-    keys   = list(string)
-    values = list(string)
+    keys = list(object({
+      name   = string
+      length = optional(number, 16)
+    }))
   }))
   default = {
-    # example
-    #    "app1" = {
-    #      keys   = ["username", "password"],
-    #      values = ["user1", "pass1"]
+    #    app1 = {
+    #      keys = [
+    #        { name = "DATABASE", length = 20 },
+    #        { name = "other_key", length = 12 } # Custom length per key
+    #      ]
     #    },
-    #    "app2" = {
-    #      keys   = ["api_key", "api_secret"],
-    #      values = ["key2", "secret2"]
+    #    app2 = {
+    #      keys = [
+    #        { name = "API_KEY", length = 32 },
+    #        { name = "API_SECRET" } # Uses default length
+    #      ]
     #    }
   }
 }
+
