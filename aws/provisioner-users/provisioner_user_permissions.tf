@@ -522,7 +522,7 @@ resource "aws_iam_user_policy_attachment" "attach_tag" {
   policy_arn = aws_iam_policy.tag.arn
 
   depends_on = [
-    "aws_iam_user.provisioner_users"
+    aws_iam_user.provisioner_users
   ]
 }
 
@@ -532,7 +532,7 @@ resource "aws_iam_user_policy_attachment" "attach_route53" {
   policy_arn = aws_iam_policy.route53.arn
 
   depends_on = [
-    "aws_iam_user.provisioner_users"
+    aws_iam_user.provisioner_users
   ]
 }
 
@@ -542,7 +542,7 @@ resource "aws_iam_user_policy_attachment" "attach_rds" {
   policy_arn = aws_iam_policy.rds.arn
 
   depends_on = [
-    "aws_iam_user.provisioner_users"
+    aws_iam_user.provisioner_users
   ]
 }
 
@@ -552,7 +552,7 @@ resource "aws_iam_user_policy_attachment" "attach_s3" {
   policy_arn = aws_iam_policy.s3.arn
 
   depends_on = [
-    "aws_iam_user.provisioner_users"
+    aws_iam_user.provisioner_users
   ]
 }
 
@@ -562,7 +562,7 @@ resource "aws_iam_user_policy_attachment" "attach_secrets_manager" {
   policy_arn = aws_iam_policy.secrets_manager.arn
 
   depends_on = [
-    "aws_iam_user.provisioner_users"
+    aws_iam_user.provisioner_users
   ]
 }
 
@@ -572,7 +572,7 @@ resource "aws_iam_user_policy_attachment" "attach_ec2" {
   policy_arn = aws_iam_policy.ec2.arn
 
   depends_on = [
-    "aws_iam_user.provisioner_users"
+    aws_iam_user.provisioner_users
   ]
 }
 
@@ -582,7 +582,7 @@ resource "aws_iam_user_policy_attachment" "attach_vpc" {
   policy_arn = aws_iam_policy.vpc.arn
 
   depends_on = [
-    "aws_iam_user.provisioner_users"
+    aws_iam_user.provisioner_users
   ]
 }
 
@@ -592,7 +592,7 @@ resource "aws_iam_user_policy_attachment" "attach_iam" {
   policy_arn = aws_iam_policy.iam.arn
 
   depends_on = [
-    "aws_iam_user.provisioner_users"
+    aws_iam_user.provisioner_users
   ]
 }
 
@@ -602,7 +602,7 @@ resource "aws_iam_user_policy_attachment" "attach_kms" {
   policy_arn = aws_iam_policy.kms.arn
 
   depends_on = [
-    "aws_iam_user.provisioner_users"
+    aws_iam_user.provisioner_users
   ]
 }
 
