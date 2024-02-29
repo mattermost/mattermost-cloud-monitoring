@@ -7,7 +7,7 @@ This module can be used to provision aws resources required by the community app
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.5 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.55 |
 
 ## Providers
