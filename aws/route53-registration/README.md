@@ -6,7 +6,7 @@
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.38.0 |
 | <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 3.0 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.21.1 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.26.0 |
 
 ## Providers
 
@@ -14,7 +14,7 @@
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.38.0 |
 | <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 3.0 |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | ~> 2.21.1 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | ~> 2.26.0 |
 
 ## Modules
 

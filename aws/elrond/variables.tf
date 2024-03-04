@@ -50,12 +50,6 @@ variable "db_deletion_protection" {
 
 }
 
-variable "provider_role_arn" {
-  type        = string
-  default     = ""
-  description = "The provider IAM role arn"
-}
-
 variable "elrond_db_cluster_engine" {
   type    = string
   default = "aurora-postgresql"
