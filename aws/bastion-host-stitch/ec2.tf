@@ -99,5 +99,5 @@ resource "aws_instance" "bastion" {
 
 resource "aws_eip" "bastion_ip" {
   instance = aws_instance.bastion.id
-  vpc      = true
+  domain   = "vpc"
 }
