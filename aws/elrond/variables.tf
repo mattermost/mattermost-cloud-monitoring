@@ -153,8 +153,3 @@ variable "elrond_ca_cert_identifier" {
   description = "Identifier of the CA certificate for the DB instance."
   default     = "rds-ca-rsa4096-g1"
 }
-
-variable "provider_role_arn" {
-  type    = string
-  default = ""
-}
