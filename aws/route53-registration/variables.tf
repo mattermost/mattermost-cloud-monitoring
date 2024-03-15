@@ -151,3 +151,15 @@ variable "enable_alertmanager_r53_record" {
   type        = bool
   description = "Enable to create a private CNAME route53 record for Alertmanager."
 }
+
+variable "kubernetes_service_nginx_public" {
+  default     = "nginx-ingress-nginx-controller"
+  type        = string
+  description = "Name of nginx public service of CnC cluster"
+}
+
+variable "kubernetes_service_nginx_private" {
+  default     = "nginx-internal-ingress-nginx-controller"
+  type        = string
+  description = "Name of nginx private service of CnC cluster"
+}

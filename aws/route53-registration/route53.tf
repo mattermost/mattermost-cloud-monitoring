@@ -1,13 +1,13 @@
 data "kubernetes_service" "nginx-private" {
   metadata {
-    name      = "nginx-internal-ingress-nginx-controller"
+    name      = var.kubernetes_service_nginx_private
     namespace = "nginx-internal"
   }
 }
 
 data "kubernetes_service" "nginx-public" {
   metadata {
-    name      = "nginx-ingress-nginx-controller"
+    name      = var.kubernetes_service_nginx_public
     namespace = "nginx"
   }
 }
