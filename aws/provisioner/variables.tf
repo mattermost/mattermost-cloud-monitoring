@@ -39,10 +39,6 @@ variable "db_deletion_protection" {
   default = true
 }
 
-variable "provider_role_arn" {
-  type    = string
-  default = ""
-}
 
 variable "provisioner_users" {
   type = list(string)

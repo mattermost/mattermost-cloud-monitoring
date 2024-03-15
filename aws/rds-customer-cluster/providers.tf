@@ -3,7 +3,12 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.40.0"
+      version = ">= 5.41.0"
+      configuration_aliases = [
+        aws.primary,
+        aws.secondary,
+      ]
+
     }
     random = {
       source  = "hashicorp/random"
@@ -14,12 +19,4 @@ terraform {
       version = "~> 3.2.2"
     }
   }
-}
-
-provider "aws" {
-  alias = "primary"
-}
-
-provider "aws" {
-  alias = "secondary"
 }

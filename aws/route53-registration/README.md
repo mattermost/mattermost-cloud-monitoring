@@ -3,7 +3,7 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.41.0 |
 | <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 4.25.0 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.26.0 |
 
@@ -11,7 +11,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.41.0 |
 | <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 4.25.0 |
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | ~> 2.26.0 |
 
@@ -81,6 +81,8 @@ No modules.
 | <a name="input_enabled_cloudflare_blapi"></a> [enabled\_cloudflare\_blapi](#input\_enabled\_cloudflare\_blapi) | Enables cloudflare for Blapi | `bool` | `false` | no |
 | <a name="input_enabled_cloudflare_chimera"></a> [enabled\_cloudflare\_chimera](#input\_enabled\_cloudflare\_chimera) | Enables cloudflare for Chimera | `bool` | `true` | no |
 | <a name="input_enabled_cloudflare_customer_web_server"></a> [enabled\_cloudflare\_customer\_web\_server](#input\_enabled\_cloudflare\_customer\_web\_server) | Enables cloudflare for Customer Web Server | `bool` | `false` | no |
+| <a name="input_kubernetes_service_nginx_private"></a> [kubernetes\_service\_nginx\_private](#input\_kubernetes\_service\_nginx\_private) | Name of nginx private service of CnC cluster | `string` | `"nginx-internal-ingress-nginx-controller"` | no |
+| <a name="input_kubernetes_service_nginx_public"></a> [kubernetes\_service\_nginx\_public](#input\_kubernetes\_service\_nginx\_public) | Name of nginx public service of CnC cluster | `string` | `"nginx-ingress-nginx-controller"` | no |
 | <a name="input_private_hosted_zoneid"></a> [private\_hosted\_zoneid](#input\_private\_hosted\_zoneid) | The AWS private hosted zone ID | `string` | n/a | yes |
 | <a name="input_public_hosted_zoneid"></a> [public\_hosted\_zoneid](#input\_public\_hosted\_zoneid) | The AWS public hosted zone ID | `string` | n/a | yes |
 
