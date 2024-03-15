@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -92,4 +91,3 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_endpoint"></a> [endpoint](#output\_endpoint) | The Domain-specific endpoint used to submit index, search, and data upload requests. |
-<!-- END_TF_DOCS -->

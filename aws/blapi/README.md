@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -33,7 +32,6 @@
 | [aws_s3_bucket_server_side_encryption_configuration.pipelinewise](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_versioning.pipelinewise](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_security_group.blapi_cec_to_postgres](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
-| [aws_security_group.connect-rds-ec2](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_kms_key.master_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
@@ -64,7 +62,6 @@
 | <a name="input_blapi_replica_min"></a> [blapi\_replica\_min](#input\_blapi\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_blapi_service_name"></a> [blapi\_service\_name](#input\_blapi\_service\_name) | n/a | `string` | `"blapi"` | no |
 | <a name="input_cloud_vpn_cidr"></a> [cloud\_vpn\_cidr](#input\_cloud\_vpn\_cidr) | n/a | `list(string)` | n/a | yes |
-| <a name="input_connect_ec2_rds_security_group"></a> [connect\_ec2\_rds\_security\_group](#input\_connect\_ec2\_rds\_security\_group) | n/a | `string` | n/a | yes |
 | <a name="input_db_backup_retention_period"></a> [db\_backup\_retention\_period](#input\_db\_backup\_retention\_period) | n/a | `number` | n/a | yes |
 | <a name="input_db_backup_window"></a> [db\_backup\_window](#input\_db\_backup\_window) | n/a | `string` | n/a | yes |
 | <a name="input_db_deletion_protection"></a> [db\_deletion\_protection](#input\_db\_deletion\_protection) | n/a | `bool` | `true` | no |
@@ -83,4 +80,3 @@
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->

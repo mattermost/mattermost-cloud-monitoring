@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -80,4 +79,3 @@ No modules.
 |------|-------------|
 | <a name="output_bind_sg"></a> [bind\_sg](#output\_bind\_sg) | The Bind server SG |
 | <a name="output_private_ips"></a> [private\_ips](#output\_private\_ips) | Private IP address(es) of the DNS server(s) |
-<!-- END_TF_DOCS -->

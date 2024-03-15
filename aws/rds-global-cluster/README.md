@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -54,12 +53,14 @@ No modules.
 | <a name="input_preferred_backup_window"></a> [preferred\_backup\_window](#input\_preferred\_backup\_window) | The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.Time in UTC. | `string` | `"02:00-03:00"` | no |
 | <a name="input_primary_cluster_identifier"></a> [primary\_cluster\_identifier](#input\_primary\_cluster\_identifier) | Primary cluster identifier. | `string` | n/a | yes |
 | <a name="input_primary_db_subnet_group_name"></a> [primary\_db\_subnet\_group\_name](#input\_primary\_db\_subnet\_group\_name) | db subnet group name. | `string` | `"default"` | no |
+| <a name="input_primary_enabled_cloudwatch_logs_exports"></a> [primary\_enabled\_cloudwatch\_logs\_exports](#input\_primary\_enabled\_cloudwatch\_logs\_exports) | Set of log types to enable for exporting to CloudWatch logs | `list(string)` | n/a | yes |
 | <a name="input_primary_instances_count"></a> [primary\_instances\_count](#input\_primary\_instances\_count) | Specify number of primary instances. | `number` | `2` | no |
 | <a name="input_primary_kms_key"></a> [primary\_kms\_key](#input\_primary\_kms\_key) | Key to keep your storage data encrypted at rest in all underlying storage for DB clusters. | `string` | n/a | yes |
 | <a name="input_primary_vpc_id"></a> [primary\_vpc\_id](#input\_primary\_vpc\_id) | The VPC ID of the primary database cluster | `string` | n/a | yes |
 | <a name="input_primary_vpc_security_group_ids"></a> [primary\_vpc\_security\_group\_ids](#input\_primary\_vpc\_security\_group\_ids) | The IDs of the security groups that will be assigned to the cluster nodes | `list(string)` | n/a | yes |
 | <a name="input_secondary_cluster_identifier"></a> [secondary\_cluster\_identifier](#input\_secondary\_cluster\_identifier) | secondary cluster identifier. | `string` | n/a | yes |
 | <a name="input_secondary_db_subnet_group_name"></a> [secondary\_db\_subnet\_group\_name](#input\_secondary\_db\_subnet\_group\_name) | db subnet group name. | `string` | `"default"` | no |
+| <a name="input_secondary_enabled_cloudwatch_logs_exports"></a> [secondary\_enabled\_cloudwatch\_logs\_exports](#input\_secondary\_enabled\_cloudwatch\_logs\_exports) | Set of log types to enable for exporting to CloudWatch logs | `list(string)` | n/a | yes |
 | <a name="input_secondary_instances_count"></a> [secondary\_instances\_count](#input\_secondary\_instances\_count) | Specify number of secondary instances. | `number` | `1` | no |
 | <a name="input_secondary_kms_key"></a> [secondary\_kms\_key](#input\_secondary\_kms\_key) | Key to keep your storage data encrypted at rest in all underlying storage for DB clusters. | `string` | n/a | yes |
 | <a name="input_secondary_vpc_id"></a> [secondary\_vpc\_id](#input\_secondary\_vpc\_id) | The VPC ID of the secondary database cluster | `string` | n/a | yes |
@@ -73,4 +74,3 @@ No modules.
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->

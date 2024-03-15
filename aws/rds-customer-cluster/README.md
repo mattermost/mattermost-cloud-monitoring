@@ -1,12 +1,11 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.2.1 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.5.1 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.2.2 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.6.0 |
 
 ## Providers
 
@@ -15,8 +14,8 @@
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
 | <a name="provider_aws.primary"></a> [aws.primary](#provider\_aws.primary) | >= 5.40.0 |
 | <a name="provider_aws.secondary"></a> [aws.secondary](#provider\_aws.secondary) | >= 5.40.0 |
-| <a name="provider_null"></a> [null](#provider\_null) | ~> 3.2.1 |
-| <a name="provider_random"></a> [random](#provider\_random) | ~> 3.5.1 |
+| <a name="provider_null"></a> [null](#provider\_null) | ~> 3.2.2 |
+| <a name="provider_random"></a> [random](#provider\_random) | ~> 3.6.0 |
 
 ## Modules
 
@@ -60,6 +59,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_accepted_password_auth_method"></a> [accepted\_password\_auth\_method](#input\_accepted\_password\_auth\_method) | The authentication method to use for the DB instance. Valid values: md5+scram or scram | `string` | n/a | yes |
 | <a name="input_allow_major_version_upgrade"></a> [allow\_major\_version\_upgrade](#input\_allow\_major\_version\_upgrade) | Enable to allow major engine version upgrades when changing engine versions | `bool` | n/a | yes |
 | <a name="input_apply_immediately"></a> [apply\_immediately](#input\_apply\_immediately) | Specifies whether any cluster modifications are applied immediately, or during the next maintenance window | `bool` | n/a | yes |
 | <a name="input_backup_retention_period"></a> [backup\_retention\_period](#input\_backup\_retention\_period) | The days to retain backups for | `string` | n/a | yes |
@@ -84,6 +84,7 @@ No modules.
 | <a name="input_monitoring_interval"></a> [monitoring\_interval](#input\_monitoring\_interval) | The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance | `number` | n/a | yes |
 | <a name="input_multitenant_tag"></a> [multitenant\_tag](#input\_multitenant\_tag) | The tag that will be applied and identify the type of multitenant DB cluster(multitenant-rds-dbproxy or multitenant-rds). | `string` | n/a | yes |
 | <a name="input_password"></a> [password](#input\_password) | If empty a random password will be created for each RDS Cluster and stored in AWS Secret Management. | `string` | n/a | yes |
+| <a name="input_password_encryption"></a> [password\_encryption](#input\_password\_encryption) | The password encryption method to use for the DB instance. Valid values: md5 or scram-sha-256 | `string` | n/a | yes |
 | <a name="input_performance_insights_enabled"></a> [performance\_insights\_enabled](#input\_performance\_insights\_enabled) | Specifies whether Performance Insights are enabled | `bool` | n/a | yes |
 | <a name="input_performance_kms_key_id_primary"></a> [performance\_kms\_key\_id\_primary](#input\_performance\_kms\_key\_id\_primary) | ARN for the primary performance insights KMS encryption key if one is set to the cluster | `string` | `""` | no |
 | <a name="input_performance_kms_key_id_secondary"></a> [performance\_kms\_key\_id\_secondary](#input\_performance\_kms\_key\_id\_secondary) | ARN for the secondary performance insights KMS encryption key if one is set to the cluster | `string` | `""` | no |
@@ -113,4 +114,3 @@ No modules.
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->

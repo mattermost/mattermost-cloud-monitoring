@@ -1,4 +1,4 @@
-all: lint
+all: lint docs
 
 lint:
 ## lint: lint all terraform modules
@@ -12,3 +12,11 @@ setup:
 plugin:
 ## installing aws plugin for tflint
 	tflint --init --config .tflint.hcl 
+
+docs:
+## docs: generate terraform docs for each module
+	@echo "Generating Terraform docs for all modules"
+	@for d in aws/* ; do \
+		echo "Generating docs for $$d"; \
+		terraform-docs markdown table $$d > $$d/README.md; \
+	done

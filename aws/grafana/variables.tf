@@ -39,11 +39,6 @@ variable "db_deletion_protection" {
   default = true
 }
 
-variable "provider_role_arn" {
-  type    = string
-  default = ""
-}
-
 variable "grafana_monitoring_interval" {
   type = number
 }

@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -63,10 +62,8 @@
 | <a name="input_enable_elrond_read_replica"></a> [enable\_elrond\_read\_replica](#input\_enable\_elrond\_read\_replica) | n/a | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment to deploy the Elrond resources, dev, test, etc. | `string` | n/a | yes |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | The Elrond DB private subnets | `list(string)` | n/a | yes |
-| <a name="input_provider_role_arn"></a> [provider\_role\_arn](#input\_provider\_role\_arn) | The provider IAM role arn | `string` | `""` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC to deploy the Elrond resources | `string` | n/a | yes |
 
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->

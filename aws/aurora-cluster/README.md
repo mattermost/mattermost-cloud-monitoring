@@ -1,18 +1,17 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | 3.1.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.6.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.6.0 |
 
 ## Modules
 
@@ -32,8 +31,8 @@ No modules.
 | [aws_rds_cluster_parameter_group.cluster_parameter_group_postgresql](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster_parameter_group) | resource |
 | [aws_secretsmanager_secret.master_password](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
 | [aws_secretsmanager_secret_version.master_password](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret_version) | resource |
-| [random_password.master_password](https://registry.terraform.io/providers/hashicorp/random/3.1.0/docs/resources/password) | resource |
-| [random_string.db_cluster_identifier](https://registry.terraform.io/providers/hashicorp/random/3.1.0/docs/resources/string) | resource |
+| [random_password.master_password](https://registry.terraform.io/providers/hashicorp/random/3.6.0/docs/resources/password) | resource |
+| [random_string.db_cluster_identifier](https://registry.terraform.io/providers/hashicorp/random/3.6.0/docs/resources/string) | resource |
 | [aws_iam_role.enhanced_monitoring](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_role) | data source |
 | [aws_sns_topic.aurora_cluster_topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/sns_topic) | data source |
 
@@ -88,4 +87,3 @@ No modules.
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->

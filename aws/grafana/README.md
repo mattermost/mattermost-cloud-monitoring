@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -63,10 +62,8 @@
 | <a name="input_grafana_replica_min"></a> [grafana\_replica\_min](#input\_grafana\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_grafana_service_name"></a> [grafana\_service\_name](#input\_grafana\_service\_name) | n/a | `string` | `"grafana"` | no |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | n/a | `list(string)` | n/a | yes |
-| <a name="input_provider_role_arn"></a> [provider\_role\_arn](#input\_provider\_role\_arn) | n/a | `string` | `""` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
 
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->

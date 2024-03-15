@@ -1,5 +1,3 @@
-
-   
 #!/usr/bin/env bash
 
 # Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.

@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -62,4 +61,3 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_vpcs"></a> [vpcs](#output\_vpcs) | The Provisioning VPCs |
-<!-- END_TF_DOCS -->

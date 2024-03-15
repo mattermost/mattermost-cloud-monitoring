@@ -1,16 +1,15 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.55 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.55 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
 
 ## Modules
 
@@ -42,4 +41,3 @@ No modules.
 |------|-------------|
 | <a name="output_private_cert_domain"></a> [private\_cert\_domain](#output\_private\_cert\_domain) | n/a |
 | <a name="output_public_cert_domain"></a> [public\_cert\_domain](#output\_public\_cert\_domain) | n/a |
-<!-- END_TF_DOCS -->
