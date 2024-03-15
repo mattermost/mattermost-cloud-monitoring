@@ -1,23 +1,22 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.38.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.38.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
 | <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.6.63 |
+| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.7.4 |
 
 ## Resources
 
@@ -27,7 +26,6 @@
 | [aws_iam_policy.awat-policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.awat-role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.awat-policy-attach](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
-| [aws_iam_user.awat_user](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user) | resource |
 | [aws_s3_bucket.awat_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_acl.awat_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_acl) | resource |
 | [aws_s3_bucket_policy.awat_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
@@ -70,6 +68,7 @@
 | <a name="input_awat_performance_insights_retention_period"></a> [awat\_performance\_insights\_retention\_period](#input\_awat\_performance\_insights\_retention\_period) | n/a | `number` | n/a | yes |
 | <a name="input_awat_replica_min"></a> [awat\_replica\_min](#input\_awat\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_awat_service_name"></a> [awat\_service\_name](#input\_awat\_service\_name) | n/a | `string` | `"awat"` | no |
+| <a name="input_cloud_import_account_number"></a> [cloud\_import\_account\_number](#input\_cloud\_import\_account\_number) | value of the account number of the import account | `string` | n/a | yes |
 | <a name="input_cloud_vpn_cidr"></a> [cloud\_vpn\_cidr](#input\_cloud\_vpn\_cidr) | n/a | `list(string)` | n/a | yes |
 | <a name="input_enable_awat_bucket_restriction"></a> [enable\_awat\_bucket\_restriction](#input\_enable\_awat\_bucket\_restriction) | n/a | `bool` | n/a | yes |
 | <a name="input_enable_awat_read_replica"></a> [enable\_awat\_read\_replica](#input\_enable\_awat\_read\_replica) | n/a | `bool` | `true` | no |
@@ -84,4 +83,3 @@
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->

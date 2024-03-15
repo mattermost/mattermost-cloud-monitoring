@@ -1,10 +1,9 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.38.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.0 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.0 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | >= 4.0.0 |
@@ -13,7 +12,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.38.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | ~> 2.0 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | >= 4.0.0 |
 
@@ -21,7 +20,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_managed_node_group"></a> [managed\_node\_group](#module\_managed\_node\_group) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups | v1.6.91 |
+| <a name="module_managed_node_group"></a> [managed\_node\_group](#module\_managed\_node\_group) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups | v1.6.95 |
 
 ## Resources
 
@@ -118,4 +117,3 @@
 | <a name="output_config_map_aws_auth"></a> [config\_map\_aws\_auth](#output\_config\_map\_aws\_auth) | n/a |
 | <a name="output_worker_role"></a> [worker\_role](#output\_worker\_role) | n/a |
 | <a name="output_worker_security_group"></a> [worker\_security\_group](#output\_worker\_security\_group) | n/a |
-<!-- END_TF_DOCS -->

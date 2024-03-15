@@ -1,12 +1,15 @@
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
 
 ## Modules
 
@@ -37,12 +40,14 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_api_gateway_vpc_endpoints"></a> [api\_gateway\_vpc\_endpoints](#input\_api\_gateway\_vpc\_endpoints) | n/a | `any` | n/a | yes |
+| <a name="input_api_gateway_vpc_endpoints"></a> [api\_gateway\_vpc\_endpoints](#input\_api\_gateway\_vpc\_endpoints) | n/a | `list(string)` | n/a | yes |
 | <a name="input_auth_private_subnet_ids"></a> [auth\_private\_subnet\_ids](#input\_auth\_private\_subnet\_ids) | The list of subnet IDs for VPC config of Lambda function | `list(string)` | n/a | yes |
 | <a name="input_auth_vpc_id"></a> [auth\_vpc\_id](#input\_auth\_vpc\_id) | The ID of the VPC which is used for security group | `string` | n/a | yes |
 | <a name="input_community_webhook"></a> [community\_webhook](#input\_community\_webhook) | The webhook URL to post notifications | `string` | n/a | yes |
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | The name of the deployment | `string` | n/a | yes |
-| <a name="input_environment"></a> [environment](#input\_environment) | VPC endpoints of VPCs which are used in the policy of the rest API gateway | `list(string)` | n/a | yes |
+| <a name="input_environment"></a> [environment](#input\_environment) | The name of the environment which will deploy to and will be added as a tag | `string` | n/a | yes |
+| <a name="input_lambda_s3_bucket"></a> [lambda\_s3\_bucket](#input\_lambda\_s3\_bucket) | The S3 bucket where the lambda function is stored | `string` | n/a | yes |
+| <a name="input_lambda_s3_key"></a> [lambda\_s3\_key](#input\_lambda\_s3\_key) | The S3 key where the lambda function is stored | `string` | n/a | yes |
 | <a name="input_provisioner_server"></a> [provisioner\_server](#input\_provisioner\_server) | The HTTP URL for the provisioner which is used as config for the Lambda function | `string` | n/a | yes |
 
 ## Outputs

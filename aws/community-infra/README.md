@@ -1,17 +1,15 @@
-
-## Overview
-This module can be used to provision aws resources required by the community application.
-
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
 
 ## Modules
 
@@ -33,25 +31,21 @@ No modules.
 | [aws_s3_bucket_replication_configuration.source_to_dest](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_replication_configuration) | resource |
 | [aws_s3_bucket_server_side_encryption_configuration.encrypting-provisioning-bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_versioning.provisioning-bucket-versioning](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
-| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_kms_key.master_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key) | data source |
-| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | n/a | `any` | n/a | yes |
-| <a name="input_destination_bucket"></a> [destination\_bucket](#input\_destination\_bucket) | n/a | `any` | n/a | yes |
-| <a name="input_destination_s3_kms_key"></a> [destination\_s3\_kms\_key](#input\_destination\_s3\_kms\_key) | n/a | `any` | n/a | yes |
-| <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
-| <a name="input_s3_cross_region_replication_enabled"></a> [s3\_cross\_region\_replication\_enabled](#input\_s3\_cross\_region\_replication\_enabled) | n/a | `bool` | `true` | no |
+| <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | The name of the deployment | `string` | n/a | yes |
+| <a name="input_destination_bucket"></a> [destination\_bucket](#input\_destination\_bucket) | The ARN of the destination bucket for cross region replication | `string` | n/a | yes |
+| <a name="input_destination_s3_kms_key"></a> [destination\_s3\_kms\_key](#input\_destination\_s3\_kms\_key) | The destination SSE KMS key to encrypt/decrypt the bucket data | `string` | n/a | yes |
+| <a name="input_s3_cross_region_replication_enabled"></a> [s3\_cross\_region\_replication\_enabled](#input\_s3\_cross\_region\_replication\_enabled) | Cross region replication flag for the bucket | `bool` | `true` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags for bucket & cost calculation | `map(string)` | `{}` | no |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `any` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The vpc id which host the cluster & access the bucket | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
 | <a name="output_id"></a> [id](#output\_id) | n/a |
-<!-- END_TF_DOCS -->

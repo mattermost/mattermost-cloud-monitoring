@@ -1,8 +1,8 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
 | <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 4.25.0 |
 
 ## Providers
@@ -56,4 +56,3 @@ No modules.
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->

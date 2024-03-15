@@ -1,23 +1,22 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.38.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.38.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
 | <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.6.63 |
+| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.7.4 |
 
 ## Resources
 
@@ -63,10 +62,8 @@
 | <a name="input_grafana_replica_min"></a> [grafana\_replica\_min](#input\_grafana\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_grafana_service_name"></a> [grafana\_service\_name](#input\_grafana\_service\_name) | n/a | `string` | `"grafana"` | no |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | n/a | `list(string)` | n/a | yes |
-| <a name="input_provider_role_arn"></a> [provider\_role\_arn](#input\_provider\_role\_arn) | n/a | `string` | `""` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
 
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->

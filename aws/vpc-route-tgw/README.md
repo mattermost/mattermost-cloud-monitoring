@@ -1,15 +1,15 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
 
 ## Modules
 
@@ -37,4 +37,3 @@ No modules.
 | <a name="output_this_destination_cidr_block"></a> [this\_destination\_cidr\_block](#output\_this\_destination\_cidr\_block) | The destination CIDR block |
 | <a name="output_this_route_table_ids"></a> [this\_route\_table\_ids](#output\_this\_route\_table\_ids) | The ID of the routing tables |
 | <a name="output_this_transit_gateway_id"></a> [this\_transit\_gateway\_id](#output\_this\_transit\_gateway\_id) | The ID of an EC2 Transit Gateway |
-<!-- END_TF_DOCS -->

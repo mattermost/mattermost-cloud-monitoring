@@ -1,16 +1,15 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.38.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.38.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
 
 ## Modules
 
@@ -80,4 +79,3 @@ No modules.
 |------|-------------|
 | <a name="output_bind_sg"></a> [bind\_sg](#output\_bind\_sg) | The Bind server SG |
 | <a name="output_private_ips"></a> [private\_ips](#output\_private\_ips) | Private IP address(es) of the DNS server(s) |
-<!-- END_TF_DOCS -->

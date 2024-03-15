@@ -1,12 +1,15 @@
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.40.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.40.0 |
 
 ## Modules
 
@@ -63,19 +66,19 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_az_list"></a> [az\_list](#input\_az\_list) | n/a | `any` | n/a | yes |
-| <a name="input_domain"></a> [domain](#input\_domain) | n/a | `any` | n/a | yes |
-| <a name="input_fixed_eni"></a> [fixed\_eni](#input\_fixed\_eni) | n/a | `any` | n/a | yes |
-| <a name="input_instance_type_for_lt"></a> [instance\_type\_for\_lt](#input\_instance\_type\_for\_lt) | n/a | `any` | n/a | yes |
-| <a name="input_mongodb_uri"></a> [mongodb\_uri](#input\_mongodb\_uri) | n/a | `any` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | n/a | `any` | n/a | yes |
-| <a name="input_pritunl_app_count"></a> [pritunl\_app\_count](#input\_pritunl\_app\_count) | n/a | `any` | n/a | yes |
-| <a name="input_public_hosted_zoneid"></a> [public\_hosted\_zoneid](#input\_public\_hosted\_zoneid) | n/a | `any` | n/a | yes |
-| <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | n/a | `any` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `any` | n/a | yes |
-| <a name="input_ubuntu_account_number"></a> [ubuntu\_account\_number](#input\_ubuntu\_account\_number) | n/a | `any` | n/a | yes |
-| <a name="input_volume_size"></a> [volume\_size](#input\_volume\_size) | n/a | `any` | n/a | yes |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `any` | n/a | yes |
+| <a name="input_az_list"></a> [az\_list](#input\_az\_list) | n/a | `list(any)` | n/a | yes |
+| <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
+| <a name="input_fixed_eni"></a> [fixed\_eni](#input\_fixed\_eni) | n/a | `list(any)` | n/a | yes |
+| <a name="input_instance_type_for_lt"></a> [instance\_type\_for\_lt](#input\_instance\_type\_for\_lt) | n/a | `string` | n/a | yes |
+| <a name="input_mongodb_uri"></a> [mongodb\_uri](#input\_mongodb\_uri) | n/a | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | n/a | `string` | n/a | yes |
+| <a name="input_pritunl_app_count"></a> [pritunl\_app\_count](#input\_pritunl\_app\_count) | n/a | `string` | n/a | yes |
+| <a name="input_public_hosted_zoneid"></a> [public\_hosted\_zoneid](#input\_public\_hosted\_zoneid) | n/a | `string` | n/a | yes |
+| <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | n/a | `list(string)` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | n/a | yes |
+| <a name="input_ubuntu_account_number"></a> [ubuntu\_account\_number](#input\_ubuntu\_account\_number) | n/a | `string` | n/a | yes |
+| <a name="input_volume_size"></a> [volume\_size](#input\_volume\_size) | n/a | `string` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
 
 ## Outputs
 
