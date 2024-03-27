@@ -191,46 +191,6 @@ resource "aws_route53_record" "loki_frontend" {
   records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
-resource "cloudflare_record" "blapi" {
-  count = var.enabled_cloudflare_blapi ? 1 : 0
-
-  zone_id = var.cloudflare_zone_id
-  name    = var.blapi_cloudflare_record_name
-  value   = data.kubernetes_service.nginx-public.status[0].load_balancer[0].ingress[0].hostname
-  type    = "CNAME"
-  proxied = true
-}
-
-resource "aws_route53_record" "blapi" {
-  count = var.enable_blapi_public_r53_record ? 1 : 0
-
-  zone_id = var.public_hosted_zoneid
-  name    = "blapi"
-  type    = "CNAME"
-  ttl     = "60"
-  records = [var.enabled_cloudflare_blapi ? var.cloudflare_blapi_cdn : data.kubernetes_service.nginx-public.status[0].load_balancer[0].ingress[0].hostname]
-}
-
-resource "aws_route53_record" "blapi_internal" {
-  count = var.enable_blapi_private_r53_record ? 1 : 0
-
-  zone_id = var.private_hosted_zoneid
-  name    = "blapi"
-  type    = "CNAME"
-  ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
-}
-
-resource "aws_route53_record" "blapi_flower_internal" {
-  count = var.enable_blapi_private_r53_record ? 1 : 0
-
-  zone_id = var.private_hosted_zoneid
-  name    = "blapi-flower"
-  type    = "CNAME"
-  ttl     = "60"
-  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
-}
-
 resource "aws_route53_record" "elrond" {
   count = var.enable_elrond_private_r53_record ? 1 : 0
 

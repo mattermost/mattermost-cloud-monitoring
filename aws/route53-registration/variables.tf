@@ -94,34 +94,6 @@ variable "enable_loki_frontend" {
   description = "Enables to create a private route53 record for Loki Frontend"
 }
 
-variable "enabled_cloudflare_blapi" {
-  default     = false
-  type        = bool
-  description = "Enables cloudflare for Blapi"
-}
-
-variable "blapi_cloudflare_record_name" {
-  type        = string
-  description = "The Cloudflare DNS record name for Blapi"
-}
-
-variable "enable_blapi_public_r53_record" {
-  default     = false
-  type        = bool
-  description = "Enables to create a private CNAME route53 record for Public Blapi."
-}
-
-variable "cloudflare_blapi_cdn" {
-  type        = string
-  description = "The cloudflare CDN to proxy"
-}
-
-variable "enable_blapi_private_r53_record" {
-  default     = false
-  type        = bool
-  description = "Enables to create a private CNAME route53 record for Private Blapi and Flower"
-}
-
 variable "enabled_cloudflare_chimera" {
   default     = true
   type        = bool

@@ -26,9 +26,6 @@ No modules.
 | [aws_route53_record.argocd](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.awat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.blackbox](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_route53_record.blapi](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_route53_record.blapi_flower_internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_route53_record.blapi_internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.chaos_mesh](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.chimera](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.customer_web_server](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
@@ -44,7 +41,6 @@ No modules.
 | [aws_route53_record.provisioner](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.push_proxy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.thanos](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [cloudflare_record.blapi](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
 | [cloudflare_record.chimera](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
 | [cloudflare_record.customer_web_server](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
 | [aws_eks_cluster.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eks_cluster) | data source |
@@ -56,9 +52,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_blapi_cloudflare_record_name"></a> [blapi\_cloudflare\_record\_name](#input\_blapi\_cloudflare\_record\_name) | The Cloudflare DNS record name for Blapi | `string` | n/a | yes |
 | <a name="input_chimera_cloudflare_record_name"></a> [chimera\_cloudflare\_record\_name](#input\_chimera\_cloudflare\_record\_name) | Cloudflare record name for Chimera | `string` | `"chimera"` | no |
-| <a name="input_cloudflare_blapi_cdn"></a> [cloudflare\_blapi\_cdn](#input\_cloudflare\_blapi\_cdn) | The cloudflare CDN to proxy | `string` | n/a | yes |
 | <a name="input_cloudflare_chimera_cdn"></a> [cloudflare\_chimera\_cdn](#input\_cloudflare\_chimera\_cdn) | CDN name for Chimera | `string` | `"chimera.test.cloud.mattermost.com.cdn.cloudflare.net"` | no |
 | <a name="input_cloudflare_customer_webserver_cdn"></a> [cloudflare\_customer\_webserver\_cdn](#input\_cloudflare\_customer\_webserver\_cdn) | The cloudflare CDN to proxy | `string` | n/a | yes |
 | <a name="input_cloudflare_zone_id"></a> [cloudflare\_zone\_id](#input\_cloudflare\_zone\_id) | The Cloudflare zone ID provided | `string` | n/a | yes |
@@ -66,8 +60,6 @@ No modules.
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | EKS Cluster deployment name | `string` | n/a | yes |
 | <a name="input_enable_alertmanager_r53_record"></a> [enable\_alertmanager\_r53\_record](#input\_enable\_alertmanager\_r53\_record) | Enable to create a private CNAME route53 record for Alertmanager. | `bool` | `false` | no |
 | <a name="input_enable_awat_record"></a> [enable\_awat\_record](#input\_enable\_awat\_record) | Enables to create a private route53 record for private AWAT | `bool` | `false` | no |
-| <a name="input_enable_blapi_private_r53_record"></a> [enable\_blapi\_private\_r53\_record](#input\_enable\_blapi\_private\_r53\_record) | Enables to create a private CNAME route53 record for Private Blapi and Flower | `bool` | `false` | no |
-| <a name="input_enable_blapi_public_r53_record"></a> [enable\_blapi\_public\_r53\_record](#input\_enable\_blapi\_public\_r53\_record) | Enables to create a private CNAME route53 record for Public Blapi. | `bool` | `false` | no |
 | <a name="input_enable_chaos_record"></a> [enable\_chaos\_record](#input\_enable\_chaos\_record) | Enables to create a private route53 record for private ChaosMesh | `bool` | `false` | no |
 | <a name="input_enable_chimera_record"></a> [enable\_chimera\_record](#input\_enable\_chimera\_record) | Enables to create a public route53 record for private Chimera | `bool` | `false` | no |
 | <a name="input_enable_elrond_private_r53_record"></a> [enable\_elrond\_private\_r53\_record](#input\_enable\_elrond\_private\_r53\_record) | Enables to create a private CNAME route53 record for Elrond. | `bool` | `false` | no |
@@ -78,7 +70,6 @@ No modules.
 | <a name="input_enable_portal_private_r53_record"></a> [enable\_portal\_private\_r53\_record](#input\_enable\_portal\_private\_r53\_record) | Enables to create a private CNAME route53 record for Private Customer Web Server | `bool` | `false` | no |
 | <a name="input_enable_portal_public_r53_record"></a> [enable\_portal\_public\_r53\_record](#input\_enable\_portal\_public\_r53\_record) | Enables to create a public route53 record for public Customer Web Server | `bool` | `false` | no |
 | <a name="input_enable_push_proxy_record"></a> [enable\_push\_proxy\_record](#input\_enable\_push\_proxy\_record) | Enables to create a private route53 record for Mattermost Push Proxy | `bool` | `false` | no |
-| <a name="input_enabled_cloudflare_blapi"></a> [enabled\_cloudflare\_blapi](#input\_enabled\_cloudflare\_blapi) | Enables cloudflare for Blapi | `bool` | `false` | no |
 | <a name="input_enabled_cloudflare_chimera"></a> [enabled\_cloudflare\_chimera](#input\_enabled\_cloudflare\_chimera) | Enables cloudflare for Chimera | `bool` | `true` | no |
 | <a name="input_enabled_cloudflare_customer_web_server"></a> [enabled\_cloudflare\_customer\_web\_server](#input\_enabled\_cloudflare\_customer\_web\_server) | Enables cloudflare for Customer Web Server | `bool` | `false` | no |
 | <a name="input_kubernetes_service_nginx_private"></a> [kubernetes\_service\_nginx\_private](#input\_kubernetes\_service\_nginx\_private) | Name of nginx private service of CnC cluster | `string` | `"nginx-internal-ingress-nginx-controller"` | no |
