@@ -1,11 +1,6 @@
-variable "opsgenie_apikey" {
+variable "pagerduty_apikey" {
   type        = string
-  description = "The API key for the OPSGenie integration"
-}
-
-variable "opsgenie_scheduler_team" {
-  type        = string
-  description = "The opsgenie scheduler team uuid  - not used on dev"
+  description = "The API key for the PagerDuty integration"
 }
 
 variable "community_webhook" {

@@ -53,8 +53,7 @@ No modules.
 | <a name="input_mattermost_notification_hook"></a> [mattermost\_notification\_hook](#input\_mattermost\_notification\_hook) | n/a | `string` | n/a | yes |
 | <a name="input_mattermost_webhook_alert_prod"></a> [mattermost\_webhook\_alert\_prod](#input\_mattermost\_webhook\_alert\_prod) | n/a | `string` | n/a | yes |
 | <a name="input_mattermost_webhook_prod"></a> [mattermost\_webhook\_prod](#input\_mattermost\_webhook\_prod) | n/a | `string` | n/a | yes |
-| <a name="input_opsgenie_apikey"></a> [opsgenie\_apikey](#input\_opsgenie\_apikey) | n/a | `string` | n/a | yes |
-| <a name="input_opsgenie_scheduler_team"></a> [opsgenie\_scheduler\_team](#input\_opsgenie\_scheduler\_team) | n/a | `string` | n/a | yes |
+| <a name="input_pagerduty_apikey"></a> [pagerduty\_apikey](#input\_pagerduty\_apikey) | n/a | `string` | n/a | yes |
 | <a name="input_parent_id"></a> [parent\_id](#input\_parent\_id) | n/a | `string` | n/a | yes |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The list of the private subnet IDs are used by generic-webhook lambdas | `list(string)` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | n/a | yes |

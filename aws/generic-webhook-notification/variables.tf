@@ -21,11 +21,7 @@ variable "mattermost_webhook_alert_prod" {
   type = string
 }
 
-variable "opsgenie_apikey" {
-  type = string
-}
-
-variable "opsgenie_scheduler_team" {
+variable "pagerduty_apikey" {
   type = string
 }
 

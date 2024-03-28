@@ -22,8 +22,7 @@ resource "aws_lambda_function" "provisioner-notification" {
     variables = {
       MATTERMOST_WEBHOOK_PROD       = var.mattermost_webhook_prod
       MATTERMOST_WEBHOOK_ALERT_PROD = var.mattermost_webhook_alert_prod
-      OPSGENIE_APIKEY               = var.opsgenie_apikey
-      OPSGENIE_SCHEDULER_TEAM       = var.opsgenie_scheduler_team
+      PAGERDUTY_APIKEY              = var.pagerduty_apikey
     }
   }
 
@@ -61,8 +60,7 @@ resource "aws_lambda_function" "elrond-notification" {
     variables = {
       MATTERMOST_ELROND_WEBHOOK_PROD = var.mattermost_elrond_webhook_prod
       MATTERMOST_WEBHOOK_ALERT_PROD  = var.mattermost_webhook_alert_prod
-      OPSGENIE_APIKEY                = var.opsgenie_apikey
-      OPSGENIE_SCHEDULER_TEAM        = var.opsgenie_scheduler_team
+      PAGERDUTY_APIKEY               = var.pagerduty_apikey
       ENVIRONMENT                    = "PROD"
     }
   }
