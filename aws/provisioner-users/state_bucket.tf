@@ -64,19 +64,4 @@ data "aws_iam_policy_document" "state_bucket_policy" {
       ], ["AROA*"]])
     }
   }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:*"
-    ]
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
-    resources = [
-      "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}",
-      "arn:aws:s3:::mattermost-kops-state-${var.environment}${local.conditional_dash_region}/*"
-    ]
-  }
 }
