@@ -36,10 +36,9 @@ resource "aws_lambda_function" "cloudwatch_event_alerts" {
 
   environment {
     variables = {
-      MATTERMOST_HOOK         = var.community_webhook
-      OPSGENIE_APIKEY         = var.opsgenie_apikey
-      OPSGENIE_SCHEDULER_TEAM = var.opsgenie_scheduler_team
-      ENVIRONMENT             = var.environment
+      MATTERMOST_HOOK  = var.community_webhook
+      PAGERDUTY_APIKEY = var.pagerduty_apikey
+      ENVIRONMENT      = var.environment
     }
   }
 
