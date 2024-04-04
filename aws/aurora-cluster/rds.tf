@@ -137,9 +137,7 @@ resource "aws_secretsmanager_secret_version" "master_password" {
 
 resource "aws_db_parameter_group" "db_parameter_group_postgresql" {
 
-  # name_prefix = format("rds-cluster-multitenant-%s-%s-pg", split("-", var.primary_vpc_id)[1], local.database_id)
   name_prefix = format("%s-pg", local.cluster_identifier)
-  //name_prefix   = format("%s-%s-pg", local.cluster_identifier, random_string.db_cluster_identifier.result)
   family = var.aurora_family
 
   parameter {
