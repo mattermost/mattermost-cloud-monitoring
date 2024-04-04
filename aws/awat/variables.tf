@@ -107,8 +107,7 @@ variable "awat_kms_key" {
 }
 
 variable "awat_aurora_family" {
-  type    = string
-  default = "aurora-postgresql13"
+  type = string
 }
 
 variable "awat_min_capacity" {
@@ -170,4 +169,9 @@ variable "awat_ca_cert_identifier" {
 variable "cloud_import_account_number" {
   type        = string
   description = "value of the account number of the import account"
+}
+
+variable "allow_major_version_upgrade" {
+  type        = bool
+  description = "Enable to allow major engine version upgrades when changing engine versions"
 }
