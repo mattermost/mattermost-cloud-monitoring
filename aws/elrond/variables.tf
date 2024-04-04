@@ -153,3 +153,8 @@ variable "elrond_ca_cert_identifier" {
   description = "Identifier of the CA certificate for the DB instance."
   default     = "rds-ca-rsa4096-g1"
 }
+
+variable "allow_major_version_upgrade" {
+  type        = bool
+  description = "Enable to allow major engine version upgrades when changing engine versions"
+}

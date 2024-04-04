@@ -250,3 +250,8 @@ variable "rds_sns_topic" {
   description = "RDS events sns topic"
   type        = string
 }
+
+variable "allow_major_version_upgrade" {
+  type        = bool
+  description = "Enable to allow major engine version upgrades when changing engine versions"
+}
