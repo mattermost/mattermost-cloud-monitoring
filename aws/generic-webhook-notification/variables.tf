@@ -21,8 +21,9 @@ variable "mattermost_webhook_alert_prod" {
   type = string
 }
 
-variable "pagerduty_apikey" {
-  type = string
+variable "pagerduty_integration_key" {
+  type        = string
+  description = "The integration key for the PagerDuty integration"
 }
 
 variable "mattermost_elrond_webhook_prod" {
