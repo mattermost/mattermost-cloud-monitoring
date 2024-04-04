@@ -138,7 +138,7 @@ resource "aws_secretsmanager_secret_version" "master_password" {
 resource "aws_db_parameter_group" "db_parameter_group_postgresql" {
 
   name_prefix = format("%s-pg", local.cluster_identifier)
-  family = var.aurora_family
+  family      = var.aurora_family
 
   parameter {
     name  = "log_min_duration_statement"
