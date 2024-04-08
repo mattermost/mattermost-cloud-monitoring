@@ -38,7 +38,9 @@ resource "aws_iam_policy" "worker_policy" {
             ],
             "Resource": [
                 "arn:aws:s3:::cloud-loki-${var.environment}/*",
-                "arn:aws:s3:::cloud-loki-${var.environment}"
+                "arn:aws:s3:::cloud-loki-${var.environment}",
+                "arn:aws:s3:::cloud-loki-developers-${var.environment}/*",
+                "arn:aws:s3:::cloud-loki-developers-${var.environment}"
             ]
         },
         {

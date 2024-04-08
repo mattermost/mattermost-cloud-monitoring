@@ -94,6 +94,18 @@ variable "enable_loki_frontend" {
   description = "Enables to create a private route53 record for Loki Frontend"
 }
 
+variable "enable_loki_developers_gateway" {
+  default     = false
+  type        = bool
+  description = "Enables to create a private route53 record for Loki Developers Gateway"
+}
+
+variable "enable_loki_developers_frontend" {
+  default     = false
+  type        = bool
+  description = "Enables to create a private route53 record for Loki Developers Frontend"
+}
+
 variable "enabled_cloudflare_chimera" {
   default     = true
   type        = bool
