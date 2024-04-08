@@ -70,12 +70,6 @@ variable "enable_chaos_record" {
   description = "Enables to create a private route53 record for private ChaosMesh"
 }
 
-variable "enable_kubecost_record" {
-  default     = false
-  type        = bool
-  description = "Enables to create a public route53 record for private Kubecost"
-}
-
 variable "enable_push_proxy_record" {
   default     = false
   type        = bool
