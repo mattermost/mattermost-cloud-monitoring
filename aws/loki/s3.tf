@@ -66,7 +66,7 @@ data "aws_iam_policy_document" "loki_bucket_policy" {
 
 resource "aws_s3_bucket" "loki_bucket_developers" {
   count  = var.enable_loki_bucket_developers ? 1 : 0
-  bucket = "cloud-loki-${var.environment}-developers"
+  bucket = "cloud-loki-developers-${var.environment}"
 }
 
 resource "aws_s3_bucket_policy" "loki_bucket_developers" {
