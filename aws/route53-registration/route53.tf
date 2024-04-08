@@ -31,25 +31,9 @@ resource "aws_route53_record" "prometheus_alertmanager" {
   records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
-resource "aws_route53_record" "database_factory" {
-  zone_id = var.private_hosted_zoneid
-  name    = "dbfactory"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
-}
-
 resource "aws_route53_record" "thanos" {
   zone_id = var.private_hosted_zoneid
   name    = "thanos"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
-}
-
-resource "aws_route53_record" "blackbox" {
-  zone_id = var.private_hosted_zoneid
-  name    = "blackbox"
   type    = "CNAME"
   ttl     = "300"
   records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
@@ -148,16 +132,6 @@ resource "aws_route53_record" "chaos_mesh" {
   name    = "chaos"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
-}
-
-resource "aws_route53_record" "kubecost" {
-  count = var.enable_kubecost_record ? 1 : 0
-
-  zone_id = var.private_hosted_zoneid
-  name    = "kubecost"
-  type    = "CNAME"
-  ttl     = "60"
   records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
 }
 
