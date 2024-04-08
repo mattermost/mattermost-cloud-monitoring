@@ -105,7 +105,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "loki_bucket_devel
 
 
 data "aws_iam_policy_document" "loki_bucket_developers_policy" {
-  count  = var.enable_loki_bucket_developers ? 1 : 0
+  count = var.enable_loki_bucket_developers ? 1 : 0
 
   statement {
     effect = "Deny"
