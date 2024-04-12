@@ -19,11 +19,6 @@ variable "subnet_ids" {
   description = "Subnets to run servers in"
 }
 
-variable "subnet_ids_arm" {
-  type        = list(string)
-  description = "Subnets to run arm servers in"
-}
-
 variable "private_ips" {
   type        = list(string)
   description = "Private IP addresses of servers, which must be within the subnets specified in 'subnet_ids' (in the same order).  These are specified explicitly since it's desirable to be able to replace a DNS server without its IP address changing.  Our convention is to use the first unreserved address in the subnet (which is to say, the '+4' address)."

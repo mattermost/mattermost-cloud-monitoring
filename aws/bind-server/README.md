@@ -1,3 +1,4 @@
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -66,7 +67,6 @@ No modules.
 | <a name="input_private_ips"></a> [private\_ips](#input\_private\_ips) | Private IP addresses of servers, which must be within the subnets specified in 'subnet\_ids' (in the same order).  These are specified explicitly since it's desirable to be able to replace a DNS server without its IP address changing.  Our convention is to use the first unreserved address in the subnet (which is to say, the '+4' address). | `list(string)` | n/a | yes |
 | <a name="input_ssh_key_public"></a> [ssh\_key\_public](#input\_ssh\_key\_public) | The contect of the SSH public key | `string` | n/a | yes |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | Subnets to run servers in | `list(string)` | n/a | yes |
-| <a name="input_subnet_ids_arm"></a> [subnet\_ids\_arm](#input\_subnet\_ids\_arm) | Subnets to run arm servers in | `list(string)` | n/a | yes |
 | <a name="input_teleport_cidr"></a> [teleport\_cidr](#input\_teleport\_cidr) | The Teleport CIDR block to allow access | `list(string)` | n/a | yes |
 | <a name="input_volume_size"></a> [volume\_size](#input\_volume\_size) | The size of the volume for DNS Bind Servers | `number` | `8` | no |
 | <a name="input_volume_type"></a> [volume\_type](#input\_volume\_type) | The type of the volume for DNS Bind Servers | `string` | `"gp2"` | no |
@@ -79,3 +79,4 @@ No modules.
 |------|-------------|
 | <a name="output_bind_sg"></a> [bind\_sg](#output\_bind\_sg) | The Bind server SG |
 | <a name="output_private_ips"></a> [private\_ips](#output\_private\_ips) | Private IP address(es) of the DNS server(s) |
+<!-- END_TF_DOCS -->
