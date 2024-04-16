@@ -64,6 +64,8 @@ resource "aws_iam_policy" "external-secrets-policy" {
         Action = [
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret",
+          "secretsmanager:GetResourcePolicy",
+          "secretsmanager:ListSecretVersionIds"
         ]
         Resource = [
           for app in keys(var.applications) : aws_secretsmanager_secret.external-secrets-app-secret[app].arn
