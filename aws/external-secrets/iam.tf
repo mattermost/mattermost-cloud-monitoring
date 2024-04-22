@@ -45,11 +45,18 @@ resource "aws_secretsmanager_secret" "external-secrets-app-secret" {
 }
 
 resource "aws_secretsmanager_secret_version" "external-secrets-app-secret-version" {
-  for_each = { for k, v in random_password.external-secrets-app-secrets : k => v }
+  for_each = { for app, details in var.applications : app => details }
 
-  secret_id     = aws_secretsmanager_secret.external-secrets-app-secret[split("-", each.key)[0]].id
-  secret_string = jsonencode({ (split("-", each.key)[1]) = each.value.result })
+  secret_id = aws_secretsmanager_secret.external-secrets-app-secret[each.key].id
+  secret_string = jsonencode({
+    for key in each.value.keys : key.name => random_password.external-secrets-app-secrets["${each.key}-${key.name}-${key.length}"].result
+  })
+
+  lifecycle {
+    ignore_changes = [secret_string]
+  }
 }
+
 
 resource "aws_iam_policy" "external-secrets-policy" {
   name        = "external-secrets-policy"
