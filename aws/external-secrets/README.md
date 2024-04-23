@@ -12,7 +12,6 @@
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.41.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | ~> 3.6.0 |
 
 ## Modules
 
@@ -26,14 +25,12 @@ No modules.
 | [aws_iam_role.external-secrets-role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.secret_access_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_secretsmanager_secret.external-secrets-app-secret](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
-| [aws_secretsmanager_secret_version.external-secrets-app-secret-version](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret_version) | resource |
-| [random_password.external-secrets-app-secrets](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_applications"></a> [applications](#input\_applications) | A map of application names to their keys and optional lengths | <pre>map(object({<br>    keys = list(object({<br>      name   = string<br>      length = optional(number, 16)<br>    }))<br>  }))</pre> | `{}` | no |
+| <a name="input_applications"></a> [applications](#input\_applications) | A list of application names for which to create AWS Secrets Manager secrets. | `list(string)` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | The name of the environment which will deploy to and will be added as a tag | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The namespace, which host the service account & target application | `string` | n/a | yes |
 | <a name="input_open_oidc_provider_arn"></a> [open\_oidc\_provider\_arn](#input\_open\_oidc\_provider\_arn) | The Open OIDC Provider ARN for a specific cluster | `string` | n/a | yes |

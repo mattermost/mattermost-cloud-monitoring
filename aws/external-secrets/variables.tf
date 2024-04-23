@@ -24,26 +24,7 @@ variable "namespace" {
 }
 
 variable "applications" {
-  description = "A map of application names to their keys and optional lengths"
-  type = map(object({
-    keys = list(object({
-      name   = string
-      length = optional(number, 16)
-    }))
-  }))
-  default = {
-    #    app1 = {
-    #      keys = [
-    #        { name = "DATABASE", length = 20 },
-    #        { name = "other_key", length = 12 } # Custom length per key
-    #      ]
-    #    },
-    #    app2 = {
-    #      keys = [
-    #        { name = "API_KEY", length = 32 },
-    #        { name = "API_SECRET" } # Uses default length
-    #      ]
-    #    }
-  }
+  description = "A list of application names for which to create AWS Secrets Manager secrets."
+  type        = list(string)
 }
 
