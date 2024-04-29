@@ -309,10 +309,24 @@ resource "aws_iam_policy" "ec2" {
                 "autoscaling:DescribeLifecycleHooks",
                 "autoscaling:CompleteLifecycleAction",
                 "autoscaling:SetInstanceProtection",
+                "autoscaling:PutLifecycleHook",
                 "acm:ListCertificates",
                 "acm:ListTagsForCertificate",
                 "sqs:ListQueues",
-                "events:ListRules"
+                "sqs:CreateQueue",
+                "sqs:TagQueue",
+                "sqs:GetQueueAttributes",
+                "sqs:ListQueueTags",
+                "sqs:DeleteQueue",
+                "events:ListRules",
+                "events:TagResource",
+                "events:PutRule",
+                "events:DescribeRule",
+                "events:ListTagsForResource",
+                "events:DeleteRule",
+                "events:PutTargets",
+                "events:ListTargetsByRule",
+                "events:RemoveTargets"
             ],
             "Resource": "*"
         }
