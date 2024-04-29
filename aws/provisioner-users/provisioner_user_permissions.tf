@@ -310,6 +310,7 @@ resource "aws_iam_policy" "ec2" {
                 "autoscaling:CompleteLifecycleAction",
                 "autoscaling:SetInstanceProtection",
                 "autoscaling:PutLifecycleHook",
+                "autoscaling:DeleteLifecycleHook",
                 "acm:ListCertificates",
                 "acm:ListTagsForCertificate",
                 "sqs:ListQueues",
