@@ -30,7 +30,7 @@ resource "aws_lambda_function" "provisioner-notification" {
     size = 512
   }
 
-  tags_all = var.tags
+  tags = var.tags
 
 }
 
@@ -69,7 +69,7 @@ resource "aws_lambda_function" "elrond-notification" {
     size = 512
   }
 
-  tags_all = var.tags
+  tags = var.tags
 }
 
 resource "aws_lambda_function" "gitlab-webhook" {
@@ -102,7 +102,7 @@ resource "aws_lambda_function" "gitlab-webhook" {
     size = 512
   }
 
-  tags_all = var.tags
+  tags = var.tags
 
 }
 
