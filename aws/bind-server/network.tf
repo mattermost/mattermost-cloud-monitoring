@@ -2,7 +2,7 @@ resource "aws_autoscaling_lifecycle_hook" "bind_lifecycle_hook" {
   name                   = "bind-lifecycle-hook"
   autoscaling_group_name = aws_autoscaling_group.bind_autoscale.name
   default_result         = "ABANDON"
-  heartbeat_timeout      = 60
+  heartbeat_timeout      = var.heartbeat_timeout
   lifecycle_transition   = "autoscaling:EC2_INSTANCE_LAUNCHING"
 }
 
@@ -10,7 +10,7 @@ resource "aws_autoscaling_lifecycle_hook" "bind_lifecycle_hook_arm" {
   name                   = "bind-lifecycle-hook-arm"
   autoscaling_group_name = aws_autoscaling_group.bind_arm_autoscale.name
   default_result         = "ABANDON"
-  heartbeat_timeout      = 60
+  heartbeat_timeout      = var.heartbeat_timeout
   lifecycle_transition   = "autoscaling:EC2_INSTANCE_LAUNCHING"
 }
 
