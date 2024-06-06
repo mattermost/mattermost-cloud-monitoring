@@ -57,6 +57,7 @@ No modules.
 | <a name="input_cidr_blocks"></a> [cidr\_blocks](#input\_cidr\_blocks) | The CIDR block to allow network traffic | `list(string)` | n/a | yes |
 | <a name="input_desired_size"></a> [desired\_size](#input\_desired\_size) | n/a | `number` | `3` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment will be created | `string` | n/a | yes |
+| <a name="input_heartbeat_timeout"></a> [heartbeat\_timeout](#input\_heartbeat\_timeout) | The minimum number of arm nodes in the arm node group | `number` | `60` | no |
 | <a name="input_hosts_list"></a> [hosts\_list](#input\_hosts\_list) | The list of bind servers hosts | `list(string)` | `[]` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | Type of instance to run the DNS servers | `string` | `"t3.nano"` | no |
 | <a name="input_lambda_s3_bucket"></a> [lambda\_s3\_bucket](#input\_lambda\_s3\_bucket) | The S3 bucket where the lambda function is stored | `string` | n/a | yes |

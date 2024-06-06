@@ -124,3 +124,9 @@ variable "arm_min_size" {
   description = "The minimum number of arm nodes in the arm node group"
   default     = 0
 }
+
+variable "heartbeat_timeout" {
+  type        = number
+  description = "The minimum number of arm nodes in the arm node group"
+  default     = 60
+}
