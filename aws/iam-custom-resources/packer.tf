@@ -127,7 +127,7 @@ resource "aws_iam_policy" "packer" {
           "Effect": "Allow",
           "Action": "iam:PassRole",
           "Resource": [
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.environment}-bind-server-role",
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.environment}-bind-server-role"
           ]
         }
     ]
