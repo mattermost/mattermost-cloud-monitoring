@@ -62,7 +62,7 @@ variable "elrond_db_cluster_engine_mode" {
 
 variable "elrond_db_cluster_engine_version" {
   type    = string
-  default = "13.8"
+  default = "14.10"
 }
 
 variable "elrond_db_cluster_identifier" {
@@ -102,7 +102,7 @@ variable "elrond_kms_key" {
 
 variable "elrond_aurora_family" {
   type    = string
-  default = "aurora-postgresql13"
+  default = "aurora-postgresql14"
 }
 
 variable "elrond_min_capacity" {

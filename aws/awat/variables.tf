@@ -63,7 +63,7 @@ variable "awat_db_cluster_engine_mode" {
 
 variable "awat_db_cluster_engine_version" {
   type    = string
-  default = "13.7"
+  default = "14.10"
 }
 
 variable "awat_db_cluster_identifier" {
