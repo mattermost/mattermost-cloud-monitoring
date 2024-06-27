@@ -1,6 +1,6 @@
 module "calico" {
 
-    source = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-customer/calico?ref=v1.7.11"
+    source = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-customer/calico?ref=cld-7696"
 
     cluster_name = module.eks.cluster_name
     cluster_endpoint = module.eks.cluster_endpoint
