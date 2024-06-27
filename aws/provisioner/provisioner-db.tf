@@ -65,7 +65,7 @@ resource "aws_db_subnet_group" "subnets_db" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.7.5"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.7.11"
   cluster_identifier                    = var.provisioner_db_cluster_identifier
   cluster_instance_identifier           = var.provisioner_db_cluster_instance_identifier
   ca_cert_identifier                    = var.provisioner_ca_cert_identifier
@@ -100,4 +100,5 @@ module "aurora-cluster" {
   min_capacity                          = var.provisioner_min_capacity
   max_capacity                          = var.provisioner_max_capacity
   enable_rds_alerting                   = var.provisioner_enable_rds_alerting
+  allow_major_version_upgrade           = var.allow_major_version_upgrade
 }

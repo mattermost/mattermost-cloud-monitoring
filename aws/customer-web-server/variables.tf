@@ -51,7 +51,7 @@ variable "cws_db_cluster_engine_mode" {
 
 variable "cws_db_cluster_engine_version" {
   type    = string
-  default = "13.8"
+  default = "14.10"
 }
 
 variable "cws_db_cluster_identifier" {
@@ -91,7 +91,7 @@ variable "cws_kms_key" {
 
 variable "cws_aurora_family" {
   type    = string
-  default = "aurora-postgresql13"
+  default = "aurora-postgresql14"
 }
 
 variable "cws_min_capacity" {
@@ -150,4 +150,9 @@ variable "cws_ca_cert_identifier" {
   type        = string
   description = "Identifier of the CA certificate for the DB instance."
   default     = "rds-ca-rsa4096-g1"
+}
+
+variable "allow_major_version_upgrade" {
+  type        = bool
+  description = "Enable to allow major engine version upgrades when changing engine versions"
 }
