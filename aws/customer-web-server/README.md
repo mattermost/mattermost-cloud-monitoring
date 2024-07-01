@@ -1,3 +1,4 @@
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -16,7 +17,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.7.5 |
+| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.7.11 |
 
 ## Resources
 
@@ -31,10 +32,11 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_allow_major_version_upgrade"></a> [allow\_major\_version\_upgrade](#input\_allow\_major\_version\_upgrade) | Enable to allow major engine version upgrades when changing engine versions | `bool` | `false` | no |
 | <a name="input_cloud_vpn_cidr"></a> [cloud\_vpn\_cidr](#input\_cloud\_vpn\_cidr) | n/a | `list(string)` | n/a | yes |
 | <a name="input_connect_rds_ec2_security_group"></a> [connect\_rds\_ec2\_security\_group](#input\_connect\_rds\_ec2\_security\_group) | n/a | `string` | n/a | yes |
 | <a name="input_cws_apply_immediately"></a> [cws\_apply\_immediately](#input\_cws\_apply\_immediately) | n/a | `bool` | `false` | no |
-| <a name="input_cws_aurora_family"></a> [cws\_aurora\_family](#input\_cws\_aurora\_family) | n/a | `string` | `"aurora-postgresql13"` | no |
+| <a name="input_cws_aurora_family"></a> [cws\_aurora\_family](#input\_cws\_aurora\_family) | n/a | `string` | `"aurora-postgresql14"` | no |
 | <a name="input_cws_ca_cert_identifier"></a> [cws\_ca\_cert\_identifier](#input\_cws\_ca\_cert\_identifier) | Identifier of the CA certificate for the DB instance. | `string` | `"rds-ca-rsa4096-g1"` | no |
 | <a name="input_cws_cluster_storage_encrypted"></a> [cws\_cluster\_storage\_encrypted](#input\_cws\_cluster\_storage\_encrypted) | n/a | `bool` | `true` | no |
 | <a name="input_cws_copy_tags_to_snapshot"></a> [cws\_copy\_tags\_to\_snapshot](#input\_cws\_copy\_tags\_to\_snapshot) | n/a | `bool` | `true` | no |
@@ -42,7 +44,7 @@
 | <a name="input_cws_db_backup_window"></a> [cws\_db\_backup\_window](#input\_cws\_db\_backup\_window) | n/a | `string` | n/a | yes |
 | <a name="input_cws_db_cluster_engine"></a> [cws\_db\_cluster\_engine](#input\_cws\_db\_cluster\_engine) | n/a | `string` | `"aurora-postgresql"` | no |
 | <a name="input_cws_db_cluster_engine_mode"></a> [cws\_db\_cluster\_engine\_mode](#input\_cws\_db\_cluster\_engine\_mode) | n/a | `string` | `"provisioned"` | no |
-| <a name="input_cws_db_cluster_engine_version"></a> [cws\_db\_cluster\_engine\_version](#input\_cws\_db\_cluster\_engine\_version) | n/a | `string` | `"13.8"` | no |
+| <a name="input_cws_db_cluster_engine_version"></a> [cws\_db\_cluster\_engine\_version](#input\_cws\_db\_cluster\_engine\_version) | n/a | `string` | `"14.10"` | no |
 | <a name="input_cws_db_cluster_identifier"></a> [cws\_db\_cluster\_identifier](#input\_cws\_db\_cluster\_identifier) | n/a | `string` | n/a | yes |
 | <a name="input_cws_db_cluster_instance_identifier"></a> [cws\_db\_cluster\_instance\_identifier](#input\_cws\_db\_cluster\_instance\_identifier) | n/a | `string` | n/a | yes |
 | <a name="input_cws_db_cluster_instance_type"></a> [cws\_db\_cluster\_instance\_type](#input\_cws\_db\_cluster\_instance\_type) | n/a | `string` | `"db.serverless"` | no |
@@ -69,3 +71,4 @@
 ## Outputs
 
 No outputs.
+<!-- END_TF_DOCS -->

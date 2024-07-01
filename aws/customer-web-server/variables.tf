@@ -154,5 +154,6 @@ variable "cws_ca_cert_identifier" {
 
 variable "allow_major_version_upgrade" {
   type        = bool
+  default     = false
   description = "Enable to allow major engine version upgrades when changing engine versions"
 }
