@@ -1,3 +1,4 @@
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -16,7 +17,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.7.5 |
+| <a name="module_aurora-cluster"></a> [aurora-cluster](#module\_aurora-cluster) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster | v1.7.11 |
 
 ## Resources
 
@@ -32,6 +33,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_allow_major_version_upgrade"></a> [allow\_major\_version\_upgrade](#input\_allow\_major\_version\_upgrade) | Enable to allow major engine version upgrades when changing engine versions | `bool` | `false` | no |
 | <a name="input_cloud_vpn_cidr"></a> [cloud\_vpn\_cidr](#input\_cloud\_vpn\_cidr) | n/a | `list(string)` | n/a | yes |
 | <a name="input_db_backup_retention_period"></a> [db\_backup\_retention\_period](#input\_db\_backup\_retention\_period) | n/a | `string` | n/a | yes |
 | <a name="input_db_backup_window"></a> [db\_backup\_window](#input\_db\_backup\_window) | n/a | `string` | n/a | yes |
@@ -45,13 +47,13 @@
 | <a name="input_grafana_cidr"></a> [grafana\_cidr](#input\_grafana\_cidr) | The centralised CIDR | `list(any)` | n/a | yes |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | n/a | `list(string)` | n/a | yes |
 | <a name="input_provisioner_apply_immediately"></a> [provisioner\_apply\_immediately](#input\_provisioner\_apply\_immediately) | n/a | `bool` | `false` | no |
-| <a name="input_provisioner_aurora_family"></a> [provisioner\_aurora\_family](#input\_provisioner\_aurora\_family) | n/a | `string` | `"aurora-postgresql13"` | no |
+| <a name="input_provisioner_aurora_family"></a> [provisioner\_aurora\_family](#input\_provisioner\_aurora\_family) | n/a | `string` | `"aurora-postgresql14"` | no |
 | <a name="input_provisioner_ca_cert_identifier"></a> [provisioner\_ca\_cert\_identifier](#input\_provisioner\_ca\_cert\_identifier) | Identifier of the CA certificate for the DB instance. | `string` | `"rds-ca-rsa4096-g1"` | no |
 | <a name="input_provisioner_cluster_storage_encrypted"></a> [provisioner\_cluster\_storage\_encrypted](#input\_provisioner\_cluster\_storage\_encrypted) | n/a | `bool` | `true` | no |
 | <a name="input_provisioner_copy_tags_to_snapshot"></a> [provisioner\_copy\_tags\_to\_snapshot](#input\_provisioner\_copy\_tags\_to\_snapshot) | n/a | `bool` | `true` | no |
 | <a name="input_provisioner_db_cluster_engine"></a> [provisioner\_db\_cluster\_engine](#input\_provisioner\_db\_cluster\_engine) | n/a | `string` | `"aurora-postgresql"` | no |
 | <a name="input_provisioner_db_cluster_engine_mode"></a> [provisioner\_db\_cluster\_engine\_mode](#input\_provisioner\_db\_cluster\_engine\_mode) | n/a | `string` | `"provisioned"` | no |
-| <a name="input_provisioner_db_cluster_engine_version"></a> [provisioner\_db\_cluster\_engine\_version](#input\_provisioner\_db\_cluster\_engine\_version) | n/a | `string` | `"13.8"` | no |
+| <a name="input_provisioner_db_cluster_engine_version"></a> [provisioner\_db\_cluster\_engine\_version](#input\_provisioner\_db\_cluster\_engine\_version) | n/a | `string` | `"14.10"` | no |
 | <a name="input_provisioner_db_cluster_identifier"></a> [provisioner\_db\_cluster\_identifier](#input\_provisioner\_db\_cluster\_identifier) | n/a | `string` | n/a | yes |
 | <a name="input_provisioner_db_cluster_instance_identifier"></a> [provisioner\_db\_cluster\_instance\_identifier](#input\_provisioner\_db\_cluster\_instance\_identifier) | n/a | `string` | n/a | yes |
 | <a name="input_provisioner_db_cluster_instance_type"></a> [provisioner\_db\_cluster\_instance\_type](#input\_provisioner\_db\_cluster\_instance\_type) | n/a | `string` | `"db.serverless"` | no |
@@ -71,3 +73,4 @@
 ## Outputs
 
 No outputs.
+<!-- END_TF_DOCS -->
