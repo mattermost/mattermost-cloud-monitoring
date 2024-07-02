@@ -68,6 +68,7 @@ resource "aws_iam_policy" "packer" {
             "Action": [
               "autoscaling:DescribeAutoScalingGroups",
               "autoscaling:DescribeLifecycleHooks",
+              "autoscaling:DescribeInstanceRefreshes",
               "autoscaling:UpdateAutoScalingGroup",
               "autoscaling:StartInstanceRefresh",
               "ec2:AttachVolume",
