@@ -54,3 +54,40 @@ variable cluster_enabled_log_types {
   description = "The list of log types to enable"
   type = list(string)
 }
+
+variable "coredns_version" {
+  description = "The version of the CoreDNS addon"
+  type = string
+}
+
+variable "kube_proxy_version" {
+  description = "The version of the kube-proxy addon"
+  type = string
+}
+
+variable "ebs_csi_driver_version" {
+  description = "The version of the EBS CSI driver addon"
+  type = string
+}
+
+variable "snapshot_controller_version" {
+  type = string
+}
+
+variable "node_groups" {
+  description = "The list of node groups"
+  type = map(object({
+    name = string
+    min_size     = number
+    max_size     = number
+    desired_size = number
+  }))
+}
+
+variable "utilities" {
+  description = "The list of utilities"
+  type = map(object({
+    name = string
+    type = string
+  }))
+}

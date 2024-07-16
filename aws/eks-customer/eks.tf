@@ -18,24 +18,6 @@ module "eks" {
 
 	cluster_enabled_log_types = var.cluster_enabled_log_types
 
-	# cluster_addons = {
-	# 	coredns = {
-	# 		version = var.coredns_version
-	# 	}
-
-	# 	kube-proxy = {
-	# 		version = var.kube_proxy_version
-	# 	}
-
-	# 	aws-ebs-csi-driver = {
-	# 		version = var.ebs_csi_version
-	# 	}
-
-	# 	snapshot-controller = {
-	# 		version = var.snapshot_controller_version
-	# 	}
-	# }
-
 
 	subnet_ids = data.aws_subnets.private.ids
 	cluster_security_group_additional_rules = var.cluster_security_group_additional_rules
@@ -61,13 +43,19 @@ module "eks" {
 	# }
 }
 
-# resource "null_resource" "tag-vpc" {
-# 	provisioner "local-exec" {
-# 	  command = "aws ec2 create-tags --resources ${var.vpc_id} --tags Key=Available,Value=false"
-# 	}
+resource "null_resource" "tag-vpc" {
+	provisioner "local-exec" {
+	  command = "aws ec2 create-tags --resources ${var.vpc_id} --tags Key=eks_deployed,Value=true"
+	}
 
-# 	depends_on = [ module.eks ]
-# }
+  provisioner "local-exec" {
+    when = destroy
+    command = "aws ec2 create-tags --resources ${var.vpc_id} --tags Key=eks_deployed,Value=false"
+    
+  }
+
+	depends_on = [ module.eks ]
+}
 
 resource "time_sleep" "this" {
 
