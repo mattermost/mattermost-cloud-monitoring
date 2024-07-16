@@ -10,7 +10,7 @@ resource "aws_vpc" "vpc_creation" {
       "Available"         = "true",
       "CloudClusterID"    = "none",
       "CloudClusterOwner" = "none",
-      "CloudClusterType"  = "kops"
+      "CloudClusterType"  = "kops",
       "Size"              = split("/", each.value)[1]
     },
     var.tags
