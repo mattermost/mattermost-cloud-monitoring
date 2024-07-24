@@ -187,7 +187,7 @@ variable "map_subnets" {
 }
 
 variable "atlantis_user" {
-  description = "The atlantis user used for IaaC"
+  description = "The atlantis user used for IaC"
   type        = string
 }
 
