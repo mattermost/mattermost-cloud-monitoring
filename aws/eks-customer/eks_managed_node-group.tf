@@ -17,9 +17,9 @@ module "managed_node_group" {
   desired_size = each.value.desired_size
 
 	tags = {
-    Environment = "dev"
+    Environment = var.environment
     Terraform   = "true"
   }
 
-	depends_on = [ kubectl_manifest.calico_operator_configuration ]
+	depends_on = [ null_resource.calico_operator_configuration ]
 }

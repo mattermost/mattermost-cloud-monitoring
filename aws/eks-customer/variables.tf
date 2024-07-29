@@ -1,5 +1,5 @@
-variable "cluster_name" {
-  description = "The name of the EKS cluster"
+variable "cluster_id" {
+  description = "The id of the EKS cluster"
   type = string
 }
 
@@ -7,6 +7,12 @@ variable "region" {
   description = "The region for the EKS cluster"
   type = string
   default = "us-east-1"
+}
+
+variable "environment" {
+  description = "The environment"
+  type = string
+  default = "dev"
 }
 
 variable "cluster_version" {
@@ -86,8 +92,59 @@ variable "node_groups" {
 
 variable "utilities" {
   description = "The list of utilities"
-  type = map(object({
+  type = list(object({
     name = string
-    type = string
   }))
+  default = [
+    {
+      name = "pgbouncer"
+    },
+    {
+    	name = "nginx"
+    },
+    {
+    	name = "nginx-internal"
+    },
+    {
+    	name = "prometheus-operator"
+    },
+    {
+      name = "thanos"
+    },
+    {
+      name = "teleport"
+    },
+    {
+      name = "promtail"
+    },
+    {
+      name = "velero"
+    }
+  ]
+}
+
+variable "git_repo_url" {
+  description = "The git repo url"
+  type = string
+  default = "git@git.internal.mattermost.com:cloud-sre/kubernetes-workloads/gitops-sre.git"
+}
+
+variable "lb_certificate_arn" {
+  description = "The certificate arn"
+  type = string
+}
+
+variable "lb_private_certificate_arn" {
+  description = "The private certificate arn"
+  type = string
+}
+
+variable "argocd_role_arn" {
+  description = "The argocd role arn"
+  type = string
+}
+
+variable "ip_range" {
+  description = "The ip range"
+  type = string
 }
