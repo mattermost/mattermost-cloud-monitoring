@@ -2,7 +2,7 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.14.0"
 
-	cluster_name = var.cluster_name
+	cluster_name = local.cluster_name
 	cluster_version = var.cluster_version
 
 	vpc_id = var.vpc_id
@@ -48,11 +48,11 @@ resource "null_resource" "tag-vpc" {
 	  command = "aws ec2 create-tags --resources ${var.vpc_id} --tags Key=eks_deployed,Value=true"
 	}
 
-  provisioner "local-exec" {
-    when = destroy
-    command = "aws ec2 create-tags --resources ${var.vpc_id} --tags Key=eks_deployed,Value=false"
+  # provisioner "local-exec" {
+  #   when = destroy
+  #   command = "aws ec2 create-tags --resources ${var.vpc_id} --tags Key=eks_deployed,Value=false"
     
-  }
+  # }
 
 	depends_on = [ module.eks ]
 }

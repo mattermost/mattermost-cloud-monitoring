@@ -1,6 +1,6 @@
 variable "utilities" {
   description = "The list of utilities"
-  type = map(object({
+  type = list(object({
     name = string
   }))
 }
@@ -20,12 +20,12 @@ variable "environment" {
   type = string
 }
 
-variable "certificate_arn" {
+variable "lb_certificate_arn" {
   description = "The certificate arn"
   type = string
 }
 
-variable "private_certificate_arn" {
+variable "lb_private_certificate_arn" {
   description = "The private certificate arn"
   type = string
 }
@@ -42,5 +42,25 @@ variable "private_domain" {
 
 variable "ip_range" {
   description = "The ip range"
+  type = string
+}
+
+variable "api_server" {
+  description = "The api server"
+  type = string
+}
+
+variable "ca_data" {
+  description = "The ca data"
+  type = string
+}
+
+variable "cluster_name" {
+  description = "The cluster name"
+  type = string
+}
+
+variable "argocd_role_arn" {
+  description = "The argocd role arn"
   type = string
 }

@@ -14,19 +14,12 @@ resource "null_resource" "install_calico_operator" {
 	depends_on = [ module.eks, time_sleep.this, resource.local_file.kubeconfig ]
 }
 
-resource "kubectl_manifest" "calico_operator_configuration" {
-    yaml_body = <<EOF
-kind: Installation
-apiVersion: operator.tigera.io/v1
-metadata:
-  name: default
-spec:
-  kubernetesProvider: EKS
-  cni:
-    type: Calico
-  calicoNetwork:
-    bgp: Disabled
-EOF
-    
-    depends_on = [ null_resource.install_calico_operator ]
+resource "null_resource" "calico_operator_configuration" {
+  provisioner "local-exec" {
+    command = <<EOF
+      KUBECONFIG=${path.module}/kubeconfig kubectl apply -f ${path.module}/calico_installation.yaml
+    EOF
+  }
+
+  depends_on = [ null_resource.install_calico_operator ]
 }
