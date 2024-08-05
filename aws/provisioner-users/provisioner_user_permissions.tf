@@ -625,4 +625,8 @@ resource "aws_iam_user_policy_attachment" "attach_kms_awat" {
   for_each   = toset(var.awat_cross_account_enabled ? var.provisioner_users : [])
   user       = each.value
   policy_arn = aws_iam_policy.kms_awat[0].arn
+
+  depends_on = [
+    aws_iam_user.provisioner_users
+  ]
 }

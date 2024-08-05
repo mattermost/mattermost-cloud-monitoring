@@ -64,7 +64,7 @@ resource "aws_iam_role_policy_attachment" "provisioner_role_attach_kms" {
 
 resource "aws_iam_role_policy_attachment" "provisioner_role_attach_kms_awat" {
   role       = aws_iam_role.provisioner-role.name
-  policy_arn = aws_iam_policy.kms_awat.arn
+  policy_arn = aws_iam_policy.kms_awat[0].arn
 }
 
 resource "aws_iam_role_policy_attachment" "provisioner_role_attach_tag" {
