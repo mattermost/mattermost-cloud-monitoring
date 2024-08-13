@@ -1,5 +1,7 @@
 resource "aws_s3_bucket" "awat_bucket" {
   bucket = "cloud-awat-${var.environment}"
+
+  tags = var.awat_bucket_tags
 }
 
 resource "aws_s3_bucket_policy" "awat_bucket" {

@@ -1,5 +1,7 @@
 resource "aws_s3_bucket" "tempo_bucket" {
   bucket = "cloud-tempo-${var.environment}"
+
+  tags = var.tempo_bucket_tags
 }
 
 resource "aws_s3_bucket_policy" "tempo_bucket" {
