@@ -1,11 +1,6 @@
 variable "name" {
-  type = string
+  type    = string
   default = "pexip"
-}
-
-variable "region" {
-  type        = string
-  description = "The AWS region which will be used."
 }
 
 variable "public_subnet_id" {
@@ -31,10 +26,6 @@ variable "conference_cloudflare_record_name" {
 variable "management_cloudflare_record_name" {
   type        = string
   description = "The DNS name for the Pexip management node"
-}
-
-variable "cloudflare_api_token" {
-  type    = string
 }
 
 variable "management_private_ips" {
