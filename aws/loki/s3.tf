@@ -1,5 +1,7 @@
 resource "aws_s3_bucket" "loki_bucket" {
   bucket = "cloud-loki-${var.environment}"
+
+  tags = var.tags_loki_bucket
 }
 
 resource "aws_s3_bucket_policy" "loki_bucket" {
@@ -67,6 +69,8 @@ data "aws_iam_policy_document" "loki_bucket_policy" {
 resource "aws_s3_bucket" "loki_bucket_developers" {
   count  = var.enable_loki_bucket_developers ? 1 : 0
   bucket = "cloud-loki-developers-${var.environment}"
+
+  tags = var.tags_bucket_loki_developers
 }
 
 resource "aws_s3_bucket_policy" "loki_bucket_developers" {

@@ -62,6 +62,12 @@ resource "aws_iam_role_policy_attachment" "provisioner_role_attach_kms" {
   policy_arn = aws_iam_policy.kms.arn
 }
 
+resource "aws_iam_role_policy_attachment" "provisioner_role_attach_kms_awat" {
+  count      = var.awat_cross_account_enabled ? 1 : 0
+  role       = aws_iam_role.provisioner-role.name
+  policy_arn = aws_iam_policy.kms_awat[0].arn
+}
+
 resource "aws_iam_role_policy_attachment" "provisioner_role_attach_tag" {
   role       = aws_iam_role.provisioner-role.name
   policy_arn = aws_iam_policy.tag.arn

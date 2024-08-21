@@ -175,3 +175,8 @@ variable "allow_major_version_upgrade" {
   type        = bool
   description = "Enable to allow major engine version upgrades when changing engine versions"
 }
+
+variable "awat_bucket_tags" {
+  type        = map(string)
+  description = "Tags for AWAT s3 bucket"
+}
