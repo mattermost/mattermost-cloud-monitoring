@@ -35,7 +35,7 @@ resource "aws_network_interface" "pexip_conference" {
 resource "aws_instance" "pexip_conference" {
   ami           = var.initial_configuration ? var.official_pexip_conference_ec2_ami : var.custom_conference_ec2_ami
   instance_type = var.conference_ec2_type
-  key_name      = var.ec2_key_pair
+  key_name      = var.initial_configuration ? var.ec2_key_pair : ""
 
   network_interface {
     network_interface_id = aws_network_interface.pexip_conference.id
