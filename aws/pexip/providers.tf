@@ -1,10 +1,5 @@
 terraform {
   required_version = ">= 1.6.3"
-  backend "s3" {
-    bucket = "terraform-cloud-monitoring-state-bucket-test"
-    key    = "us-east-1/mattermost-pexip"
-    region = "us-east-1"
-  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
