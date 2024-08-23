@@ -35,7 +35,31 @@ KUBECONFIG
 
 resource "local_file" "kubeconfig" {
     content  = local.kubeconfig
-    filename = "${path.module}/kubeconfig"
+    filename = "${path.root}/kubeconfig"
 
     depends_on = [module.eks]
+}
+
+#null_resource to force recreation
+# resource "null_resource" "force_recreate" {
+#   triggers = {
+#     always_run = "${timestamp()}"
+#   }
+
+#   provisioner "local-exec" {
+#     command = "echo 'Forcing kubeconfig recreation'"
+#   }
+
+#   depends_on = [local_file.kubeconfig]
+# }
+
+resource "aws_secretsmanager_secret" "kubeconfig_secret" {
+  name = module.eks.cluster_name
+}
+
+resource "aws_secretsmanager_secret_version" "kubeconfig_secret_version" {
+  secret_id     = aws_secretsmanager_secret.kubeconfig_secret.id
+  secret_string = local_file.kubeconfig.content
+  
+  depends_on = [ local.kubeconfig ]
 }

@@ -2,15 +2,18 @@ variable "utilities" {
   description = "The list of utilities"
   type = list(object({
     name = string
+    enable_irsa = bool
+    service_account = string
+    cluster_label_type = string
   }))
 }
 
-variable "cluster_id" {
+variable "cluster_name" {
   description = "The cluster id"
   type = string
 }
 
-variable "git_repo_url" {
+variable "gitops_repo_url" {
   description = "The git repo url"
   type = string
 }
@@ -40,8 +43,8 @@ variable "private_domain" {
   type = string
 }
 
-variable "ip_range" {
-  description = "The ip range"
+variable "allow_list_cidr_range" {
+  description = "The list of CIDRs to allow communication with the private ingress."
   type = string
 }
 
@@ -55,12 +58,12 @@ variable "ca_data" {
   type = string
 }
 
-variable "cluster_name" {
-  description = "The cluster name"
+variable "argocd_role_arn" {
+  description = "The argocd role arn"
   type = string
 }
 
-variable "argocd_role_arn" {
-  description = "The argocd role arn"
+variable "oidc_provider_arn" {
+  description = "The oidc provider arn"
   type = string
 }

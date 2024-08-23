@@ -1,42 +1,28 @@
+locals {
+  internal_domain = "internal.${var.environment}.${var.private_domain}"
+}
+
 resource null_resource "deploy-utilites" {
   provisioner "local-exec" {
     command = <<EOT
       bash ${path.module}/scripts/deploy-utility.sh '${jsonencode(var.utilities)}'
     EOT
     environment = {
-      GIT_REPO_URL            = var.git_repo_url
-      CLUSTER_ID              = var.cluster_id
-      ENV                     = var.environment
-      CERTIFICATE_ARN         = var.lb_certificate_arn
-      PRIVATE_CERTIFICATE_ARN = var.lb_private_certificate_arn
-      VPC_ID                  = var.vpc_id
-      PRIVATE_DOMAIN          = var.private_domain
-      IP_RANGE                = var.ip_range
-      API_SERVER              = var.api_server
-      CA_DATA                 = var.ca_data
-      CLUSTER_NAME            = var.cluster_name
-      ARGOCD_ROLE_ARN         = var.argocd_role_arn
+      GIT_REPO_URL              = var.gitops_repo_url
+      CLUSTER_NAME                = var.cluster_name
+      ENV                       = var.environment
+      CERTIFICATE_ARN           = var.lb_certificate_arn
+      PRIVATE_CERTIFICATE_ARN   = var.lb_private_certificate_arn
+      VPC_ID                    = var.vpc_id
+      PRIVATE_DOMAIN            = local.internal_domain
+      ALLOW_LIST_CIDR_RANGE     = var.allow_list_cidr_range
+      API_SERVER                = var.api_server
+      CA_DATA                   = var.ca_data
+      ARGOCD_ROLE_ARN           = var.argocd_role_arn
     }
   }
 
   triggers = {
     always_run = timestamp()
   }
-
-  # depends_on = [ null_resource.clone-gitops-repo ]
 }
-
-# resource null_resource "push-argocd-apps" {
-#   triggers = {
-#     always_run = timestamp()
-#   }
-#   provisioner "local-exec" {
-#     command = "bash ${path.module}/scripts/push-argocd-apps.sh"
-#     environment = {
-#       CLUSTER_ID = var.cluster_id
-#       GIT_REPO_URL = var.git_repo_url
-#     }
-#   }
-
-#   depends_on = [ null_resource.deploy-utilites ]
-# }

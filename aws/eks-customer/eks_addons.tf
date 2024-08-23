@@ -29,3 +29,4 @@ resource "aws_eks_addon" "snapshot-controller" {
 
   depends_on = [ module.managed_node_group ]
 }
+

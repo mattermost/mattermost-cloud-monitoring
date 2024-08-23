@@ -13,13 +13,5 @@ terraform {
       source  = "hashicorp/local"
       version = ">= 2.5.1"
     }
-    # helm = {
-    #   source  = "hashicorp/helm"
-    #   version = ">= 2.7"
-    # }
-    # tls = {
-    #   source  = "hashicorp/tls"
-    #   version = ">= 4.0.0"
-    # }
   }
 }

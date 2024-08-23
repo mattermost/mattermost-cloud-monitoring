@@ -1,25 +1,38 @@
 module "managed_node_group" {
   source = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
+  version = "20.20.0"
 
-	for_each = var.node_groups
+	for_each = { for k, v in var.node_groups : k => v }
 
-	name = each.value.name
+
+	name = "${each.key}-${module.eks.cluster_name}"
   cluster_name = module.eks.cluster_name
 	cluster_version = module.eks.cluster_version
+  use_name_prefix = false
+  launch_template_use_name_prefix = false
+  iam_role_use_name_prefix = false
 
-	cluster_service_cidr = module.eks.cluster_service_cidr
+  enable_bootstrap_user_data = true
+  ami_id = each.value.ami_id
+  instance_types = each.value.instance_types
+
+  iam_role_additional_policies = {
+    cloudProvisioningNode = var.cloud_provisioning_node_policy_arn
+  }
+
+	cluster_service_cidr              = module.eks.cluster_service_cidr
   cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
-  vpc_security_group_ids            = [module.eks.node_security_group_id]
-	subnet_ids                        = data.aws_subnets.private.ids
+  vpc_security_group_ids            = strcontains(each.key, "calls") ? data.aws_security_groups.calls.ids : data.aws_security_groups.nodes.ids
+	subnet_ids                        = strcontains(each.key, "monitoring") ? data.aws_subnets.private-a.ids : data.aws_subnets.private.ids
 	
 	min_size     = each.value.min_size
   max_size     = each.value.max_size
   desired_size = each.value.desired_size
 
+  taints = each.value.taints
+
 	tags = {
     Environment = var.environment
     Terraform   = "true"
   }
-
-	depends_on = [ null_resource.calico_operator_configuration ]
 }

@@ -35,25 +35,36 @@ function commit_changes() {
     git commit -m "$commit_message"
 
     cd $current_dir || exit
+
+    push_changes_to_git
   else
     echo "No changes to commit"
-    remove_gitops_dir
   fi
 }
 
 function push_changes_to_git() {
   echo "Pushing changes to git"
+  current_dir=$(pwd)
+
   cd gitops-sre || exit
   git push origin main
+  cd $current_dir || exit
 }
 
-function remove_gitops_dir() {
+function clean_up() {
     echo "Removing gitops-sre directory"
-    rm -rf gitops-sre
+    rm -rf "gitops-sre"
+    echo "Removing kubeconfig"
+    rm -rf "kubeconfig"
     exit 0
 }
 
-# function remove_cluster() {
-#     local cluster_id=$1
-#     yq eval "del(.clusters[] | select(.labels.\"cluster-id\" == \"${cluster_id}\"))" -i $cluster_yaml
-# }
+function get_load_balancer_endpoint() {
+    namespace = $1
+    endpoint=$(KUBECONFIG=$KUBECONFIG kubectl -n $namespace get svc -o json | jq -r '.items[] | select(.spec.type=="LoadBalancer").status.loadBalancer.ingress[].hostname')
+    if [ -z "$endpoint" ]; then
+        echo "LoadBalancer endpoint is empty"
+        exit 1
+    fi
+    echo $endpoint
+}
