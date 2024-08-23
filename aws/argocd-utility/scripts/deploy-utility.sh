@@ -119,7 +119,6 @@ function main() {
   add_cluster
   create_cluster_folder
   deploy_utility
-  # push_changes_to_git
   clean_up
 }
 
