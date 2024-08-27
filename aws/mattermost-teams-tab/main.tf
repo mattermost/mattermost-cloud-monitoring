@@ -55,3 +55,35 @@ resource "aws_s3_bucket_policy" "static_website_policy" {
     ],
   })
 }
+
+resource "aws_iam_user" "teams_tab_user" {
+  name = "mattermost-teams-tab"
+}
+
+resource "aws_iam_policy" "teams_tab_policy" {
+  name        = "teams-tab-policy"
+  description = "A policy to allow access to the S3 bucket"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:ListBucket",
+          "s3:DeleteObject"
+        ],
+        Resource = [
+          "arn:aws:s3:::${var.bucket_name}",
+          "arn:aws:s3:::${var.bucket_name}/*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_user_policy_attachment" "teams_tab_policy_attachment" {
+  user       = aws_iam_user.teams_tab_user.name
+  policy_arn = aws_iam_policy.teams_tab_policy.arn
+}
