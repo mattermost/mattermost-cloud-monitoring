@@ -3,3 +3,7 @@ variable "bucket_name" {
   type        = string
 }
 
+variable "certificate_arn" {
+  description = "The ARN of the certificate to use for the CloudFront distribution"
+  type        = string
+}

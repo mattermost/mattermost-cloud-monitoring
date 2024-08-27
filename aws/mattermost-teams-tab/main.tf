@@ -87,3 +87,51 @@ resource "aws_iam_user_policy_attachment" "teams_tab_policy_attachment" {
   user       = aws_iam_user.teams_tab_user.name
   policy_arn = aws_iam_policy.teams_tab_policy.arn
 }
+
+#### CLOUDFRONT DISTRIBUTION ####
+resource "aws_cloudfront_origin_access_identity" "s3" {
+  comment = "Origin Access Identity for mattermost teams tab S3"
+}
+
+resource "aws_cloudfront_distribution" "static_website_distribution" {
+  origin {
+    domain_name = aws_s3_bucket.static_website.website_endpoint
+    origin_id   = "S3-${aws_s3_bucket.static_website.bucket_prefix}"
+
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.s3.id
+    }
+  }
+
+  enabled             = true
+  is_ipv6_enabled     = true
+  default_root_object = "index.html"
+
+  default_cache_behavior {
+    viewer_protocol_policy = "redirect-to-https"
+    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
+    cached_methods         = ["GET", "HEAD"]
+    target_origin_id       = "S3-${aws_s3_bucket.static_website.bucket_prefix}"
+
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
+  # CloudFront Viewer Certificate
+  viewer_certificate {
+    acm_certificate_arn = var.certificate_arn
+    ssl_support_method  = "sni-only"
+  }
+
+  price_class = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+}
