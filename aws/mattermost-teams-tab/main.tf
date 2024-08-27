@@ -10,7 +10,7 @@ resource "aws_s3_bucket_ownership_controls" "static_website_acl" {
 }
 
 resource "aws_s3_bucket_public_access_block" "publiceaccess" {
-  bucket = aws_s3_bucket.static_website.id
+  bucket                  = aws_s3_bucket.static_website.id
   block_public_acls       = false
   block_public_policy     = false
   ignore_public_acls      = false
@@ -18,7 +18,7 @@ resource "aws_s3_bucket_public_access_block" "publiceaccess" {
 }
 
 resource "aws_s3_bucket_acl" "static_website_acl" {
-    depends_on = [
+  depends_on = [
     aws_s3_bucket_ownership_controls.static_website_acl,
     aws_s3_bucket_public_access_block.publiceaccess,
   ]
@@ -47,10 +47,10 @@ resource "aws_s3_bucket_policy" "static_website_policy" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect   = "Allow",
+        Effect    = "Allow",
         Principal = "*",
-        Action   = "s3:GetObject",
-        Resource = "${aws_s3_bucket.static_website.arn}/*",
+        Action    = "s3:GetObject",
+        Resource  = "${aws_s3_bucket.static_website.arn}/*",
       },
     ],
   })
