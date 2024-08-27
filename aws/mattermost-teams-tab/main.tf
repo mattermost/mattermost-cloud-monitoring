@@ -96,7 +96,7 @@ resource "aws_cloudfront_origin_access_identity" "s3" {
 
 resource "aws_cloudfront_distribution" "static_website_distribution" {
   origin {
-    domain_name = aws_s3_bucket.static_website.website_endpoint
+    domain_name = aws_s3_bucket_website_configuration.static_website_config.website_endpoint
     origin_id   = "S3-${aws_s3_bucket.static_website.bucket_prefix}"
 
     s3_origin_config {
