@@ -12,7 +12,7 @@ resource "aws_s3_bucket_ownership_controls" "static_website_acl" {
 resource "aws_s3_bucket_versioning" "versioning_example" {
   bucket = aws_s3_bucket.static_website.id
   versioning_configuration {
-    status = var.enable_versioning ? "Enabled" : "Suspended"
+    status = var.enable_versioning ? "Enabled" : "Disabled"
   }
 }
 
