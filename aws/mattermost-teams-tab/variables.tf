@@ -13,3 +13,15 @@ variable "s3_origin_id" {
   type        = string
   default     = "teamsTabS3Origin"
 }
+
+variable "enable_cloudfront" {
+  description = "Whether to enable the CloudFront distribution"
+  type        = bool
+  default     = false
+}
+
+variable "enable_versioning" {
+  description = "Whether to enable versioning on the S3 bucket"
+  type        = bool
+  default     = true
+}

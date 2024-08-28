@@ -9,6 +9,13 @@ resource "aws_s3_bucket_ownership_controls" "static_website_acl" {
   }
 }
 
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  bucket = aws_s3_bucket.static_website.id
+  versioning_configuration {
+    status = var.enable_versioning ? "Enabled" : "Disabled"
+  }
+}
+
 resource "aws_s3_bucket_public_access_block" "publiceaccess" {
   bucket                  = aws_s3_bucket.static_website.id
   block_public_acls       = false
@@ -95,16 +102,18 @@ locals {
 }
 
 resource "aws_cloudfront_origin_access_identity" "s3" {
+  count   = var.enable_cloudfront ? 1 : 0
   comment = "Origin Access Identity for mattermost teams tab S3"
 }
 
 resource "aws_cloudfront_distribution" "static_website_distribution" {
+  count = var.enable_cloudfront ? 1 : 0
   origin {
     domain_name = aws_s3_bucket.static_website.bucket_regional_domain_name
     origin_id   = local.s3_origin_id
 
     s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.s3.cloudfront_access_identity_path
+      origin_access_identity = aws_cloudfront_origin_access_identity.s3[count.index].cloudfront_access_identity_path
     }
   }
 
