@@ -7,3 +7,9 @@ variable "certificate_arn" {
   description = "The ARN of the certificate to use for the CloudFront distribution"
   type        = string
 }
+
+variable "s3_origin_id" {
+  description = "The ID of the S3 origin in the CloudFront distribution"
+  type        = string
+  default     = "teamsTabS3Origin"
+}

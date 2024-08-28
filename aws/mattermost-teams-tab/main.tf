@@ -91,7 +91,7 @@ resource "aws_iam_user_policy_attachment" "teams_tab_policy_attachment" {
 
 #### CLOUDFRONT DISTRIBUTION ####
 locals {
-  s3_origin_id = "teamsTabS3Origin"
+  s3_origin_id = var.s3_origin_id
 }
 
 resource "aws_cloudfront_origin_access_identity" "s3" {
