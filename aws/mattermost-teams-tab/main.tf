@@ -90,6 +90,10 @@ resource "aws_iam_user_policy_attachment" "teams_tab_policy_attachment" {
 }
 
 #### CLOUDFRONT DISTRIBUTION ####
+locals {
+  s3_origin_id = var.s3_origin_id
+}
+
 resource "aws_cloudfront_origin_access_identity" "s3" {
   comment = "Origin Access Identity for mattermost teams tab S3"
 }
@@ -97,10 +101,10 @@ resource "aws_cloudfront_origin_access_identity" "s3" {
 resource "aws_cloudfront_distribution" "static_website_distribution" {
   origin {
     domain_name = aws_s3_bucket.static_website.bucket_regional_domain_name
-    origin_id   = "S3-${aws_s3_bucket.static_website.bucket_prefix}"
+    origin_id   = local.s3_origin_id
 
     s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.s3.id
+      origin_access_identity = aws_cloudfront_origin_access_identity.s3.cloudfront_access_identity_path
     }
   }
 
@@ -112,7 +116,7 @@ resource "aws_cloudfront_distribution" "static_website_distribution" {
     viewer_protocol_policy = "redirect-to-https"
     allowed_methods        = ["GET", "HEAD", "OPTIONS"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "S3-${aws_s3_bucket.static_website.bucket_prefix}"
+    target_origin_id       = local.s3_origin_id
 
     forwarded_values {
       query_string = false
