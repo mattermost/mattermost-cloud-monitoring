@@ -22,3 +22,8 @@ variable "namespace" {
   type        = string
   description = "The namespace, which host the service account & target application "
 }
+
+variable "additional_role_name" {
+  type        = string
+  description = "Existing role which needs to attach the same  policy "
+}
