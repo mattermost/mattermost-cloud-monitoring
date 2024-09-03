@@ -54,3 +54,10 @@ resource "aws_iam_role_policy_attachment" "cluster-autoscaler-policy-attach" {
   role       = aws_iam_role.cluster-autoscaler-role.name
   policy_arn = aws_iam_policy.cluster-autoscaler-policy.arn
 }
+
+resource "aws_iam_role_policy_attachment" "additional-role-policy-attach" {
+  count      = var.environment == "shared-services" ? 1 : 0
+  role       = var.additional_role_name
+  policy_arn = aws_iam_policy.cluster-autoscaler-policy.arn
+}
+
