@@ -1,4 +1,11 @@
+data "aws_caller_identity" "current" {}
+
 data "aws_availability_zones" "available" {}
+
+data "aws_route53_zone" "internal" {
+  name = "internal.${var.environment}.${var.private_domain}"
+  private_zone = true
+}
 
 data "aws_vpc" "vpc" {
   id = var.vpc_id
@@ -124,5 +131,16 @@ data "aws_security_groups" "control-plane" {
   filter {
     name = "tag:NodeType"
     values = ["master"]
+  }
+}
+
+data "aws_lb" "internal" {
+  tags = {
+   "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+   "kubernetes.io/service-name" = "nginx-internal/nginx-internal-ingress-nginx-controller"
+  }
+
+  timeouts {
+    read = "20m"
   }
 }

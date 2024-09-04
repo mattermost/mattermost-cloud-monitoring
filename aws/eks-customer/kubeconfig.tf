@@ -40,19 +40,6 @@ resource "local_file" "kubeconfig" {
     depends_on = [module.eks]
 }
 
-#null_resource to force recreation
-# resource "null_resource" "force_recreate" {
-#   triggers = {
-#     always_run = "${timestamp()}"
-#   }
-
-#   provisioner "local-exec" {
-#     command = "echo 'Forcing kubeconfig recreation'"
-#   }
-
-#   depends_on = [local_file.kubeconfig]
-# }
-
 resource "aws_secretsmanager_secret" "kubeconfig_secret" {
   name = module.eks.cluster_name
 }

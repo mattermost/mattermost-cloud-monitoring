@@ -77,7 +77,7 @@ resource "aws_ec2_tag" "subnet" {
 
 resource "time_sleep" "this" {
 
-  create_duration = "5m"
+  create_duration = "1m"
 
   triggers = {
     cluster_name         = module.eks.cluster_name

@@ -90,6 +90,7 @@ variable "utilities" {
   type = list(object({
     name = string
     enable_irsa = bool
+    internal_dns = any
     service_account = string
     cluster_label_type = string
   }))
