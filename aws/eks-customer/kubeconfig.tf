@@ -1,5 +1,5 @@
 locals {
-    kubeconfig = <<KUBECONFIG
+  kubeconfig = <<KUBECONFIG
 
 apiVersion: v1
 clusters:
@@ -34,10 +34,10 @@ KUBECONFIG
 }
 
 resource "local_file" "kubeconfig" {
-    content  = local.kubeconfig
-    filename = "${path.root}/kubeconfig-${var.cluster_name}"
+  content  = local.kubeconfig
+  filename = "${path.root}/kubeconfig-${var.cluster_name}"
 
-    depends_on = [module.eks]
+  depends_on = [module.eks]
 }
 
 resource "aws_secretsmanager_secret" "kubeconfig_secret" {
@@ -47,6 +47,6 @@ resource "aws_secretsmanager_secret" "kubeconfig_secret" {
 resource "aws_secretsmanager_secret_version" "kubeconfig_secret_version" {
   secret_id     = aws_secretsmanager_secret.kubeconfig_secret.id
   secret_string = local_file.kubeconfig.content
-  
-  depends_on = [ local.kubeconfig ]
+
+  depends_on = [local.kubeconfig]
 }

@@ -2,33 +2,33 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.14.0"
 
-	cluster_name = var.cluster_name
-	cluster_version = var.cluster_version
+  cluster_name    = var.cluster_name
+  cluster_version = var.cluster_version
 
-	vpc_id = var.vpc_id
+  vpc_id = var.vpc_id
 
-	create_iam_role = true
-  iam_role_use_name_prefix = false
-  create_kms_key  = false
+  create_iam_role                  = true
+  iam_role_use_name_prefix         = false
+  create_kms_key                   = false
   attach_cluster_encryption_policy = false
-  cluster_encryption_config = {}
+  cluster_encryption_config        = {}
 
-	cluster_endpoint_public_access = var.cluster_endpoint_public_access
-	cluster_endpoint_private_access = var.cluster_endpoint_private_access
+  cluster_endpoint_public_access  = var.cluster_endpoint_public_access
+  cluster_endpoint_private_access = var.cluster_endpoint_private_access
 
-	cluster_enabled_log_types = var.cluster_enabled_log_types
+  cluster_enabled_log_types = var.cluster_enabled_log_types
 
 
-  control_plane_subnet_ids              = data.aws_subnets.private.ids
-	subnet_ids                            = concat(data.aws_subnets.private.ids, data.aws_subnets.public.ids)
-  create_cluster_security_group         = var.create_cluster_security_group
+  control_plane_subnet_ids                = data.aws_subnets.private.ids
+  subnet_ids                              = concat(data.aws_subnets.private.ids, data.aws_subnets.public.ids)
+  create_cluster_security_group           = var.create_cluster_security_group
   cluster_security_group_additional_rules = var.cluster_security_group_additional_rules
-  cluster_additional_security_group_ids = data.aws_security_groups.control-plane.ids
-  create_node_security_group            = var.create_node_security_group
+  cluster_additional_security_group_ids   = data.aws_security_groups.control-plane.ids
+  create_node_security_group              = var.create_node_security_group
 
   cluster_tags = var.cluster_tags
 
-	enable_cluster_creator_admin_permissions = false
+  enable_cluster_creator_admin_permissions = false
   access_entries = {
     # One access entry with a policy associated
     argocd-deployer = {
@@ -56,22 +56,22 @@ module "eks" {
         }
       }
     }
-	}
+  }
 }
 
 resource "aws_ec2_tag" "vpc" {
   resource_id = var.vpc_id
 
-  key = "CloudClusterType"
+  key   = "CloudClusterType"
   value = "eks"
 
 }
 
 resource "aws_ec2_tag" "subnet" {
-  for_each = toset(data.aws_subnets.public.ids)
+  for_each    = toset(data.aws_subnets.public.ids)
   resource_id = each.value
 
-  key = "kubernetes.io/cluster/${module.eks.cluster_name}"
+  key   = "kubernetes.io/cluster/${module.eks.cluster_name}"
   value = "shared"
 }
 
@@ -80,9 +80,9 @@ resource "time_sleep" "this" {
   create_duration = "1m"
 
   triggers = {
-    cluster_name         = module.eks.cluster_name
-    cluster_endpoint     = module.eks.cluster_endpoint
-    cluster_version      = module.eks.cluster_version
+    cluster_name     = module.eks.cluster_name
+    cluster_endpoint = module.eks.cluster_endpoint
+    cluster_version  = module.eks.cluster_version
 
     cluster_certificate_authority_data = module.eks.cluster_certificate_authority_data
   }

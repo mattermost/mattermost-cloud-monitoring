@@ -20,7 +20,7 @@ resource "null_resource" "bifrost_config" {
       echo "${local.bifrost_secret}" | KUBECONFIG=${path.root}/kubeconfig-${var.cluster_name} kubectl apply -f -
 EOF
   }
-  depends_on = [ null_resource.deploy-utilites, aws_route53_record.internal ]
+  depends_on = [null_resource.deploy-utilites, aws_route53_record.internal]
 }
 
 resource "null_resource" "bifrost_annotate_sa" {
@@ -31,6 +31,6 @@ resource "null_resource" "bifrost_annotate_sa" {
       --overwrite=true
 EOF
   }
-  
-  depends_on = [ null_resource.deploy-utilites, aws_route53_record.internal ]
+
+  depends_on = [null_resource.deploy-utilites, aws_route53_record.internal]
 }

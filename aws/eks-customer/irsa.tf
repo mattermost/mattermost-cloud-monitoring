@@ -10,7 +10,7 @@ module "irsa" {
   version = "5.44.0"
 
   for_each = { for k, v in var.utilities : k => v if v.enable_irsa }
-  
+
   role_name = "${each.value.name}-${var.cluster_name}"
 
   role_policy_arns = {
