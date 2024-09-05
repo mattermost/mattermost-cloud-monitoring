@@ -17,16 +17,16 @@ EOF
 resource "null_resource" "bifrost_config" {
   provisioner "local-exec" {
     command = <<EOF
-      echo "${local.bifrost_secret}" | KUBECONFIG=${path.root}/kubeconfig kubectl apply -f -
+      echo "${local.bifrost_secret}" | KUBECONFIG=${path.root}/kubeconfig-${var.cluster_name} kubectl apply -f -
 EOF
   }
-  depends_on = [ null_resource.deploy-utilites ]
+  depends_on = [ null_resource.deploy-utilites, aws_route53_record.internal ]
 }
 
 resource "null_resource" "bifrost_annotate_sa" {
   provisioner "local-exec" {
     command = <<EOF
-      KUBECONFIG=${path.root}/kubeconfig kubectl -n bifrost annotate sa bifrost \
+      KUBECONFIG=${path.root}/kubeconfig-${var.cluster_name} kubectl -n bifrost annotate sa bifrost \
       eks.amazonaws.com/role-arn=arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/bifrost-${var.cluster_name} \
       --overwrite=true
 EOF

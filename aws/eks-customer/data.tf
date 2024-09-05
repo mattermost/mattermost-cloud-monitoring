@@ -143,4 +143,6 @@ data "aws_lb" "internal" {
   timeouts {
     read = "20m"
   }
+
+  depends_on = [ null_resource.deploy-utilites ]
 }

@@ -19,5 +19,6 @@ resource "aws_route53_record" "internal" {
   }
 
   set_identifier = strcontains(each.value, "grpc") ? "${var.cluster_name}-${each.value}" : "${var.cluster_name}.${each.value}"
-}
 
+  depends_on = [ null_resource.deploy-utilites ]
+}

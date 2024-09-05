@@ -5,22 +5,6 @@ set -e -x
 source $(dirname "$0")/utils.sh
 
 utilities_json=$1
-gitops_dir="gitops-sre/apps"
-application_yaml="$gitops_dir/${ENV}/application-values.yaml"
-cluster_yaml="gitops-sre/clusters/${ENV}/cluster-values.yaml"
-
-function clone_repo() {
-    echo "Cloning repo $GIT_REPO_URL"
-    if [ -z "$GIT_REPO_URL" ]; then
-        echo "Git URL is empty"
-        exit 1
-    fi
-    if [ -d "gitops-sre" ]; then
-        echo "Directory gitops-sre already exists"
-    else
-        git clone $GIT_REPO_URL gitops-sre
-    fi
-}
 
 function add_cluster(){
   echo "Adding cluster to cluster-values.yaml"

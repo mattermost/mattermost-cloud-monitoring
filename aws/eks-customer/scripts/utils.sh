@@ -1,12 +1,26 @@
 #/usr/bin/env bash
 
-gitops_dir="gitops-sre/apps"
+gitops_dir="gitops-sre-${CLUSTER_NAME}/apps"
 application_yaml="$gitops_dir/${ENV}/application-values.yaml"
+cluster_yaml="gitops-sre-${CLUSTER_NAME}/clusters/${ENV}/cluster-values.yaml"
 
 function escape_string() {
     local input="$1"
     local escaped=$(printf '%s' "$input" | sed 's/[\/&]/\\&/g; s/-/\\-/g')
     echo "$escaped"
+}
+
+function clone_repo() {
+    echo "Cloning repo $GIT_REPO_URL"
+    if [ -z "$GIT_REPO_URL" ]; then
+        echo "Git URL is empty"
+        exit 1
+    fi
+    if [ -d "gitops-sre" ]; then
+        echo "Directory gitops-sre already exists"
+    else
+        git clone $GIT_REPO_URL gitops-sre-${CLUSTER_NAME}
+    fi
 }
 
 function stage_changes() {
@@ -54,17 +68,6 @@ function push_changes_to_git() {
 function clean_up() {
     echo "Removing gitops-sre directory"
     rm -rf "gitops-sre"
-    echo "Removing kubeconfig"
-    rm -rf "kubeconfig"
     exit 0
 }
 
-function get_load_balancer_endpoint() {
-    namespace = $1
-    endpoint=$(KUBECONFIG=$KUBECONFIG kubectl -n $namespace get svc -o json | jq -r '.items[] | select(.spec.type=="LoadBalancer").status.loadBalancer.ingress[].hostname')
-    if [ -z "$endpoint" ]; then
-        echo "LoadBalancer endpoint is empty"
-        exit 1
-    fi
-    echo $endpoint
-}
