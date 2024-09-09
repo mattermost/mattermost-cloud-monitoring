@@ -36,6 +36,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_enable_tempo_bucket_restriction"></a> [enable\_tempo\_bucket\_restriction](#input\_enable\_tempo\_bucket\_restriction) | n/a | `bool` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
+| <a name="input_tempo_bucket_tags"></a> [tempo\_bucket\_tags](#input\_tempo\_bucket\_tags) | Tags for tempo s3 bucket | `map(string)` | n/a | yes |
 
 ## Outputs
 
