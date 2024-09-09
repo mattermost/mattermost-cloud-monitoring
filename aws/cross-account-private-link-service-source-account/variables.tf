@@ -1,14 +1,3 @@
-variable "source_account_id" {
-  description = "Source account ID where EC2 and NLB will be created"
-  type        = string
-}
-
-variable "region" {
-  description = "AWS region"
-  type        = string
-  default     = "us-east-1"
-}
-
 variable "ami_id" {
   description = "AMI ID to be used for the instance"
   type        = string

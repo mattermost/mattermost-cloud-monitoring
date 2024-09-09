@@ -1,14 +1,3 @@
-variable "target_account_id" {
-  description = "Target account ID where EKS and NLB will be created"
-  type        = string
-}
-
-variable "region" {
-  description = "AWS region"
-  type        = string
-  default     = "us-east-1"
-}
-
 variable "vpc_id" {
   description = "VPC ID where the EKS cluster and proxy will be deployed"
   type        = string
