@@ -25,15 +25,14 @@ No modules.
 |------|------|
 | [aws_route53_record.argocd](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.awat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_route53_record.blackbox](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.chaos_mesh](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.chimera](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.customer_web_server](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.customer_web_server_api_internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.customer_web_server_internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_route53_record.database_factory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.elrond](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_route53_record.kubecost](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
+| [aws_route53_record.loki_developers_frontend](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
+| [aws_route53_record.loki_developers_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.loki_frontend](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.loki_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.prometheus](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
@@ -63,7 +62,8 @@ No modules.
 | <a name="input_enable_chaos_record"></a> [enable\_chaos\_record](#input\_enable\_chaos\_record) | Enables to create a private route53 record for private ChaosMesh | `bool` | `false` | no |
 | <a name="input_enable_chimera_record"></a> [enable\_chimera\_record](#input\_enable\_chimera\_record) | Enables to create a public route53 record for private Chimera | `bool` | `false` | no |
 | <a name="input_enable_elrond_private_r53_record"></a> [enable\_elrond\_private\_r53\_record](#input\_enable\_elrond\_private\_r53\_record) | Enables to create a private CNAME route53 record for Elrond. | `bool` | `false` | no |
-| <a name="input_enable_kubecost_record"></a> [enable\_kubecost\_record](#input\_enable\_kubecost\_record) | Enables to create a public route53 record for private Kubecost | `bool` | `false` | no |
+| <a name="input_enable_loki_developers_frontend"></a> [enable\_loki\_developers\_frontend](#input\_enable\_loki\_developers\_frontend) | Enables to create a private route53 record for Loki Developers Frontend | `bool` | `false` | no |
+| <a name="input_enable_loki_developers_gateway"></a> [enable\_loki\_developers\_gateway](#input\_enable\_loki\_developers\_gateway) | Enables to create a private route53 record for Loki Developers Gateway | `bool` | `false` | no |
 | <a name="input_enable_loki_frontend"></a> [enable\_loki\_frontend](#input\_enable\_loki\_frontend) | Enables to create a private route53 record for Loki Frontend | `bool` | `false` | no |
 | <a name="input_enable_loki_gateway"></a> [enable\_loki\_gateway](#input\_enable\_loki\_gateway) | Enables to create a private route53 record for Loki Gateway | `bool` | `false` | no |
 | <a name="input_enable_portal_internal_r53_record"></a> [enable\_portal\_internal\_r53\_record](#input\_enable\_portal\_internal\_r53\_record) | Enables to create a internal CNAME route53 record for Internal Customer Web Serve API | `bool` | `false` | no |
