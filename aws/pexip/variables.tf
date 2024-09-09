@@ -3,9 +3,19 @@ variable "name" {
   default = "pexip"
 }
 
+variable "environment" {
+  type        = string
+  description = "The environment name that pexip will be deployed"
+}
+
 variable "public_subnet_id" {
   type        = string
   description = "A public subnet ID"
+}
+
+variable "private_subnet_id" {
+  type        = string
+  description = "A private subnet ID for Pexip management node"
 }
 
 variable "vpc_id" {
@@ -23,7 +33,7 @@ variable "conference_cloudflare_record_name" {
   description = "The DNS name for the Pexip conference node"
 }
 
-variable "management_cloudflare_record_name" {
+variable "management_route53_record_name" {
   type        = string
   description = "The DNS name for the Pexip management node"
 }
