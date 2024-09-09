@@ -1,3 +1,7 @@
+data "aws_region" "current" {}
+
+data "aws_caller_identity" "current" {}
+
 terraform {
   required_version = ">= 1.6.3"
   required_providers {
@@ -10,9 +14,9 @@ terraform {
 
 provider "aws" {
   alias  = "target"
-  region = var.region
+  region = data.aws_region.current.name
   assume_role {
-    role_arn = "arn:aws:iam::${var.target_account_id}:role/TargetAccountTerraformRole" // Replace with appropriate role
+    role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/TargetAccountTerraformRole" // Replace with appropriate role
   }
 }
 
