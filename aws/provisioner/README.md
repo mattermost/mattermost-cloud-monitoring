@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -73,4 +72,3 @@
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->

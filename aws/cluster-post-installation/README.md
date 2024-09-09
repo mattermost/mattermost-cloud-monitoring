@@ -27,6 +27,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment will be created | `string` | n/a | yes |
+| <a name="input_tags_metrics_bucket"></a> [tags\_metrics\_bucket](#input\_tags\_metrics\_bucket) | Tags for prometheus metrics s3 bucket | `map(string)` | n/a | yes |
 
 ## Outputs
 
