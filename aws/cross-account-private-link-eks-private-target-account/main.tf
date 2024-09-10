@@ -6,9 +6,9 @@ data "aws_eks_cluster" "existing_eks" {
 
 resource "aws_eks_cluster" "eks" {
   provider = aws.target
-  count    = length(data.aws_eks_cluster.existing_eks.arns) == 0 ? 1 : 0
+  count    = length([for cluster in data.aws_eks_cluster.existing_eks : cluster.arn]) == 0 ? 1 : 0
   name     = var.cluster_name
-  role_arn = aws_eks_cluster.eks.role_arn
+  role_arn = aws_iam_role.target_role.arn // Ensure this role is defined or correct as per your setup
 
   vpc_config {
     subnet_ids              = var.subnet_ids
@@ -32,10 +32,19 @@ resource "aws_instance" "proxy" {
   depends_on = [aws_iam_role_policy_attachment.target_role_attachment]
 }
 
-// Create NLB
+// Check if the NLB exists
+data "aws_lb" "existing_nlb" {
+  provider = aws.target
+  filter {
+    name   = "name"
+    values = [var.nlb_name]
+  }
+}
+
+// Create NLB if it doesn't exist
 resource "aws_lb" "nlb" {
   provider           = aws.target
-  count              = length(data.aws_lb.existing_nlb.arns) == 0 ? 1 : 0
+  count              = length([for lb in data.aws_lb.existing_nlb : lb.arn]) == 0 ? 1 : 0
   name               = var.nlb_name
   internal           = true
   load_balancer_type = "network"
@@ -45,10 +54,10 @@ resource "aws_lb" "nlb" {
   depends_on = [aws_iam_role_policy_attachment.target_role_attachment]
 }
 
-// Create Listener for NLB
+// Create Listener for NLB, referencing either existing or newly created NLB
 resource "aws_lb_listener" "nlb_listener" {
   provider          = aws.target
-  load_balancer_arn = aws_lb.nlb[0].arn
+  load_balancer_arn = length([for lb in data.aws_lb.existing_nlb : lb.arn]) == 0 ? aws_lb.nlb[0].arn : data.aws_lb.existing_nlb.arn
   port              = var.listener_port
   protocol          = "TCP"
 
@@ -75,7 +84,7 @@ resource "aws_lb_target_group" "target_group" {
 resource "aws_vpc_endpoint_service" "endpoint_service" {
   provider                   = aws.target
   acceptance_required        = true
-  network_load_balancer_arns = [aws_lb.nlb[0].arn]
+  network_load_balancer_arns = [length([for lb in data.aws_lb.existing_nlb : lb.arn]) == 0 ? aws_lb.nlb[0].arn : data.aws_lb.existing_nlb.arn]
   allowed_principals         = var.allowed_principals
 
   depends_on = [aws_iam_role_policy_attachment.target_role_attachment]

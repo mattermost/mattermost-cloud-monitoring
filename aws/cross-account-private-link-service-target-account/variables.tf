@@ -1,3 +1,8 @@
+variable "environment" {
+  description = "Environment name"
+  type        = string
+}
+
 variable "vpc_id" {
   description = "VPC ID where the endpoint will be created"
   type        = string

@@ -1,3 +1,8 @@
+variable "environment" {
+  description = "Environment name"
+  type        = string
+}
+
 variable "ami_id" {
   description = "AMI ID to be used for the instance"
   type        = string
