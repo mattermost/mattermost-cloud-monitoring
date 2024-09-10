@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -52,4 +51,3 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_endpoint_service_name"></a> [endpoint\_service\_name](#output\_endpoint\_service\_name) | Endpoint Service Name |
-<!-- END_TF_DOCS -->
