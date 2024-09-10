@@ -131,12 +131,6 @@ variable "private_domain" {
   type        = string
 }
 
-variable "subnet_ids" {
-  description = "The list of subnet IDs for the EKS cluster"
-  type        = list(string)
-  default     = []
-}
-
 variable "create_node_security_group" {
   description = "Indicates whether or not to create a security group for the EKS nodes"
   type        = bool
