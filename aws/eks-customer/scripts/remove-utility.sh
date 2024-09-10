@@ -12,14 +12,16 @@ function remove_utilities() {
 }
 
 function remove_helm_values() {
-    rm -rf $gitops_dir/${ENV}/helm-values/${CLUSTER_NAME}
-    stage_changes $gitops_dir/${ENV}/helm-values
+    if [ -d $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME} ]; then
+        echo "Removing helm values for cluster ${CLUSTER_NAME}"
+        rm -rf $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}
+        stage_changes $gitops_apps_dir/${ENV}/helm-values
+        echo "Commiting changes: Adding cluster ${CLUSTER_NAME}"
+        commit_changes "Remove utilities: ${CLUSTER_NAME}" $gitops_apps_dir/${ENV}/helm-values
+    fi
+    echo "No helm values found for cluster ${CLUSTER_NAME}"
 }
 
-function commit(){
-  echo "Commiting changes: Adding cluster ${CLUSTER_NAME}"
-  commit_changes "Remove utilities: ${CLUSTER_NAME}" $gitops_dir/${ENV}/helm-values
-}
 
 function wait_for_argocd() {
   echo "Waiting for argocd to sync"
@@ -37,7 +39,6 @@ function main() {
   clone_repo
   remove_utilities
   remove_helm_values
-  commit
   wait_for_argocd
   remove_cluster
   clean_up

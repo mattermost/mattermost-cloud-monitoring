@@ -3,7 +3,7 @@ resource "aws_eks_addon" "kube_proxy" {
   addon_name    = "kube-proxy"
   addon_version = var.kube_proxy_version
 
-  depends_on = [module.managed_node_group]
+  depends_on = [time_sleep.wait_for_cluster, module.eks, module.managed_node_group.node_group_status]
 }
 
 resource "aws_eks_addon" "coredns" {
@@ -11,7 +11,7 @@ resource "aws_eks_addon" "coredns" {
   addon_name    = "coredns"
   addon_version = var.coredns_version
 
-  depends_on = [module.managed_node_group]
+  depends_on = [time_sleep.wait_for_cluster, module.eks, module.managed_node_group.node_group_status]
 }
 
 resource "aws_eks_addon" "ebs_csi_driver" {
@@ -19,7 +19,7 @@ resource "aws_eks_addon" "ebs_csi_driver" {
   addon_name    = "aws-ebs-csi-driver"
   addon_version = var.ebs_csi_driver_version
 
-  depends_on = [module.managed_node_group]
+  depends_on = [time_sleep.wait_for_cluster, module.eks, module.managed_node_group.node_group_status]
 }
 
 resource "aws_eks_addon" "snapshot-controller" {
@@ -27,5 +27,5 @@ resource "aws_eks_addon" "snapshot-controller" {
   addon_name    = "snapshot-controller"
   addon_version = var.snapshot_controller_version
 
-  depends_on = [module.managed_node_group]
+  depends_on = [time_sleep.wait_for_cluster, module.eks, module.managed_node_group.node_group_status]
 }

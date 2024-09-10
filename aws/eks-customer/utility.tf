@@ -48,5 +48,5 @@ resource "null_resource" "deploy-utilites" {
     always_run = timestamp()
   }
 
-  depends_on = [module.managed_node_group]
+  depends_on = [module.eks, time_sleep.wait_for_cluster, module.managed_node_group.node_group_status]
 }

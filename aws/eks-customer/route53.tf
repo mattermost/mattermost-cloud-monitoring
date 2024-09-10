@@ -5,6 +5,12 @@ locals {
   ])
 }
 
+resource "time_sleep" "wait_for_elb" {
+  create_duration = "5m"
+
+  depends_on = [null_resource.deploy-utilites]
+}
+
 resource "aws_route53_record" "internal" {
   for_each = toset(local.enabled_dns_names)
 
@@ -20,5 +26,5 @@ resource "aws_route53_record" "internal" {
 
   set_identifier = strcontains(each.value, "grpc") ? "${var.cluster_name}-${each.value}" : "${var.cluster_name}.${each.value}"
 
-  depends_on = [null_resource.deploy-utilites]
+  depends_on = [time_sleep.wait_for_elb]
 }

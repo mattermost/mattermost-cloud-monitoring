@@ -1,4 +1,5 @@
 resource "null_resource" "remove-utilities" {
+  count = var.node_groups != {} ? 1 : 0
   triggers = {
     gitops_repo_url = var.gitops_repo_url
     environment     = var.environment
