@@ -144,5 +144,5 @@ data "aws_lb" "internal" {
     read = "20m"
   }
 
-  depends_on = [null_resource.deploy-utilites]
+  depends_on = [time_sleep.wait_for_elb]
 }
