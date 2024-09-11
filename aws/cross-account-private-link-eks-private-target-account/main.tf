@@ -35,10 +35,7 @@ resource "aws_instance" "proxy" {
 // Check if the NLB exists
 data "aws_lb" "existing_nlb" {
   provider = aws.target
-  filter {
-    name   = "name"
-    values = [var.nlb_name]
-  }
+  name     = var.nlb_name
 }
 
 // Create NLB if it doesn't exist
