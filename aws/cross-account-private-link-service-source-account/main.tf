@@ -18,7 +18,7 @@ data "aws_lb" "existing_nlb" {
 // Create NLB in the source account only if it doesn't exist
 resource "aws_lb" "nlb" {
   provider           = aws.source
-  count              = length(data.aws_lb.existing_nlb.arns) == 0 ? 1 : 0
+  count              = length([for lb in data.aws_lb.existing_nlb : lb.arn]) == 0 ? 1 : 0
   name               = var.nlb_name
   internal           = true
   load_balancer_type = "network"
@@ -30,7 +30,7 @@ resource "aws_lb" "nlb" {
 
 // Determine NLB ARN to use
 locals {
-  nlb_arn = length(data.aws_lb.existing_nlb.arns) > 0 ? data.aws_lb.existing_nlb.arn : aws_lb.nlb[0].arn
+  nlb_arn = length([for lb in data.aws_lb.existing_nlb : lb.arn]) > 0 ? data.aws_lb.existing_nlb.arn : aws_lb.nlb[0].arn
 }
 
 // Create Listener for NLB in the source account
@@ -73,4 +73,3 @@ output "endpoint_service_name" {
   description = "Endpoint Service Name"
   value       = aws_vpc_endpoint_service.endpoint_service.service_name
 }
-

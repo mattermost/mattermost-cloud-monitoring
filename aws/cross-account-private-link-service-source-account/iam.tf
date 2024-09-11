@@ -7,7 +7,14 @@ resource "aws_iam_role" "source_role" {
       {
         Effect = "Allow"
         Principal = {
-          Service = "ec2.amazonaws.com" // Or use the appropriate principal
+          Service = "ec2.amazonaws.com" // Retains the existing principal
+        }
+        Action = "sts:AssumeRole"
+      },
+      {
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/atlantis-${var.environment}"
         }
         Action = "sts:AssumeRole"
       }

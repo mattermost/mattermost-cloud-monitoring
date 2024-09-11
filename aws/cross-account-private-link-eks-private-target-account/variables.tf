@@ -1,12 +1,6 @@
-variable "target_account_id" {
-  description = "Target account ID where EKS and NLB will be created"
+variable "environment" {
+  description = "Environment name"
   type        = string
-}
-
-variable "region" {
-  description = "AWS region"
-  type        = string
-  default     = "us-east-1"
 }
 
 variable "vpc_id" {

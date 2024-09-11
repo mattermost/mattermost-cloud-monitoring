@@ -1,3 +1,7 @@
+data "aws_region" "current" {}
+
+data "aws_caller_identity" "current" {}
+
 terraform {
   required_version = ">= 1.6.3"
   required_providers {
@@ -9,9 +13,6 @@ terraform {
 }
 provider "aws" {
   alias  = "source"
-  region = var.region
-  assume_role {
-    role_arn = "arn:aws:iam::${var.source_account_id}:role/SourceAccountTerraformRole" // Use the role created
-  }
+  region = data.aws_region.current.name
 }
 
