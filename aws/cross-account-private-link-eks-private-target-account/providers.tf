@@ -15,9 +15,6 @@ terraform {
 provider "aws" {
   alias  = "target"
   region = data.aws_region.current.name
-  assume_role {
-    role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/TargetAccountTerraformRole" // Replace with appropriate role
-  }
 }
 
 
