@@ -12,10 +12,7 @@ resource "aws_instance" "service" {
 // Check if NLB exists in the source account
 data "aws_lb" "existing_nlb" {
   provider = aws.source
-  filter {
-    name   = "name"
-    values = [var.nlb_name]
-  }
+  name     = var.nlb_name
 }
 
 // Create NLB in the source account only if it doesn't exist
