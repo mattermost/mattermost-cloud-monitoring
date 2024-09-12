@@ -2,9 +2,11 @@ resource "null_resource" "remove-utilities" {
   count = var.node_groups != {} ? 1 : 0
   triggers = {
     gitops_repo_url = var.gitops_repo_url
+    git_host        = local.git_host[0]
     environment     = var.environment
     cluster_name    = module.eks.cluster_name
     node_groups     = element(keys(module.managed_node_group), 0) #this is to ensure ordering, remove-utilities should run before managed_node_group destroy
+
   }
   provisioner "local-exec" {
     when    = destroy
@@ -15,7 +17,7 @@ resource "null_resource" "remove-utilities" {
       GIT_REPO_URL = self.triggers.gitops_repo_url
       CLUSTER_NAME = self.triggers.cluster_name
       ENV          = self.triggers.environment
-      GIT_HOST     = local.git_host[0]
+      GIT_HOST     = self.triggers.git_host
     }
   }
 }
