@@ -1,7 +1,3 @@
-locals {
-  internal_domain = "internal.${var.environment}.${var.private_domain}"
-}
-
 resource "null_resource" "deploy-utilites" {
   provisioner "local-exec" {
     command = <<EOT
@@ -19,6 +15,7 @@ resource "null_resource" "deploy-utilites" {
       API_SERVER              = module.eks.cluster_endpoint
       CA_DATA                 = module.eks.cluster_certificate_authority_data
       ARGOCD_ROLE_ARN         = var.argocd_role_arn
+      GIT_HOST                = local.git_host[0]
     }
   }
 
