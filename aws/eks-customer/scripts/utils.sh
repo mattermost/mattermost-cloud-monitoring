@@ -11,7 +11,24 @@ function escape_string() {
     echo "$escaped"
 }
 
+function while_repo_exists() { #This is to avoid github race condition errors when we have multiple clusters.
+    # while ls . | grep -E 'gitops-sre-.*'; do
+    #     echo "Waiting for gitops-sre dir to be removed"
+    #     sleep 5
+    # done
+    while true; do
+      if ls "." | grep -E "gitops-sre-.*"; then
+          echo "Directory matching the pattern exists."
+          sleep 3
+      else
+          echo "No matching directory found. Retrying..."
+          break
+      fi
+    done
+}
+
 function clone_repo() {
+    sleep $((5 + RANDOM % 50)) # Random sleep
     echo "Cloning repo $GIT_REPO_URL"
     if [ -z "$GIT_REPO_URL" ]; then
         echo "Git URL is empty"
@@ -21,15 +38,9 @@ function clone_repo() {
     git clone $GIT_REPO_URL $gitops_sre_dir
 }
 
-function while_repo_exists() { #This is to avoid github race condition errors when we have multiple clusters.
-    while ls -d "gitops-sre-*" 1> /dev/null 2>&1; do
-        echo "Waiting for gitops-sre dir to be removed"
-        sleep 5
-    done
-}
-
 function stage_changes() {
   echo "Staging changes"
+
   file_path=$1
 
   repo_path=$(dirname $file_path)
@@ -37,6 +48,8 @@ function stage_changes() {
   current_dir=$(pwd)
 
   cd $repo_path || exit
+  echo "Pulling latest changes"
+  git pull origin main
   git add "$file_name"
   cd $current_dir || exit
 }
