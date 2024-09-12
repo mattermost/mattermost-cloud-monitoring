@@ -121,6 +121,11 @@ variable "staff_role_arn" {
   type        = string
 }
 
+variable "provisioner_role_arn" {
+  description = "The provisioner role arn"
+  type        = string
+}
+
 variable "allow_list_cidr_range" {
   description = "The list of CIDRs to allow communication with the private ingress."
   type        = string

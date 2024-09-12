@@ -2,7 +2,7 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.14.0"
 
-  cluster_name    = var.cluster_name
+  cluster_name    = "${var.cluster_name}-${local.cluster_id}"
   cluster_version = var.cluster_version
 
   vpc_id = var.vpc_id
@@ -47,6 +47,18 @@ module "eks" {
     staff = {
       kubernetes_groups = []
       principal_arn     = var.staff_role_arn
+      policy_associations = {
+        staff = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
+    },
+    provisioner = {
+      kubernetes_groups = []
+      principal_arn     = var.provisioner_role_arn
       policy_associations = {
         staff = {
           policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
