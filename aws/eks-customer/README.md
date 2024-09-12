@@ -5,8 +5,10 @@
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.8 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.41.0 |
-| <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | >= 1.14.0 |
 | <a name="requirement_local"></a> [local](#requirement\_local) | >= 2.5.1 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | >= 3.2.2 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.6.2 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.12.0 |
 
 ## Providers
 
@@ -14,8 +16,9 @@
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.41.0 |
 | <a name="provider_local"></a> [local](#provider\_local) | >= 2.5.1 |
-| <a name="provider_null"></a> [null](#provider\_null) | n/a |
-| <a name="provider_time"></a> [time](#provider\_time) | n/a |
+| <a name="provider_null"></a> [null](#provider\_null) | >= 3.2.2 |
+| <a name="provider_random"></a> [random](#provider\_random) | >= 3.6.2 |
+| <a name="provider_time"></a> [time](#provider\_time) | >= 0.12.0 |
 
 ## Modules
 
@@ -48,6 +51,7 @@
 | [null_resource.deploy-utilites](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.install_calico_operator](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.remove-utilities](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [random_id.cluster](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 | [time_sleep.wait_for_cluster](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 | [time_sleep.wait_for_elb](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 | [aws_availability_zones.available](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones) | data source |
@@ -57,12 +61,9 @@
 | [aws_security_groups.calls](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/security_groups) | data source |
 | [aws_security_groups.control-plane](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/security_groups) | data source |
 | [aws_security_groups.nodes](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/security_groups) | data source |
-| [aws_subnet.existing_tags](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnet) | data source |
 | [aws_subnets.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnets) | data source |
 | [aws_subnets.private-a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnets) | data source |
 | [aws_subnets.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnets) | data source |
-| [aws_subnets.public-a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnets) | data source |
-| [aws_vpc.vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
 
 ## Inputs
 
@@ -90,10 +91,10 @@
 | <a name="input_lb_private_certificate_arn"></a> [lb\_private\_certificate\_arn](#input\_lb\_private\_certificate\_arn) | The private certificate arn | `string` | n/a | yes |
 | <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | The list of node groups | `any` | `{}` | no |
 | <a name="input_private_domain"></a> [private\_domain](#input\_private\_domain) | The private domain | `string` | n/a | yes |
+| <a name="input_provisioner_role_arn"></a> [provisioner\_role\_arn](#input\_provisioner\_role\_arn) | The provisioner role arn | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | The region for the EKS cluster | `string` | `"us-east-1"` | no |
 | <a name="input_snapshot_controller_version"></a> [snapshot\_controller\_version](#input\_snapshot\_controller\_version) | n/a | `string` | n/a | yes |
 | <a name="input_staff_role_arn"></a> [staff\_role\_arn](#input\_staff\_role\_arn) | The staff role arn | `string` | n/a | yes |
-| <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | The list of subnet IDs for the EKS cluster | `list(string)` | `[]` | no |
 | <a name="input_utilities"></a> [utilities](#input\_utilities) | The list of utilities | <pre>list(object({<br>    name               = string<br>    enable_irsa        = bool<br>    internal_dns       = any<br>    service_account    = string<br>    cluster_label_type = string<br>  }))</pre> | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC ID for the EKS cluster | `string` | n/a | yes |
 
