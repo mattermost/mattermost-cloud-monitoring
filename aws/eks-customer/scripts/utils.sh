@@ -39,6 +39,8 @@ function clone_repo() {
     fi
     while_repo_exists
     git clone "https://${GIT_REPO_USERNAME}:${GITLAB_OAUTH_TOKEN}@${GIT_HOST}/${GIT_REPO_PATH}" $gitops_sre_dir
+    git config --global user.name "${GIT_REPO_USERNAME}"
+    git config --global user.email "${GIT_REPO_USERNAME}@mattermost.com"
 }
 
 function stage_changes() {
