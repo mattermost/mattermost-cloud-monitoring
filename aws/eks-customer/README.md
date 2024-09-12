@@ -85,7 +85,9 @@
 | <a name="input_create_node_security_group"></a> [create\_node\_security\_group](#input\_create\_node\_security\_group) | Indicates whether or not to create a security group for the EKS nodes | `bool` | `false` | no |
 | <a name="input_ebs_csi_driver_version"></a> [ebs\_csi\_driver\_version](#input\_ebs\_csi\_driver\_version) | The version of the EBS CSI driver addon | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment | `string` | n/a | yes |
-| <a name="input_gitops_repo_url"></a> [gitops\_repo\_url](#input\_gitops\_repo\_url) | The git repo url | `string` | n/a | yes |
+| <a name="input_gitops_host"></a> [gitops\_host](#input\_gitops\_host) | The git repo url | `string` | n/a | yes |
+| <a name="input_gitops_repo_path"></a> [gitops\_repo\_path](#input\_gitops\_repo\_path) | The git repo url | `string` | n/a | yes |
+| <a name="input_gitops_repo_username"></a> [gitops\_repo\_username](#input\_gitops\_repo\_username) | The git repo username | `string` | n/a | yes |
 | <a name="input_kube_proxy_version"></a> [kube\_proxy\_version](#input\_kube\_proxy\_version) | The version of the kube-proxy addon | `string` | n/a | yes |
 | <a name="input_lb_certificate_arn"></a> [lb\_certificate\_arn](#input\_lb\_certificate\_arn) | The certificate arn | `string` | n/a | yes |
 | <a name="input_lb_private_certificate_arn"></a> [lb\_private\_certificate\_arn](#input\_lb\_private\_certificate\_arn) | The private certificate arn | `string` | n/a | yes |

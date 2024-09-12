@@ -5,5 +5,4 @@ resource "random_id" "cluster" {
 locals {
   cluster_id      = random_id.cluster.hex
   internal_domain = "internal.${var.environment}.${var.private_domain}"
-  git_host        = regex("git@([^:]+)", var.gitops_repo_url)[0]
 }

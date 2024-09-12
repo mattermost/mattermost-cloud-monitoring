@@ -96,8 +96,18 @@ variable "utilities" {
   }))
 }
 
-variable "gitops_repo_url" {
+variable "gitops_host" {
   description = "The git repo url"
+  type        = string
+}
+
+variable "gitops_repo_path" {
+  description = "The git repo url"
+  type        = string
+}
+
+variable "gitops_repo_username" {
+  description = "The git repo username"
   type        = string
 }
 

@@ -4,7 +4,9 @@ resource "null_resource" "deploy-utilites" {
       bash ${path.module}/scripts/deploy-utility.sh '${jsonencode(var.utilities)}'
     EOT
     environment = {
-      GIT_REPO_URL            = var.gitops_repo_url
+      GIT_REPO_PATH           = var.gitops_repo_path
+      GIT_HOST                = var.gitops_host
+      GIT_REPO_USERNAME       = var.gitops_repo_username
       CLUSTER_NAME            = module.eks.cluster_name
       ENV                     = var.environment
       CERTIFICATE_ARN         = var.lb_certificate_arn
@@ -15,7 +17,6 @@ resource "null_resource" "deploy-utilites" {
       API_SERVER              = module.eks.cluster_endpoint
       CA_DATA                 = module.eks.cluster_certificate_authority_data
       ARGOCD_ROLE_ARN         = var.argocd_role_arn
-      GIT_HOST                = local.git_host
     }
   }
 
@@ -25,3 +26,4 @@ resource "null_resource" "deploy-utilites" {
 
   depends_on = [module.eks, time_sleep.wait_for_cluster, module.managed_node_group.node_group_status]
 }
+

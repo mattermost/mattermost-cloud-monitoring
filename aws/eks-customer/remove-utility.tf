@@ -1,11 +1,12 @@
 resource "null_resource" "remove-utilities" {
   count = var.node_groups != {} ? 1 : 0
   triggers = {
-    gitops_repo_url = var.gitops_repo_url
-    git_host        = local.git_host
-    environment     = var.environment
-    cluster_name    = module.eks.cluster_name
-    node_groups     = element(keys(module.managed_node_group), 0) #this is to ensure ordering, remove-utilities should run before managed_node_group destroy
+    git_repo_path     = var.gitops_repo_path
+    git_host          = var.gitops_host
+    git_repo_username = var.gitops_repo_username
+    environment       = var.environment
+    cluster_name      = module.eks.cluster_name
+    node_groups       = element(keys(module.managed_node_group), 0) #this is to ensure ordering, remove-utilities should run before managed_node_group destroy
 
   }
   provisioner "local-exec" {
@@ -14,10 +15,11 @@ resource "null_resource" "remove-utilities" {
       bash ${path.module}/scripts/remove-utility.sh
     EOT
     environment = {
-      GIT_REPO_URL = self.triggers.gitops_repo_url
-      CLUSTER_NAME = self.triggers.cluster_name
-      ENV          = self.triggers.environment
-      GIT_HOST     = self.triggers.git_host
+      GIT_REPO_PATH     = self.triggers.gitops_repo_path
+      GIT_HOST          = self.triggers.git_host
+      GIT_REPO_USERNAME = self.triggers.gitops_repo_username
+      CLUSTER_NAME      = self.triggers.cluster_name
+      ENV               = self.triggers.environment
     }
   }
 }
