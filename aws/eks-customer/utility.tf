@@ -15,7 +15,7 @@ resource "null_resource" "deploy-utilites" {
       API_SERVER              = module.eks.cluster_endpoint
       CA_DATA                 = module.eks.cluster_certificate_authority_data
       ARGOCD_ROLE_ARN         = var.argocd_role_arn
-      GIT_HOST                = local.git_host[0]
+      GIT_HOST                = local.git_host
     }
   }
 
