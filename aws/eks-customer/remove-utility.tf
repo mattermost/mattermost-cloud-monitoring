@@ -15,9 +15,9 @@ resource "null_resource" "remove-utilities" {
       bash ${path.module}/scripts/remove-utility.sh
     EOT
     environment = {
-      GIT_REPO_PATH     = self.triggers.gitops_repo_path
+      GIT_REPO_PATH     = self.triggers.git_repo_path
       GIT_HOST          = self.triggers.git_host
-      GIT_REPO_USERNAME = self.triggers.gitops_repo_username
+      GIT_REPO_USERNAME = self.triggers.git_repo_username
       CLUSTER_NAME      = self.triggers.cluster_name
       ENV               = self.triggers.environment
     }
