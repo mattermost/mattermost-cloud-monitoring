@@ -49,3 +49,8 @@ variable "allowed_principals" {
   description = "List of AWS principals allowed to access the endpoint service"
   type        = list(string)
 }
+
+variable "check_nlb" {
+  type    = bool
+  default = false
+}
