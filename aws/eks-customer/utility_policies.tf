@@ -1,7 +1,7 @@
 resource "aws_iam_policy" "bifrost" {
   for_each = { for k, v in var.utilities : k => v if v.name == "bifrost" }
 
-  name        = "bifrost-${var.cluster_name}"
+  name        = "bifrost-${module.eks.cluster_name}"
   path        = "/"
   description = "Policy for bifrost utility."
 
@@ -38,7 +38,7 @@ EOF
 resource "aws_iam_policy" "velero" {
   for_each = { for k, v in var.utilities : k => v if v.name == "velero" }
 
-  name        = "velero-${var.cluster_name}"
+  name        = "velero-${module.eks.cluster_name}"
   path        = "/"
   description = "Policy for velero utility."
 

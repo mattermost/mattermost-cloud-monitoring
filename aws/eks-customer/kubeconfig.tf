@@ -35,7 +35,7 @@ KUBECONFIG
 
 resource "local_file" "kubeconfig" {
   content  = local.kubeconfig
-  filename = "${path.root}/kubeconfig-${var.cluster_name}"
+  filename = "${path.root}/kubeconfig-${module.eks.cluster_name}"
 
   depends_on = [module.eks]
 }

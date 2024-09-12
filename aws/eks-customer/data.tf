@@ -108,8 +108,8 @@ data "aws_security_groups" "control-plane" {
 
 data "aws_lb" "internal" {
   tags = {
-    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
-    "kubernetes.io/service-name"                = "nginx-internal/nginx-internal-ingress-nginx-controller"
+    "kubernetes.io/cluster/${module.eks.cluster_name}" = "owned"
+    "kubernetes.io/service-name"                       = "nginx-internal/nginx-internal-ingress-nginx-controller"
   }
 
   timeouts {

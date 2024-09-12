@@ -11,11 +11,11 @@ module "irsa" {
 
   for_each = { for k, v in var.utilities : k => v if v.enable_irsa }
 
-  role_name = "${each.value.name}-${var.cluster_name}"
+  role_name = "${each.value.name}-${module.eks.cluster_name}"
 
   role_policy_arns = {
     # policy = data.aws_iam_policy.policies[each.key].arn
-    policy = local.policies_by_name["${each.value.name}-${var.cluster_name}"].arn
+    policy = local.policies_by_name["${each.value.name}-${module.eks.cluster_name}"].arn
   }
 
   oidc_providers = {
