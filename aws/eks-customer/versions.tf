@@ -5,10 +5,10 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 5.41.0"
     }
-    kubectl = {
-      source  = "gavinbunney/kubectl"
-      version = ">= 1.14.0"
-    }
+    # kubectl = {
+    #   source  = "gavinbunney/kubectl"
+    #   version = ">= 1.14.0"
+    # }
     local = {
       source  = "hashicorp/local"
       version = ">= 2.5.1"
@@ -20,6 +20,10 @@ terraform {
     time = {
       source  = "hashicorp/time"
       version = ">= 0.12.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.6.2"
     }
   }
 }
