@@ -40,6 +40,8 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_allowed_principals"></a> [allowed\_principals](#input\_allowed\_principals) | List of AWS principals allowed to access the endpoint service | `list(string)` | n/a | yes |
 | <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id) | AMI ID for the proxy instance | `string` | n/a | yes |
+| <a name="input_check_eks"></a> [check\_eks](#input\_check\_eks) | n/a | `bool` | `false` | no |
+| <a name="input_check_nlb"></a> [check\_nlb](#input\_check\_nlb) | n/a | `bool` | `false` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of the EKS cluster to create or validate | `string` | n/a | yes |
 | <a name="input_create_private_endpoint"></a> [create\_private\_endpoint](#input\_create\_private\_endpoint) | Flag to indicate if the EKS cluster should have a private endpoint only | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | n/a | yes |

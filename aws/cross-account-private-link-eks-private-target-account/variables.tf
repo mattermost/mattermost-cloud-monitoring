@@ -70,3 +70,13 @@ variable "proxy_subnet_id" {
   description = "Subnet ID where the instance will be deployed"
   type        = string
 }
+
+variable "check_nlb" {
+  type    = bool
+  default = false
+}
+
+variable "check_eks" {
+  type    = bool
+  default = false
+}

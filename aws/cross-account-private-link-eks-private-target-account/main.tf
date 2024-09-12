@@ -1,12 +1,21 @@
-// Check if the EKS cluster exists
+// Attempt to read the EKS cluster if check is enabled
 data "aws_eks_cluster" "existing_eks" {
   provider = aws.target
   name     = var.cluster_name
+
+  # This will fail gracefully if the condition is not met
+  count = var.check_eks ? 1 : 0
 }
 
+// Local value to determine if the EKS cluster exists
+locals {
+  eks_cluster_exists = length(data.aws_eks_cluster.existing_eks) > 0
+}
+
+// Create the EKS cluster only if it doesn't exist
 resource "aws_eks_cluster" "eks" {
   provider = aws.target
-  count    = length([for cluster in data.aws_eks_cluster.existing_eks : cluster.arn]) == 0 ? 1 : 0
+  count    = local.eks_cluster_exists ? 0 : 1
   name     = var.cluster_name
   role_arn = aws_iam_role.target_role.arn // Ensure this role is defined or correct as per your setup
 
@@ -32,16 +41,24 @@ resource "aws_instance" "proxy" {
   depends_on = [aws_iam_role_policy_attachment.target_role_attachment]
 }
 
-// Check if the NLB exists
+// Attempt to read the NLB if check is enabled
 data "aws_lb" "existing_nlb" {
   provider = aws.target
   name     = var.nlb_name
+
+  # This will fail gracefully if the condition is not met
+  count = var.check_nlb ? 1 : 0
+}
+
+// Local value to determine if the NLB exists
+locals {
+  nlb_exists = length(data.aws_lb.existing_nlb) > 0
 }
 
 // Create NLB if it doesn't exist
 resource "aws_lb" "nlb" {
   provider           = aws.target
-  count              = length([for lb in data.aws_lb.existing_nlb : lb.arn]) == 0 ? 1 : 0
+  count              = local.nlb_exists ? 0 : 1
   name               = var.nlb_name
   internal           = true
   load_balancer_type = "network"
@@ -51,10 +68,15 @@ resource "aws_lb" "nlb" {
   depends_on = [aws_iam_role_policy_attachment.target_role_attachment]
 }
 
+// Determine NLB ARN to use
+locals {
+  nlb_arn = local.nlb_exists ? data.aws_lb.existing_nlb[0].arn : aws_lb.nlb[0].arn
+}
+
 // Create Listener for NLB, referencing either existing or newly created NLB
 resource "aws_lb_listener" "nlb_listener" {
   provider          = aws.target
-  load_balancer_arn = length([for lb in data.aws_lb.existing_nlb : lb.arn]) == 0 ? aws_lb.nlb[0].arn : data.aws_lb.existing_nlb.arn
+  load_balancer_arn = local.nlb_arn
   port              = var.listener_port
   protocol          = "TCP"
 
@@ -81,7 +103,7 @@ resource "aws_lb_target_group" "target_group" {
 resource "aws_vpc_endpoint_service" "endpoint_service" {
   provider                   = aws.target
   acceptance_required        = true
-  network_load_balancer_arns = [length([for lb in data.aws_lb.existing_nlb : lb.arn]) == 0 ? aws_lb.nlb[0].arn : data.aws_lb.existing_nlb.arn]
+  network_load_balancer_arns = [local.nlb_arn]
   allowed_principals         = var.allowed_principals
 
   depends_on = [aws_iam_role_policy_attachment.target_role_attachment]

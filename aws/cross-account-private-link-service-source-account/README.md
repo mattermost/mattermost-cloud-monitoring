@@ -38,6 +38,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_allowed_principals"></a> [allowed\_principals](#input\_allowed\_principals) | List of AWS principals allowed to access the endpoint service | `list(string)` | n/a | yes |
 | <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id) | AMI ID to be used for the instance | `string` | n/a | yes |
+| <a name="input_check_nlb"></a> [check\_nlb](#input\_check\_nlb) | n/a | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | Type of EC2 instance | `string` | `"t2.micro"` | no |
 | <a name="input_listener_port"></a> [listener\_port](#input\_listener\_port) | Listener port for NLB | `number` | `80` | no |
