@@ -28,6 +28,7 @@ No modules.
 | [aws_lb.nlb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb) | resource |
 | [aws_lb_listener.nlb_listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
 | [aws_lb_target_group.target_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) | resource |
+| [aws_lb_target_group_attachment.proxy_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group_attachment) | resource |
 | [aws_vpc_endpoint_service.endpoint_service](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint_service) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_eks_cluster.existing_eks](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eks_cluster) | data source |
@@ -44,12 +45,15 @@ No modules.
 | <a name="input_check_nlb"></a> [check\_nlb](#input\_check\_nlb) | n/a | `bool` | `false` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of the EKS cluster to create or validate | `string` | n/a | yes |
 | <a name="input_create_private_endpoint"></a> [create\_private\_endpoint](#input\_create\_private\_endpoint) | Flag to indicate if the EKS cluster should have a private endpoint only | `bool` | `true` | no |
+| <a name="input_eks_cluster_tags"></a> [eks\_cluster\_tags](#input\_eks\_cluster\_tags) | n/a | `map(string)` | <pre>{<br>  "Name": "EKS Cluster Private link POC"<br>}</pre> | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | Type of EC2 instance | `string` | `"t2.micro"` | no |
+| <a name="input_key_name"></a> [key\_name](#input\_key\_name) | n/a | `string` | `""` | no |
 | <a name="input_listener_port"></a> [listener\_port](#input\_listener\_port) | Listener port for NLB | `number` | `443` | no |
 | <a name="input_nlb_name"></a> [nlb\_name](#input\_nlb\_name) | Name of the Network Load Balancer | `string` | n/a | yes |
 | <a name="input_proxy_security_group_ids"></a> [proxy\_security\_group\_ids](#input\_proxy\_security\_group\_ids) | Security Groups for the proxy instance | `list(string)` | n/a | yes |
 | <a name="input_proxy_subnet_id"></a> [proxy\_subnet\_id](#input\_proxy\_subnet\_id) | Subnet ID where the instance will be deployed | `string` | n/a | yes |
+| <a name="input_proxy_tags"></a> [proxy\_tags](#input\_proxy\_tags) | n/a | `map(string)` | <pre>{<br>  "Name": "Proxy Instance POC"<br>}</pre> | no |
 | <a name="input_security_group_ids"></a> [security\_group\_ids](#input\_security\_group\_ids) | Security Groups for the EKS cluster | `list(string)` | n/a | yes |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | Subnets used by the EKS cluster | `list(string)` | n/a | yes |
 | <a name="input_target_group_name"></a> [target\_group\_name](#input\_target\_group\_name) | Name of the target group for NLB | `string` | n/a | yes |
