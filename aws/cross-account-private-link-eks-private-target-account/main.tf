@@ -26,6 +26,8 @@ resource "aws_eks_cluster" "eks" {
     endpoint_public_access  = !var.create_private_endpoint
   }
 
+  tags = var.eks_cluster_tags
+
   depends_on = [aws_iam_role_policy_attachment.target_role_attachment]
 }
 
@@ -37,8 +39,11 @@ resource "aws_instance" "proxy" {
   instance_type          = var.instance_type
   subnet_id              = var.proxy_subnet_id
   vpc_security_group_ids = var.proxy_security_group_ids
+  key_name               = var.key_name
 
   depends_on = [aws_iam_role_policy_attachment.target_role_attachment]
+
+  tags = var.proxy_tags
 }
 
 // Attempt to read the NLB if check is enabled
@@ -97,6 +102,17 @@ resource "aws_lb_target_group" "target_group" {
   vpc_id   = var.vpc_id
 
   depends_on = [aws_iam_role_policy_attachment.target_role_attachment]
+}
+
+// Register Proxy Instance to the NLB Target Group
+resource "aws_lb_target_group_attachment" "proxy_attachment" {
+  provider         = aws.target
+  count            = var.create_private_endpoint ? 1 : 0
+  target_group_arn = aws_lb_target_group.target_group.arn
+  target_id        = aws_instance.proxy[0].id
+  port             = var.listener_port // Port on which the proxy instance should be registered
+
+  depends_on = [aws_instance.proxy]
 }
 
 // Create Endpoint Service

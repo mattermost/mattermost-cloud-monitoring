@@ -80,3 +80,22 @@ variable "check_eks" {
   type    = bool
   default = false
 }
+
+variable "eks_cluster_tags" {
+  type = map(string)
+  default = {
+    Name = "EKS Cluster Private link POC"
+  }
+}
+
+variable "proxy_tags" {
+  type = map(string)
+  default = {
+    Name = "Proxy Instance POC"
+  }
+}
+
+variable "key_name" {
+  type    = string
+  default = ""
+}

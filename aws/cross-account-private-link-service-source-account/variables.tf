@@ -54,3 +54,11 @@ variable "check_nlb" {
   type    = bool
   default = false
 }
+
+
+variable "instance_tags" {
+  type = map(string)
+  default = {
+    Name = "Service Instance POC"
+  }
+}

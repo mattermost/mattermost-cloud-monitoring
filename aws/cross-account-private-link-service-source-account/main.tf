@@ -7,6 +7,8 @@ resource "aws_instance" "service" {
   vpc_security_group_ids = [var.security_group_id]
 
   depends_on = [aws_iam_role_policy_attachment.source_role_attachment]
+
+  tags = var.instance_tags
 }
 
 // Attempt to read the NLB if the check is enabled
@@ -30,7 +32,7 @@ resource "aws_lb" "nlb" {
   name               = var.nlb_name
   internal           = true
   load_balancer_type = "network"
-  subnets            = [var.subnet_id]
+  subnets            = [var.subnet_id] // Ensure subnets are in distinct Availability Zones
   security_groups    = [var.security_group_id]
 
   depends_on = [aws_iam_role_policy_attachment.source_role_attachment]
@@ -65,6 +67,17 @@ resource "aws_lb_target_group" "target_group" {
   vpc_id   = var.vpc_id
 
   depends_on = [aws_iam_role_policy_attachment.source_role_attachment]
+}
+
+// Automatically register the EC2 instance (service) to the NLB target group
+resource "aws_lb_target_group_attachment" "service_attachment" {
+  provider         = aws.source
+  count            = local.nlb_exists ? 0 : 1
+  target_group_arn = aws_lb_target_group.target_group.arn
+  target_id        = aws_instance.service.id // Fixed by removing the index
+  port             = var.listener_port       // Port on which the service instance should be registered
+
+  depends_on = [aws_instance.service]
 }
 
 // Create Endpoint Service in the source account
