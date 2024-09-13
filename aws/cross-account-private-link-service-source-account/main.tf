@@ -9,16 +9,24 @@ resource "aws_instance" "service" {
   depends_on = [aws_iam_role_policy_attachment.source_role_attachment]
 }
 
-// Check if NLB exists in the source account
+// Attempt to read the NLB if the check is enabled
 data "aws_lb" "existing_nlb" {
   provider = aws.source
   name     = var.nlb_name
+
+  # This will fail gracefully if the condition is not met
+  count = var.check_nlb ? 1 : 0
+}
+
+// Use a local value to determine if the NLB exists without causing an error
+locals {
+  nlb_exists = length(data.aws_lb.existing_nlb) > 0
 }
 
 // Create NLB in the source account only if it doesn't exist
 resource "aws_lb" "nlb" {
   provider           = aws.source
-  count              = length([for lb in data.aws_lb.existing_nlb : lb.arn]) == 0 ? 1 : 0
+  count              = local.nlb_exists ? 0 : 1
   name               = var.nlb_name
   internal           = true
   load_balancer_type = "network"
@@ -30,7 +38,7 @@ resource "aws_lb" "nlb" {
 
 // Determine NLB ARN to use
 locals {
-  nlb_arn = length([for lb in data.aws_lb.existing_nlb : lb.arn]) > 0 ? data.aws_lb.existing_nlb.arn : aws_lb.nlb[0].arn
+  nlb_arn = local.nlb_exists ? data.aws_lb.existing_nlb[0].arn : aws_lb.nlb[0].arn
 }
 
 // Create Listener for NLB in the source account
