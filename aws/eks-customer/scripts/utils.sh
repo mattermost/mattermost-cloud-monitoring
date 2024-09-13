@@ -6,7 +6,8 @@ application_yaml="$gitops_apps_dir/${ENV}/application-values.yaml"
 cluster_yaml="$gitops_sre_dir/clusters/${ENV}/cluster-values.yaml"
 
 # Add ssh key to known hosts
-mkdir ~/.ssh && ssh-keyscan -T 10 $GIT_HOST >> ~/.ssh/known_hosts
+mkdir ~/.ssh || true
+ssh-keyscan -T 10 $GIT_HOST >> ~/.ssh/known_hosts
 
 function escape_string() {
     local input="$1"
