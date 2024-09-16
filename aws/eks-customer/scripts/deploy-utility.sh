@@ -52,8 +52,7 @@ function deploy_utility() {
     add_utility_to_application_file $utility_name $cluster_label_type
     replace_custom_values $utility_name
     wait_for_healthy $utility_name
-
-  commit_changes "CLUSTER_NAME: ${CLUSTER_NAME} Adding utility ${utility_name}" $application_yaml
+    commit_changes "CLUSTER_NAME: ${CLUSTER_NAME} Adding utility ${utility_name}" $application_yaml
 
 	done
 
@@ -108,7 +107,7 @@ function wait_for_healthy() {
   fi
 
   while true; do
-    status=$(curl -s "${ARGOCD_SERVER}/api/v1/applications/${utility_name}?refresh=true" --cookie "argocd.token=$ARGOCD_API_TOKEN" | jq -r '.status.health.status')
+    status=$(curl -s "https://${ARGOCD_SERVER}/api/v1/applications/${utility_name}?refresh=true" --cookie "argocd.token=$ARGOCD_API_TOKEN" | jq -r '.status.health.status')
 
     echo "Application $utility_name status: $status"
 
