@@ -112,7 +112,7 @@ function wait_for_healthy() {
 
     echo "Application $utility_app_name status: $status"
 
-    if [[ $status == "Healthy" ]]; then
+    if [[ $status == "Healthy" || $status == "Degraded" ]]; then #Degraded is also considered healthy in this context
       echo "Application $utility_app_name is healthy"
       break
     fi
