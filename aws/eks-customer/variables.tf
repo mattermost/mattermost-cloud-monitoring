@@ -126,6 +126,16 @@ variable "argocd_role_arn" {
   type        = string
 }
 
+variable "argocd_server" {
+  description = "The argocd server"
+  type        = string
+}
+
+variable "argocd_api_token" {
+  description = "The argocd api token"
+  type        = string
+}
+
 variable "staff_role_arn" {
   description = "The staff role arn"
   type        = string

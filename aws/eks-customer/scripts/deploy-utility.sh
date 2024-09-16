@@ -51,6 +51,7 @@ function deploy_utility() {
 
     add_utility_to_application_file $utility_name $cluster_label_type
     replace_custom_values $utility_name
+    wait_for_healthy $utility_name
 
   commit_changes "CLUSTER_NAME: ${CLUSTER_NAME} Adding utility ${utility_name}" $application_yaml
 
@@ -96,6 +97,28 @@ function replace_custom_values () {
     stage_changes $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
   fi
 
+}
+
+function wait_for_healthy() {
+  utility_name=$1
+
+  if [[ -z $ARGOCD_API_TOKEN ]]; then
+    echo "ARGOCD_API_TOKEN is not set"
+    exit 1
+  fi
+
+  while true; do
+    status=$(curl -s "${ARGOCD_SERVER}/api/v1/applications/${utility_name}?refresh=true" --cookie "argocd.token=$ARGOCD_API_TOKEN" | jq -r '.status.health.status')
+
+    echo "Application $utility_name status: $status"
+
+    if [[ $status == "Healthy" ]]; then
+      echo "Application $utility_name is healthy"
+      break
+    fi
+
+    sleep 10
+  done
 }
 
 function main() {

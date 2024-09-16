@@ -17,6 +17,8 @@ resource "null_resource" "deploy-utilites" {
       API_SERVER              = module.eks.cluster_endpoint
       CA_DATA                 = module.eks.cluster_certificate_authority_data
       ARGOCD_ROLE_ARN         = var.argocd_role_arn
+      ARGOCD_SERVER           = var.argocd_server
+      ARGOCD_API_TOKEN        = var.argocd_api_token
     }
   }
 
