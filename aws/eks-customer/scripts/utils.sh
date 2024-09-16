@@ -5,10 +5,6 @@ gitops_apps_dir="$gitops_sre_dir/apps"
 application_yaml="$gitops_apps_dir/${ENV}/application-values.yaml"
 cluster_yaml="$gitops_sre_dir/clusters/${ENV}/cluster-values.yaml"
 
-# Add ssh key to known hosts
-mkdir ~/.ssh || true
-ssh-keyscan -T 240 $GIT_HOST >> ~/.ssh/known_hosts
-
 function escape_string() {
     local input="$1"
     local escaped=$(printf '%s' "$input" | sed 's/[\/&]/\\&/g; s/-/\\-/g')
