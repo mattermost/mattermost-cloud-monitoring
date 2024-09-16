@@ -100,6 +100,7 @@ function replace_custom_values () {
 
 function wait_for_healthy() {
   utility_name=$1
+  utility_app_name=$utility_name-sre-${CLUSTER_NAME}
 
   if [[ -z $ARGOCD_API_TOKEN ]]; then
     echo "ARGOCD_API_TOKEN is not set"
@@ -107,12 +108,12 @@ function wait_for_healthy() {
   fi
 
   while true; do
-    status=$(curl -s "https://${ARGOCD_SERVER}/api/v1/applications/${utility_name}?refresh=true" --cookie "argocd.token=$ARGOCD_API_TOKEN" | jq -r '.status.health.status')
+    status=$(curl -s "https://${ARGOCD_SERVER}/api/v1/applications/${utility_app_name}?refresh=true" --cookie "argocd.token=$ARGOCD_API_TOKEN" | jq -r '.status.health.status')
 
-    echo "Application $utility_name status: $status"
+    echo "Application $utility_app_name status: $status"
 
     if [[ $status == "Healthy" ]]; then
-      echo "Application $utility_name is healthy"
+      echo "Application $utility_app_name is healthy"
       break
     fi
 
