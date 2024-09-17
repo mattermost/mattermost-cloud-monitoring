@@ -107,7 +107,7 @@ variable "gitops_repo_path" {
 }
 
 variable "gitops_repo_username" {
-  description = "The git repo username"
+  description = "The git repo username for executing git commands"
   type        = string
 }
 
