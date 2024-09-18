@@ -2,7 +2,7 @@ resource "null_resource" "remove-utilities" {
   count = var.node_groups != {} ? 1 : 0
   triggers = {
     gitops_repo_path     = var.gitops_repo_path
-    gitops_host          = var.gitops_host
+    gitops_repo_url      = var.gitops_repo_url
     gitops_repo_username = var.gitops_repo_username
     environment          = var.environment
     cluster_name         = module.eks.cluster_name
@@ -15,7 +15,7 @@ resource "null_resource" "remove-utilities" {
     EOT
     environment = {
       GIT_REPO_PATH     = self.triggers.gitops_repo_path
-      GIT_HOST          = self.triggers.gitops_host
+      GIT_REPO_URL      = self.triggers.gitops_repo_url
       GIT_REPO_USERNAME = self.triggers.gitops_repo_username
       CLUSTER_NAME      = self.triggers.cluster_name
       ENV               = self.triggers.environment

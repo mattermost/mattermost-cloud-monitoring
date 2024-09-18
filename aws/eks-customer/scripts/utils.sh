@@ -1,4 +1,6 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
+
+set -e -x
 
 gitops_sre_dir="gitops-sre-${CLUSTER_NAME}"
 gitops_apps_dir="$gitops_sre_dir/apps"
@@ -25,13 +27,13 @@ function while_repo_exists() { #This is to avoid github race condition errors wh
 
 function clone_repo() {
     sleep $((5 + RANDOM % 50)) # Random sleep
-    echo "Cloning repo https://${GIT_HOST}/${GIT_REPO_PATH}"
-    if [ -z "$GIT_HOST" || -z "$GIT_REPO_PATH" ]; then
-        echo "GIT_HOST and/or GIT_REPO_PATH  is empty"
+    echo "Cloning repo https://${GIT_REPO_URL}/${GIT_REPO_PATH}"
+    if [ -z "$GIT_REPO_URL" || -z "$GIT_REPO_PATH" ]; then
+        echo "GIT_REPO_URL and/or GIT_REPO_PATH  is empty"
         exit 1
     fi
     while_repo_exists
-    git clone "https://${GIT_REPO_USERNAME}:${GITLAB_OAUTH_TOKEN}@${GIT_HOST}/${GIT_REPO_PATH}" $gitops_sre_dir
+    git clone "https://${GIT_REPO_USERNAME}:${GITLAB_OAUTH_TOKEN}@${GIT_REPO_URL}/${GIT_REPO_PATH}" $gitops_sre_dir
     git config --global user.name "${GIT_REPO_USERNAME}"
     git config --global user.email "${GIT_REPO_USERNAME}@mattermost.com"
 }

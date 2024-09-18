@@ -5,7 +5,7 @@ resource "null_resource" "deploy-utilites" {
     EOT
     environment = {
       GIT_REPO_PATH           = var.gitops_repo_path
-      GIT_HOST                = var.gitops_host
+      GIT_REPO_URL            = var.gitops_repo_url
       GIT_REPO_USERNAME       = var.gitops_repo_username
       CLUSTER_NAME            = module.eks.cluster_name
       ENV                     = var.environment
