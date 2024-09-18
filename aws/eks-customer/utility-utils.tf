@@ -1,6 +1,6 @@
 
 locals {
-  s3_bucket = base64encode("mattermost-cloud-dev-provisioning-${var.vpc_id}")
+  s3_bucket = base64encode("mattermost-cloud-${var.environment}-provisioning-${var.vpc_id}")
 
   bifrost_secret = <<EOF
 apiVersion: v1
