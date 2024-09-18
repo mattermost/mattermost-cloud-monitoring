@@ -74,6 +74,17 @@ variable "snapshot_controller_version" {
   type = string
 }
 
+variable "node_groups" {
+  description = "The list of node groups"
+  type        = any
+  default     = {}
+}
+
+variable "cloud_provisioning_node_policy_arn" {
+  description = "The cloud provisioning node policy arn"
+  type        = string
+}
+
 variable "utilities" {
   description = "The list of utilities"
   type = list(object({
@@ -188,12 +199,6 @@ variable "cluster_encryption_config" {
   default     = {}
 }
 
-variable "eks_module_version" {
-  description = "The version of the EKS module (github.com/terraform-aws-modules/terraform-aws-eks)"
-  type        = string
-  default     = "20.14.0"
-}
-
 variable "eks_cluster_admin_policy_arn" {
   description = "The ARN of the AmazonEKSClusterAdminPolicy"
   type        = string
@@ -208,23 +213,6 @@ variable "wait_for_cluster_timeout" {
 }
 
 ### EKS Managed Node Group Variables ####
-variable "eks_managed_node_group_version" {
-  description = "The version of the EKS managed node group module (https://github.com/terraform-aws-modules/terraform-aws-eks/tree/master/modules/eks-managed-node-group)"
-  type        = string
-  default     = "20.20.0"
-}
-
-variable "node_groups" {
-  description = "The list of node groups"
-  type        = any
-  default     = {}
-}
-
-variable "cloud_provisioning_node_policy_arn" {
-  description = "The cloud provisioning node policy arn"
-  type        = string
-}
-
 variable "use_name_prefix" {
   description = "Determines whether to use `name` as is or create a unique name beginning with the `name` as the prefix"
   type        = bool
@@ -243,9 +231,3 @@ variable "iam_role_use_name_prefix" {
   default     = false
 }
 
-### IRSA Variables ####
-variable "iam_role_for_service_accounts_version" {
-  description = "The version of the IAM role for service accounts module (https://github.com/terraform-aws-modules/terraform-aws-iam/tree/master/modules/iam-role-for-service-accounts-eks)"
-  type        = string
-  default     = "5.44.0"
-}
