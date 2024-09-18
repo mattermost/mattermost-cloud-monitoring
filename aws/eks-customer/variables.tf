@@ -74,17 +74,6 @@ variable "snapshot_controller_version" {
   type = string
 }
 
-variable "node_groups" {
-  description = "The list of node groups"
-  type        = any
-  default     = {}
-}
-
-variable "cloud_provisioning_node_policy_arn" {
-  description = "The cloud provisioning node policy arn"
-  type        = string
-}
-
 variable "utilities" {
   description = "The list of utilities"
   type = list(object({
@@ -96,7 +85,7 @@ variable "utilities" {
   }))
 }
 
-variable "gitops_host" {
+variable "gitops_repo_url" {
   description = "The git repo url"
   type        = string
 }
@@ -167,4 +156,96 @@ variable "cluster_tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
   default     = {}
+}
+
+variable "create_iam_role" {
+  description = "Determines whether an IAM role is created or to use an existing IAM role"
+  type        = bool
+  default     = true
+}
+
+variable "iam_role_use_name_prefix" {
+  description = "Determines whether the IAM role name (`iam_role_name`) is used as a prefix"
+  type        = bool
+  default     = false
+}
+
+variable "create_kms_key" {
+  description = "Controls if a KMS key for cluster encryption should be created"
+  type        = bool
+  default     = false
+}
+
+variable "attach_cluster_encryption_policy" {
+  description = "Indicates whether or not to attach an additional policy for the cluster IAM role to utilize the encryption key provided"
+  type        = bool
+  default     = false
+}
+
+variable "cluster_encryption_config" {
+  description = "Configuration block with encryption configuration for the cluster. To disable secret encryption, set this value to `{}`"
+  type        = any
+  default     = {}
+}
+
+variable "eks_module_version" {
+  description = "The version of the EKS module (github.com/terraform-aws-modules/terraform-aws-eks)"
+  type        = string
+  default     = "20.14.0"
+}
+
+variable "eks_cluster_admin_policy_arn" {
+  description = "The ARN of the AmazonEKSClusterAdminPolicy"
+  type        = string
+  default     = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+}
+
+variable "wait_for_cluster_timeout" {
+  description = "The timeout to wait for the EKS cluster to be ready"
+  type        = string
+  default     = "5m"
+
+}
+
+### EKS Managed Node Group Variables ####
+variable "eks_managed_node_group_version" {
+  description = "The version of the EKS managed node group module (https://github.com/terraform-aws-modules/terraform-aws-eks/tree/master/modules/eks-managed-node-group)"
+  type        = string
+  default     = "20.20.0"
+}
+
+variable "node_groups" {
+  description = "The list of node groups"
+  type        = any
+  default     = {}
+}
+
+variable "cloud_provisioning_node_policy_arn" {
+  description = "The cloud provisioning node policy arn"
+  type        = string
+}
+
+variable "use_name_prefix" {
+  description = "Determines whether to use `name` as is or create a unique name beginning with the `name` as the prefix"
+  type        = bool
+  default     = false
+}
+
+variable "launch_template_use_name_prefix" {
+  description = "Determines whether to use `launch_template_name` as is or create a unique name beginning with the `launch_template_name` as the prefix"
+  type        = bool
+  default     = false
+}
+
+variable "iam_role_use_name_prefix" {
+  description = "Determines whether the IAM role name (`iam_role_name`) is used as a prefix"
+  type        = bool
+  default     = false
+}
+
+### IRSA Variables ####
+variable "iam_role_for_service_accounts_version" {
+  description = "The version of the IAM role for service accounts module (https://github.com/terraform-aws-modules/terraform-aws-iam/tree/master/modules/iam-role-for-service-accounts-eks)"
+  type        = string
+  default     = "5.44.0"
 }

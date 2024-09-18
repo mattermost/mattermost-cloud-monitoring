@@ -1,17 +1,17 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "20.14.0"
+  version = var.eks_module_version
 
   cluster_name    = "${var.cluster_name}-${local.cluster_id}"
   cluster_version = var.cluster_version
 
   vpc_id = var.vpc_id
 
-  create_iam_role                  = true
-  iam_role_use_name_prefix         = false
-  create_kms_key                   = false
-  attach_cluster_encryption_policy = false
-  cluster_encryption_config        = {}
+  create_iam_role                  = var.create_iam_role
+  iam_role_use_name_prefix         = var.iam_role_use_name_prefix
+  create_kms_key                   = var.create_kms_key
+  attach_cluster_encryption_policy = var.attach_cluster_encryption_policy
+  cluster_encryption_config        = var.cluster_encryption_config
 
   cluster_endpoint_public_access  = var.cluster_endpoint_public_access
   cluster_endpoint_private_access = var.cluster_endpoint_private_access
@@ -37,7 +37,7 @@ module "eks" {
 
       policy_associations = {
         argocd = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          policy_arn = var.eks_cluster_admin_policy_arn
           access_scope = {
             type = "cluster"
           }
@@ -49,7 +49,7 @@ module "eks" {
       principal_arn     = var.staff_role_arn
       policy_associations = {
         staff = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          policy_arn = var.eks_cluster_admin_policy_arn
           access_scope = {
             type = "cluster"
           }
@@ -61,7 +61,7 @@ module "eks" {
       principal_arn     = var.provisioner_role_arn
       policy_associations = {
         staff = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          policy_arn = var.eks_cluster_admin_policy_arn
           access_scope = {
             type = "cluster"
           }
@@ -89,7 +89,7 @@ resource "aws_ec2_tag" "subnet" {
 
 resource "time_sleep" "wait_for_cluster" {
 
-  create_duration = "5m"
+  create_duration = var.wait_for_cluster_timeout
 
   triggers = {
     cluster_name     = module.eks.cluster_name

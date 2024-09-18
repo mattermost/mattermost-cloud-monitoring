@@ -1,6 +1,6 @@
 module "managed_node_group" {
   source  = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
-  version = "20.20.0"
+  version = var.eks_managed_node_group_version
 
   for_each = { for k, v in var.node_groups : k => v }
 
@@ -8,9 +8,9 @@ module "managed_node_group" {
   name                            = "${each.key}-${module.eks.cluster_name}"
   cluster_name                    = module.eks.cluster_name
   cluster_version                 = module.eks.cluster_version
-  use_name_prefix                 = false
-  launch_template_use_name_prefix = false
-  iam_role_use_name_prefix        = false
+  use_name_prefix                 = var.use_name_prefix
+  launch_template_use_name_prefix = var.launch_template_use_name_prefix
+  iam_role_use_name_prefix        = var.iam_role_use_name_prefix
 
   enable_bootstrap_user_data = true
   ami_id                     = each.value.ami_id

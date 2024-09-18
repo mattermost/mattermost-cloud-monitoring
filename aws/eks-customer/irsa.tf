@@ -7,7 +7,7 @@ locals {
 
 module "irsa" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  version = "5.44.0"
+  version = var.iam_role_for_service_accounts_version
 
   for_each = { for k, v in var.utilities : k => v if v.enable_irsa }
 
