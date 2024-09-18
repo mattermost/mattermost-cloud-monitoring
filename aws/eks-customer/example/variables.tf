@@ -309,7 +309,7 @@ variable "allow_list_cidr_range" {
   default = "0.0.0.0/0"
 }
 
-variable "gitops_host" {
+variable "gitops_repo_url" {
   description = "The git repo url"
   type = string
   default = "git.example.com"
@@ -325,4 +325,16 @@ variable "gitops_repo_username" {
   description = "The git repo username for executing git commands"
   type = string
   default = "<git-repo-username>"
+}
+
+variable "lb_certificate_arn" {
+  description = "The certificate arn"
+  type = string
+  default = "<certificate-arn>"
+}
+
+variable "lb_private_certificate_arn" {
+  description = "The private certificate arn"
+  type = string
+  default = "<private-certificate-arn>"
 }
