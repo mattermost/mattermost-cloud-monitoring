@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 
 set -e -x
 
@@ -18,8 +18,9 @@ function remove_helm_values() {
         stage_changes $gitops_apps_dir/${ENV}/helm-values
         echo "Commiting changes: Adding cluster ${CLUSTER_NAME}"
         commit_changes "Remove utilities: ${CLUSTER_NAME}" $gitops_apps_dir/${ENV}/helm-values
+    else
+      echo "No helm values found for cluster ${CLUSTER_NAME}"
     fi
-    echo "No helm values found for cluster ${CLUSTER_NAME}"
 }
 
 
@@ -29,7 +30,6 @@ function wait_for_argocd() {
 }
 
 function remove_cluster() {
-    local cluster_id=$1
     yq eval -i "del(.clusters[] | select(.name == \"${CLUSTER_NAME}\"))" $cluster_yaml
     stage_changes $cluster_yaml
     commit_changes "Removing cluster: ${CLUSTER_NAME}" $cluster_yaml

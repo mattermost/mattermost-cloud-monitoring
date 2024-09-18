@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 
 set -e -x
 
@@ -83,15 +83,15 @@ function replace_custom_values () {
 
   if [[  -f $gitops_apps_dir/custom-values-template/$utility_name-custom-values.yaml-template ]]; then
     cp $gitops_apps_dir/custom-values-template/$utility_name-custom-values.yaml-template $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
-    sed -i "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
-    sed -i "s/<ENV>/${ENV}/g" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
-    sed -i "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
-    sed -i "s/<CERTFICATE_ARN>/$certificate_arn/g" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
-    sed -i "s/<PRIVATE_CERTIFICATE_ARN>/$private_certificate_arn/g" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
-    sed -i "s/<VPC_ID>/${VPC_ID}/g" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
-    sed -i "s/<PRIVATE_DOMAIN>/${PRIVATE_DOMAIN}/g" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
-    sed -i "s/<IP_RANGE>/$allow_list_cidr_range/g" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
-    sed -i "s/hostNetwork: false/hostNetwork: true/g" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
+    sed -i  -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
+    sed     -e "s/<ENV>/${ENV}/g" \
+    sed     -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
+    sed     -e "s/<CERTIFICATE_ARN>/$certificate_arn/g" \
+    sed     -e "s/<PRIVATE_CERTIFICATE_ARN>/$private_certificate_arn/g" \
+    sed     -e "s/<VPC_ID>/${VPC_ID}/g" \
+    sed     -e "s/<PRIVATE_DOMAIN>/${PRIVATE_DOMAIN}/g" \
+    sed     -e "s/<IP_RANGE>/$allow_list_cidr_range/g" \
+    sed     -e "s/hostNetwork: false/hostNetwork: true/g" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
 
     stage_changes $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
   fi
