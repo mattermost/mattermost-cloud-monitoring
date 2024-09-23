@@ -173,13 +173,13 @@ variable "utilities" {
       cluster_label_type = ""
     },
     {
-      name = "promtail"
+      name = "alloy"
       enable_irsa = false
       internal_dns = {
         enabled = false
         dns_name = []
       }
-      service_account = "promtail"
+      service_account = "alloy"
       cluster_label_type = ""
     },
     {
