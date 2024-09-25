@@ -67,6 +67,18 @@ module "eks" {
           }
         }
       }
+    },
+    atlantis = {
+      kubernetes_groups = []
+      principal_arn     = var.atlantis_user_arn
+      policy_associations = {
+        atlantis = {
+          policy_arn = var.eks_cluster_admin_policy_arn
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
     }
   }
 }
