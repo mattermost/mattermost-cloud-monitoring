@@ -256,6 +256,12 @@ variable "password_encryption" {
   description = "The password encryption method to use for the DB instance. Valid values: md5 or scram-sha-256"
 }
 
+variable "iam_database_authentication_enabled" {
+  type        = bool
+  description = "Specifies whether or not mappings of AWS Identity and Access Management (IAM) accounts to database accounts is enabled."
+  default     = false
+}
+
 # variable "accepted_password_auth_method" {
 #   type        = string
 #   description = "The authentication method to use for the DB instance. Valid values: md5+scram or scram"

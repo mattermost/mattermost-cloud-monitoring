@@ -83,30 +83,31 @@ resource "aws_rds_global_cluster" "global-cluster" {
 }
 
 resource "aws_rds_cluster" "provisioning_rds_cluster_primary" {
-  provider                         = aws.primary
-  cluster_identifier               = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)
-  engine                           = var.engine
-  engine_version                   = var.engine_version
-  kms_key_id                       = local.cluster_kms_key_arn_primary
-  master_username                  = var.username
-  master_password                  = local.master_password
-  final_snapshot_identifier        = "${var.final_snapshot_identifier_prefix}-${format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)}"
-  skip_final_snapshot              = var.skip_final_snapshot
-  deletion_protection              = var.deletion_protection
-  backup_retention_period          = var.backup_retention_period
-  preferred_backup_window          = var.preferred_backup_window
-  preferred_maintenance_window     = var.preferred_maintenance_window
-  port                             = var.port
-  db_subnet_group_name             = "mattermost-provisioner-db-${var.primary_vpc_id}-postgresql"
-  vpc_security_group_ids           = [data.aws_security_group.db_sg_primary.id]
-  storage_encrypted                = var.storage_encrypted
-  apply_immediately                = var.apply_immediately
-  db_cluster_parameter_group_name  = aws_rds_cluster_parameter_group.cluster_parameter_group_postgresql_primary.id
-  db_instance_parameter_group_name = aws_db_parameter_group.db_parameter_group_postgresql_primary.id
-  copy_tags_to_snapshot            = var.copy_tags_to_snapshot
-  snapshot_identifier              = var.creation_snapshot_arn_primary == "" ? null : var.creation_snapshot_arn_primary
-  allow_major_version_upgrade      = var.allow_major_version_upgrade
-  enabled_cloudwatch_logs_exports  = var.enabled_cloudwatch_logs_exports
+  provider                            = aws.primary
+  cluster_identifier                  = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)
+  engine                              = var.engine
+  engine_version                      = var.engine_version
+  iam_database_authentication_enabled = var.iam_database_authentication_enabled
+  kms_key_id                          = local.cluster_kms_key_arn_primary
+  master_username                     = var.username
+  master_password                     = local.master_password
+  final_snapshot_identifier           = "${var.final_snapshot_identifier_prefix}-${format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)}"
+  skip_final_snapshot                 = var.skip_final_snapshot
+  deletion_protection                 = var.deletion_protection
+  backup_retention_period             = var.backup_retention_period
+  preferred_backup_window             = var.preferred_backup_window
+  preferred_maintenance_window        = var.preferred_maintenance_window
+  port                                = var.port
+  db_subnet_group_name                = "mattermost-provisioner-db-${var.primary_vpc_id}-postgresql"
+  vpc_security_group_ids              = [data.aws_security_group.db_sg_primary.id]
+  storage_encrypted                   = var.storage_encrypted
+  apply_immediately                   = var.apply_immediately
+  db_cluster_parameter_group_name     = aws_rds_cluster_parameter_group.cluster_parameter_group_postgresql_primary.id
+  db_instance_parameter_group_name    = aws_db_parameter_group.db_parameter_group_postgresql_primary.id
+  copy_tags_to_snapshot               = var.copy_tags_to_snapshot
+  snapshot_identifier                 = var.creation_snapshot_arn_primary == "" ? null : var.creation_snapshot_arn_primary
+  allow_major_version_upgrade         = var.allow_major_version_upgrade
+  enabled_cloudwatch_logs_exports     = var.enabled_cloudwatch_logs_exports
 
 
   tags = merge(
@@ -159,30 +160,31 @@ resource "aws_rds_cluster_instance" "provisioning_rds_db_instance_primary" {
 }
 
 resource "aws_rds_cluster" "provisioning_rds_cluster_secondary" {
-  count                            = var.enable_global_cluster ? 1 : 0
-  provider                         = aws.secondary
-  cluster_identifier               = format("rds-cluster-multitenant-%s-%s-sec", split("-", var.secondary_vpc_id)[1], local.database_id)
-  engine                           = var.engine
-  engine_version                   = var.engine_version
-  kms_key_id                       = local.cluster_kms_key_arn_secondary
-  global_cluster_identifier        = var.enable_global_cluster ? aws_rds_global_cluster.global-cluster[0].id : ""
-  final_snapshot_identifier        = "${var.final_snapshot_identifier_prefix}-${format("rds-cluster-multitenant-%s-%s-primary", split("-", var.secondary_vpc_id)[1], local.database_id)}"
-  skip_final_snapshot              = var.skip_final_snapshot
-  deletion_protection              = var.deletion_protection
-  backup_retention_period          = var.backup_retention_period
-  preferred_backup_window          = var.preferred_backup_window
-  preferred_maintenance_window     = var.preferred_maintenance_window
-  port                             = var.port
-  db_subnet_group_name             = "mattermost-provisioner-db-${var.secondary_vpc_id}-postgresql"
-  vpc_security_group_ids           = [data.aws_security_group.db_sg_secondary[0].id]
-  storage_encrypted                = var.storage_encrypted
-  apply_immediately                = var.apply_immediately
-  db_cluster_parameter_group_name  = aws_rds_cluster_parameter_group.cluster_parameter_group_postgresql_secondary[0].id
-  db_instance_parameter_group_name = aws_db_parameter_group.db_parameter_group_postgresql_secondary[0].id
-  copy_tags_to_snapshot            = var.copy_tags_to_snapshot
-  snapshot_identifier              = var.creation_snapshot_arn_secondary == "" ? null : var.creation_snapshot_arn_secondary
-  allow_major_version_upgrade      = var.allow_major_version_upgrade
-  enabled_cloudwatch_logs_exports  = var.enabled_cloudwatch_logs_exports
+  count                               = var.enable_global_cluster ? 1 : 0
+  provider                            = aws.secondary
+  cluster_identifier                  = format("rds-cluster-multitenant-%s-%s-sec", split("-", var.secondary_vpc_id)[1], local.database_id)
+  engine                              = var.engine
+  engine_version                      = var.engine_version
+  iam_database_authentication_enabled = var.iam_database_authentication_enabled
+  kms_key_id                          = local.cluster_kms_key_arn_secondary
+  global_cluster_identifier           = var.enable_global_cluster ? aws_rds_global_cluster.global-cluster[0].id : ""
+  final_snapshot_identifier           = "${var.final_snapshot_identifier_prefix}-${format("rds-cluster-multitenant-%s-%s-primary", split("-", var.secondary_vpc_id)[1], local.database_id)}"
+  skip_final_snapshot                 = var.skip_final_snapshot
+  deletion_protection                 = var.deletion_protection
+  backup_retention_period             = var.backup_retention_period
+  preferred_backup_window             = var.preferred_backup_window
+  preferred_maintenance_window        = var.preferred_maintenance_window
+  port                                = var.port
+  db_subnet_group_name                = "mattermost-provisioner-db-${var.secondary_vpc_id}-postgresql"
+  vpc_security_group_ids              = [data.aws_security_group.db_sg_secondary[0].id]
+  storage_encrypted                   = var.storage_encrypted
+  apply_immediately                   = var.apply_immediately
+  db_cluster_parameter_group_name     = aws_rds_cluster_parameter_group.cluster_parameter_group_postgresql_secondary[0].id
+  db_instance_parameter_group_name    = aws_db_parameter_group.db_parameter_group_postgresql_secondary[0].id
+  copy_tags_to_snapshot               = var.copy_tags_to_snapshot
+  snapshot_identifier                 = var.creation_snapshot_arn_secondary == "" ? null : var.creation_snapshot_arn_secondary
+  allow_major_version_upgrade         = var.allow_major_version_upgrade
+  enabled_cloudwatch_logs_exports     = var.enabled_cloudwatch_logs_exports
 
 
   tags = merge(

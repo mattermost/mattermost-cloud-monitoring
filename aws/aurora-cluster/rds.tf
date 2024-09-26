@@ -16,30 +16,31 @@ data "aws_iam_role" "enhanced_monitoring" {
 }
 
 resource "aws_rds_cluster" "provisioning_rds_cluster" {
-  cluster_identifier               = local.cluster_identifier
-  engine                           = var.engine
-  engine_version                   = var.engine_version
-  engine_mode                      = var.engine_mode
-  kms_key_id                       = var.kms_key
-  master_username                  = var.username
-  master_password                  = local.master_password
-  final_snapshot_identifier        = "${var.final_snapshot_identifier_prefix}-${format("%s", local.cluster_identifier)}"
-  skip_final_snapshot              = var.skip_final_snapshot
-  deletion_protection              = var.deletion_protection
-  backup_retention_period          = var.backup_retention_period
-  preferred_backup_window          = var.preferred_backup_window
-  preferred_maintenance_window     = var.preferred_maintenance_window
-  port                             = var.port
-  db_subnet_group_name             = var.db_subnet_group_name
-  vpc_security_group_ids           = var.vpc_security_group_ids
-  storage_encrypted                = var.storage_encrypted
-  apply_immediately                = var.apply_immediately
-  db_cluster_parameter_group_name  = aws_rds_cluster_parameter_group.cluster_parameter_group_postgresql.id
-  db_instance_parameter_group_name = aws_db_parameter_group.db_parameter_group_postgresql.id
-  copy_tags_to_snapshot            = var.copy_tags_to_snapshot
-  enabled_cloudwatch_logs_exports  = var.enabled_cloudwatch_logs_exports
-  snapshot_identifier              = var.creation_snapshot_arn == "" ? null : var.creation_snapshot_arn
-  allow_major_version_upgrade      = var.allow_major_version_upgrade
+  cluster_identifier                  = local.cluster_identifier
+  engine                              = var.engine
+  engine_version                      = var.engine_version
+  engine_mode                         = var.engine_mode
+  kms_key_id                          = var.kms_key
+  master_username                     = var.username
+  master_password                     = local.master_password
+  iam_database_authentication_enabled = var.iam_database_authentication_enabled
+  final_snapshot_identifier           = "${var.final_snapshot_identifier_prefix}-${format("%s", local.cluster_identifier)}"
+  skip_final_snapshot                 = var.skip_final_snapshot
+  deletion_protection                 = var.deletion_protection
+  backup_retention_period             = var.backup_retention_period
+  preferred_backup_window             = var.preferred_backup_window
+  preferred_maintenance_window        = var.preferred_maintenance_window
+  port                                = var.port
+  db_subnet_group_name                = var.db_subnet_group_name
+  vpc_security_group_ids              = var.vpc_security_group_ids
+  storage_encrypted                   = var.storage_encrypted
+  apply_immediately                   = var.apply_immediately
+  db_cluster_parameter_group_name     = aws_rds_cluster_parameter_group.cluster_parameter_group_postgresql.id
+  db_instance_parameter_group_name    = aws_db_parameter_group.db_parameter_group_postgresql.id
+  copy_tags_to_snapshot               = var.copy_tags_to_snapshot
+  enabled_cloudwatch_logs_exports     = var.enabled_cloudwatch_logs_exports
+  snapshot_identifier                 = var.creation_snapshot_arn == "" ? null : var.creation_snapshot_arn
+  allow_major_version_upgrade         = var.allow_major_version_upgrade
 
   lifecycle {
     ignore_changes = [
