@@ -262,7 +262,7 @@ variable "iam_database_authentication_enabled" {
   default     = false
 }
 
-# variable "accepted_password_auth_method" {
-#   type        = string
-#   description = "The authentication method to use for the DB instance. Valid values: md5+scram or scram"
-# }
+variable "accepted_password_auth_method" {
+  type        = string
+  description = "The authentication method to use for the DB instance. Valid values: md5+scram or scram"
+}
