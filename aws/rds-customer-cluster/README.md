@@ -76,6 +76,7 @@ No modules.
 | <a name="input_environment"></a> [environment](#input\_environment) | The name of the environment which will deploy to and will be added as a tag | `string` | n/a | yes |
 | <a name="input_final_snapshot_identifier_prefix"></a> [final\_snapshot\_identifier\_prefix](#input\_final\_snapshot\_identifier\_prefix) | The prefix name of your final DB snapshot when this DB instance is deleted | `string` | n/a | yes |
 | <a name="input_global_database_name"></a> [global\_database\_name](#input\_global\_database\_name) | The database name for the global cluster. When creating global cluster from existing db cluster leave empty | `string` | `""` | no |
+| <a name="input_iam_database_authentication_enabled"></a> [iam\_database\_authentication\_enabled](#input\_iam\_database\_authentication\_enabled) | Specifies whether or not mappings of AWS Identity and Access Management (IAM) accounts to database accounts is enabled. | `bool` | `false` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The instance type of the RDS instance | `string` | n/a | yes |
 | <a name="input_kms_key_id_primary"></a> [kms\_key\_id\_primary](#input\_kms\_key\_id\_primary) | ARN for the primary KMS encryption key if one is set to the cluster | `string` | `""` | no |
 | <a name="input_kms_key_id_secondary"></a> [kms\_key\_id\_secondary](#input\_kms\_key\_id\_secondary) | ARN for the secondary KMS encryption key if one is set to the cluster | `string` | `""` | no |
