@@ -70,6 +70,7 @@
 | <a name="input_allow_list_cidr_range"></a> [allow\_list\_cidr\_range](#input\_allow\_list\_cidr\_range) | The list of CIDRs to allow communication with the private ingress. | `string` | n/a | yes |
 | <a name="input_argocd_role_arn"></a> [argocd\_role\_arn](#input\_argocd\_role\_arn) | The argocd role arn | `string` | n/a | yes |
 | <a name="input_argocd_server"></a> [argocd\_server](#input\_argocd\_server) | The argocd server | `string` | n/a | yes |
+| <a name="input_atlantis_user_arn"></a> [atlantis\_user\_arn](#input\_atlantis\_user\_arn) | The atlantis user arn | `string` | n/a | yes |
 | <a name="input_attach_cluster_encryption_policy"></a> [attach\_cluster\_encryption\_policy](#input\_attach\_cluster\_encryption\_policy) | Indicates whether or not to attach an additional policy for the cluster IAM role to utilize the encryption key provided | `bool` | `false` | no |
 | <a name="input_calico_operator_version"></a> [calico\_operator\_version](#input\_calico\_operator\_version) | The version of the Calico operator | `string` | n/a | yes |
 | <a name="input_cloud_provisioning_node_policy_arn"></a> [cloud\_provisioning\_node\_policy\_arn](#input\_cloud\_provisioning\_node\_policy\_arn) | The cloud provisioning node policy arn | `string` | n/a | yes |

@@ -141,6 +141,11 @@ variable "provisioner_role_arn" {
   type        = string
 }
 
+variable "atlantis_user_arn" {
+  description = "The atlantis user arn"
+  type        = string
+}
+
 variable "allow_list_cidr_range" {
   description = "The list of CIDRs to allow communication with the private ingress."
   type        = string
