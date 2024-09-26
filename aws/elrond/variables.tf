@@ -158,3 +158,9 @@ variable "allow_major_version_upgrade" {
   type        = bool
   description = "Enable to allow major engine version upgrades when changing engine versions"
 }
+
+variable "iam_database_authentication_enabled" {
+  type        = bool
+  description = "Specifies whether or not mappings of AWS Identity and Access Management (IAM) accounts to database accounts is enabled."
+  default     = false
+}

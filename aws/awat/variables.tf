@@ -180,3 +180,9 @@ variable "awat_bucket_tags" {
   type        = map(string)
   description = "Tags for AWAT s3 bucket"
 }
+
+variable "iam_database_authentication_enabled" {
+  type        = bool
+  description = "Specifies whether or not mappings of AWS Identity and Access Management (IAM) accounts to database accounts is enabled."
+  default     = false
+}
