@@ -65,7 +65,7 @@ resource "aws_db_subnet_group" "subnets_db" {
 }
 
 module "aurora-cluster" {
-  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.7.11"
+  source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.7.69"
   cluster_identifier                    = var.provisioner_db_cluster_identifier
   cluster_instance_identifier           = var.provisioner_db_cluster_instance_identifier
   ca_cert_identifier                    = var.provisioner_ca_cert_identifier
@@ -79,6 +79,7 @@ module "aurora-cluster" {
   instance_type                         = var.provisioner_db_cluster_instance_type
   username                              = var.db_username
   password                              = var.db_password
+  iam_database_authentication_enabled   = var.iam_database_authentication_enabled
   final_snapshot_identifier_prefix      = "provisioner-final-${var.provisioner_db_cluster_identifier}-${local.timestamp_now}"
   skip_final_snapshot                   = false
   deletion_protection                   = var.db_deletion_protection
