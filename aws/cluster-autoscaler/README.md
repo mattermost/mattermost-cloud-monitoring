@@ -28,7 +28,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_additional_role_name"></a> [additional\_role\_name](#input\_additional\_role\_name) | Existing role which needs to attach the same  policy | `string` | n/a | yes |
+| <a name="input_additional_role_name"></a> [additional\_role\_name](#input\_additional\_role\_name) | Existing role which needs to attach the same  policy | `string` | `""` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The name of the environment which will deploy to and will be added as a tag | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The namespace, which host the service account & target application | `string` | n/a | yes |
 | <a name="input_open_oidc_provider_arn"></a> [open\_oidc\_provider\_arn](#input\_open\_oidc\_provider\_arn) | The Open OIDC Provider ARN for a specific cluster | `string` | n/a | yes |

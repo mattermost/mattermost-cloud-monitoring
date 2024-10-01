@@ -26,4 +26,5 @@ variable "namespace" {
 variable "additional_role_name" {
   type        = string
   description = "Existing role which needs to attach the same  policy "
+  default     = ""
 }
