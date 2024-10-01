@@ -65,3 +65,9 @@ variable "vpc_endpoint_service" {
   type        = string
   description = "This the VPC endpoint service, for example com.amazonaws.us-east-1.s3"
 }
+
+variable "security_group_referencing_support" {
+  description = "Security Group Referencing allows to specify other SGs as references, or matching criterion in inbound security rules to allow instance-to-instance traffic"
+  type        = string
+  default     = "enable"
+}

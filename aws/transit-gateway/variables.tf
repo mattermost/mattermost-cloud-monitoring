@@ -33,5 +33,5 @@ variable "transit_gtw_route_destination_gitlab" {
 variable "security_group_referencing_support" {
   description = "Security Group Referencing allows to specify other SGs as references, or matching criterion in inbound security rules to allow instance-to-instance traffic"
   type        = string
-  default     = "disable"
+  default     = "enable"
 }
