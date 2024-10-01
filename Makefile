@@ -7,7 +7,13 @@ lint:
 
 setup:
 ## setup: install tflint
-	curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+	@if [ "$(shell uname)" = "Darwin" ]; then \
+		echo "Installing tflint using brew on macOS"; \
+		brew install tflint; \
+	else \
+		echo "Installing tflint using install script on Linux"; \
+		curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash; \
+	fi
 
 plugin:
 ## installing aws plugin for tflint
