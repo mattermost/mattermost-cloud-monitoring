@@ -125,6 +125,7 @@ No modules.
 | <a name="input_gitlab_cidr"></a> [gitlab\_cidr](#input\_gitlab\_cidr) | The gitlab CIDR | `list(any)` | n/a | yes |
 | <a name="input_multi_route_table_deployment"></a> [multi\_route\_table\_deployment](#input\_multi\_route\_table\_deployment) | This will defined whether a dedicated route table per subnet will be created. multi\_route\_table\_deployment and single\_route\_table\_deployment cannot be both set to true | `bool` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | n/a | `string` | n/a | yes |
+| <a name="input_security_group_referencing_support"></a> [security\_group\_referencing\_support](#input\_security\_group\_referencing\_support) | Security Group Referencing allows to specify other SGs as references, or matching criterion in inbound security rules to allow instance-to-instance traffic | `string` | `"enable"` | no |
 | <a name="input_single_route_table_deployment"></a> [single\_route\_table\_deployment](#input\_single\_route\_table\_deployment) | This will defined whether a single route table for all subnets will be created. multi\_route\_table\_deployment and single\_route\_table\_deployment cannot be both set to true | `bool` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | n/a | yes |
 | <a name="input_teleport_cidr"></a> [teleport\_cidr](#input\_teleport\_cidr) | n/a | `list(string)` | n/a | yes |
