@@ -39,9 +39,10 @@ resource "aws_ram_principal_association" "ram-principal" {
 }
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "external" {
-  subnet_ids         = var.tgw_attachment_subnet_ids
-  transit_gateway_id = aws_ec2_transit_gateway.mattermost-cloud-tgw.id
-  vpc_id             = var.tgw_attachment_vpc_id
+  subnet_ids                         = var.tgw_attachment_subnet_ids
+  transit_gateway_id                 = aws_ec2_transit_gateway.mattermost-cloud-tgw.id
+  vpc_id                             = var.tgw_attachment_vpc_id
+  security_group_referencing_support = var.security_group_referencing_support
 }
 
 resource "aws_ec2_transit_gateway_peering_attachment" "use1_usw2" {

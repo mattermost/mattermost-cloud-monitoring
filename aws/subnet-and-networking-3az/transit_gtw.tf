@@ -6,8 +6,9 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attachment" {
     aws_subnet.private_1b[each.value]["id"],
     aws_subnet.private_1c[each.value]["id"]
   ]
-  transit_gateway_id = var.transit_gateway_id
-  vpc_id             = data.aws_vpc.vpc_ids[each.value]["id"]
+  transit_gateway_id                 = var.transit_gateway_id
+  vpc_id                             = data.aws_vpc.vpc_ids[each.value]["id"]
+  security_group_referencing_support = var.security_group_referencing_support
   tags = merge(
     {
       "Name" = format("%s-%s", var.name, join("", split(".", split("/", each.value)[0]))),
@@ -15,5 +16,3 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attachment" {
     var.tags
   )
 }
-
-

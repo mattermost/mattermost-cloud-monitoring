@@ -106,3 +106,9 @@ variable "peer_transit_gateway_id" {
   type        = string
   description = "The ID for the TGW in us-east-1 that we want to peer with"
 }
+
+variable "security_group_referencing_support" {
+  description = "Security Group Referencing allows to specify other SGs as references, or matching criterion in inbound security rules to allow instance-to-instance traffic"
+  type        = string
+  default     = "enable"
+}

@@ -33,7 +33,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_private_route_table_ids"></a> [private\_route\_table\_ids](#input\_private\_route\_table\_ids) | n/a | `list(string)` | n/a | yes |
 | <a name="input_public_route_table_ids"></a> [public\_route\_table\_ids](#input\_public\_route\_table\_ids) | n/a | `list(string)` | n/a | yes |
-| <a name="input_security_group_referencing_support"></a> [security\_group\_referencing\_support](#input\_security\_group\_referencing\_support) | Security Group Referencing allows to specify other SGs as references, or matching criterion in inbound security rules to allow instance-to-instance traffic | `string` | `"disable"` | no |
+| <a name="input_security_group_referencing_support"></a> [security\_group\_referencing\_support](#input\_security\_group\_referencing\_support) | Security Group Referencing allows to specify other SGs as references, or matching criterion in inbound security rules to allow instance-to-instance traffic | `string` | `"enable"` | no |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | n/a | `list(string)` | n/a | yes |
 | <a name="input_transit_gateway_id"></a> [transit\_gateway\_id](#input\_transit\_gateway\_id) | n/a | `string` | n/a | yes |
 | <a name="input_transit_gtw_route_destination"></a> [transit\_gtw\_route\_destination](#input\_transit\_gtw\_route\_destination) | n/a | `string` | n/a | yes |
