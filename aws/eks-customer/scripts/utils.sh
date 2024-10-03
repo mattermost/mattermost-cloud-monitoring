@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -o errexit
+set -o nounset
 
 gitops_sre_dir="gitops-sre-${CLUSTER_NAME}"
 gitops_apps_dir="$gitops_sre_dir/apps"
