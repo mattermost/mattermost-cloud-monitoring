@@ -1,8 +1,12 @@
 data "aws_caller_identity" "current" {}
 
+
 resource "aws_kms_key" "customer_managed" {
-  description             = var.kms_key_description
-  deletion_window_in_days = 10
+  description = var.kms_key_description
+}
+
+resource "aws_kms_key_policy" "customer_managed_policy" {
+  key_id = aws_kms_key.customer_managed.id
 
   policy = <<EOF
 {
@@ -16,7 +20,7 @@ resource "aws_kms_key" "customer_managed" {
         "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
       },
       "Action": "kms:*",
-      "Resource": "*"
+      "Resource": "${aws_kms_key.customer_managed.arn}"
     },
     {
       "Sid": "Allow access for Key Administrators",
@@ -40,7 +44,7 @@ resource "aws_kms_key" "customer_managed" {
         "kms:ScheduleKeyDeletion",
         "kms:CancelKeyDeletion"
       ],
-      "Resource": "*"
+      "Resource": "${aws_kms_key.customer_managed.arn}"
     },
     {
       "Sid": "Allow use of the key by provisioner user",
