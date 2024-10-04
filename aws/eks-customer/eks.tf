@@ -122,7 +122,7 @@ resource "null_resource" "tag_vpc" {
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
-      aws ec2 tags --resources ${self.triggers.vpc_id} --tags Key=CloudClusterType,Value=kops --region ${self.triggers.region}
+      aws ec2 create-tags --resources ${self.triggers.vpc_id} --tags Key=CloudClusterType,Value=kops --region ${self.triggers.region}
     EOT
   }
 }
