@@ -1,12 +1,13 @@
 data "aws_caller_identity" "current" {}
 
-
 resource "aws_kms_key" "customer_managed" {
   description = var.kms_key_description
+
+  tags = var.kms_key_tags
 }
 
 resource "aws_kms_key_policy" "customer_managed_policy" {
-  key_id = aws_kms_key.customer_managed.id
+  key_id = aws_kms_key.customer_managed.key_id
 
   policy = <<EOF
 {
@@ -67,10 +68,11 @@ resource "aws_kms_key_policy" "customer_managed_policy" {
   ]
 }
 EOF
+
+  bypass_policy_lockout_safety_check = var.bypass_policy_lockout_safety_check
 }
 
 resource "aws_kms_alias" "s3_kms_key_alias" {
-  name          = "alias/s3-kms-key"
+  name          = var.kms_alias_name
   target_key_id = aws_kms_key.customer_managed.id
 }
-
