@@ -111,3 +111,18 @@ resource "time_sleep" "wait_for_cluster" {
     cluster_certificate_authority_data = module.eks.cluster_certificate_authority_data
   }
 }
+
+resource "null_resource" "tag_vpc" {
+  triggers = {
+    region = var.region
+    vpc_id = var.vpc_id
+
+    cluster_certificate_authority_data = module.eks.cluster_certificate_authority_data
+  }
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<EOT
+      aws ec2 create-tags --resources ${self.triggers.vpc_id} --tags Key=CloudClusterType,Value=kops --region ${self.triggers.region}
+    EOT
+  }
+}

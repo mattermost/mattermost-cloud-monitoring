@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e -x
+set -o errexit
 
 gitops_sre_dir="gitops-sre-${CLUSTER_NAME}"
 gitops_apps_dir="$gitops_sre_dir/apps"
