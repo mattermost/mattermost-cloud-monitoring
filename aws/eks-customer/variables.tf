@@ -85,6 +85,11 @@ variable "cloud_provisioning_node_policy_arn" {
   type        = string
 }
 
+variable "cloud_provisioning_ec2_policy_arn" {
+  description = "The cloud provisioning ec2 policy arn to perform ec2 volume operations"
+  type        = string
+}
+
 variable "utilities" {
   description = "The list of utilities"
   type = list(object({

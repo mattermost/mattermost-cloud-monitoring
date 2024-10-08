@@ -18,6 +18,7 @@ module "managed_node_group" {
 
   iam_role_additional_policies = {
     cloudProvisioningNode = var.cloud_provisioning_node_policy_arn
+    cloudProvisioningEC2  = var.cloud_provisioning_ec2_policy_arn
   }
 
   cluster_service_cidr              = module.eks.cluster_service_cidr
