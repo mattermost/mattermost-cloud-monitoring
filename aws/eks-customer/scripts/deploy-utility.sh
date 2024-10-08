@@ -81,6 +81,11 @@ function replace_custom_values () {
   private_certificate_arn=$(escape_string ${PRIVATE_CERTIFICATE_ARN})
   allow_list_cidr_range=$(escape_string ${ALLOW_LIST_CIDR_RANGE})
 
+  if [[ -f "$gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml" ]]; then
+    echo "Custom values file already exists, skipping"
+    return
+  fi
+
   if [[  -f $gitops_apps_dir/custom-values-template/$utility_name-custom-values.yaml-template ]]; then
     cp $gitops_apps_dir/custom-values-template/$utility_name-custom-values.yaml-template $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
     sed -i  -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
