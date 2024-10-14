@@ -27,7 +27,7 @@ resource "null_resource" "bifrost_annotate_sa" {
   provisioner "local-exec" {
     command = <<EOF
       KUBECONFIG=${path.root}/kubeconfig-${module.eks.cluster_name} kubectl -n bifrost annotate sa bifrost \
-      eks.amazonaws.com/role-arn=arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/bifrost-${module.eks.cluster_name} \
+      eks.amazonaws.com/role-arn=arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/bifrost-${module.eks.cluster_name} \
       --overwrite=true
 EOF
   }
