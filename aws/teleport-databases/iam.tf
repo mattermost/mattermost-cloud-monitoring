@@ -15,16 +15,6 @@ resource "aws_iam_role" "TeleportDBAccessRole" {
   })
 }
 
-resource "aws_iam_policy" "teleport_main_teleport_database_access" {
-  name        = "teleport-main-teleport-database-access"
-  description = "Main policy for Teleport database access"
-
-  policy = jsonencode({
-    Version   = "2012-10-17"
-    Statement = []
-  })
-}
-
 resource "aws_iam_policy" "TeleportDBAccessAndDiscoveryPolicy" {
   name        = "TeleportDBAccessAndDiscoveryPolicy"
   description = "Policy to allow RDS connection and metadata discovery for Teleport"
@@ -70,11 +60,6 @@ resource "aws_iam_policy" "TeleportDBAccessAndDiscoveryPolicy" {
       }
     ]
   })
-}
-
-resource "aws_iam_role_policy_attachment" "attach_main_policy" {
-  role       = aws_iam_role.TeleportDBAccessRole.name
-  policy_arn = aws_iam_policy.teleport_main_teleport_database_access.arn
 }
 
 resource "aws_iam_role_policy_attachment" "attach_discovery_policy" {
