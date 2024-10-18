@@ -460,7 +460,9 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_p
   tags = merge(
     {
       "MattermostCloudInstallationDatabase" = "PostgreSQL/Aurora",
-      "MultitenantDatabaseID"               = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)
+      "MultitenantDatabaseID"               = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id),
+      "network"                             = "cloud",
+      "teleport-enabled"                    = "true"
     },
     var.tags
   )
