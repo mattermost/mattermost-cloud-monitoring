@@ -25,7 +25,9 @@ No modules.
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_remote_security_iam_role"></a> [remote\_security\_iam\_role](#input\_remote\_security\_iam\_role) | Remote Security IAM role | `string` | n/a | yes |
 
 ## Outputs
 
