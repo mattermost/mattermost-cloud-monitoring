@@ -12,14 +12,13 @@ resource "aws_elasticache_subnet_group" "redis_subnet_group" {
 }
 
 resource "aws_elasticache_cluster" "redis_cluster" {
-  cluster_id           = var.name
-  engine               = "redis"
-  engine_version       = var.redis_version
-  node_type            = var.instance_type
-  num_cache_nodes      = var.num_cache_nodes
-  parameter_group_name = var.parameter_group_name
-  port                 = var.port
-  subnet_group_name    = aws_elasticache_subnet_group.redis_subnet_group.name
+  cluster_id        = var.name
+  engine            = "redis"
+  engine_version    = var.redis_version
+  node_type         = var.instance_type
+  num_cache_nodes   = var.num_cache_nodes
+  port              = var.port
+  subnet_group_name = aws_elasticache_subnet_group.redis_subnet_group.name
 
   tags = {
     Name = var.name

@@ -36,12 +36,6 @@ variable "num_cache_nodes" {
   default     = 1
 }
 
-variable "parameter_group_name" {
-  description = "Parameter group name to use for Redis"
-  type        = string
-  default     = "default.redis7"
-}
-
 variable "port" {
   description = "Port for Redis"
   type        = number
