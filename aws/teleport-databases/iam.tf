@@ -1,6 +1,6 @@
 resource "aws_iam_role" "TeleportDBAccessRole" {
-  name = "TeleportDBAccessRole"
-
+  name        = "TeleportDBAccessRole"
+  description = "Used for teleport database access"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -8,7 +8,7 @@ resource "aws_iam_role" "TeleportDBAccessRole" {
         Action = "sts:AssumeRole"
         Effect = "Allow"
         Principal = {
-          Service = "ec2.amazonaws.com" # Adjust to the service you are using
+          AWS = var.remote_security_iam_role
         }
       }
     ]
