@@ -33,6 +33,4 @@ resource "null_resource" "remove-utilities" {
       ENV               = self.triggers.environment
     }
   }
-
-  depends_on = [ module.managed_node_group ]
 }
