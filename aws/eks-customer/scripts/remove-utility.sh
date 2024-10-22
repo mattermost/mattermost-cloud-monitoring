@@ -26,7 +26,7 @@ function remove_helm_values() {
 
 function wait_for_argocd() {
   echo "Waiting for argocd to sync"
-  sleep 300
+  sleep 180
 }
 
 function remove_cluster() {
