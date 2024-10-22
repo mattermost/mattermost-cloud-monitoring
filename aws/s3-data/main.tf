@@ -23,7 +23,6 @@ data "aws_iam_policy_document" "my_bucket_policy" {
   statement {
     effect = "Deny"
     actions = [
-      "s3:HeadBucket",
       "s3:ListBucket*",
       "s3:GetObject*"
     ]
