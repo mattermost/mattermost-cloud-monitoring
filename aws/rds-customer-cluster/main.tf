@@ -116,7 +116,9 @@ resource "aws_rds_cluster" "provisioning_rds_cluster_primary" {
       "MultitenantDatabaseID"               = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id),
       "VpcID"                               = var.primary_vpc_id,
       "DatabaseType"                        = var.multitenant_tag,
-      "MattermostCloudInstallationDatabase" = "PostgreSQL/Aurora"
+      "MattermostCloudInstallationDatabase" = "PostgreSQL/Aurora",
+      "network"                             = "cloud",
+      "teleport-enabled"                    = "true"
     },
     var.tags
   )
@@ -194,6 +196,8 @@ resource "aws_rds_cluster" "provisioning_rds_cluster_secondary" {
       "VpcID"                               = var.secondary_vpc_id,
       "DatabaseType"                        = var.multitenant_tag,
       "MattermostCloudInstallationDatabase" = "PostgreSQL/Aurora"
+      "network"                             = "cloud",
+      "teleport-enabled"                    = "true"
     },
     var.tags
   )
@@ -460,9 +464,7 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_p
   tags = merge(
     {
       "MattermostCloudInstallationDatabase" = "PostgreSQL/Aurora",
-      "MultitenantDatabaseID"               = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id),
-      "network"                             = "cloud",
-      "teleport-enabled"                    = "true"
+      "MultitenantDatabaseID"               = format("rds-cluster-multitenant-%s-%s", split("-", var.primary_vpc_id)[1], local.database_id)
     },
     var.tags
   )
