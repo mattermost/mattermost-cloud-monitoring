@@ -6,7 +6,7 @@ resource "null_resource" "wait_before_destroy_node_group" {
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
-      sleep 320
+      sleep 600
     EOT
   }
 }
