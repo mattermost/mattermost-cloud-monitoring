@@ -6,7 +6,6 @@ resource "null_resource" "remove-utilities" {
     gitops_repo_username = var.gitops_repo_username
     environment          = var.environment
     cluster_name         = module.eks.cluster_name
-    argocd_server        = var.argocd_server
   }
   provisioner "local-exec" {
     when    = destroy
@@ -19,7 +18,6 @@ resource "null_resource" "remove-utilities" {
       GIT_REPO_USERNAME = self.triggers.gitops_repo_username
       CLUSTER_NAME      = self.triggers.cluster_name
       ENV               = self.triggers.environment
-      ARGOCD_SERVER     = self.triggers.argocd_server
     }
   }
 }

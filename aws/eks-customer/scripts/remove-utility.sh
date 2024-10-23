@@ -12,7 +12,6 @@ function remove_utilities() {
     stage_changes $application_yaml
 }
 
-
 function remove_helm_values() {
     if [ -d $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME} ]; then
         echo "Removing helm values for cluster ${CLUSTER_NAME}"
@@ -24,7 +23,6 @@ function remove_helm_values() {
       echo "No helm values found for cluster ${CLUSTER_NAME}"
     fi
 }
-
 
 function wait_for_argocd() {
   echo "Waiting for argocd to sync"
