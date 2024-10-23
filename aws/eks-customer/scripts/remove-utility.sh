@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -x
 set -o errexit
 
 source $(dirname "$0")/utils.sh
@@ -67,10 +68,10 @@ function remove_cluster() {
 
 function main() {
   clone_repo
-  delete_utility_from_argocd
   remove_utilities
   remove_helm_values
   wait_for_argocd
+  delete_utility_from_argocd
   remove_cluster
   clean_up
 }
