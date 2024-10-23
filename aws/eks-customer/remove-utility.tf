@@ -1,16 +1,3 @@
-resource "null_resource" "wait_before_destroy_node_group" {
-  count = var.node_groups != {} ? 1 : 0
-  triggers = {
-    node_groups = join("\n", keys(module.managed_node_group)) #this is to ensure ordering, wait_before_destroy_node_group should run before managed_node_group destroy
-  }
-  provisioner "local-exec" {
-    when    = destroy
-    command = <<EOT
-      sleep 600
-    EOT
-  }
-}
-
 resource "null_resource" "remove-utilities" {
   count = var.node_groups != {} ? 1 : 0
   triggers = {
@@ -36,4 +23,19 @@ resource "null_resource" "remove-utilities" {
       ARGOCD_SERVER     = self.triggers.argocd_server
     }
   }
+}
+
+resource "null_resource" "wait_before_destroy_node_group" {
+  count = var.node_groups != {} ? 1 : 0
+  triggers = {
+    node_groups = join("\n", keys(module.managed_node_group)) #this is to ensure ordering, wait_before_destroy_node_group should run before managed_node_group destroy
+  }
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<EOT
+      echo "Starting to destroy node group"
+    EOT
+  }
+
+  depends_on = [null_resource.remove-utilities]
 }
