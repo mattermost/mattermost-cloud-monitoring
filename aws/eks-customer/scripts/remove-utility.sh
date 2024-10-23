@@ -26,7 +26,7 @@ function argocd_delete() {
   
   while true; do
     status=$(curl -s -o /dev/null -w "%{http_code}" -H 'Content-Type: application/json' -X "DELETE" "https://${ARGOCD_SERVER}/api/v1/applications/${argocd_utility_name}?cascade=false" --cookie "argocd.token=$ARGOCD_API_TOKEN")
-    if [[ $status -eq 200 ]]; then
+    if [[ $status -eq 200 || $status -eq 404 ]]; then
       echo "Utility ${argocd_utility_name} deleted successfully"
       break
     else

@@ -25,7 +25,7 @@ resource "null_resource" "remove-utilities" {
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
-      bash ${path.module}/scripts/remove-utility.sh
+      bash ${path.module}/scripts/remove-utility.sh ${self.triggers.utilities}
     EOT
     environment = {
       GIT_REPO_PATH     = self.triggers.gitops_repo_path
