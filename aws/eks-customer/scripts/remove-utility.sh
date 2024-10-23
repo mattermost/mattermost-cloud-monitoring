@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -x
-set -o errexit
+# set -o errexit
 
 source $(dirname "$0")/utils.sh
 
