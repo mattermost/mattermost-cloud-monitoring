@@ -5,20 +5,8 @@ set -x
 
 source $(dirname "$0")/utils.sh
 
+utilities_json=$1
 echo "REMOVE UTILITY FROM GITOPS REPO"
-
-function delete_utility_from_argocd() {
-  echo $utilities_json | jq -c '.[]' | while read -r utility; do
-    utility_name=$(echo "$utility" | jq -r '.name')
-    echo "Deleting utility ${utility_name} from argocd"
-    if [[ -z $ARGOCD_API_TOKEN ]]; then
-      echo "ARGOCD_API_TOKEN is not set"
-      exit 1
-    fi
-    argocd_utility_name="${utility_name}-sre-${ENV}-${CLUSTER_NAME}"
-    argocd_delete $argocd_utility_name
-  done
-}
 
 function argocd_delete() {
   echo "Deleting utilities from argocd"
@@ -33,6 +21,19 @@ function argocd_delete() {
       echo "Utility ${argocd_utility_name} deletion failed with status code ${status}"
       sleep 5
     fi
+  done
+}
+
+function delete_utility_from_argocd() {
+  echo $utilities_json | jq -c '.[]' | while read -r utility; do
+    utility_name=$(echo "$utility" | jq -r '.name')
+    echo "Deleting utility ${utility_name} from argocd"
+    if [[ -z $ARGOCD_API_TOKEN ]]; then
+      echo "ARGOCD_API_TOKEN is not set"
+      exit 1
+    fi
+    argocd_utility_name="${utility_name}-sre-${ENV}-${CLUSTER_NAME}"
+    argocd_delete $argocd_utility_name
   done
 }
 
