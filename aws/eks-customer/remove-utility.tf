@@ -20,11 +20,12 @@ resource "null_resource" "remove-utilities" {
     environment          = var.environment
     cluster_name         = module.eks.cluster_name
     argocd_server        = var.argocd_server
+    utilities            = var.utilities
   }
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
-      bash ${path.module}/scripts/remove-utility.sh '${jsonencode(var.utilities)}'
+      bash ${path.module}/scripts/remove-utility.sh '${jsonencode(self.triggers.utilities)}'
     EOT
     environment = {
       GIT_REPO_PATH     = self.triggers.gitops_repo_path
