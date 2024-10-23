@@ -71,7 +71,7 @@ function main() {
   remove_utilities
   remove_helm_values
   wait_for_argocd
-  # delete_utility_from_argocd
+  delete_utility_from_argocd
   remove_cluster
   clean_up
 }
