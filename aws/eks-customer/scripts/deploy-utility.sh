@@ -96,6 +96,7 @@ function replace_custom_values () {
               -e "s/<VPC_ID>/${VPC_ID}/g" \
               -e "s/<PRIVATE_DOMAIN>/${PRIVATE_DOMAIN}/g" \
               -e "s/<IP_RANGE>/$allow_list_cidr_range/g" \
+              -e "s/hostNetwork: false/hostNetwork: true/g" \
               -e "s/hostNetwork:\n  enabled: false/hostNetwork:\n  enabled: true/" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
 
     stage_changes $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
