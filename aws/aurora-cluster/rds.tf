@@ -55,9 +55,11 @@ resource "aws_rds_cluster" "provisioning_rds_cluster" {
 
   tags = merge(
     {
-      "VpcID"        = var.vpc_id,
-      "DatabaseType" = var.service_name,
-      "Name"         = var.service_name,
+      "VpcID"            = var.vpc_id,
+      "DatabaseType"     = var.service_name,
+      "Name"             = var.service_name,
+      "network"          = "cloud",
+      "teleport-enabled" = "true"
     },
     var.tags
   )
