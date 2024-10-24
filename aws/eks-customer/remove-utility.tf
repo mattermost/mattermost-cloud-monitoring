@@ -6,7 +6,6 @@ resource "null_resource" "remove-utilities" {
     gitops_repo_username = var.gitops_repo_username
     environment          = var.environment
     cluster_name         = module.eks.cluster_name
-    node_groups          = element(keys(module.managed_node_group), 0) #this is to ensure ordering, remove-utilities should run before managed_node_group destroy
   }
   provisioner "local-exec" {
     when    = destroy
@@ -21,4 +20,19 @@ resource "null_resource" "remove-utilities" {
       ENV               = self.triggers.environment
     }
   }
+}
+
+resource "null_resource" "wait_before_destroy_node_group" {
+  count = var.node_groups != {} ? 1 : 0
+  triggers = {
+    node_groups = join("\n", keys(module.managed_node_group)) #this is to ensure ordering, wait_before_destroy_node_group should run before managed_node_group destroy
+  }
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<EOT
+      echo "Starting to destroy node group"
+    EOT
+  }
+
+  depends_on = [null_resource.remove-utilities]
 }
