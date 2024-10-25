@@ -88,15 +88,16 @@ function replace_custom_values () {
 
   if [[  -f $gitops_apps_dir/custom-values-template/$utility_name-custom-values.yaml-template ]]; then
     cp $gitops_apps_dir/custom-values-template/$utility_name-custom-values.yaml-template $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
-    sed -i  -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
-            -e "s/<ENV>/${ENV}/g" \
-            -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
-            -e "s/<CERTIFICATE_ARN>/$certificate_arn/g" \
-            -e "s/<PRIVATE_CERTIFICATE_ARN>/$private_certificate_arn/g" \
-            -e "s/<VPC_ID>/${VPC_ID}/g" \
-            -e "s/<PRIVATE_DOMAIN>/${PRIVATE_DOMAIN}/g" \
-            -e "s/<IP_RANGE>/$allow_list_cidr_range/g" \
-            -e "s/hostNetwork: false/hostNetwork: true/g" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
+    sed -i -z -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
+              -e "s/<ENV>/${ENV}/g" \
+              -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
+              -e "s/<CERTIFICATE_ARN>/$certificate_arn/g" \
+              -e "s/<PRIVATE_CERTIFICATE_ARN>/$private_certificate_arn/g" \
+              -e "s/<VPC_ID>/${VPC_ID}/g" \
+              -e "s/<PRIVATE_DOMAIN>/${PRIVATE_DOMAIN}/g" \
+              -e "s/<IP_RANGE>/$allow_list_cidr_range/g" \
+              -e "s/hostNetwork: false/hostNetwork: true/g" \
+              -e "s/hostNetwork:\n  enabled: false/hostNetwork:\n  enabled: true/" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
 
     stage_changes $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
   fi
