@@ -31,7 +31,7 @@ module "managed_node_group" {
   desired_size = each.value.desired_size
 
   taints = each.value.taints
-  labels = each.value.labels ? each.value.labels : null
+  labels = each.value.labels
 
   tags = {
     Environment = var.environment
