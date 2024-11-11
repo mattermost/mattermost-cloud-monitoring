@@ -68,6 +68,7 @@
 | <a name="input_provisioner_replica_min"></a> [provisioner\_replica\_min](#input\_provisioner\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_provisioner_service_name"></a> [provisioner\_service\_name](#input\_provisioner\_service\_name) | n/a | `string` | `"provisioner"` | no |
 | <a name="input_provisioner_users"></a> [provisioner\_users](#input\_provisioner\_users) | n/a | `list(string)` | n/a | yes |
+| <a name="input_teleport_cidr"></a> [teleport\_cidr](#input\_teleport\_cidr) | The Teleport CIDR block to allow access | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
 
 ## Outputs

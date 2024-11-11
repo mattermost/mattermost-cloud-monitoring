@@ -186,3 +186,8 @@ variable "iam_database_authentication_enabled" {
   description = "Specifies whether or not mappings of AWS Identity and Access Management (IAM) accounts to database accounts is enabled."
   default     = false
 }
+
+variable "teleport_cidr" {
+  type        = string
+  description = "The Teleport CIDR block to allow access"
+}

@@ -30,6 +30,14 @@ resource "aws_security_group" "cws_postgres_sg" {
     description = "CLOUD VPN"
   }
 
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = var.teleport_cidr
+    description = "Allow the Teleport DB Service"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
