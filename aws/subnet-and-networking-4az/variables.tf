@@ -31,7 +31,8 @@ variable "transit_gtw_route_destination_gitlab" {
 }
 
 variable "teleport_cidr" {
-  type = list(string)
+  type        = list(string)
+  description = "The Teleport CIDR block to allow access"
 }
 
 variable "command_and_control_private_subnet_cidrs" {
