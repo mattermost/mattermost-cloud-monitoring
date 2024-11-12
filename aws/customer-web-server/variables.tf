@@ -165,6 +165,6 @@ variable "iam_database_authentication_enabled" {
 }
 
 variable "teleport_cidr" {
-  type        = string
+  type        = list(string)
   description = "The Teleport CIDR block to allow access"
 }
