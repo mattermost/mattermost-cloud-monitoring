@@ -67,3 +67,8 @@ variable "security_group_referencing_support" {
   type        = string
   default     = "enable"
 }
+
+variable "teleport_cidr" {
+  type        = string
+  description = "The Teleport DB CIDR block to allow access"
+}
