@@ -86,3 +86,11 @@ resource "aws_iam_user_policy_attachment" "attach_policy" {
   user       = aws_iam_user.my_user.name
   policy_arn = aws_iam_policy.my_user_policy.arn
 }
+
+# Enabling versioning control for my_bucket
+resource "aws_s3_bucket_versioning" "versioning_control" {
+  bucket = aws_s3_bucket.my_bucket.id
+  versioning_configuration {
+    status = var.s3_bucket_enable_versioning ? "Enabled" : "Disabled"
+  }
+}
