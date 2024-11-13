@@ -2,8 +2,8 @@ locals {
   flattened_routes = flatten([
     for vpc_cidr, routes in var.vpc_cidrs_tgw_routes : [
       for route in routes : {
-        vpc_cidr       = vpc_cidr
-        route_cidr     = route
+        vpc_cidr   = vpc_cidr
+        route_cidr = route
       }
     ]
   ])

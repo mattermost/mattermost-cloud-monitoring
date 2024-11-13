@@ -2,8 +2,8 @@ locals {
   flattened_routes = flatten([
     for vpc_cidr, routes in var.vpc_cidrs_tgw_routes : [
       for route in routes : {
-        vpc_cidr       = vpc_cidr
-        route_cidr     = route
+        vpc_cidr   = vpc_cidr
+        route_cidr = route
       }
     ]
   ])
@@ -318,7 +318,7 @@ resource "aws_route" "private_nat_gateway_1f" {
 }
 
 resource "aws_route" "transit_gateway" {
-  for_each = var.single_route_table_deployment == true ? { for idx, route in local.flattened_routes : "${route.vpc_cidr}-${idx}" => route } : {}
+  for_each               = var.single_route_table_deployment == true ? { for idx, route in local.flattened_routes : "${route.vpc_cidr}-${idx}" => route } : {}
   route_table_id         = aws_route_table.private[each.value.vpc_cidr]["id"]
   destination_cidr_block = each.value.route_cidr
   transit_gateway_id     = var.transit_gateway_id
