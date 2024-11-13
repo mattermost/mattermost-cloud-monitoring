@@ -14,20 +14,16 @@ variable "private_route_table_ids" {
   type = list(string)
 }
 
+variable "private_tgw_routes" {
+  type = list(string)
+}
+
 variable "public_route_table_ids" {
   type = list(string)
 }
 
-variable "transit_gtw_route_destination" {
-  type = string
-}
-
-variable "transit_gtw_route_destination_security" {
-  type = string
-}
-
-variable "transit_gtw_route_destination_gitlab" {
-  type = string
+variable "public_tgw_routes" {
+  type = list(string)
 }
 
 variable "security_group_referencing_support" {

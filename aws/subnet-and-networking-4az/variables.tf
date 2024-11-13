@@ -2,6 +2,11 @@ variable "vpc_cidrs" {
   type = list(string)
 }
 
+variable "vpc_cidrs_tgw_routes" {
+  description = "Map of VPC CIDRs to a list of route destinations for tgw"
+  type        = map(list(string))
+}
+
 variable "vpc_azs" {
   type = list(string)
 }
@@ -15,18 +20,6 @@ variable "name" {
 }
 
 variable "transit_gateway_id" {
-  type = string
-}
-
-variable "transit_gtw_route_destination" {
-  type = string
-}
-
-variable "transit_gtw_route_destination_security" {
-  type = string
-}
-
-variable "transit_gtw_route_destination_gitlab" {
   type = string
 }
 
