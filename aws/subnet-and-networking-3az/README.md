@@ -45,26 +45,10 @@ No modules.
 | [aws_route.transit_gateway_1a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.transit_gateway_1b](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.transit_gateway_1c](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_gitlab](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_gitlab_1a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_gitlab_1b](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_gitlab_1c](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.transit_gateway_public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.transit_gateway_public_1a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.transit_gateway_public_1b](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.transit_gateway_public_1c](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_public_gitlab](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_public_gitlab_1a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_public_gitlab_1b](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_public_gitlab_1c](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_public_security](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_public_security_1a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_public_security_1b](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_public_security_1c](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_security](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_security_1a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_security_1b](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.transit_gateway_security_1c](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route_table.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table.private_1a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table.private_1b](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
@@ -131,11 +115,9 @@ No modules.
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | n/a | yes |
 | <a name="input_teleport_cidr"></a> [teleport\_cidr](#input\_teleport\_cidr) | The Teleport CIDR block to allow access | `list(string)` | n/a | yes |
 | <a name="input_transit_gateway_id"></a> [transit\_gateway\_id](#input\_transit\_gateway\_id) | n/a | `string` | n/a | yes |
-| <a name="input_transit_gtw_route_destination"></a> [transit\_gtw\_route\_destination](#input\_transit\_gtw\_route\_destination) | n/a | `string` | n/a | yes |
-| <a name="input_transit_gtw_route_destination_gitlab"></a> [transit\_gtw\_route\_destination\_gitlab](#input\_transit\_gtw\_route\_destination\_gitlab) | n/a | `string` | n/a | yes |
-| <a name="input_transit_gtw_route_destination_security"></a> [transit\_gtw\_route\_destination\_security](#input\_transit\_gtw\_route\_destination\_security) | n/a | `string` | n/a | yes |
 | <a name="input_vpc_azs"></a> [vpc\_azs](#input\_vpc\_azs) | n/a | `list(string)` | n/a | yes |
 | <a name="input_vpc_cidrs"></a> [vpc\_cidrs](#input\_vpc\_cidrs) | n/a | `list(string)` | n/a | yes |
+| <a name="input_vpc_cidrs_tgw_routes"></a> [vpc\_cidrs\_tgw\_routes](#input\_vpc\_cidrs\_tgw\_routes) | Map of VPC CIDRs to a list of route destinations | `map(list(string))` | n/a | yes |
 | <a name="input_vpc_endpoint_service"></a> [vpc\_endpoint\_service](#input\_vpc\_endpoint\_service) | This the VPC endpoint service, for example com.amazonaws.us-east-1.s3 | `string` | n/a | yes |
 | <a name="input_vpn_cidrs"></a> [vpn\_cidrs](#input\_vpn\_cidrs) | n/a | `list(string)` | n/a | yes |
 
