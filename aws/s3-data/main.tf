@@ -18,6 +18,8 @@ resource "aws_s3_bucket_policy" "my_bucket" {
   policy = data.aws_iam_policy_document.my_bucket_policy.json
 }
 
+data "aws_caller_identity" "current" {}
+
 # Define the IAM policy for the S3 bucket
 data "aws_iam_policy_document" "my_bucket_policy" {
   statement {
@@ -41,6 +43,7 @@ data "aws_iam_policy_document" "my_bucket_policy" {
 
       values = flatten([[
         aws_iam_user.my_user.unique_id,
+        data.aws_caller_identity.current.user_id,
         "AROA*"
       ]])
     }
@@ -80,6 +83,7 @@ EOF
 
 }
 
+data "aws_caller_identity" "current" {}
 
 # Attach the policy to the IAM user
 resource "aws_iam_user_policy_attachment" "attach_policy" {
