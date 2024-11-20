@@ -83,8 +83,6 @@ EOF
 
 }
 
-data "aws_caller_identity" "current" {}
-
 # Attach the policy to the IAM user
 resource "aws_iam_user_policy_attachment" "attach_policy" {
   user       = aws_iam_user.my_user.name
