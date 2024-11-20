@@ -44,6 +44,7 @@
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
 | <a name="input_gitlab_cidr"></a> [gitlab\_cidr](#input\_gitlab\_cidr) | The gitlab CIDR | `list(any)` | n/a | yes |
 | <a name="input_grafana_cidr"></a> [grafana\_cidr](#input\_grafana\_cidr) | The centralised CIDR | `list(any)` | n/a | yes |
+| <a name="input_grant_privileges_to_schemas_sg"></a> [grant\_privileges\_to\_schemas\_sg](#input\_grant\_privileges\_to\_schemas\_sg) | n/a | `string` | `""` | no |
 | <a name="input_iam_database_authentication_enabled"></a> [iam\_database\_authentication\_enabled](#input\_iam\_database\_authentication\_enabled) | Specifies whether or not mappings of AWS Identity and Access Management (IAM) accounts to database accounts is enabled. | `bool` | `false` | no |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | n/a | `list(string)` | n/a | yes |
 | <a name="input_provisioner_apply_immediately"></a> [provisioner\_apply\_immediately](#input\_provisioner\_apply\_immediately) | n/a | `bool` | `false` | no |
@@ -58,7 +59,7 @@
 | <a name="input_provisioner_db_cluster_instance_identifier"></a> [provisioner\_db\_cluster\_instance\_identifier](#input\_provisioner\_db\_cluster\_instance\_identifier) | n/a | `string` | n/a | yes |
 | <a name="input_provisioner_db_cluster_instance_type"></a> [provisioner\_db\_cluster\_instance\_type](#input\_provisioner\_db\_cluster\_instance\_type) | n/a | `string` | `"db.serverless"` | no |
 | <a name="input_provisioner_enable_rds_alerting"></a> [provisioner\_enable\_rds\_alerting](#input\_provisioner\_enable\_rds\_alerting) | n/a | `bool` | `false` | no |
-| <a name="input_provisioner_enabled_cloudwatch_logs_exports"></a> [provisioner\_enabled\_cloudwatch\_logs\_exports](#input\_provisioner\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br>  "postgresql"<br>]</pre> | no |
+| <a name="input_provisioner_enabled_cloudwatch_logs_exports"></a> [provisioner\_enabled\_cloudwatch\_logs\_exports](#input\_provisioner\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br/>  "postgresql"<br/>]</pre> | no |
 | <a name="input_provisioner_kms_key"></a> [provisioner\_kms\_key](#input\_provisioner\_kms\_key) | n/a | `string` | n/a | yes |
 | <a name="input_provisioner_max_capacity"></a> [provisioner\_max\_capacity](#input\_provisioner\_max\_capacity) | n/a | `number` | `4` | no |
 | <a name="input_provisioner_min_capacity"></a> [provisioner\_min\_capacity](#input\_provisioner\_min\_capacity) | n/a | `number` | `0.5` | no |

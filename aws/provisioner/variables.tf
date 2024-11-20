@@ -174,3 +174,8 @@ variable "teleport_cidr" {
   type        = list(string)
   description = "The Teleport CIDR block to allow access"
 }
+
+variable "grant_privileges_to_schemas_sg" {
+  type    = string
+  default = ""
+}
