@@ -246,3 +246,27 @@ variable "device_name" {
   type        = string
   default     = "/dev/xvda"
 }
+
+variable "volume_iops" {
+  description = "The amount of provisioned IOPS"
+  type        = number
+  default     = 3000
+}
+
+variable "volume_throughput" {
+  description = "The throughput of the EBS volume"
+  type        = number
+  default     = 125
+}
+
+variable "volume_encrypted" {
+  description = "Indicates whether the EBS volume is encrypted"
+  type        = bool
+  default     = true
+}
+
+variable "volume_delete_on_termination" {
+  description = "Indicates whether the EBS volume is deleted on termination"
+  type        = bool
+  default     = true
+}

@@ -18,10 +18,10 @@ module "managed_node_group" {
       ebs = {
         volume_size           = var.volume_size
         volume_type           = "gp3"
-        iops                  = 3000
-        throughput            = 125
-        encrypted             = true
-        delete_on_termination = true
+        iops                  = var.volume_iops
+        throughput            = var.volume_throughput
+        encrypted             = var.volume_encrypted
+        delete_on_termination = var.volume_delete_on_termination
       }
     }
   }
