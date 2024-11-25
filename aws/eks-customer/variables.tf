@@ -235,3 +235,14 @@ variable "iam_role_use_name_prefix" {
   default     = false
 }
 
+variable "volume_size" {
+  description = "The size of the EBS volume"
+  type        = number
+  default     = 128
+}
+
+variable "device_name" {
+  description = "The device name"
+  type        = string
+  default     = "/dev/xvda"
+}

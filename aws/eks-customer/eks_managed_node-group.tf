@@ -12,6 +12,20 @@ module "managed_node_group" {
   launch_template_use_name_prefix = var.launch_template_use_name_prefix
   iam_role_use_name_prefix        = var.iam_role_use_name_prefix
 
+  block_device_mappings = {
+    xvda = {
+      device_name = var.device_name
+      ebs         = {
+        volume_size           = var.volume_size
+        volume_type           = "gp3"
+        iops                  = 3000
+        throughput            = 125
+        encrypted             = true
+        delete_on_termination = true
+      }
+    }
+  }
+
   enable_bootstrap_user_data = true
   ami_id                     = each.value.ami_id
   instance_types             = each.value.instance_types
