@@ -15,7 +15,7 @@ module "managed_node_group" {
   block_device_mappings = {
     xvda = {
       device_name = var.device_name
-      ebs         = {
+      ebs = {
         volume_size           = var.volume_size
         volume_type           = "gp3"
         iops                  = 3000
