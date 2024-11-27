@@ -51,7 +51,7 @@
 | <a name="input_elrond_db_cluster_instance_identifier"></a> [elrond\_db\_cluster\_instance\_identifier](#input\_elrond\_db\_cluster\_instance\_identifier) | n/a | `string` | n/a | yes |
 | <a name="input_elrond_db_cluster_instance_type"></a> [elrond\_db\_cluster\_instance\_type](#input\_elrond\_db\_cluster\_instance\_type) | n/a | `string` | `"db.serverless"` | no |
 | <a name="input_elrond_enable_rds_alerting"></a> [elrond\_enable\_rds\_alerting](#input\_elrond\_enable\_rds\_alerting) | n/a | `bool` | `false` | no |
-| <a name="input_elrond_enabled_cloudwatch_logs_exports"></a> [elrond\_enabled\_cloudwatch\_logs\_exports](#input\_elrond\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br>  "postgresql"<br>]</pre> | no |
+| <a name="input_elrond_enabled_cloudwatch_logs_exports"></a> [elrond\_enabled\_cloudwatch\_logs\_exports](#input\_elrond\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br/>  "postgresql"<br/>]</pre> | no |
 | <a name="input_elrond_kms_key"></a> [elrond\_kms\_key](#input\_elrond\_kms\_key) | n/a | `string` | n/a | yes |
 | <a name="input_elrond_max_capacity"></a> [elrond\_max\_capacity](#input\_elrond\_max\_capacity) | n/a | `number` | `4` | no |
 | <a name="input_elrond_min_capacity"></a> [elrond\_min\_capacity](#input\_elrond\_min\_capacity) | n/a | `number` | `0.5` | no |

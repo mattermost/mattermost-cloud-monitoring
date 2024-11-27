@@ -43,6 +43,14 @@ resource "aws_security_group" "cec_to_postgress" {
     description = "Gitlab Access for Provisioner DB"
   }
 
+  ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [var.grant_privileges_to_schemas_sg]
+    description     = "Grant Privileges to Schemas Lambda access for Provisioner DB"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
