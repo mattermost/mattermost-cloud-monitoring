@@ -90,6 +90,7 @@
 | <a name="input_create_iam_role"></a> [create\_iam\_role](#input\_create\_iam\_role) | Determines whether an IAM role is created or to use an existing IAM role | `bool` | `true` | no |
 | <a name="input_create_kms_key"></a> [create\_kms\_key](#input\_create\_kms\_key) | Controls if a KMS key for cluster encryption should be created | `bool` | `false` | no |
 | <a name="input_create_node_security_group"></a> [create\_node\_security\_group](#input\_create\_node\_security\_group) | Indicates whether or not to create a security group for the EKS nodes | `bool` | `false` | no |
+| <a name="input_device_name"></a> [device\_name](#input\_device\_name) | The device name | `string` | `"/dev/xvda"` | no |
 | <a name="input_ebs_csi_driver_version"></a> [ebs\_csi\_driver\_version](#input\_ebs\_csi\_driver\_version) | The version of the EBS CSI driver addon | `string` | n/a | yes |
 | <a name="input_eks_cluster_admin_policy_arn"></a> [eks\_cluster\_admin\_policy\_arn](#input\_eks\_cluster\_admin\_policy\_arn) | The ARN of the AmazonEKSClusterAdminPolicy | `string` | `"arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment | `string` | n/a | yes |
@@ -109,6 +110,11 @@
 | <a name="input_staff_role_arn"></a> [staff\_role\_arn](#input\_staff\_role\_arn) | The staff role arn | `string` | n/a | yes |
 | <a name="input_use_name_prefix"></a> [use\_name\_prefix](#input\_use\_name\_prefix) | Determines whether to use `name` as is or create a unique name beginning with the `name` as the prefix | `bool` | `false` | no |
 | <a name="input_utilities"></a> [utilities](#input\_utilities) | The list of utilities | <pre>list(object({<br/>    name               = string<br/>    enable_irsa        = bool<br/>    internal_dns       = any<br/>    service_account    = string<br/>    cluster_label_type = string<br/>  }))</pre> | n/a | yes |
+| <a name="input_volume_delete_on_termination"></a> [volume\_delete\_on\_termination](#input\_volume\_delete\_on\_termination) | Indicates whether the EBS volume is deleted on termination | `bool` | `true` | no |
+| <a name="input_volume_encrypted"></a> [volume\_encrypted](#input\_volume\_encrypted) | Indicates whether the EBS volume is encrypted | `bool` | `true` | no |
+| <a name="input_volume_iops"></a> [volume\_iops](#input\_volume\_iops) | The amount of provisioned IOPS | `number` | `3000` | no |
+| <a name="input_volume_size"></a> [volume\_size](#input\_volume\_size) | The size of the EBS volume | `number` | `128` | no |
+| <a name="input_volume_throughput"></a> [volume\_throughput](#input\_volume\_throughput) | The throughput of the EBS volume | `number` | `125` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC ID for the EKS cluster | `string` | n/a | yes |
 | <a name="input_wait_for_cluster_timeout"></a> [wait\_for\_cluster\_timeout](#input\_wait\_for\_cluster\_timeout) | The timeout to wait for the EKS cluster to be ready | `string` | `"5m"` | no |
 
