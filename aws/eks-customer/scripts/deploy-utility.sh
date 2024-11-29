@@ -91,6 +91,7 @@ function replace_custom_values () {
     sed -i -z -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
               -e "s/<ENV>/${ENV}/g" \
               -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
+              -e "s/<AWS_ACCOUNT>/${AWS_ACCOUNT}/g" \
               -e "s/<CERTIFICATE_ARN>/$certificate_arn/g" \
               -e "s/<PRIVATE_CERTIFICATE_ARN>/$private_certificate_arn/g" \
               -e "s/<VPC_ID>/${VPC_ID}/g" \
