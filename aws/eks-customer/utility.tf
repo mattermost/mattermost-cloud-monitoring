@@ -18,6 +18,7 @@ resource "null_resource" "deploy-utilites" {
       CA_DATA                 = module.eks.cluster_certificate_authority_data
       ARGOCD_ROLE_ARN         = var.argocd_role_arn
       ARGOCD_SERVER           = var.argocd_server
+      AWS_ACCOUNT             = data.aws_caller_identity.current.account_id
     }
   }
 
