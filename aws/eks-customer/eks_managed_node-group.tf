@@ -12,6 +12,8 @@ module "managed_node_group" {
   launch_template_use_name_prefix = var.launch_template_use_name_prefix
   iam_role_use_name_prefix        = var.iam_role_use_name_prefix
 
+  network_interfaces = each.value.network_interfaces
+
   block_device_mappings = {
     xvda = {
       device_name = var.device_name
@@ -38,7 +40,7 @@ module "managed_node_group" {
   cluster_service_cidr              = module.eks.cluster_service_cidr
   cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
   vpc_security_group_ids            = strcontains(each.key, "calls") ? data.aws_security_groups.calls.ids : data.aws_security_groups.nodes.ids
-  subnet_ids                        = strcontains(each.key, "monitoring") ? data.aws_subnets.private-a.ids : data.aws_subnets.private.ids
+  subnet_ids                        = (each.value.public_subnet == false) ? (strcontains(each.key, "monitoring") ? data.aws_subnets.private-a.ids : data.aws_subnets.private.ids) : data.aws_subnets.public.ids
 
   min_size     = each.value.min_size
   max_size     = each.value.max_size

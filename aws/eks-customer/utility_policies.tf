@@ -84,3 +84,31 @@ resource "aws_iam_policy" "velero" {
 }
 EOF
 }
+
+resource "aws_iam_policy" "external-secrets" {
+  for_each = { for k, v in var.utilities : k => v if v.name == "external-secrets" }
+
+  name        = "external-secrets-${module.eks.cluster_name}"
+  path        = "/"
+  description = "Policy for external-secrets utility."
+
+  policy = <<EOF
+{
+    "Statement": [
+        {
+            "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:ListSecretVersionIds"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:secretsmanager:us-east-1:${data.aws_caller_identity.current.account_id}:secret:app-bifrost-*"
+            ]
+        }
+    ],
+    "Version": "2012-10-17"
+}
+EOF
+}
