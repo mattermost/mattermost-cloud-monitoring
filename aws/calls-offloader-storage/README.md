@@ -47,7 +47,7 @@ No modules.
 | <a name="input_root_kms_key_id"></a> [root\_kms\_key\_id](#input\_root\_kms\_key\_id) | Optional KMS Key ID for encrypting the root volume of the NFS server. Leave empty to use the default AWS-managed KMS key. | `string` | `""` | no |
 | <a name="input_root_volume_size"></a> [root\_volume\_size](#input\_root\_volume\_size) | Size of the root volume in GiB for the NFS server. | `number` | `20` | no |
 | <a name="input_volume_type"></a> [volume\_type](#input\_volume\_type) | Type of volumefor the NFS server. | `string` | `"gp3"` | no |
-| <a name="input_vpc_configurations"></a> [vpc\_configurations](#input\_vpc\_configurations) | Map of VPC configurations, including VPC ID and subnets. | <pre>map(object({<br/>    vpc_id     = string<br/>    subnet_ids = list(string)<br/>  }))</pre> | n/a | yes |
+| <a name="input_vpc_configurations"></a> [vpc\_configurations](#input\_vpc\_configurations) | Map of VPC configurations, including VPC ID and subnets. | <pre>map(object({<br>    vpc_id     = string<br>    subnet_ids = list(string)<br>  }))</pre> | n/a | yes |
 
 ## Outputs
 
