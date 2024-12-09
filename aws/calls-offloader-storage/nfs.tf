@@ -1,3 +1,8 @@
+data "aws_subnet" "nfs_subnets" {
+  for_each = toset(flatten([for vpc_name, vpc_config in var.vpc_configurations : vpc_config.subnet_ids]))
+  id       = each.value
+}
+
 resource "aws_security_group" "nfs_sg" {
   for_each    = var.enabled_nfs ? var.vpc_configurations : {}
   name        = "${each.key}-nfs-sg"
@@ -8,7 +13,7 @@ resource "aws_security_group" "nfs_sg" {
     from_port   = 2049
     to_port     = 2049
     protocol    = "tcp"
-    cidr_blocks = each.value.subnet_ids
+    cidr_blocks = [for subnet in var.vpc_configurations[each.key].subnet_ids : data.aws_subnet.nfs_subnets[subnet].cidr_block]
     description = "Allow port 2049"
   }
 
@@ -34,8 +39,8 @@ resource "aws_instance" "nfs_server" {
   subnet_id       = element(each.value.subnet_ids, 0)
   security_groups = [aws_security_group.nfs_sg[each.key].id]
   monitoring      = var.detailed_monitoring
-  metadata_options {
 
+  metadata_options {
     http_endpoint = "enabled"
     http_tokens   = "required"
   }
@@ -87,3 +92,4 @@ resource "aws_volume_attachment" "nfs_attachment" {
   instance_id  = aws_instance.nfs_server[each.key].id
   force_detach = true
 }
+
