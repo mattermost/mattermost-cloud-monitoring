@@ -13,6 +13,10 @@ resource "aws_efs_file_system" "efs" {
   }
 }
 
+data "aws_subnet" "efs_subnets" {
+  for_each = toset(flatten([for vpc_name, vpc_config in var.vpc_configurations : vpc_config.subnet_ids]))
+  id       = each.value
+}
 
 resource "aws_security_group" "efs_sg" {
   for_each    = var.enabled_efs ? var.vpc_configurations : {}
@@ -24,9 +28,8 @@ resource "aws_security_group" "efs_sg" {
     from_port   = 2049
     to_port     = 2049
     protocol    = "tcp"
-    cidr_blocks = each.value.subnet_ids
+    cidr_blocks = [for subnet in var.vpc_configurations[each.key].subnet_ids : data.aws_subnet.efs_subnets[subnet].cidr_block]
     description = "Allow port 2049"
-
   }
 
   egress {
@@ -43,19 +46,29 @@ resource "aws_security_group" "efs_sg" {
   }
 }
 
+locals {
+  efs_mount_targets = var.enabled_efs ? flatten([
+    for vpc_name, vpc_config in var.vpc_configurations : [
+      for subnet_id in vpc_config.subnet_ids : {
+        key            = "${vpc_name}-${subnet_id}"
+        subnet_id      = subnet_id
+        vpc_id         = vpc_config.vpc_id
+        security_group = aws_security_group.efs_sg[vpc_name].id
+        file_system_id = aws_efs_file_system.efs[vpc_name].id
+      }
+    ]
+  ]) : []
+}
+
 resource "aws_efs_mount_target" "efs_mount" {
-  for_each = var.enabled_efs ? {
-    for vpc_name, vpc_config in var.vpc_configurations :
-    vpc_name => flatten([for subnet_id in vpc_config.subnet_ids : {
-      vpc_id         = vpc_config.vpc_id
-      subnet_id      = subnet_id
-      security_group = aws_security_group.efs_sg[vpc_name].id
-      file_system_id = aws_efs_file_system.efs[vpc_name].id
-    }])
-  } : {}
+  for_each = { for obj in local.efs_mount_targets : obj.key => obj }
 
   subnet_id       = each.value.subnet_id
   security_groups = [each.value.security_group]
   file_system_id  = each.value.file_system_id
 }
+
+
+
+
 
