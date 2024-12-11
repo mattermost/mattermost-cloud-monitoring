@@ -35,6 +35,7 @@
 | [aws_ec2_tag.vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_tag) | resource |
 | [aws_eks_addon.coredns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.ebs_csi_driver](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
+| [aws_eks_addon.efs_csi_driver](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.kube_proxy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.snapshot-controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_iam_policy.bifrost](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
@@ -93,6 +94,7 @@
 | <a name="input_create_node_security_group"></a> [create\_node\_security\_group](#input\_create\_node\_security\_group) | Indicates whether or not to create a security group for the EKS nodes | `bool` | `false` | no |
 | <a name="input_device_name"></a> [device\_name](#input\_device\_name) | The device name | `string` | `"/dev/xvda"` | no |
 | <a name="input_ebs_csi_driver_version"></a> [ebs\_csi\_driver\_version](#input\_ebs\_csi\_driver\_version) | The version of the EBS CSI driver addon | `string` | n/a | yes |
+| <a name="input_efs_csi_driver_version"></a> [efs\_csi\_driver\_version](#input\_efs\_csi\_driver\_version) | The version of the EFS CSI driver addon | `string` | n/a | yes |
 | <a name="input_eks_cluster_admin_policy_arn"></a> [eks\_cluster\_admin\_policy\_arn](#input\_eks\_cluster\_admin\_policy\_arn) | The ARN of the AmazonEKSClusterAdminPolicy | `string` | `"arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment | `string` | n/a | yes |
 | <a name="input_gitops_repo_path"></a> [gitops\_repo\_path](#input\_gitops\_repo\_path) | The git repo url | `string` | n/a | yes |

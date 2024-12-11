@@ -70,6 +70,11 @@ variable "ebs_csi_driver_version" {
   type        = string
 }
 
+variable "efs_csi_driver_version" {
+  description = "The version of the EFS CSI driver addon"
+  type        = string
+}
+
 variable "snapshot_controller_version" {
   type = string
 }

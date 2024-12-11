@@ -29,3 +29,11 @@ resource "aws_eks_addon" "snapshot-controller" {
 
   depends_on = [time_sleep.wait_for_cluster, module.eks, module.managed_node_group.node_group_status]
 }
+
+resource "aws_eks_addon" "efs_csi_driver" {
+  cluster_name  = module.eks.cluster_name
+  addon_name    = "aws-efs-csi-driver"
+  addon_version = var.efs_csi_driver_version
+
+  depends_on = [time_sleep.wait_for_cluster, module.eks, module.managed_node_group.node_group_status]
+}
