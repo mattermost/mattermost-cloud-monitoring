@@ -4,3 +4,8 @@ variable "secrets_suffix" {
   type        = string
   default     = "*"
 }
+
+variable "service_account_role_arn" {
+  description = "The service account role that will be able to assume this role"
+  type        = string
+}

@@ -1,19 +1,17 @@
 resource "aws_iam_role" "github_secrets_role" {
-  name               = "GitHubSecretsAccessRole"
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
+  name = "GitHubSecretsAccessRole"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          AWS = var.service_account_role_arn
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
 }
 
 # IAM Policy for Secrets Manager and KMS
