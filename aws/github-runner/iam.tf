@@ -8,7 +8,10 @@ resource "aws_iam_role" "github_secrets_role" {
         Principal = {
           AWS = var.service_account_role_arn
         }
-        Action = "sts:AssumeRole"
+        Action = [
+          "sts:TagSession",
+          "sts:AssumeRole"
+        ]
       }
     ]
   })
