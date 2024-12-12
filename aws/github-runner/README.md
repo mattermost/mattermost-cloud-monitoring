@@ -30,6 +30,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_secrets_suffix"></a> [secrets\_suffix](#input\_secrets\_suffix) | Suffix for the secrets ARNs (e.g., GitHubSecret-*) | `string` | `"*"` | no |
+| <a name="input_service_account_role_arn"></a> [service\_account\_role\_arn](#input\_service\_account\_role\_arn) | The service account role that will be able to assume this role | `string` | n/a | yes |
 
 ## Outputs
 
