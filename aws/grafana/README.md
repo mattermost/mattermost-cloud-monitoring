@@ -52,7 +52,7 @@
 | <a name="input_grafana_db_cluster_instance_identifier"></a> [grafana\_db\_cluster\_instance\_identifier](#input\_grafana\_db\_cluster\_instance\_identifier) | n/a | `string` | n/a | yes |
 | <a name="input_grafana_db_cluster_instance_type"></a> [grafana\_db\_cluster\_instance\_type](#input\_grafana\_db\_cluster\_instance\_type) | n/a | `string` | `"db.serverless"` | no |
 | <a name="input_grafana_enable_rds_alerting"></a> [grafana\_enable\_rds\_alerting](#input\_grafana\_enable\_rds\_alerting) | n/a | `bool` | `false` | no |
-| <a name="input_grafana_enabled_cloudwatch_logs_exports"></a> [grafana\_enabled\_cloudwatch\_logs\_exports](#input\_grafana\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br/>  "postgresql"<br/>]</pre> | no |
+| <a name="input_grafana_enabled_cloudwatch_logs_exports"></a> [grafana\_enabled\_cloudwatch\_logs\_exports](#input\_grafana\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br>  "postgresql"<br>]</pre> | no |
 | <a name="input_grafana_kms_key"></a> [grafana\_kms\_key](#input\_grafana\_kms\_key) | n/a | `string` | n/a | yes |
 | <a name="input_grafana_max_capacity"></a> [grafana\_max\_capacity](#input\_grafana\_max\_capacity) | n/a | `number` | `4` | no |
 | <a name="input_grafana_min_capacity"></a> [grafana\_min\_capacity](#input\_grafana\_min\_capacity) | n/a | `number` | `0.5` | no |

@@ -54,7 +54,7 @@ No modules.
 | <a name="input_dedicated_master_enabled"></a> [dedicated\_master\_enabled](#input\_dedicated\_master\_enabled) | n/a | `bool` | n/a | yes |
 | <a name="input_dedicated_master_type"></a> [dedicated\_master\_type](#input\_dedicated\_master\_type) | n/a | `string` | n/a | yes |
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | n/a | `string` | n/a | yes |
-| <a name="input_elasticsearch_access_policy_principal"></a> [elasticsearch\_access\_policy\_principal](#input\_elasticsearch\_access\_policy\_principal) | Which AWS resources should have access to the Elasticsearch cluster | `list(string)` | <pre>[<br/>  "*"<br/>]</pre> | no |
+| <a name="input_elasticsearch_access_policy_principal"></a> [elasticsearch\_access\_policy\_principal](#input\_elasticsearch\_access\_policy\_principal) | Which AWS resources should have access to the Elasticsearch cluster | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
 | <a name="input_es_instance_type"></a> [es\_instance\_type](#input\_es\_instance\_type) | n/a | `string` | n/a | yes |
 | <a name="input_es_version"></a> [es\_version](#input\_es\_version) | n/a | `string` | n/a | yes |
