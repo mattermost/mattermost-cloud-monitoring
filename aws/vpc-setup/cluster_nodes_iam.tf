@@ -50,7 +50,8 @@ resource "aws_iam_policy" "node_policy" {
                 "autoscaling:DescribeAutoScalingInstances",
                 "elasticloadbalancing:ModifyTargetGroup",
                 "elasticloadbalancing:ModifyListener",
-                "ec2:AuthorizeSecurityGroupIngress"
+                "ec2:AuthorizeSecurityGroupIngress",
+                "elasticfilesystem:DescribeMountTargets"
             ],
             "Effect": "Allow",
             "Resource": [
