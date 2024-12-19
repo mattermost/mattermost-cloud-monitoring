@@ -84,7 +84,7 @@
 | <a name="input_cluster_endpoint_private_access"></a> [cluster\_endpoint\_private\_access](#input\_cluster\_endpoint\_private\_access) | Indicates whether or not the Amazon EKS private API server endpoint is enabled | `bool` | n/a | yes |
 | <a name="input_cluster_endpoint_public_access"></a> [cluster\_endpoint\_public\_access](#input\_cluster\_endpoint\_public\_access) | Indicates whether or not the Amazon EKS public API server endpoint is enabled | `bool` | n/a | yes |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | The cluster name | `string` | n/a | yes |
-| <a name="input_cluster_security_group_additional_rules"></a> [cluster\_security\_group\_additional\_rules](#input\_cluster\_security\_group\_additional\_rules) | The list of additional security group rules for the EKS cluster | <pre>map(object({<br/>    from_port   = number<br/>    to_port     = number<br/>    protocol    = string<br/>    cidr_blocks = list(string)<br/>    type        = string<br/>  }))</pre> | n/a | yes |
+| <a name="input_cluster_security_group_additional_rules"></a> [cluster\_security\_group\_additional\_rules](#input\_cluster\_security\_group\_additional\_rules) | The list of additional security group rules for the EKS cluster | <pre>map(object({<br>    from_port   = number<br>    to_port     = number<br>    protocol    = string<br>    cidr_blocks = list(string)<br>    type        = string<br>  }))</pre> | n/a | yes |
 | <a name="input_cluster_tags"></a> [cluster\_tags](#input\_cluster\_tags) | A map of tags to add to all resources | `map(string)` | `{}` | no |
 | <a name="input_cluster_version"></a> [cluster\_version](#input\_cluster\_version) | The Kubernetes version for the EKS cluster | `string` | n/a | yes |
 | <a name="input_coredns_version"></a> [coredns\_version](#input\_coredns\_version) | The version of the CoreDNS addon | `string` | n/a | yes |
@@ -112,7 +112,7 @@
 | <a name="input_snapshot_controller_version"></a> [snapshot\_controller\_version](#input\_snapshot\_controller\_version) | n/a | `string` | n/a | yes |
 | <a name="input_staff_role_arn"></a> [staff\_role\_arn](#input\_staff\_role\_arn) | The staff role arn | `string` | n/a | yes |
 | <a name="input_use_name_prefix"></a> [use\_name\_prefix](#input\_use\_name\_prefix) | Determines whether to use `name` as is or create a unique name beginning with the `name` as the prefix | `bool` | `false` | no |
-| <a name="input_utilities"></a> [utilities](#input\_utilities) | The list of utilities | <pre>list(object({<br/>    name               = string<br/>    enable_irsa        = bool<br/>    internal_dns       = any<br/>    service_account    = string<br/>    cluster_label_type = string<br/>  }))</pre> | n/a | yes |
+| <a name="input_utilities"></a> [utilities](#input\_utilities) | The list of utilities | <pre>list(object({<br>    name               = string<br>    enable_irsa        = bool<br>    internal_dns       = any<br>    service_account    = string<br>    cluster_label_type = string<br>  }))</pre> | n/a | yes |
 | <a name="input_volume_delete_on_termination"></a> [volume\_delete\_on\_termination](#input\_volume\_delete\_on\_termination) | Indicates whether the EBS volume is deleted on termination | `bool` | `true` | no |
 | <a name="input_volume_encrypted"></a> [volume\_encrypted](#input\_volume\_encrypted) | Indicates whether the EBS volume is encrypted | `bool` | `true` | no |
 | <a name="input_volume_iops"></a> [volume\_iops](#input\_volume\_iops) | The amount of provisioned IOPS | `number` | `3000` | no |

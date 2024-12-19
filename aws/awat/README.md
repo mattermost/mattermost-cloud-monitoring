@@ -61,7 +61,7 @@
 | <a name="input_awat_db_password"></a> [awat\_db\_password](#input\_awat\_db\_password) | n/a | `string` | n/a | yes |
 | <a name="input_awat_db_username"></a> [awat\_db\_username](#input\_awat\_db\_username) | n/a | `string` | n/a | yes |
 | <a name="input_awat_enable_rds_alerting"></a> [awat\_enable\_rds\_alerting](#input\_awat\_enable\_rds\_alerting) | n/a | `bool` | `false` | no |
-| <a name="input_awat_enabled_cloudwatch_logs_exports"></a> [awat\_enabled\_cloudwatch\_logs\_exports](#input\_awat\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br/>  "postgresql"<br/>]</pre> | no |
+| <a name="input_awat_enabled_cloudwatch_logs_exports"></a> [awat\_enabled\_cloudwatch\_logs\_exports](#input\_awat\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br>  "postgresql"<br>]</pre> | no |
 | <a name="input_awat_kms_key"></a> [awat\_kms\_key](#input\_awat\_kms\_key) | n/a | `string` | n/a | yes |
 | <a name="input_awat_max_capacity"></a> [awat\_max\_capacity](#input\_awat\_max\_capacity) | n/a | `number` | `4` | no |
 | <a name="input_awat_min_capacity"></a> [awat\_min\_capacity](#input\_awat\_min\_capacity) | n/a | `number` | `0.5` | no |
