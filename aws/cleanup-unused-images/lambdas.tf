@@ -3,13 +3,13 @@ resource "aws_lambda_function" "deckhand" {
   s3_bucket     = var.lambda_s3_bucket
   s3_key        = var.lambda_s3_key
   function_name = "deckhand"
-  description   = "Lambda"
+  description   = "Lambda for cleaning up old images"
   role          = aws_iam_role.cleanup_old_images_lambda.arn
   handler       = "bootstrap"
   runtime       = "provided.al2"
   timeout       = "600"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
 
-  # Enable active tracing : X-ray
   tracing_config {
     mode = "Active"
   }
@@ -25,8 +25,8 @@ resource "aws_lambda_function" "deckhand" {
     subnet_ids         = flatten(var.private_subnet_ids)
     security_group_ids = [aws_security_group.cleanup_old_images_lambda_sg.id]
   }
-
 }
+
 resource "aws_security_group" "cleanup_old_images_lambda_sg" {
   name        = "${var.deployment_name}-cleanup-old-images-lambda-sg"
   description = "Cleanup Old Images Lambda (Deckhand)"
