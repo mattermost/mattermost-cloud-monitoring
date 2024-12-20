@@ -52,7 +52,7 @@
 | <a name="input_blapi_db_cluster_instance_identifier"></a> [blapi\_db\_cluster\_instance\_identifier](#input\_blapi\_db\_cluster\_instance\_identifier) | n/a | `string` | n/a | yes |
 | <a name="input_blapi_db_cluster_instance_type"></a> [blapi\_db\_cluster\_instance\_type](#input\_blapi\_db\_cluster\_instance\_type) | n/a | `string` | `"db.t4g.medium"` | no |
 | <a name="input_blapi_enable_rds_alerting"></a> [blapi\_enable\_rds\_alerting](#input\_blapi\_enable\_rds\_alerting) | n/a | `bool` | `false` | no |
-| <a name="input_blapi_enabled_cloudwatch_logs_exports"></a> [blapi\_enabled\_cloudwatch\_logs\_exports](#input\_blapi\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br>  "postgresql"<br>]</pre> | no |
+| <a name="input_blapi_enabled_cloudwatch_logs_exports"></a> [blapi\_enabled\_cloudwatch\_logs\_exports](#input\_blapi\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br/>  "postgresql"<br/>]</pre> | no |
 | <a name="input_blapi_kms_key"></a> [blapi\_kms\_key](#input\_blapi\_kms\_key) | n/a | `string` | n/a | yes |
 | <a name="input_blapi_max_capacity"></a> [blapi\_max\_capacity](#input\_blapi\_max\_capacity) | n/a | `number` | `4` | no |
 | <a name="input_blapi_min_capacity"></a> [blapi\_min\_capacity](#input\_blapi\_min\_capacity) | n/a | `number` | `0.5` | no |
