@@ -39,6 +39,8 @@ resource "aws_lambda_function" "cloud_server_auth" {
   handler       = "bootstrap"
   timeout       = 180
   runtime       = "provided.al2"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
+
   vpc_config {
     subnet_ids         = flatten(var.auth_private_subnet_ids)
     security_group_ids = [aws_security_group.auth_lambda_sg.id]

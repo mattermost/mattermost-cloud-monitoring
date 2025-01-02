@@ -58,6 +58,8 @@ resource "aws_lambda_function" "bind_server_network_attachment" {
   handler       = "bootstrap"
   timeout       = 120
   runtime       = "provided.al2"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
+
   vpc_config {
     subnet_ids         = flatten([var.subnet_ids])
     security_group_ids = [aws_security_group.bind_lambda_sg.id]

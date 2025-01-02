@@ -5,6 +5,7 @@ resource "aws_lambda_function" "provisioner-notification" {
   memory_size   = 128
   timeout       = 120
   handler       = "bootstrap"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
 
   s3_bucket = var.lambda_s3_bucket
   s3_key    = var.lambda_provisioner_notification_s3_key
@@ -43,6 +44,7 @@ resource "aws_lambda_function" "elrond-notification" {
   memory_size   = 128
   timeout       = 120
   handler       = "bootstrap"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
 
   s3_bucket = var.lambda_s3_bucket
   s3_key    = var.lambda_elrond_notification_s3_key
@@ -79,6 +81,7 @@ resource "aws_lambda_function" "gitlab-webhook" {
   memory_size   = 128
   timeout       = 120
   handler       = "bootstrap"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
 
   s3_bucket = var.lambda_s3_bucket
   s3_key    = var.lambda_gitlab_webhook_s3_key

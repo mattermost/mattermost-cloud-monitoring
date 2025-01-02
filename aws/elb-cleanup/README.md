@@ -37,6 +37,7 @@ No modules.
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | The name of the deployment for Lambda | `string` | n/a | yes |
 | <a name="input_dryrun"></a> [dryrun](#input\_dryrun) | Defines if lambda runs on dryRunMode or if does actual changes | `string` | `"true"` | no |
 | <a name="input_elb_cleanup_lambda_schedule"></a> [elb\_cleanup\_lambda\_schedule](#input\_elb\_cleanup\_lambda\_schedule) | A rate expression and then runs on its defined schedule. | `string` | `"rate(7 days)"` | no |
+| <a name="input_enable_arm64"></a> [enable\_arm64](#input\_enable\_arm64) | Enable ARM64 architecture for Lambda | `bool` | `false` | no |
 | <a name="input_lambda_s3_bucket"></a> [lambda\_s3\_bucket](#input\_lambda\_s3\_bucket) | The S3 bucket where the lambda function is stored | `string` | n/a | yes |
 | <a name="input_lambda_s3_key"></a> [lambda\_s3\_key](#input\_lambda\_s3\_key) | The S3 key where the lambda function is stored | `string` | n/a | yes |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The list of the private subnet IDs are used by elb-cleanup lambda | `list(string)` | n/a | yes |

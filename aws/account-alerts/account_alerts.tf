@@ -58,6 +58,8 @@ resource "aws_lambda_function" "account_alerts" {
   handler       = "bootstrap"
   timeout       = 120
   runtime       = "provided.al2"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
+
   vpc_config {
     subnet_ids         = flatten(var.private_subnet_ids)
     security_group_ids = [aws_security_group.account_alerts_lambda_sg.id]

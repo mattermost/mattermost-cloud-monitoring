@@ -36,6 +36,7 @@ No modules.
 | <a name="input_activity_date"></a> [activity\_date](#input\_activity\_date) | n/a | `string` | n/a | yes |
 | <a name="input_db_username"></a> [db\_username](#input\_db\_username) | n/a | `string` | n/a | yes |
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | The name of the deployment for Lambda | `string` | n/a | yes |
+| <a name="input_enable_arm64"></a> [enable\_arm64](#input\_enable\_arm64) | Enable ARM64 architecture for Lambda | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The name of the environment which will deploy to and will be added as a tag | `string` | n/a | yes |
 | <a name="input_excluded_clusters"></a> [excluded\_clusters](#input\_excluded\_clusters) | n/a | `string` | n/a | yes |
 | <a name="input_grant-privileges-to-schemas_lambda_schedule"></a> [grant-privileges-to-schemas\_lambda\_schedule](#input\_grant-privileges-to-schemas\_lambda\_schedule) | The schedule for AWS Cloud Lambda event rule | `string` | n/a | yes |

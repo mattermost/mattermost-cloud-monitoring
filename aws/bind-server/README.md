@@ -55,6 +55,7 @@ No modules.
 | <a name="input_arm_min_size"></a> [arm\_min\_size](#input\_arm\_min\_size) | The minimum number of arm nodes in the arm node group | `number` | `0` | no |
 | <a name="input_cidr_blocks"></a> [cidr\_blocks](#input\_cidr\_blocks) | The CIDR block to allow network traffic | `list(string)` | n/a | yes |
 | <a name="input_desired_size"></a> [desired\_size](#input\_desired\_size) | n/a | `number` | `3` | no |
+| <a name="input_enable_arm64"></a> [enable\_arm64](#input\_enable\_arm64) | Enable ARM64 architecture for Lambda | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment will be created | `string` | n/a | yes |
 | <a name="input_heartbeat_timeout"></a> [heartbeat\_timeout](#input\_heartbeat\_timeout) | The minimum number of arm nodes in the arm node group | `number` | `60` | no |
 | <a name="input_hosts_list"></a> [hosts\_list](#input\_hosts\_list) | The list of bind servers hosts | `list(string)` | `[]` | no |

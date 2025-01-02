@@ -61,3 +61,9 @@ variable "parent_id" {
 variable "tags" {
   type = map(string)
 }
+
+variable "enable_arm64" {
+  description = "Enable ARM64 architecture for Lambda"
+  type        = bool
+  default     = false
+}
