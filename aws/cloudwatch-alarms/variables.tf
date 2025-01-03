@@ -42,3 +42,9 @@ variable "lambda_create_rds_s3_key" {
   type        = string
   description = "The S3 key where the create RDS alarm lambda function is stored"
 }
+
+variable "enable_arm64" {
+  description = "Enable ARM64 architecture for Lambda"
+  type        = bool
+  default     = false
+}

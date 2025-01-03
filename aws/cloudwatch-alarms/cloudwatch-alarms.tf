@@ -153,6 +153,7 @@ resource "aws_lambda_function" "create_elb_cloudwatch_alarm" {
   handler       = "bootstrap"
   timeout       = 120
   runtime       = "provided.al2"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
 
   environment {
     variables = {
@@ -281,6 +282,7 @@ resource "aws_lambda_function" "create_rds_cloudwatch_alarm" {
   handler       = "bootstrap"
   timeout       = 120
   runtime       = "provided.al2"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
 
   environment {
     variables = {
