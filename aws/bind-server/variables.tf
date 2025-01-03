@@ -130,3 +130,10 @@ variable "heartbeat_timeout" {
   description = "The minimum number of arm nodes in the arm node group"
   default     = 60
 }
+
+variable "enable_arm64" {
+  description = "Enable ARM64 architecture for Lambda"
+  type        = bool
+  default     = false
+}
+

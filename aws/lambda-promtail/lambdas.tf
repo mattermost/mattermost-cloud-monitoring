@@ -6,6 +6,7 @@ resource "aws_lambda_function" "lambda_promtail" {
   handler       = "bootstrap"
   runtime       = "provided.al2"
   timeout       = 60
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
   memory_size   = 128
 
   # From the Terraform AWS Lambda docs: If both subnet_ids and security_group_ids are empty then vpc_config is considered to be empty or unset.

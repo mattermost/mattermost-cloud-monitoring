@@ -36,6 +36,7 @@ No modules.
 | <a name="input_batch_size"></a> [batch\_size](#input\_batch\_size) | Determines when to flush the batch of logs (bytes). | `string` | `""` | no |
 | <a name="input_cloudwatch_log_group"></a> [cloudwatch\_log\_group](#input\_cloudwatch\_log\_group) | n/a | `string` | `"/aws/lambda/lambda_promtail"` | no |
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | The name of the deployment for Lambda | `string` | n/a | yes |
+| <a name="input_enable_arm64"></a> [enable\_arm64](#input\_enable\_arm64) | Enable ARM64 architecture for Lambda | `bool` | `false` | no |
 | <a name="input_extra_labels"></a> [extra\_labels](#input\_extra\_labels) | Comma separated list of extra labels, in the format 'name1,value1,name2,value2,...,nameN,valueN' to add to entries forwarded by lambda-promtail. | `string` | `""` | no |
 | <a name="input_filter_pattern"></a> [filter\_pattern](#input\_filter\_pattern) | Determines pattern to parse logs. | `string` | `""` | no |
 | <a name="input_function_name"></a> [function\_name](#input\_function\_name) | n/a | `string` | `"lambda-promtail"` | no |

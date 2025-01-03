@@ -45,6 +45,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | The name of the deployment for Lambda | `string` | n/a | yes |
+| <a name="input_enable_arm64"></a> [enable\_arm64](#input\_enable\_arm64) | Enable ARM64 architecture for Lambda | `bool` | `false` | no |
 | <a name="input_lambda_elrond_notification_s3_key"></a> [lambda\_elrond\_notification\_s3\_key](#input\_lambda\_elrond\_notification\_s3\_key) | The S3 key where the elrond notification lambda function is stored | `string` | n/a | yes |
 | <a name="input_lambda_gitlab_webhook_s3_key"></a> [lambda\_gitlab\_webhook\_s3\_key](#input\_lambda\_gitlab\_webhook\_s3\_key) | The S3 key where the gitlab webhook lambda function is stored | `string` | n/a | yes |
 | <a name="input_lambda_provisioner_notification_s3_key"></a> [lambda\_provisioner\_notification\_s3\_key](#input\_lambda\_provisioner\_notification\_s3\_key) | The S3 key where the provisioner notification lambda function is stored | `string` | n/a | yes |

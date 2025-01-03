@@ -33,6 +33,7 @@ resource "aws_lambda_function" "cloudwatch_event_alerts" {
   handler       = "bootstrap"
   timeout       = 120
   runtime       = "provided.al2"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
 
   environment {
     variables = {

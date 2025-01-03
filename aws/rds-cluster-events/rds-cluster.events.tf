@@ -33,6 +33,7 @@ resource "aws_lambda_function" "rds_cluster_events" {
   handler       = "bootstrap"
   timeout       = 120
   runtime       = "provided.al2"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
 
   environment {
     variables = {

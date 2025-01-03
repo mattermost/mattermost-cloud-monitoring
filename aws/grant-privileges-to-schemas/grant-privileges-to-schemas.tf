@@ -59,6 +59,8 @@ resource "aws_lambda_function" "grant-privileges-to-schemas" {
   handler       = "bootstrap"
   timeout       = 900
   runtime       = "provided.al2"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
+
   vpc_config {
     subnet_ids         = flatten(var.private_subnet_ids)
     security_group_ids = [aws_security_group.grant-privileges-to-schemas_lambda_sg.id]
