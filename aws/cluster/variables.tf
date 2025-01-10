@@ -227,3 +227,21 @@ variable "arm_min_size" {
   type        = string
   description = "The minimum number of arm nodes in the node group"
 }
+
+variable "use_al2023" {
+  description = "Enable AL2023-specific configurations. Defaults to false for AL2."
+  type        = bool
+  default     = false
+}
+
+variable "al2023_ami_id" {
+  description = "The AMI ID for AL2023 nodes"
+  type        = string
+  default     = ""
+}
+
+variable "al2023_arm_image_id" {
+  description = "The AMI ID for ARM64 nodes using AL2023"
+  type        = string
+  default     = ""
+}
