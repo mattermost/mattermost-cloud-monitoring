@@ -147,3 +147,36 @@ variable "arm_min_size" {
   type        = string
   description = "The minimum number of arm nodes in the node group"
 }
+
+variable "use_al2023" {
+  description = "Enable AL2023-specific configurations. Defaults to false for AL2."
+  type        = bool
+  default     = false
+}
+
+variable "al2023_ami_id" {
+  description = "The AMI ID for AL2023 nodes"
+  type        = string
+  default     = ""
+}
+
+variable "al2023_arm_image_id" {
+  description = "The AMI ID for ARM64 nodes using AL2023"
+  type        = string
+  default     = ""
+}
+
+variable "api_server_endpoint" {
+  description = "The API server endpoint for the EKS cluster"
+  type        = string
+}
+
+variable "certificate_authority" {
+  description = "The certificate authority data for the EKS cluster"
+  type        = string
+}
+
+variable "service_ipv4_cidr" {
+  description = "The service IPv4 CIDR range for the EKS cluster"
+  type        = string
+}

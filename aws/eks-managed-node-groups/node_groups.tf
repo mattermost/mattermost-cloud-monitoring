@@ -13,11 +13,30 @@ resource "aws_launch_template" "cluster_nodes_eks_launch_template" {
     }
   }
 
-  image_id      = var.image_id
+  image_id      = var.use_al2023 ? var.al2023_ami_id : var.image_id
   instance_type = var.instance_type
   ebs_optimized = var.ebs_optimized
 
-  user_data = var.user_data
+  user_data = var.use_al2023 ? base64encode(<<USERDATA
+#!/bin/bash
+cat <<EOF > /etc/eks/nodeadm-config.yaml
+apiVersion: node.eks.aws/v1alpha1
+kind: NodeConfig
+spec:
+  cluster:
+    name: ${var.cluster_name}
+    apiServerEndpoint: ${var.api_server_endpoint}
+    certificateAuthority: ${var.certificate_authority}
+    cidr: ${var.service_ipv4_cidr}
+EOF
+
+/usr/local/bin/nodeadm --config /etc/eks/nodeadm-config.yaml
+USERDATA
+    ) : base64encode(<<USERDATA
+#!/bin/bash
+/etc/eks/bootstrap.sh --apiserver-endpoint '${var.api_server_endpoint}' --b64-cluster-ca '${var.certificate_authority}' '${var.cluster_name}' --kubelet-extra-args "--kube-reserved cpu=250m,memory=1Gi,ephemeral-storage=1Gi --system-reserved cpu=250m,memory=0.2Gi,ephemeral-storage=1Gi --eviction-hard memory.available<0.2Gi,nodefs.available<10%"
+USERDATA
+  )
 
   tag_specifications {
     resource_type = "instance"
@@ -44,7 +63,6 @@ resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
     "k8s.io/cluster-autoscaler/enabled" : "on",
     "k8s.io/cluster-autoscaler/${var.deployment_name}" : "on"
     KubernetesCluster : var.cluster_name
-
   }
 
   labels = {
