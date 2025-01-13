@@ -40,6 +40,7 @@
 | [aws_eks_addon.snapshot-controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_iam_policy.bifrost](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.external-secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_policy.node](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.velero](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_route53_record.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_secretsmanager_secret.kubeconfig_secret](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
@@ -77,8 +78,6 @@
 | <a name="input_atlantis_user_arn"></a> [atlantis\_user\_arn](#input\_atlantis\_user\_arn) | The atlantis user arn | `string` | n/a | yes |
 | <a name="input_attach_cluster_encryption_policy"></a> [attach\_cluster\_encryption\_policy](#input\_attach\_cluster\_encryption\_policy) | Indicates whether or not to attach an additional policy for the cluster IAM role to utilize the encryption key provided | `bool` | `false` | no |
 | <a name="input_calico_operator_version"></a> [calico\_operator\_version](#input\_calico\_operator\_version) | The version of the Calico operator | `string` | n/a | yes |
-| <a name="input_cloud_provisioning_ec2_policy_arn"></a> [cloud\_provisioning\_ec2\_policy\_arn](#input\_cloud\_provisioning\_ec2\_policy\_arn) | The cloud provisioning ec2 policy arn to perform ec2 volume operations | `string` | n/a | yes |
-| <a name="input_cloud_provisioning_node_policy_arn"></a> [cloud\_provisioning\_node\_policy\_arn](#input\_cloud\_provisioning\_node\_policy\_arn) | The cloud provisioning node policy arn | `string` | n/a | yes |
 | <a name="input_cluster_enabled_log_types"></a> [cluster\_enabled\_log\_types](#input\_cluster\_enabled\_log\_types) | The list of log types to enable | `list(string)` | n/a | yes |
 | <a name="input_cluster_encryption_config"></a> [cluster\_encryption\_config](#input\_cluster\_encryption\_config) | Configuration block with encryption configuration for the cluster. To disable secret encryption, set this value to `{}` | `any` | `{}` | no |
 | <a name="input_cluster_endpoint_private_access"></a> [cluster\_endpoint\_private\_access](#input\_cluster\_endpoint\_private\_access) | Indicates whether or not the Amazon EKS private API server endpoint is enabled | `bool` | n/a | yes |
