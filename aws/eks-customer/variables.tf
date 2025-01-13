@@ -275,3 +275,11 @@ variable "volume_delete_on_termination" {
   type        = bool
   default     = true
 }
+
+variable "update_config" {
+  description = "Configuration block of settings for max unavailable resources during node group updates"
+  type        = map(string)
+  default = {
+    max_unavailable = 1
+  }
+}

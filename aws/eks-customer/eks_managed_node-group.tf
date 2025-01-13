@@ -46,6 +46,8 @@ module "managed_node_group" {
   max_size     = each.value.max_size
   desired_size = each.value.desired_size
 
+  update_config = var.update_config
+
   taints = each.value.taints
   labels = each.value.labels
 
