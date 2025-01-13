@@ -50,7 +50,7 @@ No modules.
 | <a name="input_security_destination_cidr_block"></a> [security\_destination\_cidr\_block](#input\_security\_destination\_cidr\_block) | Value of the cidr block for the security TGW | `string` | n/a | yes |
 | <a name="input_security_group_referencing_support"></a> [security\_group\_referencing\_support](#input\_security\_group\_referencing\_support) | Security Group Referencing allows to specify other SGs as references, or matching criterion in inbound security rules to allow instance-to-instance traffic | `string` | `"enable"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags for the RAM | `map(string)` | `{}` | no |
-| <a name="input_tgw_attachment_subnet_ids"></a> [tgw\_attachment\_subnet\_ids](#input\_tgw\_attachment\_subnet\_ids) | The Subnet IDs in the prod us-west-2 region we want to attach to the TGW | `list(string)` | <pre>[<br/>  ""<br/>]</pre> | no |
+| <a name="input_tgw_attachment_subnet_ids"></a> [tgw\_attachment\_subnet\_ids](#input\_tgw\_attachment\_subnet\_ids) | The Subnet IDs in the prod us-west-2 region we want to attach to the TGW | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | <a name="input_tgw_attachment_vpc_id"></a> [tgw\_attachment\_vpc\_id](#input\_tgw\_attachment\_vpc\_id) | The VPC in the cross region we want to attach to the TGW | `string` | n/a | yes |
 | <a name="input_tgw_peering_attachment_name"></a> [tgw\_peering\_attachment\_name](#input\_tgw\_peering\_attachment\_name) | The name of the peering attachment | `string` | n/a | yes |
 

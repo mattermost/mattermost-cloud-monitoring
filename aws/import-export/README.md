@@ -40,7 +40,7 @@ No modules.
 | <a name="input_other_account_id"></a> [other\_account\_id](#input\_other\_account\_id) | AWS Account ID that needs access to the KMS key | `string` | n/a | yes |
 | <a name="input_other_account_role_name"></a> [other\_account\_role\_name](#input\_other\_account\_role\_name) | Role name in the other AWS account that needs access to the KMS key | `string` | n/a | yes |
 | <a name="input_other_account_user_name"></a> [other\_account\_user\_name](#input\_other\_account\_user\_name) | User name in the other AWS account that needs access to the KMS key | `string` | n/a | yes |
-| <a name="input_s3_bucket_encryption"></a> [s3\_bucket\_encryption](#input\_s3\_bucket\_encryption) | n/a | <pre>map(object({<br/>    sse_algorithm      = string<br/>    kms_master_key_id  = string<br/>    bucket_key_enabled = bool<br/>  }))</pre> | `{}` | no |
+| <a name="input_s3_bucket_encryption"></a> [s3\_bucket\_encryption](#input\_s3\_bucket\_encryption) | n/a | <pre>map(object({<br>    sse_algorithm      = string<br>    kms_master_key_id  = string<br>    bucket_key_enabled = bool<br>  }))</pre> | `{}` | no |
 | <a name="input_s3_bucket_policies"></a> [s3\_bucket\_policies](#input\_s3\_bucket\_policies) | Map of bucket names to their respective policies | `map(string)` | `{}` | no |
 | <a name="input_s3_bucket_tags"></a> [s3\_bucket\_tags](#input\_s3\_bucket\_tags) | n/a | `map(map(string))` | `{}` | no |
 | <a name="input_s3_buckets"></a> [s3\_buckets](#input\_s3\_buckets) | List of S3 buckets to manage | `list(string)` | `[]` | no |
