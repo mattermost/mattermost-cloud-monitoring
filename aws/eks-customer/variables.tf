@@ -184,6 +184,12 @@ variable "cluster_tags" {
   default     = {}
 }
 
+variable "enable_auto_mode_custom_tags" {
+  description = "Indicates whether or not to enable auto mode custom tags"
+  type        = bool
+  default     = false
+}
+
 variable "create_iam_role" {
   description = "Determines whether an IAM role is created or to use an existing IAM role"
   type        = bool

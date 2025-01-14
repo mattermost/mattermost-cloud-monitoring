@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "20.14.0"
+  version = "20.31.6"
 
   cluster_name    = "${var.cluster_name}-${local.cluster_id}"
   cluster_version = var.cluster_version
@@ -26,7 +26,8 @@ module "eks" {
   cluster_additional_security_group_ids   = data.aws_security_groups.control-plane.ids
   create_node_security_group              = var.create_node_security_group
 
-  cluster_tags = var.cluster_tags
+  cluster_tags                 = var.cluster_tags
+  enable_auto_mode_custom_tags = var.enable_auto_mode_custom_tags
 
   enable_cluster_creator_admin_permissions = false
   access_entries = {
