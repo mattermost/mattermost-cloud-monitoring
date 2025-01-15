@@ -19,18 +19,22 @@ resource "aws_launch_template" "cluster_nodes_eks_launch_template" {
 
   user_data = var.use_al2023 ? base64encode(<<USERDATA
 #!/bin/bash
+echo "export AWS_REGION=${data.aws_region.current}" >> /etc/environment
+source /etc/environment
 cat <<EOF > /etc/eks/nodeadm-config.yaml
 apiVersion: node.eks.aws/v1alpha1
 kind: NodeConfig
 spec:
   cluster:
     name: ${var.cluster_name}
-    apiServerEndpoint: ${var.api_server_endpoint}
-    certificateAuthority: ${var.certificate_authority}
+    apiServerEndpoint: |
+      ${var.api_server_endpoint}
+    certificateAuthority: |
+      ${var.certificate_authority}
     cidr: ${var.service_ipv4_cidr}
 EOF
 
-/usr/local/bin/nodeadm --config /etc/eks/nodeadm-config.yaml
+/usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml
 USERDATA
     ) : base64encode(<<USERDATA
 #!/bin/bash
