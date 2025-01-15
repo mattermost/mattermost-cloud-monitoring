@@ -58,7 +58,10 @@ resource "aws_iam_policy" "worker_policy" {
                 "autoscaling:SetDesiredCapacity",
                 "autoscaling:TerminateInstanceInAutoScalingGroup",
                 "ec2:DescribeLaunchTemplateVersions",
-                "eks:DescribeNodegroup"
+                "eks:DescribeNodegroup",
+				"ecr:GetAuthorizationToken",
+				"eks:DescribeCluster",
+				"ec2:DescribeInstances"
             ],
             "Resource": "*",
             "Effect": "Allow"
