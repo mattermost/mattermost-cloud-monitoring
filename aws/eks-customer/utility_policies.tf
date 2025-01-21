@@ -112,3 +112,33 @@ resource "aws_iam_policy" "external-secrets" {
 }
 EOF
 }
+
+resource "aws_iam_policy" "cluster-autoscaler" {
+  for_each = { for k, v in var.utilities : k => v if v.name == "cluster-autoscaler" }
+
+  name        = "cluster-autoscaler-${module.eks.cluster_name}"
+  path        = "/"
+  description = "Policy for cluster-autoscaler utility."
+
+  policy = <<EOF
+{
+    "Statement": [
+        {
+            "Action": [
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeLaunchConfigurations",
+                "autoscaling:DescribeTags",
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:TerminateInstanceInAutoScalingGroup",
+                "ec2:DescribeLaunchTemplateVersions",
+                "eks:DescribeNodegroup"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        }
+    ],
+    "Version": "2012-10-17"
+}
+EOF
+}
