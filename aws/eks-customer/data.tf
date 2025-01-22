@@ -118,3 +118,16 @@ data "aws_lb" "internal" {
 
   depends_on = [null_resource.deploy-utilites]
 }
+
+data "aws_lb" "thanos-query-grpc" {
+  tags = {
+    "kubernetes.io/cluster/${module.eks.cluster_name}" = "owned"
+    "kubernetes.io/service-name"                       = "prometheus/thanos-query-grpc"
+  }
+
+  timeouts {
+    read = "20m"
+  }
+
+  depends_on = [null_resource.deploy-utilites]
+}
