@@ -7,6 +7,8 @@ resource "null_resource" "deploy-utilites" {
       GIT_REPO_PATH           = var.gitops_repo_path
       GIT_REPO_URL            = var.gitops_repo_url
       GIT_REPO_USERNAME       = var.gitops_repo_username
+      GIT_REPO_EMAIL          = var.gitops_repo_email
+      GITHUB_TOKEN            = data.github_app_token.this.token
       CLUSTER_NAME            = module.eks.cluster_name
       ENV                     = var.environment
       CERTIFICATE_ARN         = var.lb_certificate_arn

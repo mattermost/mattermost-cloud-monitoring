@@ -33,12 +33,12 @@ function clone_repo() {
         exit 1
     fi
     while_repo_exists
-    git clone "https://${GIT_REPO_USERNAME}:${GITLAB_OAUTH_TOKEN}@${GIT_REPO_URL}/${GIT_REPO_PATH}" $gitops_sre_dir
+    git clone "https://${GIT_REPO_USERNAME}:${GITHUB_TOKEN}@${GIT_REPO_URL}/${GIT_REPO_PATH}" $gitops_sre_dir
 
     current_dir=$(pwd)
     cd $gitops_sre_dir || exit
     git config user.name "${GIT_REPO_USERNAME}"
-    git config user.email "${GIT_REPO_USERNAME}@mattermost.com"
+    git config user.email "${GIT_REPO_EMAIL}"
     cd $current_dir || exit
 }
 
