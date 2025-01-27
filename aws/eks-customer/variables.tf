@@ -106,6 +106,21 @@ variable "utilities" {
   }))
 }
 
+variable "github_app_pem_key_path" {
+  description = "The path of the Github App PEM"
+  type        = string
+}
+
+variable "github_app_id" {
+  description = "The app id for the Github App"
+  type        = string
+}
+
+variable "github_app_installation_id" {
+  description = "The installation id for the Github App"
+  type        = string
+}
+
 variable "gitops_repo_url" {
   description = "The git repo url"
   type        = string
@@ -118,6 +133,11 @@ variable "gitops_repo_path" {
 
 variable "gitops_repo_username" {
   description = "The git repo username for executing git commands"
+  type        = string
+}
+
+variable "gitops_repo_email" {
+  description = "The git repo email for executing git commands"
   type        = string
 }
 

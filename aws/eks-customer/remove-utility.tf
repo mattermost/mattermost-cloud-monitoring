@@ -4,6 +4,7 @@ resource "null_resource" "remove-utilities" {
     gitops_repo_path     = var.gitops_repo_path
     gitops_repo_url      = var.gitops_repo_url
     gitops_repo_username = var.gitops_repo_username
+    gitops_repo_email    = var.gitops_repo_email
     environment          = var.environment
     cluster_name         = module.eks.cluster_name
   }
@@ -16,6 +17,8 @@ resource "null_resource" "remove-utilities" {
       GIT_REPO_PATH     = self.triggers.gitops_repo_path
       GIT_REPO_URL      = self.triggers.gitops_repo_url
       GIT_REPO_USERNAME = self.triggers.gitops_repo_username
+      GIT_REPO_EMAIL    = self.triggers.gitops_repo_email
+      GITHUB_TOKEN      = data.github_app_token.this.token
       CLUSTER_NAME      = self.triggers.cluster_name
       ENV               = self.triggers.environment
     }
