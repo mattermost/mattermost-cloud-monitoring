@@ -120,11 +120,16 @@ resource "aws_api_gateway_method" "cloud_server_auth_method" {
 
 resource "aws_api_gateway_deployment" "cloud_server_auth_deployment" {
   rest_api_id = aws_api_gateway_rest_api.cloud_server_auth.id
-  stage_name  = var.environment
   depends_on = [
     aws_api_gateway_method.cloud_server_auth_method,
     aws_api_gateway_integration.cloud_server_auth_integration
   ]
+}
+
+resource "aws_api_gateway_stage" "cloud_server_auth_deployment" {
+  rest_api_id   = aws_api_gateway_rest_api.cloud_server_auth.id
+  deployment_id = aws_api_gateway_deployment.cloud_server_auth_deployment.id
+  stage_name    = var.environment
 }
 
 resource "aws_api_gateway_usage_plan" "cloud_server_auth_usageplan" {
