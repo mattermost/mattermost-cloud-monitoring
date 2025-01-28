@@ -21,7 +21,7 @@ module "irsa" {
   oidc_providers = {
     one = {
       provider_arn               = module.eks.oidc_provider_arn
-      namespace_service_accounts = ["${each.value.name}:${each.value.service_account}"]
+      namespace_service_accounts = [each.value.namespace_service_account]
     }
   }
 }
