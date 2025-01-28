@@ -98,11 +98,11 @@ variable "node_groups" {
 variable "utilities" {
   description = "The list of utilities"
   type = list(object({
-    name               = string
-    enable_irsa        = bool
-    internal_dns       = any
-    service_account    = string
-    cluster_label_type = string
+    name                      = string
+    enable_irsa               = bool
+    internal_dns              = any
+    namespace_service_account = string
+    cluster_label_type        = string
   }))
 }
 
