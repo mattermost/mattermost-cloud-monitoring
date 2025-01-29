@@ -27,10 +27,11 @@ resource "null_resource" "remove-utilities" {
       ENV                        = self.triggers.environment
     }
   }
-  
+
   lifecycle {
     ignore_changes = [
-      data.github_app_token.this.token
+      data.github_app_token.this.token,
+      self.triggers.github_token
     ]
   }
 }
