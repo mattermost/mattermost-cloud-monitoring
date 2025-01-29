@@ -25,14 +25,6 @@ function while_repo_exists() { #This is to avoid github race condition errors wh
     done
 }
 
-function generate_token() {
-  curl --silent --request POST \
-    --url "https://api.github.com/app/installations/${GITHUB_APP_INSTALLATION_ID}/access_tokens" \
-    --header "Accept: application/vnd.github+json" \
-    --header "Authorization: Bearer ${GITHUB_TOKEN}" \
-    --header "X-GitHub-Api-Version: 2022-11-28" | jq .token --compact-output --raw-output
-}
-
 function clone_repo() {
     sleep $((5 + RANDOM % 50)) # Random sleep
     echo "Cloning repo https://${GIT_REPO_URL}/${GIT_REPO_PATH}"
@@ -41,8 +33,7 @@ function clone_repo() {
         exit 1
     fi
     while_repo_exists
-    TEMP_TOKEN=$(generate_token)
-    git clone "https://x-access-token:${TEMP_TOKEN}@${GIT_REPO_URL}/${GIT_REPO_PATH}" $gitops_sre_dir
+    git clone "https://x-access-token:${GITHUB_TOKEN}@${GIT_REPO_URL}/${GIT_REPO_PATH}" $gitops_sre_dir
 
     current_dir=$(pwd)
     cd $gitops_sre_dir || exit
