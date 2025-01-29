@@ -72,7 +72,6 @@ function commit_changes() {
 
     cd $current_dir || exit
 
-    push_changes_to_git
   else
     echo "No changes to commit"
   fi
