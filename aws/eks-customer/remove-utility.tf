@@ -10,6 +10,7 @@ resource "null_resource" "remove-utilities" {
     environment                = var.environment
     cluster_name               = module.eks.cluster_name
   }
+  
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
@@ -25,6 +26,12 @@ resource "null_resource" "remove-utilities" {
       CLUSTER_NAME               = self.triggers.cluster_name
       ENV                        = self.triggers.environment
     }
+  }
+  
+  lifecycle {
+    ignore_changes = [
+      data.github_app_token.this.token
+    ]
   }
 }
 
