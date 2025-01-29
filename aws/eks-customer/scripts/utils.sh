@@ -137,7 +137,3 @@ function clean_up() {
     rm -rf $gitops_sre_dir
     exit 0
 }
-
-
-GITHUB_TOKEN=$(generate_token)
-echo $GITHUB_TOKEN
