@@ -28,7 +28,7 @@ function while_repo_exists() { #This is to avoid github race condition errors wh
 function clone_repo() {
     sleep $((5 + RANDOM % 50)) # Random sleep
     echo "Cloning repo https://${GIT_REPO_URL}/${GIT_REPO_PATH}"
-    if [ -z "$GIT_REPO_URL" || -z "$GIT_REPO_PATH" ]; then
+    if [[ -z "$GIT_REPO_URL" || -z "$GIT_REPO_PATH" ]]; then
         echo "GIT_REPO_URL and/or GIT_REPO_PATH  is empty"
         exit 1
     fi
