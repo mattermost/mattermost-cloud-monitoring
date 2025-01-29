@@ -22,6 +22,8 @@ function remove_helm_values() {
     else
       echo "No helm values found for cluster ${CLUSTER_NAME}"
     fi
+    
+    push_changes_to_git
 }
 
 function wait_for_argocd() {

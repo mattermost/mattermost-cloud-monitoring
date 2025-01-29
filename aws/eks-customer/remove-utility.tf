@@ -5,11 +5,13 @@ resource "null_resource" "remove-utilities" {
     gitops_repo_url            = var.gitops_repo_url
     gitops_repo_username       = var.gitops_repo_username
     gitops_repo_email          = var.gitops_repo_email
-    github_token               = data.github_app_token.this.token
     github_app_installation_id = var.github_app_installation_id
+    github_app_id              = var.github_app_id
+    github_app_pem_file        = var.github_app_pem_key_path
     environment                = var.environment
     cluster_name               = module.eks.cluster_name
   }
+
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
@@ -20,12 +22,14 @@ resource "null_resource" "remove-utilities" {
       GIT_REPO_URL               = self.triggers.gitops_repo_url
       GIT_REPO_USERNAME          = self.triggers.gitops_repo_username
       GIT_REPO_EMAIL             = self.triggers.gitops_repo_email
-      GITHUB_TOKEN               = self.triggers.github_token
       GITHUB_APP_INSTALLATION_ID = self.triggers.github_app_installation_id
+      GITHUB_APP_ID              = self.triggers.github_app_id
+      GITHUB_APP_PEM_FILE        = self.triggers.github_app_pem_file
       CLUSTER_NAME               = self.triggers.cluster_name
       ENV                        = self.triggers.environment
     }
   }
+
 }
 
 resource "null_resource" "wait_before_destroy_node_group" {

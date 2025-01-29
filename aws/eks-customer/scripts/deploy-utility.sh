@@ -52,10 +52,12 @@ function deploy_utility() {
     add_utility_to_application_file $utility_name $cluster_label_type
     replace_custom_values $utility_name
     commit_changes "CLUSTER_NAME: ${CLUSTER_NAME} Adding utility ${utility_name}" $application_yaml
-    wait_for_healthy $utility_name
+    # wait_for_healthy $utility_name
 
 	done
 
+  push_changes_to_git
+  
 }
 
 function add_utility_to_application_file() {
