@@ -7,7 +7,7 @@ resource "null_resource" "remove-utilities" {
     gitops_repo_email          = var.gitops_repo_email
     github_app_installation_id = var.github_app_installation_id
     github_app_id              = var.github_app_id
-    github_app_pem_file        = file(var.github_app_pem_key_path)
+    github_app_pem_file        = var.github_app_pem_key_path
     environment                = var.environment
     cluster_name               = module.eks.cluster_name
   }
