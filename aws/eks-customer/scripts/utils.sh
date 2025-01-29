@@ -42,7 +42,7 @@ function clone_repo() {
     fi
     while_repo_exists
     TEMP_TOKEN=$(generate_token)
-    git clone "https://${GIT_REPO_USERNAME}:${TEMP_TOKEN}@${GIT_REPO_URL}/${GIT_REPO_PATH}" $gitops_sre_dir
+    git clone "https://x-access-token:${TEMP_TOKEN}@${GIT_REPO_URL}/${GIT_REPO_PATH}" $gitops_sre_dir
 
     current_dir=$(pwd)
     cd $gitops_sre_dir || exit
