@@ -1,10 +1,30 @@
 ###########» Worker Node AutoScaling Group###########
 locals {
-  worker-userdata = <<USERDATA
+  service_cidr = data.aws_eks_cluster.cluster.kubernetes_network_config[0].service_ipv4_cidr
+  worker-userdata = var.use_al2023 ? base64encode(<<USERDATA
+#!/bin/bash
+set -e
+
+echo Configuring nodeadm for AL2023
+cat <<EOF > /etc/eks/nodeadm-config.yaml
+apiVersion: node.eks.aws/v1alpha1
+kind: NodeConfig
+spec:
+  cluster:
+    name: ${aws_eks_cluster.cluster.name}
+    apiServerEndpoint: ${aws_eks_cluster.cluster.endpoint}
+    certificateAuthority: ${aws_eks_cluster.cluster.certificate_authority[0].data}
+    cidr: ${local.service_cidr}
+EOF
+
+/usr/local/bin/nodeadm --config /etc/eks/nodeadm-config.yaml
+USERDATA
+    ) : base64encode(<<USERDATA
 #!/bin/bash
 set -o xtrace
-/etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.cluster.endpoint}' --b64-cluster-ca '${aws_eks_cluster.cluster.certificate_authority[0].data}' '${var.deployment_name}'
+/etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.cluster.endpoint}' --b64-cluster-ca '${aws_eks_cluster.cluster.certificate_authority[0].data}' '${aws_eks_cluster.cluster.name}' --kubelet-extra-args "--kube-reserved cpu=250m,memory=1Gi,ephemeral-storage=1Gi --system-reserved cpu=250m,memory=0.2Gi,ephemeral-storage=1Gi --eviction-hard memory.available<0.2Gi,nodefs.available<10%"
 USERDATA
+  )
 }
 
 locals {
@@ -27,7 +47,7 @@ CONFIGMAPAWSAUTH
 }
 
 module "managed_node_group" {
-  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.7.5"
+  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.8.19"
   vpc_security_group_ids = [aws_security_group.worker-sg.id]
   vpc_id                 = var.vpc_id
   volume_size            = var.node_volume_size
@@ -56,4 +76,10 @@ module "managed_node_group" {
   availability_zones     = var.availability_zones
   subnets                = var.map_subnets
   enable_spot_nodes      = var.enable_spot_nodes
+  use_al2023             = var.use_al2023
+  al2023_ami_id          = var.al2023_ami_id
+  al2023_arm_image_id    = var.al2023_arm_image_id
+  api_server_endpoint    = aws_eks_cluster.cluster.endpoint
+  certificate_authority  = aws_eks_cluster.cluster.certificate_authority[0].data
+  service_ipv4_cidr      = local.service_cidr
 }
