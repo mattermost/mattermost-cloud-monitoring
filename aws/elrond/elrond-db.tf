@@ -56,6 +56,14 @@ resource "aws_db_subnet_group" "subnets_db" {
 
 }
 
+data "aws_secretsmanager_secret" "elrond" {
+  name = format("%s-%s", var.elrond_service_name, var.environment)
+}
+
+data "aws_secretsmanager_secret_version" "elrond" {
+  secret_id = data.aws_secretsmanager_secret.elrond.id
+}
+
 module "aurora-cluster" {
   source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.7.93"
   cluster_identifier                    = var.elrond_db_cluster_identifier
@@ -70,7 +78,7 @@ module "aurora-cluster" {
   engine_version                        = var.elrond_db_cluster_engine_version
   instance_type                         = var.elrond_db_cluster_instance_type
   username                              = var.db_username
-  password                              = var.db_password
+  password                              = data.aws_secretsmanager_secret_version.elrond.secret_string
   iam_database_authentication_enabled   = var.iam_database_authentication_enabled
   final_snapshot_identifier_prefix      = "elrond-final-${var.elrond_db_cluster_identifier}-${local.timestamp_now}"
   skip_final_snapshot                   = false
