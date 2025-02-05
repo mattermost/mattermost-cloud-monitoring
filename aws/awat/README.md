@@ -35,6 +35,8 @@
 | [aws_iam_policy_document.awat_bucket_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_kms_key.master_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [aws_secretsmanager_secret.awat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret) | data source |
+| [aws_secretsmanager_secret_version.awat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret_version) | data source |
 | [terraform_remote_state.cnc_cluster](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/data-sources/remote_state) | data source |
 
 ## Inputs
@@ -58,7 +60,6 @@
 | <a name="input_awat_db_cluster_instance_type"></a> [awat\_db\_cluster\_instance\_type](#input\_awat\_db\_cluster\_instance\_type) | n/a | `string` | `"db.serverless"` | no |
 | <a name="input_awat_db_deletion_protection"></a> [awat\_db\_deletion\_protection](#input\_awat\_db\_deletion\_protection) | n/a | `bool` | `true` | no |
 | <a name="input_awat_db_maintenance_window"></a> [awat\_db\_maintenance\_window](#input\_awat\_db\_maintenance\_window) | n/a | `string` | n/a | yes |
-| <a name="input_awat_db_password"></a> [awat\_db\_password](#input\_awat\_db\_password) | n/a | `string` | n/a | yes |
 | <a name="input_awat_db_username"></a> [awat\_db\_username](#input\_awat\_db\_username) | n/a | `string` | n/a | yes |
 | <a name="input_awat_enable_rds_alerting"></a> [awat\_enable\_rds\_alerting](#input\_awat\_enable\_rds\_alerting) | n/a | `bool` | `false` | no |
 | <a name="input_awat_enabled_cloudwatch_logs_exports"></a> [awat\_enabled\_cloudwatch\_logs\_exports](#input\_awat\_enabled\_cloudwatch\_logs\_exports) | n/a | `list(string)` | <pre>[<br/>  "postgresql"<br/>]</pre> | no |

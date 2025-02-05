@@ -14,10 +14,6 @@ variable "db_username" {
   type = string
 }
 
-variable "db_password" {
-  type = string
-}
-
 variable "db_backup_retention_period" {
   type = number
 }

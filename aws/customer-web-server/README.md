@@ -25,6 +25,8 @@
 | [aws_db_subnet_group.cws_subnets_db](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group) | resource |
 | [aws_security_group.cws_postgres_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [aws_secretsmanager_secret.cws](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret) | data source |
+| [aws_secretsmanager_secret_version.cws](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret_version) | data source |
 | [terraform_remote_state.cluster](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/data-sources/remote_state) | data source |
 
 ## Inputs
@@ -49,7 +51,6 @@
 | <a name="input_cws_db_cluster_instance_type"></a> [cws\_db\_cluster\_instance\_type](#input\_cws\_db\_cluster\_instance\_type) | n/a | `string` | `"db.serverless"` | no |
 | <a name="input_cws_db_deletion_protection"></a> [cws\_db\_deletion\_protection](#input\_cws\_db\_deletion\_protection) | n/a | `bool` | `true` | no |
 | <a name="input_cws_db_maintenance_window"></a> [cws\_db\_maintenance\_window](#input\_cws\_db\_maintenance\_window) | n/a | `string` | n/a | yes |
-| <a name="input_cws_db_password"></a> [cws\_db\_password](#input\_cws\_db\_password) | n/a | `string` | n/a | yes |
 | <a name="input_cws_db_username"></a> [cws\_db\_username](#input\_cws\_db\_username) | n/a | `string` | n/a | yes |
 | <a name="input_cws_enable_bastion"></a> [cws\_enable\_bastion](#input\_cws\_enable\_bastion) | n/a | `bool` | `true` | no |
 | <a name="input_cws_enable_rds_alerting"></a> [cws\_enable\_rds\_alerting](#input\_cws\_enable\_rds\_alerting) | n/a | `bool` | `false` | no |
