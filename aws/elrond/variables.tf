@@ -18,11 +18,6 @@ variable "db_username" {
   description = "The Elrond DB username"
 }
 
-variable "db_password" {
-  type        = string
-  description = "The Elrond DB password"
-}
-
 variable "db_backup_retention_period" {
   type        = string
   description = "The Elrond DB backup retention period"

@@ -25,6 +25,8 @@
 | [aws_db_subnet_group.subnets_db](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group) | resource |
 | [aws_security_group.cnc_to_elrond_postgress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [aws_secretsmanager_secret.elrond](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret) | data source |
+| [aws_secretsmanager_secret_version.elrond](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret_version) | data source |
 | [terraform_remote_state.cluster](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/data-sources/remote_state) | data source |
 
 ## Inputs
@@ -37,7 +39,6 @@
 | <a name="input_db_backup_window"></a> [db\_backup\_window](#input\_db\_backup\_window) | The Elrond DB backup window | `string` | n/a | yes |
 | <a name="input_db_deletion_protection"></a> [db\_deletion\_protection](#input\_db\_deletion\_protection) | Whether to enable DB deletion protection or not | `bool` | `true` | no |
 | <a name="input_db_maintenance_window"></a> [db\_maintenance\_window](#input\_db\_maintenance\_window) | The Elrond DB maintenance window | `string` | n/a | yes |
-| <a name="input_db_password"></a> [db\_password](#input\_db\_password) | The Elrond DB password | `string` | n/a | yes |
 | <a name="input_db_username"></a> [db\_username](#input\_db\_username) | The Elrond DB username | `string` | n/a | yes |
 | <a name="input_elrond_apply_immediately"></a> [elrond\_apply\_immediately](#input\_elrond\_apply\_immediately) | n/a | `bool` | `false` | no |
 | <a name="input_elrond_aurora_family"></a> [elrond\_aurora\_family](#input\_elrond\_aurora\_family) | n/a | `string` | `"aurora-postgresql14"` | no |
