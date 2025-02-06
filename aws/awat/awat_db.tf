@@ -56,6 +56,14 @@ resource "aws_db_subnet_group" "subnets_db" {
 
 }
 
+data "aws_secretsmanager_secret" "awat" {
+  name = format("%s-%s", var.awat_service_name, var.environment)
+}
+
+data "aws_secretsmanager_secret_version" "awat" {
+  secret_id = data.aws_secretsmanager_secret.awat.id
+}
+
 
 module "aurora-cluster" {
   source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.7.93"
@@ -71,7 +79,7 @@ module "aurora-cluster" {
   engine_version                        = var.awat_db_cluster_engine_version
   instance_type                         = var.awat_db_cluster_instance_type
   username                              = var.awat_db_username
-  password                              = var.awat_db_password
+  password                              = data.aws_secretsmanager_secret_version.awat.secret_string
   iam_database_authentication_enabled   = var.iam_database_authentication_enabled
   final_snapshot_identifier_prefix      = "awat-final-${var.awat_db_cluster_identifier}-${local.timestamp_now}"
   skip_final_snapshot                   = false

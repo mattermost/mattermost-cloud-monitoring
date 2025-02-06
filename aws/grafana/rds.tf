@@ -48,6 +48,15 @@ resource "aws_db_subnet_group" "grafana_subnets_db" {
 
 }
 
+data "aws_secretsmanager_secret" "grafana" {
+  name = format("%s-%s", var.grafana_service_name, var.environment)
+}
+
+data "aws_secretsmanager_secret_version" "grafana" {
+  secret_id = data.aws_secretsmanager_secret.grafana.id
+}
+
+
 module "aurora-cluster" {
   source                                = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/aurora-cluster?ref=v1.7.5"
   cluster_identifier                    = var.grafana_db_cluster_identifier
@@ -62,7 +71,7 @@ module "aurora-cluster" {
   engine_version                        = var.grafana_db_cluster_engine_version
   instance_type                         = var.grafana_db_cluster_instance_type
   username                              = var.db_username
-  password                              = var.db_password
+  password                              = data.aws_secretsmanager_secret_version.grafana.secret_string
   final_snapshot_identifier_prefix      = "grafana-final-${var.grafana_db_cluster_identifier}-${local.timestamp_now}"
   skip_final_snapshot                   = false
   deletion_protection                   = var.db_deletion_protection

@@ -14,10 +14,6 @@ variable "cws_db_username" {
   type = string
 }
 
-variable "cws_db_password" {
-  type = string
-}
-
 variable "cws_db_backup_retention_period" {
   type = number
 }

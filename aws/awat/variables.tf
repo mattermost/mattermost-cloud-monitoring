@@ -14,10 +14,6 @@ variable "awat_db_username" {
   type = string
 }
 
-variable "awat_db_password" {
-  type = string
-}
-
 variable "awat_db_backup_retention_period" {
   type = number
 }
