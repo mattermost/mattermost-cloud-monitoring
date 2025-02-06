@@ -56,3 +56,8 @@ resource "aws_iam_role_policy_attachment" "attach_github_secrets_policy" {
   policy_arn = aws_iam_policy.github_secrets_policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "attach_ecr_managed_policy" {
+  role       = aws_iam_role.github_secrets_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
+}
+
