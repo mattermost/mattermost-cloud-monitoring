@@ -31,7 +31,7 @@ resource "aws_iam_policy" "github_secrets_policy" {
       "Action": [
         "secretsmanager:GetSecretValue"
       ],
-      "Resource": "arn:aws:secretsmanager:${data.aws_caller_identity.current.account_id}:secret:${var.secrets_suffix}"
+      "Resource": "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${var.secrets_suffix}"
     },
     {
       "Effect": "Allow",
