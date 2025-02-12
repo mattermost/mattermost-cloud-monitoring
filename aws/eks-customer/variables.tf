@@ -251,13 +251,13 @@ variable "wait_for_cluster_timeout" {
 variable "use_name_prefix" {
   description = "Determines whether to use `name` as is or create a unique name beginning with the `name` as the prefix"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "launch_template_use_name_prefix" {
   description = "Determines whether to use `launch_template_name` as is or create a unique name beginning with the `launch_template_name` as the prefix"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "iam_role_use_name_prefix" {
