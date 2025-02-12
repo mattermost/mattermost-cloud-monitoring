@@ -41,10 +41,10 @@ resource "null_resource" "wait_for_thanos_query_grpc_lb" {
       KUBECONFIG=${path.root}/kubeconfig-${module.eks.cluster_name} bash ${path.module}/scripts/wait_for_lb.sh
     EOT
     environment = {
-      NAMESPACE                  = "prometheus"
-      SERVICE_NAME               = "thanos-query-grpc"
-      TIMEOUT                    = 600
-      INTERVAL                   = 5
+      NAMESPACE    = "prometheus"
+      SERVICE_NAME = "thanos-query-grpc"
+      TIMEOUT      = 600
+      INTERVAL     = 5
     }
   }
 
@@ -57,10 +57,10 @@ resource "null_resource" "wait_for_nginx_internal_lb" {
       KUBECONFIG=${path.root}/kubeconfig-${module.eks.cluster_name} bash ${path.module}/scripts/wait_for_lb.sh
     EOT
     environment = {
-      NAMESPACE                  = "nginx-internal"
-      SERVICE_NAME               = "nginx-internal-ingress-nginx-controller"
-      TIMEOUT                    = 600
-      INTERVAL                   = 5
+      NAMESPACE    = "nginx-internal"
+      SERVICE_NAME = "nginx-internal-ingress-nginx-controller"
+      TIMEOUT      = 600
+      INTERVAL     = 5
     }
   }
 
