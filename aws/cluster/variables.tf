@@ -253,6 +253,6 @@ variable "is_calico_enabled" {
 
 variable "calico_operator_version" {
   type    = string
-  default = "v3.25.1"
+  default = "v3.29.2"
 }
 
