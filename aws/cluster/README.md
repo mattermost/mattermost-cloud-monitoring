@@ -94,7 +94,7 @@
 | <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | List of availability zones to place the instances | `list(string)` | n/a | yes |
 | <a name="input_aws_read_only_sso_role_name"></a> [aws\_read\_only\_sso\_role\_name](#input\_aws\_read\_only\_sso\_role\_name) | Name of the read only SSO iam role | `string` | `""` | no |
 | <a name="input_aws_reserved_sso_id"></a> [aws\_reserved\_sso\_id](#input\_aws\_reserved\_sso\_id) | n/a | `string` | n/a | yes |
-| <a name="input_calico_operator_version"></a> [calico\_operator\_version](#input\_calico\_operator\_version) | n/a | `string` | `"v3.25.1"` | no |
+| <a name="input_calico_operator_version"></a> [calico\_operator\_version](#input\_calico\_operator\_version) | n/a | `string` | `"v3.29.2"` | no |
 | <a name="input_cidr_blocks"></a> [cidr\_blocks](#input\_cidr\_blocks) | n/a | `list(string)` | n/a | yes |
 | <a name="input_cluster_short_name"></a> [cluster\_short\_name](#input\_cluster\_short\_name) | n/a | `string` | n/a | yes |
 | <a name="input_coredns_addon_version"></a> [coredns\_addon\_version](#input\_coredns\_addon\_version) | The version of the EKS CoreDNS addon | `string` | n/a | yes |
