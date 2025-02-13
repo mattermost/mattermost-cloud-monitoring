@@ -8,8 +8,8 @@ data "http" "tigera_operator" {
 
 locals {
   tigera_operator_docs = var.is_calico_enabled ? [
-    for doc in split("\n---\n", data.http.tigera_operator[0].body) : yamldecode(doc)
-    if trim(doc) != ""
+    for doc in split("\n---\n", data.http.tigera_operator[0].response_body) : yamldecode(doc)
+    if trimspace(doc) != ""
   ] : []
 }
 
