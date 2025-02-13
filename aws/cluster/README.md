@@ -5,6 +5,7 @@
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.3 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.41.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.0 |
+| <a name="requirement_http"></a> [http](#requirement\_http) | ~> 2.2 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.20 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | >= 4.0.0 |
 
@@ -13,6 +14,7 @@
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.41.0 |
+| <a name="provider_http"></a> [http](#provider\_http) | ~> 2.2 |
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | ~> 2.20 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | >= 4.0.0 |
 
@@ -65,12 +67,16 @@
 | [kubernetes_cluster_role_binding.console_access](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role_binding) | resource |
 | [kubernetes_cluster_role_binding.read_only_access](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role_binding) | resource |
 | [kubernetes_config_map.aws_auth_configmap](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
+| [kubernetes_manifest.calico_installation](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/manifest) | resource |
+| [kubernetes_manifest.calico_operator](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/manifest) | resource |
+| [kubernetes_manifest.felix_configuration](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/manifest) | resource |
 | [kubernetes_storage_class_v1.gp3](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/storage_class_v1) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_eks_cluster.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eks_cluster) | data source |
 | [aws_eks_cluster_auth.cluster_auth](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eks_cluster_auth) | data source |
 | [aws_iam_role.lambda_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_role) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [http_http.tigera_operator](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) | data source |
 | [tls_certificate.cluster_openid_issuer](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/data-sources/certificate) | data source |
 
 ## Inputs
@@ -88,6 +94,7 @@
 | <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | List of availability zones to place the instances | `list(string)` | n/a | yes |
 | <a name="input_aws_read_only_sso_role_name"></a> [aws\_read\_only\_sso\_role\_name](#input\_aws\_read\_only\_sso\_role\_name) | Name of the read only SSO iam role | `string` | `""` | no |
 | <a name="input_aws_reserved_sso_id"></a> [aws\_reserved\_sso\_id](#input\_aws\_reserved\_sso\_id) | n/a | `string` | n/a | yes |
+| <a name="input_calico_operator_version"></a> [calico\_operator\_version](#input\_calico\_operator\_version) | n/a | `string` | `"v3.25.1"` | no |
 | <a name="input_cidr_blocks"></a> [cidr\_blocks](#input\_cidr\_blocks) | n/a | `list(string)` | n/a | yes |
 | <a name="input_cluster_short_name"></a> [cluster\_short\_name](#input\_cluster\_short\_name) | n/a | `string` | n/a | yes |
 | <a name="input_coredns_addon_version"></a> [coredns\_addon\_version](#input\_coredns\_addon\_version) | The version of the EKS CoreDNS addon | `string` | n/a | yes |
@@ -105,6 +112,7 @@
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
 | <a name="input_gitlab_cidr"></a> [gitlab\_cidr](#input\_gitlab\_cidr) | n/a | `list(string)` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | n/a | `string` | n/a | yes |
+| <a name="input_is_calico_enabled"></a> [is\_calico\_enabled](#input\_is\_calico\_enabled) | n/a | `bool` | `false` | no |
 | <a name="input_is_gp3_default"></a> [is\_gp3\_default](#input\_is\_gp3\_default) | Set to true to set gp3 storageClass as default | `string` | `"true"` | no |
 | <a name="input_kube_proxy_addon_version"></a> [kube\_proxy\_addon\_version](#input\_kube\_proxy\_addon\_version) | The version of the EKS Kube Proxy addon | `string` | n/a | yes |
 | <a name="input_log_types"></a> [log\_types](#input\_log\_types) | n/a | `list(string)` | n/a | yes |

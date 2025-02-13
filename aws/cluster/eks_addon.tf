@@ -1,5 +1,5 @@
 resource "aws_eks_addon" "vpc_cni" {
-  count = var.enable_vpc_cni_addon ? 1 : 0
+  count = var.enable_vpc_cni_addon && !var.is_calico_enabled ? 1 : 0
 
   cluster_name                = aws_eks_cluster.cluster.name
   addon_name                  = "vpc-cni"
