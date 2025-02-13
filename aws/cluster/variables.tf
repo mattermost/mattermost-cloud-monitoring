@@ -245,3 +245,14 @@ variable "al2023_arm_image_id" {
   type        = string
   default     = ""
 }
+
+variable "is_calico_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "calico_operator_version" {
+  type    = string
+  default = "v3.29.2"
+}
+
