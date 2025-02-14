@@ -116,7 +116,7 @@ data "aws_lb" "internal" {
     read = "20m"
   }
 
-  depends_on = [null_resource.deploy-utilites]
+  depends_on = [null_resource.wait_for_nginx_internal_lb]
 }
 
 data "aws_lb" "thanos-query-grpc" {
@@ -129,5 +129,5 @@ data "aws_lb" "thanos-query-grpc" {
     read = "20m"
   }
 
-  depends_on = [null_resource.deploy-utilites]
+  depends_on = [null_resource.wait_for_thanos_query_grpc_lb]
 }
