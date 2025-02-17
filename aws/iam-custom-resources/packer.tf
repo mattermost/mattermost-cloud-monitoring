@@ -5,6 +5,26 @@ resource "aws_iam_user" "packer" {
   path = "/"
 }
 
+resource "aws_iam_role" "packer_role" {
+  name = "mattermost-cloud-${var.environment}-packer-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          AWS = var.github_runners_iam_role_arn
+        }
+        Action = [
+          "sts:TagSession",
+          "sts:AssumeRole"
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "packer" {
   count = var.create_packer_user ? 1 : 0
 
@@ -153,3 +173,7 @@ resource "aws_iam_user_policy_attachment" "packer" {
   policy_arn = aws_iam_policy.packer[0].arn
 }
 
+resource "aws_iam_role_policy_attachment" "packer_role" {
+  policy_arn = aws_iam_policy.packer[0].arn
+  role       = aws_iam_role.packer_role.name
+}
