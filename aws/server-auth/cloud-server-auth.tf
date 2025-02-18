@@ -138,7 +138,7 @@ resource "aws_api_gateway_usage_plan" "cloud_server_auth_usageplan" {
 
   api_stages {
     api_id = aws_api_gateway_rest_api.cloud_server_auth.id
-    stage  = aws_api_gateway_deployment.cloud_server_auth_deployment.stage_name
+    stage  = aws_api_gateway_stage.cloud_server_auth_deployment.stage_name
   }
 }
 
