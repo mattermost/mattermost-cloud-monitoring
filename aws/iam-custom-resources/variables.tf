@@ -26,3 +26,9 @@ variable "exports_bucket_arn" {
   type        = string
   default     = ""
 }
+
+variable "github_runners_iam_role_arn" {
+  description = "Github runner role ARN"
+  type        = string
+  default     = ""
+}
