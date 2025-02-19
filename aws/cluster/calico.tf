@@ -77,31 +77,55 @@ resource "null_resource" "refresh_eks_nodes" {
       if [ -f ${path.root}/calico_config_applied ]; then
         echo "Rolling out new nodes for Calico changes (1-by-1 refresh)..."
 
-        ASG_NAME="${var.cluster_short_name}-arm-nodes"
+        BASE_ASG_NAME="${var.node_group_name}-arm-nodes"
 
+        # Fetch the actual ASG name (handles dynamic suffixes)
+        ASG_NAME=$(aws autoscaling describe-auto-scaling-groups \
+          --query "AutoScalingGroups[*].AutoScalingGroupName" \
+          --output text | tr '\t' '\n' | grep "^$BASE_ASG_NAME-" | awk 'NR==1{print $1}')
+
+        if [ -z "$ASG_NAME" ]; then
+          echo "Error: Auto Scaling Group matching '$BASE_ASG_NAME-' not found."
+          exit 1
+        fi
+
+        echo "Detected ASG: $ASG_NAME"
+
+        # Fetch instance IDs
         INSTANCE_IDS=$(aws autoscaling describe-auto-scaling-groups \
           --auto-scaling-group-names "$ASG_NAME" \
           --query "AutoScalingGroups[0].Instances[*].InstanceId" \
           --output text)
 
+        if [ -z "$INSTANCE_IDS" ]; then
+          echo "Error: No instances found in Auto Scaling Group $ASG_NAME."
+          exit 1
+        fi
+
         for INSTANCE in $INSTANCE_IDS; do
-          echo "Terminating instance: $INSTANCE"
-          aws autoscaling terminate-instance-in-auto-scaling-group --instance-id "$INSTANCE" --should-decrement-desired-capacity false
+          if [ -n "$INSTANCE" ]; then
+            echo "Terminating instance: $INSTANCE"
+            aws autoscaling terminate-instance-in-auto-scaling-group --instance-id "$INSTANCE" --should-decrement-desired-capacity false
 
-          echo "Waiting for the new node to be ready..."
-          sleep 180  # Wait 3 minutes for the node to join the cluster
+            echo "Waiting for the new node to be ready..."
+            sleep 180  # Wait 3 minutes for the node to join the cluster
 
-          # Ensure the node is in a Ready state before proceeding
-          while true; do
-            NEW_NODES=$(KUBECONFIG=${path.root}/kubeconfig-${aws_eks_cluster.cluster.name} \
-              kubectl get nodes --no-headers | grep -c " Ready ")
-            if [ "$NEW_NODES" -gt 0 ]; then
-              echo "New node is ready, proceeding to next."
-              break
-            fi
-            echo "Waiting for the node to become Ready..."
-            sleep 30
-          done
+            # Ensure the new node is in a Ready state before proceeding
+            while true; do
+              NODE_READY=$(KUBECONFIG=${path.root}/kubeconfig-${aws_eks_cluster.cluster.name} \
+                kubectl get nodes --no-headers | grep -c " Ready ")
+
+              if [ "$NODE_READY" -gt 0 ]; then
+                echo "New node is ready, proceeding to next."
+                break
+              fi
+
+              echo "Waiting for the node to become Ready..."
+              sleep 30
+            done
+          else
+            echo "Skipping invalid instance ID."
+          fi
         done
 
         echo "Node refresh complete."
@@ -113,5 +137,3 @@ resource "null_resource" "refresh_eks_nodes" {
 
   depends_on = [null_resource.calico_operator_configuration]
 }
-
-
