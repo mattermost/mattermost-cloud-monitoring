@@ -256,3 +256,20 @@ variable "calico_operator_version" {
   default = "v3.29.2"
 }
 
+variable "calico_desired_size" {
+  description = "Desired size for the Calico node group"
+  type        = number
+  default     = 3
+}
+
+variable "calico_min_size" {
+  description = "Minimum size for the Calico node group"
+  type        = number
+  default     = 2
+}
+
+variable "calico_max_size" {
+  description = "Maximum size for the Calico node group"
+  type        = number
+  default     = 5
+}
