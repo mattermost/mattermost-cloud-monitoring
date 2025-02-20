@@ -108,7 +108,7 @@ resource "aws_eks_node_group" "calico_arm_nodes" {
     "calico" = "true"
   }
 
-  taints {
+  taint {
     key    = "calico"
     value  = "only"
     effect = "NO_SCHEDULE"

@@ -1,5 +1,5 @@
 module "managed_node_group" {
-  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.8.43"
+  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.8.44"
   vpc_security_group_ids = [aws_security_group.worker-sg.id]
   volume_size            = var.node_volume_size
   volume_type            = var.node_volume_type
