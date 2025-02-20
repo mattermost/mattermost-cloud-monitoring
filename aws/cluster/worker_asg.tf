@@ -1,5 +1,5 @@
 module "managed_node_group" {
-  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.8.19"
+  source                 = "github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups?ref=v1.8.42"
   vpc_security_group_ids = [aws_security_group.worker-sg.id]
   volume_size            = var.node_volume_size
   volume_type            = var.node_volume_type
@@ -39,4 +39,8 @@ module "managed_node_group" {
   api_server_endpoint   = aws_eks_cluster.cluster.endpoint
   certificate_authority = aws_eks_cluster.cluster.certificate_authority[0].data
   service_ipv4_cidr     = local.service_cidr
+  is_calico_enabled     = var.is_calico_enabled
+  calico_min_size       = var.calico_min_size
+  calico_desired_size   = var.calico_desired_size
+  calico_max_size       = var.calico_max_size
 }

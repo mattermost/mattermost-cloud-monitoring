@@ -180,3 +180,26 @@ variable "service_ipv4_cidr" {
   description = "The service IPv4 CIDR range for the EKS cluster"
   type        = string
 }
+
+variable "is_calico_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "calico_desired_size" {
+  description = "Desired size for the Calico node group"
+  type        = number
+  default     = 3
+}
+
+variable "calico_min_size" {
+  description = "Minimum size for the Calico node group"
+  type        = number
+  default     = 2
+}
+
+variable "calico_max_size" {
+  description = "Maximum size for the Calico node group"
+  type        = number
+  default     = 5
+}

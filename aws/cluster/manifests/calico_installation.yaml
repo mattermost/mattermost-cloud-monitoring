@@ -8,3 +8,9 @@ spec:
     type: Calico
   calicoNetwork:
     bgp: Disabled
+  nodeSelector:
+    calico: "true"
+  tolerations:
+    - key: "calico"
+      operator: "Exists"
+      effect: "NoSchedule"

@@ -14,21 +14,7 @@ resource "aws_secretsmanager_secret_version" "kubeconfig_secret_version" {
   depends_on = [local.kubeconfig]
 }
 
-# 1. Handle aws-node DaemonSet deletion gracefully
-resource "null_resource" "delete_aws_node" {
-  count = var.is_calico_enabled ? 1 : 0
-
-  provisioner "local-exec" {
-    command = <<EOF
-      KUBECONFIG=${path.root}/kubeconfig-${aws_eks_cluster.cluster.name} \
-      kubectl delete daemonset aws-node -n kube-system --ignore-not-found=true || true
-    EOF
-  }
-
-  depends_on = [resource.local_file.kubeconfig]
-}
-
-# 2. Install Calico operator only if it is not already installed
+# Install Calico operator only if it is not already installed
 resource "null_resource" "install_calico_operator" {
   count = var.is_calico_enabled ? 1 : 0
 
@@ -68,72 +54,16 @@ resource "null_resource" "calico_operator_configuration" {
   depends_on = [null_resource.install_calico_operator]
 }
 
-# 4. Refresh nodes **ONLY IF** Calico was newly installed (1-by-1)
-resource "null_resource" "refresh_eks_nodes" {
+resource "null_resource" "patch_aws_node" {
   count = var.is_calico_enabled ? 1 : 0
 
   provisioner "local-exec" {
     command = <<EOF
-      if [ -f ${path.root}/calico_config_applied ]; then
-        echo "Rolling out new nodes for Calico changes (1-by-1 refresh)..."
-
-        BASE_ASG_NAME="${var.node_group_name}-arm-nodes"
-
-        # Fetch the actual ASG name (handles dynamic suffixes)
-        ASG_NAME=$(aws autoscaling describe-auto-scaling-groups \
-          --query "AutoScalingGroups[*].AutoScalingGroupName" \
-          --output text | tr '\t' '\n' | grep "^$BASE_ASG_NAME-" | awk 'NR==1{print $1}')
-
-        if [ -z "$ASG_NAME" ]; then
-          echo "Error: Auto Scaling Group matching '$BASE_ASG_NAME-' not found."
-          exit 1
-        fi
-
-        echo "Detected ASG: $ASG_NAME"
-
-        # Fetch instance IDs
-        INSTANCE_IDS=$(aws autoscaling describe-auto-scaling-groups \
-          --auto-scaling-group-names "$ASG_NAME" \
-          --query "AutoScalingGroups[0].Instances[*].InstanceId" \
-          --output text)
-
-        if [ -z "$INSTANCE_IDS" ]; then
-          echo "Error: No instances found in Auto Scaling Group $ASG_NAME."
-          exit 1
-        fi
-
-        for INSTANCE in $INSTANCE_IDS; do
-          if [ -n "$INSTANCE" ]; then
-            echo "Terminating instance: $INSTANCE"
-            aws autoscaling terminate-instance-in-auto-scaling-group --instance-id "$INSTANCE" --should-decrement-desired-capacity false
-
-            echo "Waiting for the new node to be ready..."
-            sleep 180  # Wait 3 minutes for the node to join the cluster
-
-            # Ensure the new node is in a Ready state before proceeding
-            while true; do
-              NODE_READY=$(KUBECONFIG=${path.root}/kubeconfig-${aws_eks_cluster.cluster.name} \
-                kubectl get nodes --no-headers | grep -c " Ready ")
-
-              if [ "$NODE_READY" -gt 0 ]; then
-                echo "New node is ready, proceeding to next."
-                break
-              fi
-
-              echo "Waiting for the node to become Ready..."
-              sleep 30
-            done
-          else
-            echo "Skipping invalid instance ID."
-          fi
-        done
-
-        echo "Node refresh complete."
-      else
-        echo "Skipping node refresh since Calico was already installed."
-      fi
-    EOF
+      KUBECONFIG=${path.root}/kubeconfig-${aws_eks_cluster.cluster.name} kubectl patch daemonset aws-node -n kube-system --type='json' -p='[
+  { "op": "add", "path": "/spec/template/spec/nodeSelector", "value": { "calico": "false" } }
+]'
+EOF
   }
 
-  depends_on = [null_resource.calico_operator_configuration]
+  depends_on = [aws_eks_cluster.cluster]
 }

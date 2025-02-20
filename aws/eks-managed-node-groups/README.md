@@ -20,6 +20,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [aws_eks_node_group.calico_arm_nodes](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
 | [aws_eks_node_group.general_arm_nodes_eks_cluster_ng](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
 | [aws_eks_node_group.general_nodes_eks_cluster_ng](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
 | [aws_eks_node_group.spot_nodes_eks_cluster_ng](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
@@ -41,6 +42,9 @@ No modules.
 | <a name="input_arm_max_size"></a> [arm\_max\_size](#input\_arm\_max\_size) | The maximum number of arm nodes in the node group | `string` | n/a | yes |
 | <a name="input_arm_min_size"></a> [arm\_min\_size](#input\_arm\_min\_size) | The minimum number of arm nodes in the node group | `string` | n/a | yes |
 | <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | List of availability zones to place the instances | `list(string)` | n/a | yes |
+| <a name="input_calico_desired_size"></a> [calico\_desired\_size](#input\_calico\_desired\_size) | Desired size for the Calico node group | `number` | `3` | no |
+| <a name="input_calico_max_size"></a> [calico\_max\_size](#input\_calico\_max\_size) | Maximum size for the Calico node group | `number` | `5` | no |
+| <a name="input_calico_min_size"></a> [calico\_min\_size](#input\_calico\_min\_size) | Minimum size for the Calico node group | `number` | `2` | no |
 | <a name="input_certificate_authority"></a> [certificate\_authority](#input\_certificate\_authority) | The certificate authority data for the EKS cluster | `string` | n/a | yes |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | The name of the cluster that the node group will be assigned to | `string` | n/a | yes |
 | <a name="input_cluster_short_name"></a> [cluster\_short\_name](#input\_cluster\_short\_name) | A short name that identifies the cluster | `string` | n/a | yes |
@@ -50,6 +54,7 @@ No modules.
 | <a name="input_enable_spot_nodes"></a> [enable\_spot\_nodes](#input\_enable\_spot\_nodes) | If true, spot nodes will be created | `bool` | `false` | no |
 | <a name="input_image_id"></a> [image\_id](#input\_image\_id) | The AMI ID used for the nodes in the node group | `string` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The instance type used for the nodes in the node group | `string` | n/a | yes |
+| <a name="input_is_calico_enabled"></a> [is\_calico\_enabled](#input\_is\_calico\_enabled) | n/a | `bool` | `false` | no |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | The maximum number of nodes in the node group | `string` | n/a | yes |
 | <a name="input_min_size"></a> [min\_size](#input\_min\_size) | The minimum number of nodes in the node group | `string` | n/a | yes |
 | <a name="input_node_group_name"></a> [node\_group\_name](#input\_node\_group\_name) | A name that can be used to identify the node group | `string` | n/a | yes |
