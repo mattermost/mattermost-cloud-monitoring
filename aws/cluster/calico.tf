@@ -54,6 +54,22 @@ resource "null_resource" "calico_operator_configuration" {
   depends_on = [null_resource.install_calico_operator]
 }
 
+resource "null_resource" "patch_calico_daemonset" {
+  provisioner "local-exec" {
+    command = <<EOF
+kubectl patch daemonset calico-node -n calico-system --type='json' -p='[
+  { "op": "add", "path": "/spec/template/spec/nodeSelector", "value": { "calico": "true" } },
+  { "op": "add", "path": "/spec/template/spec/tolerations", "value": [
+      { "key": "calico", "operator": "Exists", "effect": "NoSchedule" }
+    ]
+  }
+]'
+EOF
+  }
+
+  depends_on = [null_resource.calico_operator_configuration]
+}
+
 resource "null_resource" "patch_aws_node" {
   count = var.is_calico_enabled ? 1 : 0
 
