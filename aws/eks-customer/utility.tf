@@ -23,6 +23,8 @@ resource "null_resource" "deploy-utilites" {
       ARGOCD_ROLE_ARN            = var.argocd_role_arn
       ARGOCD_SERVER              = var.argocd_server
       AWS_ACCOUNT                = data.aws_caller_identity.current.account_id
+      PUSH_UTILITIES_TO_MAIN     = var.push_utilities_to_main
+      BRANCH_NAME                = "${module.eks.cluster_name}-deploy-utilities-${formatdate("YYMMDDhhss", timestamp())}--delete-after-merge"
     }
   }
 
