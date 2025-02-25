@@ -103,7 +103,7 @@
 | <a name="input_github_app_installation_id"></a> [github\_app\_installation\_id](#input\_github\_app\_installation\_id) | The installation id for the Github App | `string` | n/a | yes |
 | <a name="input_github_app_pem_key_path"></a> [github\_app\_pem\_key\_path](#input\_github\_app\_pem\_key\_path) | The path of the Github App PEM | `string` | n/a | yes |
 | <a name="input_gitops_repo_email"></a> [gitops\_repo\_email](#input\_gitops\_repo\_email) | The git repo email for executing git commands | `string` | n/a | yes |
-| <a name="input_gitops_repo_path"></a> [gitops\_repo\_path](#input\_gitops\_repo\_path) | The git repo url | `string` | n/a | yes |
+| <a name="input_gitops_repo_path"></a> [gitops\_repo\_path](#input\_gitops\_repo\_path) | The git repo path | `string` | n/a | yes |
 | <a name="input_gitops_repo_url"></a> [gitops\_repo\_url](#input\_gitops\_repo\_url) | The git repo url | `string` | n/a | yes |
 | <a name="input_gitops_repo_username"></a> [gitops\_repo\_username](#input\_gitops\_repo\_username) | The git repo username for executing git commands | `string` | n/a | yes |
 | <a name="input_iam_role_use_name_prefix"></a> [iam\_role\_use\_name\_prefix](#input\_iam\_role\_use\_name\_prefix) | Determines whether the IAM role name (`iam_role_name`) is used as a prefix | `bool` | `false` | no |
@@ -114,6 +114,7 @@
 | <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | The list of node groups | `any` | `{}` | no |
 | <a name="input_private_domain"></a> [private\_domain](#input\_private\_domain) | The private domain | `string` | n/a | yes |
 | <a name="input_provisioner_role_arn"></a> [provisioner\_role\_arn](#input\_provisioner\_role\_arn) | The provisioner role arn | `string` | n/a | yes |
+| <a name="input_push_utilities_to_main"></a> [push\_utilities\_to\_main](#input\_push\_utilities\_to\_main) | Indicates whether or not to automatically push utilities to the Gitops repository | `bool` | `true` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region for the EKS cluster | `string` | `"us-east-1"` | no |
 | <a name="input_snapshot_controller_version"></a> [snapshot\_controller\_version](#input\_snapshot\_controller\_version) | n/a | `string` | n/a | yes |
 | <a name="input_staff_role_arn"></a> [staff\_role\_arn](#input\_staff\_role\_arn) | The staff role arn | `string` | n/a | yes |
