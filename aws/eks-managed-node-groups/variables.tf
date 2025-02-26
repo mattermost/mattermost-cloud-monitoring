@@ -203,3 +203,90 @@ variable "calico_max_size" {
   type        = number
   default     = 5
 }
+
+variable "calico_max_pods" {
+  description = "Maximum number of pods when Calico CNI is enabled"
+  type        = number
+  default     = 110
+}
+
+variable "instance_type_max_pods_map" {
+  description = "Map of instance types to their maximum pod limits for AWS VPC CNI"
+  type        = map(number)
+  default = {
+    # T4g instances
+    "t4g.nano"    = 4
+    "t4g.micro"   = 4
+    "t4g.small"   = 11
+    "t4g.medium"  = 17
+    "t4g.large"   = 35
+    "t4g.xlarge"  = 58
+    "t4g.2xlarge" = 58
+
+    # M6g instances
+    "m6g.medium"   = 17
+    "m6g.large"    = 35
+    "m6g.xlarge"   = 58
+    "m6g.2xlarge"  = 58
+    "m6g.4xlarge"  = 234
+    "m6g.8xlarge"  = 234
+    "m6g.12xlarge" = 234
+    "m6g.16xlarge" = 737
+    "m6g.metal"    = 737
+
+    # M6gd instances
+    "m6gd.medium"   = 17
+    "m6gd.large"    = 35
+    "m6gd.xlarge"   = 58
+    "m6gd.2xlarge"  = 58
+    "m6gd.4xlarge"  = 234
+    "m6gd.8xlarge"  = 234
+    "m6gd.12xlarge" = 234
+    "m6gd.16xlarge" = 737
+    "m6gd.metal"    = 737
+
+    # C6g instances
+    "c6g.medium"   = 17
+    "c6g.large"    = 35
+    "c6g.xlarge"   = 58
+    "c6g.2xlarge"  = 58
+    "c6g.4xlarge"  = 234
+    "c6g.8xlarge"  = 234
+    "c6g.12xlarge" = 234
+    "c6g.16xlarge" = 737
+    "c6g.metal"    = 737
+
+    # C6gd instances
+    "c6gd.medium"   = 17
+    "c6gd.large"    = 35
+    "c6gd.xlarge"   = 58
+    "c6gd.2xlarge"  = 58
+    "c6gd.4xlarge"  = 234
+    "c6gd.8xlarge"  = 234
+    "c6gd.12xlarge" = 234
+    "c6gd.16xlarge" = 737
+    "c6gd.metal"    = 737
+
+    # R6g instances
+    "r6g.medium"   = 17
+    "r6g.large"    = 35
+    "r6g.xlarge"   = 58
+    "r6g.2xlarge"  = 58
+    "r6g.4xlarge"  = 234
+    "r6g.8xlarge"  = 234
+    "r6g.12xlarge" = 234
+    "r6g.16xlarge" = 737
+    "r6g.metal"    = 737
+
+    # R6gd instances
+    "r6gd.medium"   = 17
+    "r6gd.large"    = 35
+    "r6gd.xlarge"   = 58
+    "r6gd.2xlarge"  = 58
+    "r6gd.4xlarge"  = 234
+    "r6gd.8xlarge"  = 234
+    "r6gd.12xlarge" = 234
+    "r6gd.16xlarge" = 737
+    "r6gd.metal"    = 737
+  }
+}

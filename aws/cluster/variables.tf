@@ -251,11 +251,6 @@ variable "is_calico_enabled" {
   default = false
 }
 
-variable "calico_operator_version" {
-  type    = string
-  default = "v3.29.2"
-}
-
 variable "calico_desired_size" {
   description = "Desired size for the Calico node group"
   type        = number
