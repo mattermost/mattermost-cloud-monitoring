@@ -24,6 +24,7 @@ No modules.
 | [aws_eks_node_group.general_arm_nodes_eks_cluster_ng](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
 | [aws_eks_node_group.general_nodes_eks_cluster_ng](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
 | [aws_eks_node_group.spot_nodes_eks_cluster_ng](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
+| [aws_launch_template.calico_cluster_nodes_eks_arm_launch_template](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 | [aws_launch_template.cluster_nodes_eks_arm_launch_template](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 | [aws_launch_template.cluster_nodes_eks_launch_template](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 | [aws_launch_template.cluster_spot_nodes_eks_launch_template](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
