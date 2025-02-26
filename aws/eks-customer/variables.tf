@@ -127,7 +127,7 @@ variable "gitops_repo_url" {
 }
 
 variable "gitops_repo_path" {
-  description = "The git repo url"
+  description = "The git repo path"
   type        = string
 }
 
@@ -308,4 +308,10 @@ variable "update_config" {
   default = {
     max_unavailable = 1
   }
+}
+
+variable "push_utilities_to_main" {
+  description = "Indicates whether or not to automatically push utilities to the Gitops repository"
+  type        = bool
+  default     = true
 }

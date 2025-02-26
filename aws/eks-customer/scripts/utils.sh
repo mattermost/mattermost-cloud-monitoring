@@ -72,20 +72,29 @@ function while_repo_exists() { #This is to avoid github race condition errors wh
 
 function clone_repo() {
     sleep $((5 + RANDOM % 50)) # Random sleep
-    echo "Cloning repo https://${GIT_REPO_URL}/${GIT_REPO_PATH}"
+    echo "Cloning repo https://${GIT_REPO_URL}/${GIT_REPO_PATH}.git"
     if [[ -z "$GIT_REPO_URL" || -z "$GIT_REPO_PATH" ]]; then
         echo "GIT_REPO_URL and/or GIT_REPO_PATH  is empty"
         exit 1
     fi
     while_repo_exists
     GITHUB_TOKEN=$(generate_token)
-    git clone "https://x-access-token:${GITHUB_TOKEN}@${GIT_REPO_URL}/${GIT_REPO_PATH}" $gitops_sre_dir
+    git clone "https://x-access-token:${GITHUB_TOKEN}@${GIT_REPO_URL}/${GIT_REPO_PATH}.git" $gitops_sre_dir
 
     current_dir=$(pwd)
     cd $gitops_sre_dir || exit
     git config user.name "${GIT_REPO_USERNAME}"
     git config user.email "${GIT_REPO_EMAIL}"
     cd $current_dir || exit
+}
+
+function create_new_branch() {
+  branch_name=$1
+  current_dir=$(pwd)
+
+  cd $gitops_sre_dir || exit
+  git checkout -b $branch_name
+  cd $current_dir || exit
 }
 
 function stage_changes() {
@@ -125,10 +134,33 @@ function commit_changes() {
 
 function push_changes_to_git() {
   echo "Pushing changes to git"
+  branch_name=$1
   current_dir=$(pwd)
 
   cd $gitops_sre_dir || exit
-  git push origin main
+  git push origin $branch_name
+  cd $current_dir || exit
+}
+
+function make_pr() {
+  branch_name=$1
+  pr_title="Deploy utilities for cluster ${CLUSTER_NAME}"
+  pr_body="This PR adds/modify utilities for cluster ${CLUSTER_NAME}."
+
+  current_dir=$(pwd)
+
+  cd $gitops_sre_dir || exit
+  GITHUB_TOKEN=$(generate_token)
+  curl -L --silent --request POST \
+    --header "Accept: application/vnd.github+json" \
+    --header "Authorization: Bearer ${GITHUB_TOKEN}" \
+    "https://api.github.com/repos/${GIT_REPO_PATH}/pulls" \
+    --data "{
+      \"title\": \"${pr_title}\",
+      \"body\": \"${pr_body}\",
+      \"head\": \"${branch_name}\",
+      \"base\": \"main\"
+    }"
   cd $current_dir || exit
 }
 

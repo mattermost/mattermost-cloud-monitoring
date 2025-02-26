@@ -56,8 +56,13 @@ function deploy_utility() {
 
 	done
 
-  push_changes_to_git
-  
+  # PUSH_UTILITIES_TO_MAIN if this value is set to true, then push the changes to main
+  if [[ $PUSH_UTILITIES_TO_MAIN == "false" ]]; then
+    push_changes_to_git $BRANCH_NAME
+    make_pr $BRANCH_NAME
+  else
+    push_changes_to_git "main"
+  fi
 }
 
 function add_utility_to_application_file() {
@@ -132,6 +137,9 @@ function wait_for_healthy() {
 
 function main() {
   clone_repo
+  if [[ $PUSH_UTILITIES_TO_MAIN == "false" ]]; then
+    create_new_branch $BRANCH_NAME
+  fi
   add_cluster
   create_cluster_folder
   deploy_utility
