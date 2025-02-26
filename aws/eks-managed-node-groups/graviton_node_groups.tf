@@ -34,7 +34,8 @@ spec:
       ${var.certificate_authority}
     cidr: ${var.service_ipv4_cidr}
   kubelet:
-    maxPods: ${lookup(var.instance_type_max_pods_map, var.arm_instance_type, 17)}
+    config:
+      maxPods: ${lookup(var.instance_type_max_pods_map, var.arm_instance_type, 17)}
 EOF
 
 /usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml
@@ -93,7 +94,8 @@ spec:
       ${var.certificate_authority}
     cidr: ${var.service_ipv4_cidr}
   kubelet:
-    maxPods: ${var.is_calico_enabled ? var.calico_max_pods : lookup(var.instance_type_max_pods_map, var.arm_instance_type, 17)}
+    config:
+      maxPods: ${var.calico_max_pods}
 EOF
 
 /usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml
@@ -101,7 +103,7 @@ USERDATA
     ) : base64encode(<<USERDATA
 #!/bin/bash
 /etc/eks/bootstrap.sh --apiserver-endpoint '${var.api_server_endpoint}' --b64-cluster-ca '${var.certificate_authority}' '${var.cluster_name}' \
-  --kubelet-extra-args "--max-pods=${var.is_calico_enabled ? var.calico_max_pods : lookup(var.instance_type_max_pods_map, var.arm_instance_type, 17)} --kube-reserved cpu=250m,memory=1Gi,ephemeral-storage=1Gi --system-reserved cpu=250m,memory=0.2Gi,ephemeral-storage=1Gi --eviction-hard memory.available<0.2Gi,nodefs.available<10%"
+  --kubelet-extra-args "--max-pods=${var.calico_max_pods} --kube-reserved cpu=250m,memory=1Gi,ephemeral-storage=1Gi --system-reserved cpu=250m,memory=0.2Gi,ephemeral-storage=1Gi --eviction-hard memory.available<0.2Gi,nodefs.available<10%"
 USERDATA
   )
 
