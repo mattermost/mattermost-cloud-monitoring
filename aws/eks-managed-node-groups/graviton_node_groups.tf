@@ -1,4 +1,5 @@
 resource "aws_launch_template" "cluster_nodes_eks_arm_launch_template" {
+  count       = var.is_calico_enabled ? 0 : 1
   name        = "${var.cluster_short_name}_cluster_arm_launch_template"
   description = "${var.cluster_short_name} cluster arm nodes launch template"
 
@@ -59,6 +60,7 @@ USERDATA
 }
 
 resource "aws_launch_template" "calico_cluster_nodes_eks_arm_launch_template" {
+  count       = var.is_calico_enabled ? 1 : 0
   name        = "${var.cluster_short_name}_calico_cluster_arm_launch_template"
   description = "${var.cluster_short_name} cluster arm nodes launch template"
 
@@ -119,6 +121,7 @@ USERDATA
 }
 
 resource "aws_eks_node_group" "general_arm_nodes_eks_cluster_ng" {
+  count           = var.is_calico_enabled ? 0 : 1
   cluster_name    = var.cluster_name
   node_group_name = "${var.node_group_name}-arm-nodes"
 
@@ -146,8 +149,8 @@ resource "aws_eks_node_group" "general_arm_nodes_eks_cluster_ng" {
   }
 
   launch_template {
-    name    = aws_launch_template.cluster_nodes_eks_arm_launch_template.name
-    version = aws_launch_template.cluster_nodes_eks_arm_launch_template.latest_version
+    name    = aws_launch_template.cluster_nodes_eks_arm_launch_template[0].name
+    version = aws_launch_template.cluster_nodes_eks_arm_launch_template[0].latest_version
   }
 
   lifecycle {
@@ -179,8 +182,8 @@ resource "aws_eks_node_group" "calico_arm_nodes" {
   }
 
   launch_template {
-    name    = aws_launch_template.calico_cluster_nodes_eks_arm_launch_template.name
-    version = aws_launch_template.calico_cluster_nodes_eks_arm_launch_template.latest_version
+    name    = aws_launch_template.calico_cluster_nodes_eks_arm_launch_template[0].name
+    version = aws_launch_template.calico_cluster_nodes_eks_arm_launch_template[0].latest_version
   }
 
   lifecycle {
