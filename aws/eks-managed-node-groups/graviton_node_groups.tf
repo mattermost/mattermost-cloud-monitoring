@@ -175,12 +175,6 @@ resource "aws_eks_node_group" "calico_arm_nodes" {
     "calico" = "true"
   }
 
-  taint {
-    key    = "calico"
-    value  = "only"
-    effect = "NO_SCHEDULE"
-  }
-
   launch_template {
     name    = aws_launch_template.calico_cluster_nodes_eks_arm_launch_template[0].name
     version = aws_launch_template.calico_cluster_nodes_eks_arm_launch_template[0].latest_version
