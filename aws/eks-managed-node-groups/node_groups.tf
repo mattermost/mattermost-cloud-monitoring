@@ -1,4 +1,5 @@
 resource "aws_launch_template" "cluster_nodes_eks_launch_template" {
+  count       = var.is_calico_enabled ? 0 : 1
   name        = "${var.cluster_short_name}_cluster_launch_template"
   description = "${var.cluster_short_name} cluster nodes launch template"
 
@@ -54,6 +55,7 @@ USERDATA
 }
 
 resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
+  count           = var.is_calico_enabled ? 0 : 1
   cluster_name    = var.cluster_name
   node_group_name = "${var.node_group_name}-nodes"
 
@@ -80,8 +82,8 @@ resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
   }
 
   launch_template {
-    name    = aws_launch_template.cluster_nodes_eks_launch_template.name
-    version = aws_launch_template.cluster_nodes_eks_launch_template.latest_version
+    name    = aws_launch_template.cluster_nodes_eks_launch_template[0].name
+    version = aws_launch_template.cluster_nodes_eks_launch_template[0].latest_version
   }
 
   lifecycle {
