@@ -92,6 +92,7 @@
 | <a name="input_aws_read_only_sso_role_name"></a> [aws\_read\_only\_sso\_role\_name](#input\_aws\_read\_only\_sso\_role\_name) | Name of the read only SSO iam role | `string` | `""` | no |
 | <a name="input_aws_reserved_sso_id"></a> [aws\_reserved\_sso\_id](#input\_aws\_reserved\_sso\_id) | n/a | `string` | n/a | yes |
 | <a name="input_calico_desired_size"></a> [calico\_desired\_size](#input\_calico\_desired\_size) | Desired size for the Calico node group | `number` | `3` | no |
+| <a name="input_calico_max_pods"></a> [calico\_max\_pods](#input\_calico\_max\_pods) | Maximum number of pods when Calico CNI is enabled | `number` | `110` | no |
 | <a name="input_calico_max_size"></a> [calico\_max\_size](#input\_calico\_max\_size) | Maximum size for the Calico node group | `number` | `5` | no |
 | <a name="input_calico_min_size"></a> [calico\_min\_size](#input\_calico\_min\_size) | Minimum size for the Calico node group | `number` | `2` | no |
 | <a name="input_cidr_blocks"></a> [cidr\_blocks](#input\_cidr\_blocks) | n/a | `list(string)` | n/a | yes |

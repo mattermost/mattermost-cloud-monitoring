@@ -268,3 +268,9 @@ variable "calico_max_size" {
   type        = number
   default     = 5
 }
+
+variable "calico_max_pods" {
+  description = "Maximum number of pods when Calico CNI is enabled"
+  type        = number
+  default     = 110
+}
