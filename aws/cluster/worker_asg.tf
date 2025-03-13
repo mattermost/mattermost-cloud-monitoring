@@ -43,4 +43,5 @@ module "managed_node_group" {
   calico_min_size       = var.calico_min_size
   calico_desired_size   = var.calico_desired_size
   calico_max_size       = var.calico_max_size
+  calico_max_pods       = var.calico_max_pods
 }
