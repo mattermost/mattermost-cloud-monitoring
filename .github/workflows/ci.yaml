@@ -8,12 +8,12 @@ on:
 jobs:
   lint:
     name: Lint
-#    runs-on: ubuntu-latest Temporary comment out due to an issue with the latest version
-# https://github.com/actions/runner-images/issues/10796
+    #    runs-on: ubuntu-latest Temporary comment out due to an issue with the latest version
+    # https://github.com/actions/runner-images/issues/10796
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup
         run: make setup
