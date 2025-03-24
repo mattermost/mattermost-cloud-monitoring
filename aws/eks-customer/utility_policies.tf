@@ -143,12 +143,12 @@ resource "aws_iam_policy" "cluster-autoscaler" {
 EOF
 }
 
-resource "aws_iam_policy" "external-dns" {
-  for_each = { for k, v in var.utilities : k => v if v.name == "external-dns" }
+resource "aws_iam_policy" "external-dns-internal" {
+  for_each = { for k, v in var.utilities : k => v if v.name == "external-dns-internal" }
 
-  name        = "external-dns-${module.eks.cluster_name}"
+  name        = "external-dns-internal-${module.eks.cluster_name}"
   path        = "/"
-  description = "Policy for external-dns utility."
+  description = "Policy for external-dns-internal utility."
 
   policy = <<EOF
 {
