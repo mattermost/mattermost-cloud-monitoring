@@ -142,3 +142,38 @@ resource "aws_iam_policy" "cluster-autoscaler" {
 }
 EOF
 }
+
+resource "aws_iam_policy" "external-dns-internal" {
+  for_each = { for k, v in var.utilities : k => v if v.name == "external-dns-internal" }
+
+  name        = "external-dns-internal-${module.eks.cluster_name}"
+  path        = "/"
+  description = "Policy for external-dns-internal utility."
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "route53:ChangeResourceRecordSets"
+            ],
+            "Resource": [
+                "arn:aws:route53:::hostedzone/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "route53:ListHostedZones",
+                "route53:ListResourceRecordSets"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+}
+EOF
+}

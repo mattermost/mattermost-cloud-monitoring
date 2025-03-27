@@ -1,6 +1,6 @@
 locals {
   policies_by_name = {
-    for policy in concat(values(aws_iam_policy.bifrost), values(aws_iam_policy.velero), values(aws_iam_policy.external-secrets), values(aws_iam_policy.cluster-autoscaler)) :
+    for policy in concat(values(aws_iam_policy.bifrost), values(aws_iam_policy.velero), values(aws_iam_policy.external-secrets), values(aws_iam_policy.cluster-autoscaler), values(aws_iam_policy.external-dns-internal)) :
     policy.name => policy
   }
 }

@@ -66,3 +66,12 @@ resource "null_resource" "wait_for_nginx_internal_lb" {
 
   depends_on = [null_resource.deploy-utilites]
 }
+
+resource "null_resource" "pgbouncer_initial_setup" {
+  provisioner "local-exec" {
+    command = <<EOF
+      KUBECONFIG=${path.root}/kubeconfig-${module.eks.cluster_name} kubectl apply -f ${path.module}/scripts/pgbouncer-initial-setup.yaml
+EOF
+  }
+  depends_on = [module.managed_node_group.node_group_status]
+}
