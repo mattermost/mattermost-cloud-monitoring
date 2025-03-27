@@ -54,15 +54,15 @@ variable "vpn_ips" {
 }
 
 variable "official_pexip_management_ec2_ami" {
-  default     = "ami-0dd1e9ce5c9029446"
+  default     = "ami-06a8e3534fc60c76b"
   type        = string
-  description = "The official Pexip AMI for management node"
+  description = "The official AMI 686087431763/Pexip Infinity Management Node 37.0.0 (build 80989.0.0)"
 }
 
 variable "official_pexip_conference_ec2_ami" {
-  default     = "ami-0ddd16b36dc9f4229"
+  default     = "ami-0d48fecb4209bb660"
   type        = string
-  description = "The official Pexip AMI for conference node"
+  description = "The official AMI 686087431763/Pexip Infinity Conference Node 37.0.0 (build 80989.0.0)"
 }
 
 variable "custom_management_ec2_ami" {
@@ -94,4 +94,9 @@ variable "initial_configuration" {
   description = "A boolean variable to control the initial configuration of Pexip setup, when true official AMI will be deployed and key-pairs will be added to EC2 nodes"
   type        = bool
   default     = true
+}
+
+variable "elb_ssl_certificate_arn" {
+  type        = string
+  description = "ARN of the SSL certificate to be used with the management ELB"
 }
