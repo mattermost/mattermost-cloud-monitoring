@@ -32,6 +32,7 @@ release-patch:
 	@echo "Creating new patch release..."
 	@git checkout master
 	@git pull
+	@git fetch --tags
 	@latest_tag=$$(git describe --tags `git rev-list --tags --max-count=1`); \
 	if [ -z "$$latest_tag" ]; then \
 		echo "No existing tags found"; \
@@ -51,6 +52,7 @@ release-minor:
 	@echo "Creating new minor release..."
 	@git checkout master
 	@git pull
+	@git fetch --tags
 	@latest_tag=$$(git describe --tags `git rev-list --tags --max-count=1`); \
 	if [ -z "$$latest_tag" ]; then \
 		echo "No existing tags found"; \
