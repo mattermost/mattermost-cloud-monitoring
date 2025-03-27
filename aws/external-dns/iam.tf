@@ -1,5 +1,5 @@
 resource "aws_iam_role" "external-dns-internal-role" {
-  name               = "k8s-${var.environment}-external-dns-internal"
+  name               = "k8s-${var.environment}-cnc-external-dns-internal"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
