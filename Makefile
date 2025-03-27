@@ -31,8 +31,8 @@ release-patch:
 ## release-patch: Creates a new patch release by incrementing the latest tag
 	@echo "Creating new patch release..."
 	@git checkout master
-	@git pull
 	@git fetch --tags
+	@git pull --rebase origin master
 	@latest_tag=$$(git describe --tags `git rev-list --tags --max-count=1`); \
 	if [ -z "$$latest_tag" ]; then \
 		echo "No existing tags found"; \
@@ -51,8 +51,8 @@ release-minor:
 ## release-minor: Creates a new minor release by incrementing the minor version and resetting patch to 0
 	@echo "Creating new minor release..."
 	@git checkout master
-	@git pull
 	@git fetch --tags
+	@git pull --rebase origin master
 	@latest_tag=$$(git describe --tags `git rev-list --tags --max-count=1`); \
 	if [ -z "$$latest_tag" ]; then \
 		echo "No existing tags found"; \
