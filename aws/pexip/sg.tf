@@ -143,6 +143,14 @@ resource "aws_security_group" "pexip_management_sg" {
     description = "Allow all access from conference private IP"
   }
 
+  ingress {
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pexip_management_elb_sg.id]
+    description     = "HTTPS from ELB"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
