@@ -1,4 +1,4 @@
-resource "cloudflare_record" "pexip_conference" {
+resource "cloudflare_dns_record" "pexip_conference" {
   zone_id = var.cloudflare_zone_id
   name    = var.conference_cloudflare_record_name
   content = aws_eip.pexip_conference_eip.public_ip
