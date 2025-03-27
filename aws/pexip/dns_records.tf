@@ -4,6 +4,11 @@ resource "cloudflare_dns_record" "pexip_conference" {
   content = aws_eip.pexip_conference_eip.public_ip
   type    = "A"
   proxied = true
+  ttl     = 1 # 1 means 'automatic' since we're using proxied=true
+  comment = "Pexip conference node DNS record"
+  settings = {
+    ipv4_only = true # Since we're using an A record
+  }
 }
 
 data "aws_route53_zone" "private_zone" {
