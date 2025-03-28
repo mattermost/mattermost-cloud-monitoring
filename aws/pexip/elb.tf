@@ -1,8 +1,8 @@
 resource "aws_elb" "pexip_management_elb" {
   name            = "${var.name}-management-elb"
-  subnets         = [var.public_subnet_id]
+  subnets         = [var.private_subnet_id]
   security_groups = [aws_security_group.pexip_management_elb_sg.id]
-  internal        = false
+  internal        = true
 
   listener {
     instance_port      = 443

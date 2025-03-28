@@ -127,12 +127,15 @@ resource "aws_security_group" "pexip_management_sg" {
     },
   )
 
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = var.vpn_ips
-    description = "VPN access"
+  dynamic "ingress" {
+    for_each = var.initial_configuration ? [1] : []
+    content {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = var.vpn_ips
+      description = "initial configuration of Pexip management node"
+    }
   }
 
   ingress {
