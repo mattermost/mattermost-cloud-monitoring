@@ -159,3 +159,29 @@ resource "aws_security_group" "pexip_management_sg" {
     description = "-"
   }
 }
+
+resource "aws_security_group" "pexip_management_elb_sg" {
+  name        = "${var.name}-management-elb-sg"
+  description = "Security group for Pexip management ELB"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = var.vpn_ips
+    description = "HTTPS access from VPN"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all outbound traffic"
+  }
+
+  tags = {
+    Name = "${var.name}-management-elb-sg"
+  }
+}
