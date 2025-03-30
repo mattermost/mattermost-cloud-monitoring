@@ -42,14 +42,6 @@ resource "aws_security_group" "pexip_conference_sg" {
   }
 
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "UI access"
-  }
-
-  ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
