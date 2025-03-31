@@ -10,11 +10,11 @@ resource "aws_security_group" "pexip_conference_sg" {
   )
 
   ingress {
-    from_port   = 5060
-    to_port     = 5060
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "SIP"
+    from_port       = 5060
+    to_port         = 5060
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pexip_conference_elb_sg.id]
+    description     = "SIP"
   }
 
   ingress {
@@ -26,19 +26,19 @@ resource "aws_security_group" "pexip_conference_sg" {
   }
 
   ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "UI access"
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pexip_conference_elb_sg.id]
+    description     = "UI access"
   }
 
   ingress {
-    from_port   = 5061
-    to_port     = 5061
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "SIP/TLS"
+    from_port       = 5061
+    to_port         = 5061
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pexip_conference_elb_sg.id]
+    description     = "SIP/TLS"
   }
   ingress {
     from_port   = 0
