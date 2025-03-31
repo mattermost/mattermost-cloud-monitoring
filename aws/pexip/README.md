@@ -23,12 +23,14 @@ No modules.
 |------|------|
 | [aws_eip.pexip_conference_eip](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) | resource |
 | [aws_eip_association.pexip_conference](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip_association) | resource |
+| [aws_elb.pexip_conference_elb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elb) | resource |
 | [aws_elb.pexip_management_elb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elb) | resource |
 | [aws_instance.pexip_conference](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
 | [aws_instance.pexip_management](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
 | [aws_network_interface.pexip_conference](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_interface) | resource |
 | [aws_network_interface.pexip_management](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_interface) | resource |
 | [aws_route53_record.pexip_management](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
+| [aws_security_group.pexip_conference_elb_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.pexip_conference_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.pexip_management_elb_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.pexip_management_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
@@ -46,7 +48,8 @@ No modules.
 | <a name="input_custom_conference_ec2_ami"></a> [custom\_conference\_ec2\_ami](#input\_custom\_conference\_ec2\_ami) | Customized with MM configuration Pexip AMI for conference node | `string` | n/a | yes |
 | <a name="input_custom_management_ec2_ami"></a> [custom\_management\_ec2\_ami](#input\_custom\_management\_ec2\_ami) | Customized with MM configuration Pexip AMI for management node | `string` | n/a | yes |
 | <a name="input_ec2_key_pair"></a> [ec2\_key\_pair](#input\_ec2\_key\_pair) | The key pair that will be used for ssh to EC2 instances of Pexip nodes | `string` | n/a | yes |
-| <a name="input_elb_ssl_certificate_arn"></a> [elb\_ssl\_certificate\_arn](#input\_elb\_ssl\_certificate\_arn) | ARN of the SSL certificate to be used with the management ELB | `string` | n/a | yes |
+| <a name="input_elb_ssl_certificate_arn_internal"></a> [elb\_ssl\_certificate\_arn\_internal](#input\_elb\_ssl\_certificate\_arn\_internal) | ARN of the SSL certificate to be used with the internal ELB | `string` | n/a | yes |
+| <a name="input_elb_ssl_certificate_arn_public"></a> [elb\_ssl\_certificate\_arn\_public](#input\_elb\_ssl\_certificate\_arn\_public) | ARN of the SSL certificate to be used with the public ELB | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment name that pexip will be deployed | `string` | n/a | yes |
 | <a name="input_initial_configuration"></a> [initial\_configuration](#input\_initial\_configuration) | A boolean variable to control the initial configuration of Pexip setup, when true official AMI will be deployed and key-pairs will be added to EC2 nodes | `bool` | `true` | no |
 | <a name="input_management_ec2_type"></a> [management\_ec2\_type](#input\_management\_ec2\_type) | The EC2 instance type for Pexip management node | `string` | n/a | yes |
