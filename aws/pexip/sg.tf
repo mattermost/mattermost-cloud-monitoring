@@ -10,14 +10,6 @@ resource "aws_security_group" "pexip_conference_sg" {
   )
 
   ingress {
-    from_port   = 1719
-    to_port     = 1719
-    protocol    = "udp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "H.323 (RAS signaling)"
-  }
-
-  ingress {
     from_port   = 5060
     to_port     = 5060
     protocol    = "tcp"
@@ -34,35 +26,11 @@ resource "aws_security_group" "pexip_conference_sg" {
   }
 
   ingress {
-    from_port   = 33000
-    to_port     = 39999
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "H.323 (H.245 signaling)"
-  }
-
-  ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     description = "UI access"
-  }
-
-  ingress {
-    from_port   = 1720
-    to_port     = 1720
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "H.323 (H.225/Q.931 signaling)"
-  }
-
-  ingress {
-    from_port   = 40000
-    to_port     = 49999
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Endpoint / call control system / Skype for Business / Lync system / Connect app"
   }
 
   ingress {
@@ -178,5 +146,47 @@ resource "aws_security_group" "pexip_management_elb_sg" {
 
   tags = {
     Name = "${var.name}-management-elb-sg"
+  }
+}
+
+resource "aws_security_group" "pexip_conference_elb_sg" {
+  name        = "${var.name}-conference-elb-sg"
+  description = "Security group for Pexip Conference ELB"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "HTTPS access"
+  }
+
+  ingress {
+    from_port   = 5060
+    to_port     = 5060
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "SIP access"
+  }
+
+  ingress {
+    from_port   = 5061
+    to_port     = 5061
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "SIP TLS access"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all outbound traffic"
+  }
+
+  tags = {
+    Name = "${var.name}-conference-elb-sg"
   }
 }
