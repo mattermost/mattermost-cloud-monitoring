@@ -96,7 +96,12 @@ variable "initial_configuration" {
   default     = true
 }
 
-variable "elb_ssl_certificate_arn" {
+variable "elb_ssl_certificate_arn_internal" {
   type        = string
-  description = "ARN of the SSL certificate to be used with the management ELB"
+  description = "ARN of the SSL certificate to be used with the internal ELB"
+}
+
+variable "elb_ssl_certificate_arn_public" {
+  type        = string
+  description = "ARN of the SSL certificate to be used with the public ELB"
 }

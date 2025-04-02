@@ -1,8 +1,8 @@
 resource "cloudflare_dns_record" "pexip_conference" {
   zone_id = var.cloudflare_zone_id
   name    = var.conference_cloudflare_record_name
-  content = aws_eip.pexip_conference_eip.public_ip
-  type    = "A"
+  content = aws_elb.pexip_conference_elb.dns_name
+  type    = "CNAME"
   proxied = true
   ttl     = 1 # 1 means 'automatic' since we're using proxied=true
   comment = "Pexip conference node DNS record"
