@@ -28,14 +28,25 @@ variable "cloudflare_zone_id" {
   description = "The Cloudflare zone ID provided"
 }
 
-variable "conference_cloudflare_record_name_first" {
-  type        = string
-  description = "The DNS name for the first Pexip conference node"
-}
-
-variable "conference_cloudflare_record_name_second" {
-  type        = string
-  description = "The DNS name for the second Pexip conference node"
+variable "conference_nodes" {
+  type = map(object({
+    dns_name   = string
+    ec2_type   = string
+    private_ip = string
+  }))
+  description = "Map of conference nodes with their properties"
+  default = {
+    "random" = {
+      dns_name   = "random.mattermost.com"
+      ec2_type   = "c6i.large"
+      private_ip = "10.0.1.10"
+    },
+    "example" = {
+      dns_name   = "example.mattermost.com"
+      ec2_type   = "c6i.xlarge"
+      private_ip = "10.0.1.11"
+    }
+  }
 }
 
 variable "management_route53_record_name" {
@@ -46,11 +57,6 @@ variable "management_route53_record_name" {
 variable "management_private_ips" {
   type        = list(string)
   description = "List of the private IPs of the Pexip management node"
-}
-
-variable "conference_private_ips" {
-  type        = list(string)
-  description = "List of the private IPs of the Pexip Conference node"
 }
 
 variable "vpn_ips" {
@@ -83,16 +89,6 @@ variable "custom_conference_ec2_ami" {
 variable "management_ec2_type" {
   type        = string
   description = "The EC2 instance type for Pexip management node"
-}
-
-variable "conference_ec2_type_first" {
-  type        = string
-  description = "The EC2 instance type for the first Pexip conference node"
-}
-
-variable "conference_ec2_type_second" {
-  type        = string
-  description = "The EC2 instance type for the second Pexip conference node"
 }
 
 variable "ec2_key_pair" {

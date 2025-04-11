@@ -1,21 +1,13 @@
-resource "cloudflare_dns_record" "pexip_conference_first" {
-  zone_id = var.cloudflare_zone_id
-  name    = var.conference_cloudflare_record_name_first
-  content = aws_elb.pexip_conference_elb_first.dns_name
-  type    = "CNAME"
-  proxied = true
-  ttl     = 1 # 1 means 'automatic' since we're using proxied=true
-  comment = "Pexip conference node DNS record for first node"
-}
+resource "cloudflare_dns_record" "pexip_conference" {
+  for_each = var.conference_nodes
 
-resource "cloudflare_dns_record" "pexip_conference_second" {
   zone_id = var.cloudflare_zone_id
-  name    = var.conference_cloudflare_record_name_second
-  content = aws_elb.pexip_conference_elb_second.dns_name
+  name    = each.value.dns_name
+  content = aws_elb.pexip_conference_elb[each.key].dns_name
   type    = "CNAME"
   proxied = true
   ttl     = 1 # 1 means 'automatic' since we're using proxied=true
-  comment = "Pexip conference node DNS record for second node"
+  comment = "Pexip conference node DNS record"
 }
 
 data "aws_route53_zone" "private_zone" {

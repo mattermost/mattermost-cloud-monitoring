@@ -102,8 +102,8 @@ resource "aws_security_group" "pexip_management_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [for ip in var.conference_private_ips : "${ip}/32"]
-    description = "Allow all access from conference private IP"
+    cidr_blocks = [for node in var.conference_nodes : "${node.private_ip}/32"]
+    description = "Allow all access from conference private IPs"
   }
 
   ingress {
