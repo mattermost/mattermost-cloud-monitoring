@@ -70,7 +70,7 @@ resource "aws_security_group" "pexip_conference_sg" {
       from_port   = 8443
       to_port     = 8443
       protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = [aws_security_group.pexip_conference_elb_sg.id]
       description = "upload configuration/bootstrap port"
     }
   }
@@ -176,6 +176,17 @@ resource "aws_security_group" "pexip_conference_elb_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     description = "SIP TLS access"
+  }
+
+  dynamic "ingress" {
+    for_each = var.initial_configuration ? [1] : []
+    content {
+      from_port   = 8443
+      to_port     = 8443
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "upload configuration/bootstrap port"
+    }
   }
 
   egress {
