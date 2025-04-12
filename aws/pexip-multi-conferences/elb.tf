@@ -73,10 +73,10 @@ resource "aws_elb" "pexip_conference_elb" {
 
   health_check {
     healthy_threshold   = 2
-    unhealthy_threshold = 2
-    timeout             = 3
+    unhealthy_threshold = 5
+    timeout             = 10
     target              = var.initial_configuration ? "TCP:8443" : "TCP:443"
-    interval            = 30
+    interval            = 60
   }
 
   instances                   = [aws_instance.pexip_conference[each.key].id]

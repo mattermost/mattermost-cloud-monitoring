@@ -33,6 +33,7 @@ variable "conference_nodes" {
     dns_name   = string
     ec2_type   = string
     private_ip = string
+    ami_id     = string
   }))
   description = "Map of conference nodes with their properties"
   default = {
@@ -40,11 +41,13 @@ variable "conference_nodes" {
       dns_name   = "random.mattermost.com"
       ec2_type   = "c6i.large"
       private_ip = "10.0.1.10"
+      ami_id     = "ami-0d48fecb4209bb660"
     },
     "example" = {
       dns_name   = "example.mattermost.com"
       ec2_type   = "c6i.xlarge"
       private_ip = "10.0.1.11"
+      ami_id     = "ami-0d48fecb4209bb660"
     }
   }
 }
