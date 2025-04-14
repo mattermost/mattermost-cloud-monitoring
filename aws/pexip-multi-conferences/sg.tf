@@ -113,14 +113,6 @@ resource "aws_security_group" "pexip_conference_elb_sg" {
   }
 
   ingress {
-    from_port   = 5060
-    to_port     = 5060
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "SIP access"
-  }
-
-  ingress {
     from_port   = 5061
     to_port     = 5061
     protocol    = "tcp"
