@@ -10,14 +10,6 @@ resource "aws_security_group" "pexip_conference_sg" {
   )
 
   ingress {
-    from_port       = 5060
-    to_port         = 5060
-    protocol        = "tcp"
-    security_groups = [aws_security_group.pexip_conference_elb_sg.id]
-    description     = "SIP"
-  }
-
-  ingress {
     from_port   = 40000
     to_port     = 49999
     protocol    = "udp"
@@ -137,11 +129,11 @@ resource "aws_security_group" "pexip_management_elb_sg" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow all outbound traffic"
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pexip_management_sg.id]
+    description     = "HTTPS to management nodes"
   }
 
   tags = {
@@ -190,11 +182,30 @@ resource "aws_security_group" "pexip_conference_elb_sg" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow all outbound traffic"
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pexip_conference_sg.id]
+    description     = "HTTPS to conference nodes"
+  }
+
+  egress {
+    from_port       = 5061
+    to_port         = 5061
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pexip_conference_sg.id]
+    description     = "SIP TLS to conference nodes"
+  }
+
+  dynamic "egress" {
+    for_each = var.initial_configuration ? [1] : []
+    content {
+      from_port       = 8443
+      to_port         = 8443
+      protocol        = "tcp"
+      security_groups = [aws_security_group.pexip_conference_sg.id]
+      description     = "Configuration/bootstrap to conference nodes"
+    }
   }
 
   tags = {
