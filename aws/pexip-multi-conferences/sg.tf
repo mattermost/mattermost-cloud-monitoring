@@ -18,21 +18,6 @@ resource "aws_security_group" "pexip_conference_sg" {
   }
 
   ingress {
-    from_port       = 443
-    to_port         = 443
-    protocol        = "tcp"
-    security_groups = [aws_security_group.pexip_conference_elb_sg.id]
-    description     = "UI access"
-  }
-
-  ingress {
-    from_port       = 5061
-    to_port         = 5061
-    protocol        = "tcp"
-    security_groups = [aws_security_group.pexip_conference_elb_sg.id]
-    description     = "SIP/TLS"
-  }
-  ingress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -54,17 +39,6 @@ resource "aws_security_group" "pexip_conference_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
     description = "-"
-  }
-
-  dynamic "ingress" {
-    for_each = var.initial_configuration ? [1] : []
-    content {
-      from_port       = 8443
-      to_port         = 8443
-      protocol        = "tcp"
-      security_groups = [aws_security_group.pexip_conference_elb_sg.id]
-      description     = "upload configuration/bootstrap port"
-    }
   }
 }
 
@@ -98,14 +72,6 @@ resource "aws_security_group" "pexip_management_sg" {
     description = "Allow all access from conference private IPs"
   }
 
-  ingress {
-    from_port       = 443
-    to_port         = 443
-    protocol        = "tcp"
-    security_groups = [aws_security_group.pexip_management_elb_sg.id]
-    description     = "HTTPS from ELB"
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
@@ -126,14 +92,6 @@ resource "aws_security_group" "pexip_management_elb_sg" {
     protocol    = "tcp"
     cidr_blocks = var.vpn_ips
     description = "HTTPS access from VPN"
-  }
-
-  egress {
-    from_port       = 443
-    to_port         = 443
-    protocol        = "tcp"
-    security_groups = [aws_security_group.pexip_management_sg.id]
-    description     = "HTTPS to management nodes"
   }
 
   tags = {
@@ -181,34 +139,93 @@ resource "aws_security_group" "pexip_conference_elb_sg" {
     }
   }
 
-  egress {
-    from_port       = 443
-    to_port         = 443
-    protocol        = "tcp"
-    security_groups = [aws_security_group.pexip_conference_sg.id]
-    description     = "HTTPS to conference nodes"
-  }
-
-  egress {
-    from_port       = 5061
-    to_port         = 5061
-    protocol        = "tcp"
-    security_groups = [aws_security_group.pexip_conference_sg.id]
-    description     = "SIP TLS to conference nodes"
-  }
-
-  dynamic "egress" {
-    for_each = var.initial_configuration ? [1] : []
-    content {
-      from_port       = 8443
-      to_port         = 8443
-      protocol        = "tcp"
-      security_groups = [aws_security_group.pexip_conference_sg.id]
-      description     = "Configuration/bootstrap to conference nodes"
-    }
-  }
-
   tags = {
     Name = "${var.name}-conference-elb-sg"
   }
+}
+
+# Separate security group rules to avoid circular dependency
+# Conference SG ingress rules
+resource "aws_security_group_rule" "pexip_conference_from_elb_443" {
+  type                     = "ingress"
+  from_port                = 443
+  to_port                  = 443
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pexip_conference_elb_sg.id
+  security_group_id        = aws_security_group.pexip_conference_sg.id
+  description              = "UI access from ELB"
+}
+
+resource "aws_security_group_rule" "pexip_conference_from_elb_5061" {
+  type                     = "ingress"
+  from_port                = 5061
+  to_port                  = 5061
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pexip_conference_elb_sg.id
+  security_group_id        = aws_security_group.pexip_conference_sg.id
+  description              = "SIP/TLS from ELB"
+}
+
+resource "aws_security_group_rule" "pexip_conference_from_elb_8443" {
+  count                    = var.initial_configuration ? 1 : 0
+  type                     = "ingress"
+  from_port                = 8443
+  to_port                  = 8443
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pexip_conference_elb_sg.id
+  security_group_id        = aws_security_group.pexip_conference_sg.id
+  description              = "upload configuration/bootstrap port from ELB"
+}
+
+# Management SG ingress rule
+resource "aws_security_group_rule" "pexip_management_from_elb_443" {
+  type                     = "ingress"
+  from_port                = 443
+  to_port                  = 443
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pexip_management_elb_sg.id
+  security_group_id        = aws_security_group.pexip_management_sg.id
+  description              = "HTTPS from ELB"
+}
+
+# ELB egress rules
+resource "aws_security_group_rule" "pexip_management_elb_to_mgmt_443" {
+  type                     = "egress"
+  from_port                = 443
+  to_port                  = 443
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pexip_management_sg.id
+  security_group_id        = aws_security_group.pexip_management_elb_sg.id
+  description              = "HTTPS to management nodes"
+}
+
+resource "aws_security_group_rule" "pexip_conference_elb_to_conf_443" {
+  type                     = "egress"
+  from_port                = 443
+  to_port                  = 443
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pexip_conference_sg.id
+  security_group_id        = aws_security_group.pexip_conference_elb_sg.id
+  description              = "HTTPS to conference nodes"
+}
+
+resource "aws_security_group_rule" "pexip_conference_elb_to_conf_5061" {
+  type                     = "egress"
+  from_port                = 5061
+  to_port                  = 5061
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pexip_conference_sg.id
+  security_group_id        = aws_security_group.pexip_conference_elb_sg.id
+  description              = "SIP TLS to conference nodes"
+}
+
+resource "aws_security_group_rule" "pexip_conference_elb_to_conf_8443" {
+  count                    = var.initial_configuration ? 1 : 0
+  type                     = "egress"
+  from_port                = 8443
+  to_port                  = 8443
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pexip_conference_sg.id
+  security_group_id        = aws_security_group.pexip_conference_elb_sg.id
+  description              = "Configuration/bootstrap to conference nodes"
 }
