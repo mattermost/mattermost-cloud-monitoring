@@ -84,11 +84,6 @@ variable "custom_management_ec2_ami" {
   description = "Customized with MM configuration Pexip AMI for management node"
 }
 
-variable "custom_conference_ec2_ami" {
-  type        = string
-  description = "Customized with MM configuration Pexip AMI for conference node"
-}
-
 variable "management_ec2_type" {
   type        = string
   description = "The EC2 instance type for Pexip management node"
