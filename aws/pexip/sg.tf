@@ -43,17 +43,25 @@ resource "aws_security_group" "pexip_conference_sg" {
   ingress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"
+    protocol    = "tcp"
     cidr_blocks = var.vpn_ips
     description = "VPN access"
   }
 
   ingress {
+    from_port   = 500
+    to_port     = 500
+    protocol    = "udp"
+    cidr_blocks = [for ip in var.management_private_ips : "${ip}/32"]
+    description = "Allow ISAKMP access from management private IP"
+  }
+
+  ingress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"
+    protocol    = "50"
     cidr_blocks = [for ip in var.management_private_ips : "${ip}/32"]
-    description = "Allow all access from management private IP"
+    description = "Allow ESP access from management private IP"
   }
 
   egress {
@@ -92,18 +100,26 @@ resource "aws_security_group" "pexip_management_sg" {
     content {
       from_port   = 0
       to_port     = 0
-      protocol    = "-1"
+      protocol    = "tcp"
       cidr_blocks = var.vpn_ips
       description = "initial configuration of Pexip management node"
     }
   }
 
   ingress {
+    from_port   = 500
+    to_port     = 500
+    protocol    = "udp"
+    cidr_blocks = [for ip in var.conference_private_ips : "${ip}/32"]
+    description = "Allow ISAKMP access from conference private IP"
+  }
+
+  ingress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"
+    protocol    = "50"
     cidr_blocks = [for ip in var.conference_private_ips : "${ip}/32"]
-    description = "Allow all access from conference private IP"
+    description = "Allow ESP access from conference private IP"
   }
 
   ingress {
