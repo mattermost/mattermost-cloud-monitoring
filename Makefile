@@ -3,6 +3,10 @@ all: lint docs
 lint:
 ## lint: lint all terraform modules
 	@echo "Linting all modules"
+	@if ! tflint --version 2>/dev/null | grep -q "aws"; then \
+		echo "AWS plugin for TFLint not detected. Installing..."; \
+		$(MAKE) plugin; \
+	fi
 	bash -c "./scripts/format_lint.sh"
 
 setup:
@@ -17,7 +21,7 @@ setup:
 
 plugin:
 ## installing aws plugin for tflint
-	tflint --init --config .tflint.hcl 
+	tflint --init --config .tflint.hcl
 
 docs:
 ## docs: generate terraform docs for each module
@@ -27,41 +31,74 @@ docs:
 		terraform-docs markdown table $$d > $$d/README.md; \
 	done
 
-release-patch:
-## release-patch: Creates a new patch release by incrementing the latest tag
-	@echo "Creating new patch release..."
-	@git checkout master
-	@git fetch --tags
-	@git pull --rebase origin master
-	@latest_tag=$$(git describe --tags `git rev-list --tags --max-count=1`); \
-	if [ -z "$$latest_tag" ]; then \
-		echo "No existing tags found"; \
+# ====================================================================================
+# Used for semver bumping
+PROTECTED_BRANCH := main
+APP_NAME    := $(shell basename -s .git `git config --get remote.origin.url`)
+CURRENT_VERSION := $(shell git describe --abbrev=0 --tags)
+VERSION_PARTS := $(subst ., ,$(subst v,,$(subst -rc, ,$(CURRENT_VERSION))))
+MAJOR := $(word 1,$(VERSION_PARTS))
+MINOR := $(word 2,$(VERSION_PARTS))
+PATCH := $(word 3,$(VERSION_PARTS))
+RC := $(shell echo $(CURRENT_VERSION) | grep -oE 'rc[0-9]+' | sed 's/rc//')
+# Check if current branch is protected
+define check_protected_branch
+	@current_branch=$$(git rev-parse --abbrev-ref HEAD); \
+	if ! echo "$(PROTECTED_BRANCH)" | grep -wq "$$current_branch" && ! echo "$$current_branch" | grep -q "^release"; then \
+		echo "Error: Tagging is only allowed from $(PROTECTED_BRANCH) or release branches. You are on $$current_branch branch."; \
 		exit 1; \
-	fi; \
-	major=$$(echo $$latest_tag | cut -d. -f1); \
-	minor=$$(echo $$latest_tag | cut -d. -f2); \
-	patch=$$(echo $$latest_tag | cut -d. -f3); \
-	new_patch=$$((patch + 1)); \
-	new_tag="$$major.$$minor.$$new_patch"; \
-	echo "Creating new tag: $$new_tag"; \
-	git tag "$$new_tag"; \
-	git push origin "$$new_tag"
+	fi
+endef
+# Check if there are pending pulls
+define check_pending_pulls
+	@git fetch; \
+	current_branch=$$(git rev-parse --abbrev-ref HEAD); \
+	if [ "$$(git rev-parse HEAD)" != "$$(git rev-parse origin/$$current_branch)" ]; then \
+		echo "Error: Your branch is not up to date with upstream. Please pull the latest changes before performing a release"; \
+		exit 1; \
+	fi
+endef
+# Prompt for approval
+define prompt_approval
+	@read -p "About to bump $(APP_NAME) to version $(1), approve? (y/n) " userinput; \
+	if [ "$$userinput" != "y" ]; then \
+		echo "Bump aborted."; \
+		exit 1; \
+	fi
+endef
+# ====================================================================================
 
-release-minor:
-## release-minor: Creates a new minor release by incrementing the minor version and resetting patch to 0
-	@echo "Creating new minor release..."
-	@git checkout master
-	@git fetch --tags
-	@git pull --rebase origin master
-	@latest_tag=$$(git describe --tags `git rev-list --tags --max-count=1`); \
-	if [ -z "$$latest_tag" ]; then \
-		echo "No existing tags found"; \
-		exit 1; \
-	fi; \
-	major=$$(echo $$latest_tag | cut -d. -f1); \
-	minor=$$(echo $$latest_tag | cut -d. -f2); \
-	new_minor=$$((minor + 1)); \
-	new_tag="$$major.$$new_minor.0"; \
-	echo "Creating new tag: $$new_tag"; \
-	git tag "$$new_tag"; \
-	git push origin "$$new_tag"
+.PHONY: patch minor major
+
+patch: ## to bump patch version (semver)
+	$(call check_protected_branch)
+	$(call check_pending_pulls)
+	@$(eval PATCH := $(shell echo $$(($(PATCH)+1))))
+	$(call prompt_approval,$(MAJOR).$(MINOR).$(PATCH))
+	@echo Bumping $(APP_NAME) to Patch version $(MAJOR).$(MINOR).$(PATCH)
+	git tag -s -a v$(MAJOR).$(MINOR).$(PATCH) -m "Bumping $(APP_NAME) to Patch version $(MAJOR).$(MINOR).$(PATCH)"
+	git push origin v$(MAJOR).$(MINOR).$(PATCH)
+	@echo Bumped $(APP_NAME) to Patch version $(MAJOR).$(MINOR).$(PATCH)
+
+minor: ## to bump minor version (semver)
+	$(call check_protected_branch)
+	$(call check_pending_pulls)
+	@$(eval MINOR := $(shell echo $$(($(MINOR)+1))))
+	@$(eval PATCH := 0)
+	$(call prompt_approval,$(MAJOR).$(MINOR).$(PATCH))
+	@echo Bumping $(APP_NAME) to Minor version $(MAJOR).$(MINOR).$(PATCH)
+	git tag -s -a v$(MAJOR).$(MINOR).$(PATCH) -m "Bumping $(APP_NAME) to Minor version $(MAJOR).$(MINOR).$(PATCH)"
+	git push origin v$(MAJOR).$(MINOR).$(PATCH)
+	@echo Bumped $(APP_NAME) to Minor version $(MAJOR).$(MINOR).$(PATCH)
+
+major: ## to bump major version (semver)
+	$(call check_protected_branch)
+	$(call check_pending_pulls)
+	@$(eval MAJOR := $(shell echo $$(($(MAJOR)+1))))
+	@$(eval MINOR := 0)
+	@$(eval PATCH := 0)
+	$(call prompt_approval,$(MAJOR).$(MINOR).$(PATCH))
+	@echo Bumping $(APP_NAME) to Major version $(MAJOR).$(MINOR).$(PATCH)
+	git tag -s -a v$(MAJOR).$(MINOR).$(PATCH) -m "Bumping $(APP_NAME) to Major version $(MAJOR).$(MINOR).$(PATCH)"
+	git push origin v$(MAJOR).$(MINOR).$(PATCH)
+	@echo Bumped $(APP_NAME) to Major version $(MAJOR).$(MINOR).$(PATCH)
