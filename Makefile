@@ -21,21 +21,7 @@ setup:
 
 plugin:
 ## installing aws plugin for tflint
-	@echo "Installing AWS plugin for TFLint..."
-	@if [ -n "$(GITHUB_TOKEN)" ]; then \
-		echo "Using provided GitHub token for authentication"; \
-		GITHUB_TOKEN=$(GITHUB_TOKEN) tflint --init --config .tflint.hcl; \
-	else \
-		echo "Attempting to install plugin (no GitHub token provided)..."; \
-		tflint --init --config .tflint.hcl || { \
-			echo "Plugin installation failed. This may be due to GitHub API rate limiting."; \
-			echo "Try one of the following:"; \
-			echo "1. Set GITHUB_TOKEN environment variable with a GitHub personal access token"; \
-			echo "   Example: GITHUB_TOKEN=your_token make plugin"; \
-			echo "2. Wait an hour and try again (GitHub API has rate limits)"; \
-			exit 1; \
-		}; \
-	fi
+	tflint --init --config .tflint.hcl
 
 docs:
 ## docs: generate terraform docs for each module
