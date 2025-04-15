@@ -19,6 +19,10 @@ resource "aws_eks_cluster" "cluster" {
   ]
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = aws_eks_cluster.cluster.name
+}
+
 # Get EKS cluster certificate thumbprint
 data "tls_certificate" "cluster-openid-issuer" {
   url = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
