@@ -14,5 +14,6 @@ locals {
 }
 
 resource "aws_iam_access_key" "provisioner_user" {
-  user = var.provisioner_users[0]
+  count = length(var.provisioner_users) > 0 ? 1 : 0
+  user  = var.provisioner_users[count.index]
 }
