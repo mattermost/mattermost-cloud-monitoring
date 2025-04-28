@@ -1,10 +1,3 @@
-resource "aws_iam_user" "packer" {
-  count = var.create_packer_user ? 1 : 0
-
-  name = "mattermost-cloud-${var.environment}-packer"
-  path = "/"
-}
-
 resource "aws_iam_role" "packer_role" {
   name = "mattermost-cloud-${var.environment}-packer-role"
 
@@ -164,13 +157,6 @@ resource "aws_iam_policy" "packer" {
     ]
 }
 EOF
-}
-
-resource "aws_iam_user_policy_attachment" "packer" {
-  count = var.create_packer_user ? 1 : 0
-
-  user       = aws_iam_user.packer[0].name
-  policy_arn = aws_iam_policy.packer[0].arn
 }
 
 resource "aws_iam_role_policy_attachment" "packer_role" {
