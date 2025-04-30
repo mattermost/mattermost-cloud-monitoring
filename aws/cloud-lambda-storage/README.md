@@ -34,6 +34,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | The name of the environment which will deploy to and will be added as a tag | `string` | n/a | yes |
+| <a name="input_github_runners_iam_role_arn"></a> [github\_runners\_iam\_role\_arn](#input\_github\_runners\_iam\_role\_arn) | The ARN of the IAM role for the GitHub runners | `string` | `""` | no |
 
 ## Outputs
 

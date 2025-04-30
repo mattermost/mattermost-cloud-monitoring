@@ -12,7 +12,7 @@ resource "aws_iam_role" "lambda_role" {
       {
         Effect = "Allow"
         Principal = {
-          "Service" : "s3.amazonaws.com"
+          AWS = var.github_runners_iam_role_arn
         }
         Action = [
           "sts:TagSession",
