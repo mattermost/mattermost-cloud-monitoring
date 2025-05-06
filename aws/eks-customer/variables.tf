@@ -254,12 +254,6 @@ variable "use_name_prefix" {
   default     = true
 }
 
-# variable "launch_template_use_name_prefix" {
-#   description = "Determines whether to use `launch_template_name` as is or create a unique name beginning with the `launch_template_name` as the prefix"
-#   type        = bool
-#   default     = true
-# }
-
 variable "iam_role_use_name_prefix" {
   description = "Determines whether the IAM role name (`iam_role_name`) is used as a prefix"
   type        = bool
