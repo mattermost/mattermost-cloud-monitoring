@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_user" "lambda_user" {
   name = "mattermost-cloud-lambdas-upload-${var.environment}"
   path = "/"
@@ -12,12 +14,19 @@ resource "aws_iam_role" "lambda_role" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = var.github_runners_iam_role_arn
+          Federated = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/token.actions.githubusercontent.com"
         }
         Action = [
-          "sts:TagSession",
-          "sts:AssumeRole"
+          "sts:AssumeRoleWithWebIdentity"
         ]
+        Condition = {
+          StringLike = {
+            "token.actions.githubusercontent.com:sub" : ["repo:mattermost/mattermost-cloud-lambdas:environment:${var.environment}"]
+          }
+          StringEquals = {
+            "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com"
+          }
+        }
       }
     ]
   })
