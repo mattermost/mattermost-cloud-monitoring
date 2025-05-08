@@ -44,6 +44,7 @@
 | [aws_iam_policy.external-secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.node](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.velero](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_launch_template.node](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 | [aws_route53_record.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_secretsmanager_secret.kubeconfig_secret](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
 | [aws_secretsmanager_secret_version.kubeconfig_secret_version](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret_version) | resource |
@@ -64,6 +65,7 @@
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_lb.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/lb) | data source |
 | [aws_lb.thanos-query-grpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/lb) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [aws_route53_zone.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
 | [aws_security_groups.calls](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/security_groups) | data source |
 | [aws_security_groups.control-plane](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/security_groups) | data source |
@@ -94,9 +96,11 @@
 | <a name="input_create_cluster_security_group"></a> [create\_cluster\_security\_group](#input\_create\_cluster\_security\_group) | Indicates whether or not to create a security group for the EKS cluster | `bool` | `true` | no |
 | <a name="input_create_iam_role"></a> [create\_iam\_role](#input\_create\_iam\_role) | Determines whether an IAM role is created or to use an existing IAM role | `bool` | `true` | no |
 | <a name="input_create_kms_key"></a> [create\_kms\_key](#input\_create\_kms\_key) | Controls if a KMS key for cluster encryption should be created | `bool` | `false` | no |
+| <a name="input_create_launch_template"></a> [create\_launch\_template](#input\_create\_launch\_template) | Indicates whether or not to create a launch template for the EKS managed node group | `bool` | `false` | no |
 | <a name="input_create_node_security_group"></a> [create\_node\_security\_group](#input\_create\_node\_security\_group) | Indicates whether or not to create a security group for the EKS nodes | `bool` | `false` | no |
 | <a name="input_device_name"></a> [device\_name](#input\_device\_name) | The device name | `string` | `"/dev/xvda"` | no |
 | <a name="input_ebs_csi_driver_version"></a> [ebs\_csi\_driver\_version](#input\_ebs\_csi\_driver\_version) | The version of the EBS CSI driver addon | `string` | n/a | yes |
+| <a name="input_ebs_optimized"></a> [ebs\_optimized](#input\_ebs\_optimized) | If true, the launched EC2 instance will be EBS-optimized | `bool` | `null` | no |
 | <a name="input_efs_csi_driver_version"></a> [efs\_csi\_driver\_version](#input\_efs\_csi\_driver\_version) | The version of the EFS CSI driver addon | `string` | n/a | yes |
 | <a name="input_eks_cluster_admin_policy_arn"></a> [eks\_cluster\_admin\_policy\_arn](#input\_eks\_cluster\_admin\_policy\_arn) | The ARN of the AmazonEKSClusterAdminPolicy | `string` | `"arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"` | no |
 | <a name="input_enable_auto_mode_custom_tags"></a> [enable\_auto\_mode\_custom\_tags](#input\_enable\_auto\_mode\_custom\_tags) | Indicates whether or not to enable auto mode custom tags | `bool` | `false` | no |
@@ -110,7 +114,6 @@
 | <a name="input_gitops_repo_username"></a> [gitops\_repo\_username](#input\_gitops\_repo\_username) | The git repo username for executing git commands | `string` | n/a | yes |
 | <a name="input_iam_role_use_name_prefix"></a> [iam\_role\_use\_name\_prefix](#input\_iam\_role\_use\_name\_prefix) | Determines whether the IAM role name (`iam_role_name`) is used as a prefix | `bool` | `false` | no |
 | <a name="input_kube_proxy_version"></a> [kube\_proxy\_version](#input\_kube\_proxy\_version) | The version of the kube-proxy addon | `string` | n/a | yes |
-| <a name="input_launch_template_use_name_prefix"></a> [launch\_template\_use\_name\_prefix](#input\_launch\_template\_use\_name\_prefix) | Determines whether to use `launch_template_name` as is or create a unique name beginning with the `launch_template_name` as the prefix | `bool` | `true` | no |
 | <a name="input_lb_certificate_arn"></a> [lb\_certificate\_arn](#input\_lb\_certificate\_arn) | The certificate arn | `string` | n/a | yes |
 | <a name="input_lb_private_certificate_arn"></a> [lb\_private\_certificate\_arn](#input\_lb\_private\_certificate\_arn) | The private certificate arn | `string` | n/a | yes |
 | <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | The list of node groups | `any` | `{}` | no |
@@ -121,6 +124,7 @@
 | <a name="input_snapshot_controller_version"></a> [snapshot\_controller\_version](#input\_snapshot\_controller\_version) | n/a | `string` | n/a | yes |
 | <a name="input_staff_role_arn"></a> [staff\_role\_arn](#input\_staff\_role\_arn) | The staff role arn | `string` | n/a | yes |
 | <a name="input_update_config"></a> [update\_config](#input\_update\_config) | Configuration block of settings for max unavailable resources during node group updates | `map(string)` | <pre>{<br/>  "max_unavailable": 1<br/>}</pre> | no |
+| <a name="input_use_al2023"></a> [use\_al2023](#input\_use\_al2023) | Enable AL2023-specific configurations. Defaults to false for AL2. | `bool` | `false` | no |
 | <a name="input_use_name_prefix"></a> [use\_name\_prefix](#input\_use\_name\_prefix) | Determines whether to use `name` as is or create a unique name beginning with the `name` as the prefix | `bool` | `true` | no |
 | <a name="input_utilities"></a> [utilities](#input\_utilities) | The list of utilities | <pre>list(object({<br/>    name                      = string<br/>    enable_irsa               = bool<br/>    internal_dns              = any<br/>    namespace_service_account = string<br/>    cluster_label_type        = string<br/>  }))</pre> | n/a | yes |
 | <a name="input_volume_delete_on_termination"></a> [volume\_delete\_on\_termination](#input\_volume\_delete\_on\_termination) | Indicates whether the EBS volume is deleted on termination | `bool` | `true` | no |
@@ -128,6 +132,7 @@
 | <a name="input_volume_iops"></a> [volume\_iops](#input\_volume\_iops) | The amount of provisioned IOPS | `number` | `3000` | no |
 | <a name="input_volume_size"></a> [volume\_size](#input\_volume\_size) | The size of the EBS volume | `number` | `128` | no |
 | <a name="input_volume_throughput"></a> [volume\_throughput](#input\_volume\_throughput) | The throughput of the EBS volume | `number` | `125` | no |
+| <a name="input_volume_type"></a> [volume\_type](#input\_volume\_type) | Worker node volume type | `string` | `"gp3"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC ID for the EKS cluster | `string` | n/a | yes |
 | <a name="input_wait_for_cluster_timeout"></a> [wait\_for\_cluster\_timeout](#input\_wait\_for\_cluster\_timeout) | The timeout to wait for the EKS cluster to be ready | `string` | `"5m"` | no |
 

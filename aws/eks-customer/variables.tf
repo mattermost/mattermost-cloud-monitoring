@@ -251,13 +251,7 @@ variable "wait_for_cluster_timeout" {
 variable "use_name_prefix" {
   description = "Determines whether to use `name` as is or create a unique name beginning with the `name` as the prefix"
   type        = bool
-  default     = true
-}
-
-variable "launch_template_use_name_prefix" {
-  description = "Determines whether to use `launch_template_name` as is or create a unique name beginning with the `launch_template_name` as the prefix"
-  type        = bool
-  default     = true
+  default     = false
 }
 
 variable "iam_role_use_name_prefix" {
@@ -270,6 +264,12 @@ variable "volume_size" {
   description = "The size of the EBS volume"
   type        = number
   default     = 128
+}
+
+variable "volume_type" {
+  default     = "gp3"
+  type        = string
+  description = "Worker node volume type"
 }
 
 variable "device_name" {
@@ -314,4 +314,22 @@ variable "push_utilities_to_main" {
   description = "Indicates whether or not to automatically push utilities to the Gitops repository"
   type        = bool
   default     = true
+}
+
+variable "create_launch_template" {
+  description = "Indicates whether or not to create a launch template for the EKS managed node group"
+  type        = bool
+  default     = false
+}
+
+variable "use_al2023" {
+  description = "Enable AL2023-specific configurations. Defaults to false for AL2."
+  type        = bool
+  default     = false
+}
+
+variable "ebs_optimized" {
+  description = "If true, the launched EC2 instance will be EBS-optimized"
+  default     = null
+  type        = bool
 }
