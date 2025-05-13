@@ -1,5 +1,6 @@
-resource "aws_iam_role" "packer_role" {
-  name = "mattermost-cloud-${var.environment}-packer-role"
+
+resource "aws_iam_role" "private_role" {
+  name = "mattermost-cloud-private-${var.environment}-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -18,11 +19,9 @@ resource "aws_iam_role" "packer_role" {
   })
 }
 
-resource "aws_iam_policy" "packer" {
-  count = var.create_packer_user ? 1 : 0
-
-  name        = "mattermost-cloud-${var.environment}-packer-policy"
-  description = "A policy attached to packer IAM role"
+resource "aws_iam_policy" "private" {
+  name        = "mattermost-cloud-private-${var.environment}-policy"
+  description = "A policy attached to private IAM role"
   path        = "/"
   policy      = <<EOF
 {
@@ -53,26 +52,6 @@ resource "aws_iam_policy" "packer" {
             ],
             "Resource": [
                 "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:bind-server-network-attachment"
-            ]
-        },
-        {
-            "Sid": "S3Policy",
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObjectAttributes",
-                "s3:ListBucket",
-                "s3:GetObjectLegalHold",
-                "s3:GetObjectVersionAttributes",
-                "s3:GetObjectVersionTorrent",
-                "s3:GetObject",
-                "s3:GetObjectTorrent",
-                "s3:GetObjectVersionAcl",
-                "s3:GetObjectTagging",
-                "s3:PutObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::terraform-cloud-monitoring-state-bucket-${var.environment}/*",
-                "arn:aws:s3:::terraform-cloud-monitoring-state-bucket-${var.environment}"
             ]
         },
         {
@@ -159,7 +138,7 @@ resource "aws_iam_policy" "packer" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "packer_role" {
-  policy_arn = aws_iam_policy.packer[0].arn
-  role       = aws_iam_role.packer_role.name
+resource "aws_iam_role_policy_attachment" "private_role" {
+  policy_arn = aws_iam_policy.private.arn
+  role       = aws_iam_role.private_role.name
 }

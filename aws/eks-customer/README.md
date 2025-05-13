@@ -125,7 +125,7 @@
 | <a name="input_staff_role_arn"></a> [staff\_role\_arn](#input\_staff\_role\_arn) | The staff role arn | `string` | n/a | yes |
 | <a name="input_update_config"></a> [update\_config](#input\_update\_config) | Configuration block of settings for max unavailable resources during node group updates | `map(string)` | <pre>{<br/>  "max_unavailable": 1<br/>}</pre> | no |
 | <a name="input_use_al2023"></a> [use\_al2023](#input\_use\_al2023) | Enable AL2023-specific configurations. Defaults to false for AL2. | `bool` | `false` | no |
-| <a name="input_use_name_prefix"></a> [use\_name\_prefix](#input\_use\_name\_prefix) | Determines whether to use `name` as is or create a unique name beginning with the `name` as the prefix | `bool` | `true` | no |
+| <a name="input_use_name_prefix"></a> [use\_name\_prefix](#input\_use\_name\_prefix) | Determines whether to use `name` as is or create a unique name beginning with the `name` as the prefix | `bool` | `false` | no |
 | <a name="input_utilities"></a> [utilities](#input\_utilities) | The list of utilities | <pre>list(object({<br/>    name                      = string<br/>    enable_irsa               = bool<br/>    internal_dns              = any<br/>    namespace_service_account = string<br/>    cluster_label_type        = string<br/>  }))</pre> | n/a | yes |
 | <a name="input_volume_delete_on_termination"></a> [volume\_delete\_on\_termination](#input\_volume\_delete\_on\_termination) | Indicates whether the EBS volume is deleted on termination | `bool` | `true` | no |
 | <a name="input_volume_encrypted"></a> [volume\_encrypted](#input\_volume\_encrypted) | Indicates whether the EBS volume is encrypted | `bool` | `true` | no |
