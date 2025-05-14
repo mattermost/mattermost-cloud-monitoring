@@ -106,7 +106,7 @@ resource "aws_iam_policy" "external-secrets" {
             "Resource": [
                 "arn:aws:secretsmanager:us-east-1:${data.aws_caller_identity.current.account_id}:secret:app-bifrost-*",
                 "arn:aws:secretsmanager:us-east-1:${data.aws_caller_identity.current.account_id}:secret:app-external-dns-public-*",
-                "arn:aws:secretsmanager:us-east-1:${data.aws_caller_identity.current.account_id}:secret:app-wiz-kubernetes-integration-*"
+                "arn:aws:secretsmanager:us-east-1:${data.aws_caller_identity.current.account_id}:secret:app-wiz-kubernetes-connector-*"
             ]
         }
     ],
