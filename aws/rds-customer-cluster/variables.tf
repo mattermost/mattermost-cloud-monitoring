@@ -267,3 +267,9 @@ variable "accepted_password_auth_method" {
   default     = "md5+scram"
   description = "The authentication method to use for the DB instance. Valid values: md5+scram or scram"
 }
+
+variable "pgvector_enable" {
+  type        = bool
+  description = "Whether to enable the pgvector extension for ML model integration"
+  default     = false
+}
