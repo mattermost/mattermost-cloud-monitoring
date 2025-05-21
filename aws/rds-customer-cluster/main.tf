@@ -460,6 +460,14 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_p
     value = var.accepted_password_auth_method
   }
 
+  dynamic "parameter" {
+    for_each = var.pgvector_enable ? [1] : []
+    content {
+      apply_method = "pending-reboot"
+      name         = "shared_preload_libraries"
+      value        = "pgvector"
+    }
+  }
 
   tags = merge(
     {
@@ -572,6 +580,15 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_s
   parameter {
     name  = "rds.accepted_password_auth_method"
     value = var.accepted_password_auth_method
+  }
+
+  dynamic "parameter" {
+    for_each = var.pgvector_enable ? [1] : []
+    content {
+      apply_method = "pending-reboot"
+      name         = "shared_preload_libraries"
+      value        = "pgvector"
+    }
   }
 
   tags = merge(
