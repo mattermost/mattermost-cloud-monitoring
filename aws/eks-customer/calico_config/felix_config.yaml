@@ -4,3 +4,5 @@ metadata:
   name: default
 spec:
   interfacePrefix: eni
+  prometheusMetricsEnabled: true
+
