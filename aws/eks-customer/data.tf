@@ -4,11 +4,6 @@ data "aws_availability_zones" "available" {}
 
 data "aws_region" "current" {}
 
-data "aws_route53_zone" "internal" {
-  name         = "internal.${var.environment}.${var.private_domain}"
-  private_zone = true
-}
-
 data "aws_subnets" "private" {
   filter {
     name   = "vpc-id"
