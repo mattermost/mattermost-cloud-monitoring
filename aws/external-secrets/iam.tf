@@ -30,7 +30,7 @@ resource "aws_secretsmanager_secret" "external-secrets-app-secret" {
 }
 
 resource "aws_iam_policy" "external-secrets-policy" {
-  name        = "external-secrets-policy"
+  name        = "external-${var.environment}-secrets-policy"
   path        = "/"
   description = "Permissions for external-secrets role"
 
