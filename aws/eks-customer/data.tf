@@ -4,11 +4,6 @@ data "aws_availability_zones" "available" {}
 
 data "aws_region" "current" {}
 
-data "aws_route53_zone" "internal" {
-  name         = "internal.${var.environment}.${var.private_domain}"
-  private_zone = true
-}
-
 data "aws_subnets" "private" {
   filter {
     name   = "vpc-id"
@@ -106,30 +101,4 @@ data "aws_security_groups" "control-plane" {
     name   = "tag:NodeType"
     values = ["master"]
   }
-}
-
-data "aws_lb" "internal" {
-  tags = {
-    "kubernetes.io/cluster/${module.eks.cluster_name}" = "owned"
-    "kubernetes.io/service-name"                       = "nginx-internal/nginx-internal-ingress-nginx-controller"
-  }
-
-  timeouts {
-    read = "20m"
-  }
-
-  depends_on = [null_resource.wait_for_nginx_internal_lb]
-}
-
-data "aws_lb" "thanos-query-grpc" {
-  tags = {
-    "kubernetes.io/cluster/${module.eks.cluster_name}" = "owned"
-    "kubernetes.io/service-name"                       = "prometheus/thanos-query-grpc"
-  }
-
-  timeouts {
-    read = "20m"
-  }
-
-  depends_on = [null_resource.wait_for_thanos_query_grpc_lb]
 }
