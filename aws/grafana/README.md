@@ -24,6 +24,7 @@
 |------|------|
 | [aws_db_subnet_group.grafana_subnets_db](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group) | resource |
 | [aws_security_group.grafana_cec_to_postgres](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_security_group_rule.grafana_calico_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [aws_secretsmanager_secret.grafana](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret) | data source |
 | [aws_secretsmanager_secret_version.grafana](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret_version) | data source |
@@ -33,6 +34,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_calico_cidr"></a> [calico\_cidr](#input\_calico\_cidr) | The Calico CIDR block to allow access | `list(string)` | `[]` | no |
 | <a name="input_cloud_vpn_cidr"></a> [cloud\_vpn\_cidr](#input\_cloud\_vpn\_cidr) | n/a | `list(string)` | n/a | yes |
 | <a name="input_db_backup_retention_period"></a> [db\_backup\_retention\_period](#input\_db\_backup\_retention\_period) | n/a | `number` | n/a | yes |
 | <a name="input_db_backup_window"></a> [db\_backup\_window](#input\_db\_backup\_window) | n/a | `string` | n/a | yes |
@@ -62,6 +64,7 @@
 | <a name="input_grafana_performance_insights_retention_period"></a> [grafana\_performance\_insights\_retention\_period](#input\_grafana\_performance\_insights\_retention\_period) | n/a | `number` | n/a | yes |
 | <a name="input_grafana_replica_min"></a> [grafana\_replica\_min](#input\_grafana\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_grafana_service_name"></a> [grafana\_service\_name](#input\_grafana\_service\_name) | n/a | `string` | `"grafana"` | no |
+| <a name="input_is_calico_enabled"></a> [is\_calico\_enabled](#input\_is\_calico\_enabled) | Enable Calico network policies | `bool` | `false` | no |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | n/a | `list(string)` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
 

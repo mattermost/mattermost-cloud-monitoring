@@ -175,3 +175,15 @@ variable "grant_privileges_to_schemas_sg" {
   type    = string
   default = ""
 }
+
+variable "is_calico_enabled" {
+  type        = bool
+  description = "Enable Calico network policies"
+  default     = false
+}
+
+variable "calico_cidr" {
+  type        = list(string)
+  description = "The Calico CIDR block to allow access"
+  default     = []
+}

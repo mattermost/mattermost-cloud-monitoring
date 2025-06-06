@@ -164,3 +164,15 @@ variable "teleport_cidr" {
   type        = list(string)
   description = "The Teleport CIDR block to allow access"
 }
+
+variable "is_calico_enabled" {
+  type        = bool
+  description = "Enable Calico network policies"
+  default     = false
+}
+
+variable "calico_cidr" {
+  type        = list(string)
+  description = "The Calico CIDR block to allow access"
+  default     = []
+}

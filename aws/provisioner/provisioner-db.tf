@@ -70,6 +70,18 @@ resource "aws_security_group" "cec_to_postgress" {
 
 }
 
+resource "aws_security_group_rule" "provisioner_calico_ingress" {
+  count = var.is_calico_enabled ? 1 : 0
+
+  type              = "ingress"
+  from_port         = 5432
+  to_port           = 5432
+  protocol          = "tcp"
+  cidr_blocks       = var.calico_cidr
+  security_group_id = aws_security_group.cec_to_postgress.id
+  description       = "Allow calico overlay network"
+}
+
 resource "aws_db_subnet_group" "subnets_db" {
   name       = "cloud_db_subnetgroup"
   subnet_ids = var.private_subnets
