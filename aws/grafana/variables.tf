@@ -138,3 +138,15 @@ variable "grafana_ca_cert_identifier" {
   description = "Identifier of the CA certificate for the DB instance."
   default     = "rds-ca-rsa4096-g1"
 }
+
+variable "is_calico_enabled" {
+  type        = bool
+  description = "Enable Calico network policies"
+  default     = false
+}
+
+variable "calico_cidr" {
+  type        = list(string)
+  description = "The Calico CIDR block to allow access"
+  default     = []
+}

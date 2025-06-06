@@ -89,6 +89,7 @@ No modules.
 | <a name="input_performance_insights_enabled"></a> [performance\_insights\_enabled](#input\_performance\_insights\_enabled) | Specifies whether Performance Insights are enabled | `bool` | n/a | yes |
 | <a name="input_performance_kms_key_id_primary"></a> [performance\_kms\_key\_id\_primary](#input\_performance\_kms\_key\_id\_primary) | ARN for the primary performance insights KMS encryption key if one is set to the cluster | `string` | `""` | no |
 | <a name="input_performance_kms_key_id_secondary"></a> [performance\_kms\_key\_id\_secondary](#input\_performance\_kms\_key\_id\_secondary) | ARN for the secondary performance insights KMS encryption key if one is set to the cluster | `string` | `""` | no |
+| <a name="input_pgvector_enable"></a> [pgvector\_enable](#input\_pgvector\_enable) | Whether to enable the pgvector extension for ML model integration | `bool` | `false` | no |
 | <a name="input_port"></a> [port](#input\_port) | The port on which the DB accepts connections | `string` | n/a | yes |
 | <a name="input_predefined_metric_type"></a> [predefined\_metric\_type](#input\_predefined\_metric\_type) | A predefined metric type | `string` | n/a | yes |
 | <a name="input_preferred_backup_window"></a> [preferred\_backup\_window](#input\_preferred\_backup\_window) | The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter | `string` | n/a | yes |
