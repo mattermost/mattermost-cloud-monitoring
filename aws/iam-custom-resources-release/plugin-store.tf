@@ -1,5 +1,5 @@
 resource "aws_iam_role" "plugin_store_role" {
-  name = "mattermost-release-${var.environment}-plugin-store-role"
+  name = "mattermost-${var.environment}-plugin-store-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -20,7 +20,7 @@ resource "aws_iam_role" "plugin_store_role" {
 
 resource "aws_iam_policy" "plugin_store" {
 
-  name        = "mattermost-release-${var.environment}-plugin-store-policy"
+  name        = "mattermost-${var.environment}-plugin-store-policy"
   description = "A policy attached to plugin store IAM role"
   path        = "/"
   policy      = <<EOF
