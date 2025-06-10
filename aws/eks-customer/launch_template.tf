@@ -69,6 +69,9 @@ spec:
     certificateAuthority: |
       ${module.eks.cluster_certificate_authority_data}
     cidr: ${module.eks.cluster_service_cidr}
+  kubelet:
+    config:
+      maxPods: ${lookup(each.value, "max_pods", 110)}
 EOF
 
 /usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml
