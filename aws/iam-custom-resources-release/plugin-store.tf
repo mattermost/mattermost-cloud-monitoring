@@ -7,12 +7,19 @@ resource "aws_iam_role" "plugin_store_role" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = var.github_runners_iam_role_arn
+          Federated = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/token.actions.githubusercontent.com"
         }
         Action = [
-          "sts:TagSession",
-          "sts:AssumeRole"
+          "sts:AssumeRoleWithWebIdentity"
         ]
+        Condition = {
+          StringLike = {
+            "token.actions.githubusercontent.com:sub" : var.github_repos_sub
+          }
+          StringEquals = {
+            "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com"
+          }
+        }
       }
     ]
   })

@@ -22,13 +22,14 @@ No modules.
 | [aws_iam_policy.plugin_store](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.plugin_store_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.plugin_store_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment | `string` | n/a | yes |
-| <a name="input_github_runners_iam_role_arn"></a> [github\_runners\_iam\_role\_arn](#input\_github\_runners\_iam\_role\_arn) | Github runner role ARN | `string` | n/a | yes |
+| <a name="input_github_repos_sub"></a> [github\_repos\_sub](#input\_github\_repos\_sub) | Github repos sub | `list(string)` | n/a | yes |
 
 ## Outputs
 
