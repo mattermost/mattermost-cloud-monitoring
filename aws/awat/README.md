@@ -72,7 +72,7 @@
 | <a name="input_awat_performance_insights_retention_period"></a> [awat\_performance\_insights\_retention\_period](#input\_awat\_performance\_insights\_retention\_period) | n/a | `number` | n/a | yes |
 | <a name="input_awat_replica_min"></a> [awat\_replica\_min](#input\_awat\_replica\_min) | n/a | `number` | n/a | yes |
 | <a name="input_awat_service_name"></a> [awat\_service\_name](#input\_awat\_service\_name) | n/a | `string` | `"awat"` | no |
-| <a name="input_calico_cidr"></a> [calico\_cidr](#input\_calico\_cidr) | The Calico CIDR block to allow access | `list(string)` | n/a | yes |
+| <a name="input_calico_cidr"></a> [calico\_cidr](#input\_calico\_cidr) | The Calico CIDR block to allow access | `list(string)` | `[]` | no |
 | <a name="input_cloud_import_account_number"></a> [cloud\_import\_account\_number](#input\_cloud\_import\_account\_number) | value of the account number of the import account | `string` | n/a | yes |
 | <a name="input_cloud_vpn_cidr"></a> [cloud\_vpn\_cidr](#input\_cloud\_vpn\_cidr) | n/a | `list(string)` | n/a | yes |
 | <a name="input_enable_awat_bucket_restriction"></a> [enable\_awat\_bucket\_restriction](#input\_enable\_awat\_bucket\_restriction) | n/a | `bool` | n/a | yes |

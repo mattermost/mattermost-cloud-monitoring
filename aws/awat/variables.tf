@@ -196,4 +196,5 @@ variable "is_calico_enabled" {
 variable "calico_cidr" {
   type        = list(string)
   description = "The Calico CIDR block to allow access"
+  default     = []
 }
