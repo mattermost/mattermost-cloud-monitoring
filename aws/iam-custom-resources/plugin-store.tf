@@ -1,6 +1,7 @@
 resource "aws_iam_role" "plugin_store_role" {
-  name = "mattermost-${var.environment}-plugin-store-role"
+  count = var.create_plugin_store_role ? 1 : 0
 
+  name = "mattermost-${var.environment}-plugin-store-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -26,6 +27,7 @@ resource "aws_iam_role" "plugin_store_role" {
 }
 
 resource "aws_iam_policy" "plugin_store" {
+  count = var.create_plugin_store_role ? 1 : 0
 
   name        = "mattermost-${var.environment}-plugin-store-policy"
   description = "A policy attached to plugin store IAM role"
@@ -67,6 +69,8 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "plugin_store_role" {
-  policy_arn = aws_iam_policy.plugin_store.arn
-  role       = aws_iam_role.plugin_store_role.name
+  count = var.create_plugin_store_role ? 1 : 0
+
+  policy_arn = aws_iam_policy.plugin_store[0].arn
+  role       = aws_iam_role.plugin_store_role[0].name
 }

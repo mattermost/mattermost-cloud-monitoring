@@ -32,3 +32,15 @@ variable "github_runners_iam_role_arn" {
   type        = string
   default     = ""
 }
+
+variable "create_plugin_store_role" {
+  description = "Whether to create the plugin store role"
+  type        = bool
+  default     = false
+}
+
+variable "github_repos_sub" {
+  description = "Github repos sub"
+  type        = list(string)
+  default     = []
+}
