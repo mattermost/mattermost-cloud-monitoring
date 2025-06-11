@@ -1,4 +1,6 @@
 resource "aws_iam_role" "packer_role" {
+  count = var.create_packer_role ? 1 : 0
+
   name = "mattermost-cloud-${var.environment}-packer-role"
 
   assume_role_policy = jsonencode({
@@ -160,6 +162,8 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "packer_role" {
+  count = var.create_packer_role ? 1 : 0
+
   policy_arn = aws_iam_policy.packer[0].arn
-  role       = aws_iam_role.packer_role.name
+  role       = aws_iam_role.packer_role[0].name
 }
