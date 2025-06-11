@@ -1,19 +1,26 @@
-resource "aws_iam_user" "db_disaster_recovery" {
-  count = var.create_db_disaster_user ? 1 : 0
-
-  name = "mattermost-cloud-${var.environment}-db-disaster-recovery"
-  path = "/"
-}
-
 resource "aws_iam_role" "db_disaster_recovery" {
   count = var.create_db_disaster_role ? 1 : 0
 
   name = "mattermost-cloud-${var.environment}-db-disaster-recovery"
-  path = "/"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          AWS = var.github_runners_iam_role_arn
+        }
+        Action = [
+          "sts:TagSession",
+          "sts:AssumeRole"
+        ]
+      }
+    ]
+  })
 }
 
 resource "aws_iam_policy" "db_disaster_recovery" {
-  count = var.create_db_disaster_user ? 1 : 0
+  count = var.create_db_disaster_role ? 1 : 0
 
   name        = "mattermost-cloud-${var.environment}-db-disaster-recovery-policy"
   description = "A policy attached to DB Disaster Recovery IAM role"
