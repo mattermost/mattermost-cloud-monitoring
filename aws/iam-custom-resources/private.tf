@@ -1,5 +1,7 @@
 
 resource "aws_iam_role" "private_role" {
+  count = var.create_private_role ? 1 : 0
+
   name = "mattermost-cloud-private-${var.environment}-role"
 
   assume_role_policy = jsonencode({
@@ -20,6 +22,8 @@ resource "aws_iam_role" "private_role" {
 }
 
 resource "aws_iam_policy" "private" {
+  count = var.create_private_role ? 1 : 0
+
   name        = "mattermost-cloud-private-${var.environment}-policy"
   description = "A policy attached to private IAM role"
   path        = "/"
@@ -139,6 +143,8 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "private_role" {
-  policy_arn = aws_iam_policy.private.arn
-  role       = aws_iam_role.private_role.name
+  count = var.create_private_role ? 1 : 0
+
+  policy_arn = aws_iam_policy.private[0].arn
+  role       = aws_iam_role.private_role[0].name
 }

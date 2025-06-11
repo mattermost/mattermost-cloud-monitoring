@@ -44,3 +44,9 @@ variable "github_repos_sub" {
   type        = list(string)
   default     = []
 }
+
+variable "create_private_role" {
+  description = "Whether to create the private role"
+  type        = bool
+  default     = false
+}
