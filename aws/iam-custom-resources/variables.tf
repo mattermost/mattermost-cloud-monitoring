@@ -3,14 +3,20 @@ variable "environment" {
   type        = string
 }
 
-variable "create_packer_user" {
-  description = "Whether to create the packer user"
+variable "create_packer_role" {
+  description = "Whether to create the packer role"
   type        = bool
   default     = false
 }
 
 variable "create_db_disaster_user" {
   description = "Whether to create the DB disaster recovery user"
+  type        = bool
+  default     = false
+}
+
+variable "create_db_disaster_role" {
+  description = "Whether to create the DB disaster recovery role"
   type        = bool
   default     = false
 }
