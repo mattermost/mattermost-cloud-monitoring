@@ -19,7 +19,7 @@ resource "aws_iam_role" "packer_role" {
 }
 
 resource "aws_iam_policy" "packer" {
-  count = var.create_packer_user ? 1 : 0
+  count = var.create_packer_role ? 1 : 0
 
   name        = "mattermost-cloud-${var.environment}-packer-policy"
   description = "A policy attached to packer IAM role"
