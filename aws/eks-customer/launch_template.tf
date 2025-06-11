@@ -69,6 +69,9 @@ spec:
     certificateAuthority: |
       ${module.eks.cluster_certificate_authority_data}
     cidr: ${module.eks.cluster_service_cidr}
+  kubelet:
+    config:
+      maxPods: ${lookup(each.value, "max_pods", 110)}
 EOF
 
 /usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml
@@ -79,7 +82,8 @@ set -e
 B64_CLUSTER_CA=${module.eks.cluster_certificate_authority_data}
 API_SERVER_URL=${module.eks.cluster_endpoint}
 /etc/eks/bootstrap.sh ${module.eks.cluster_name}  --b64-cluster-ca $B64_CLUSTER_CA --apiserver-endpoint $API_SERVER_URL \
-  --ip-family ipv4 --service-ipv4-cidr ${module.eks.cluster_service_cidr}
+  --ip-family ipv4 --service-ipv4-cidr ${module.eks.cluster_service_cidr} \
+  --kubelet-extra-args "--max-pods=${lookup(each.value, "max_pods", 110)}"
 USERDATA
   )
 
