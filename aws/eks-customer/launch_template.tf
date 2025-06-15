@@ -13,8 +13,8 @@ resource "aws_launch_template" "node" {
     ebs {
       volume_size           = var.volume_size
       volume_type           = var.volume_type
-      iops                  = var.volume_iops
-      throughput            = var.volume_throughput
+      iops                  = lookup(each.value, "volume_iops", 3000)
+      throughput            = lookup(each.value, "volume_throughput", 125)
       encrypted             = var.volume_encrypted
       delete_on_termination = var.volume_delete_on_termination
     }

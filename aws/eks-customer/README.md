@@ -123,9 +123,7 @@
 | <a name="input_utilities"></a> [utilities](#input\_utilities) | The list of utilities | <pre>list(object({<br/>    name                      = string<br/>    enable_irsa               = bool<br/>    internal_dns              = any<br/>    namespace_service_account = string<br/>    cluster_label_type        = string<br/>  }))</pre> | n/a | yes |
 | <a name="input_volume_delete_on_termination"></a> [volume\_delete\_on\_termination](#input\_volume\_delete\_on\_termination) | Indicates whether the EBS volume is deleted on termination | `bool` | `true` | no |
 | <a name="input_volume_encrypted"></a> [volume\_encrypted](#input\_volume\_encrypted) | Indicates whether the EBS volume is encrypted | `bool` | `true` | no |
-| <a name="input_volume_iops"></a> [volume\_iops](#input\_volume\_iops) | The amount of provisioned IOPS | `number` | `3000` | no |
 | <a name="input_volume_size"></a> [volume\_size](#input\_volume\_size) | The size of the EBS volume | `number` | `128` | no |
-| <a name="input_volume_throughput"></a> [volume\_throughput](#input\_volume\_throughput) | The throughput of the EBS volume | `number` | `125` | no |
 | <a name="input_volume_type"></a> [volume\_type](#input\_volume\_type) | Worker node volume type | `string` | `"gp3"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC ID for the EKS cluster | `string` | n/a | yes |
 | <a name="input_wait_for_cluster_timeout"></a> [wait\_for\_cluster\_timeout](#input\_wait\_for\_cluster\_timeout) | The timeout to wait for the EKS cluster to be ready | `string` | `"5m"` | no |
