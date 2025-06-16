@@ -50,3 +50,9 @@ variable "create_private_role" {
   type        = bool
   default     = false
 }
+
+variable "create_pulumi_github_sync_role" {
+  description = "Whether to create the pulumi-github-sync role"
+  type        = bool
+  default     = false
+}

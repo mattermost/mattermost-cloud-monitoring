@@ -25,14 +25,17 @@ No modules.
 | [aws_iam_policy.packer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.plugin_store](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_policy.pulumi-github-sync-policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.db_disaster_recovery](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.packer_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.plugin_store_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.private_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role.pulumi-github-sync-role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.db_disaster_recovery](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.packer_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.plugin_store_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.private_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.pulumi-github-sync-role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_user.exports](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user) | resource |
 | [aws_iam_user_policy_attachment.exports](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
@@ -47,6 +50,7 @@ No modules.
 | <a name="input_create_packer_role"></a> [create\_packer\_role](#input\_create\_packer\_role) | Whether to create the packer role | `bool` | `false` | no |
 | <a name="input_create_plugin_store_role"></a> [create\_plugin\_store\_role](#input\_create\_plugin\_store\_role) | Whether to create the plugin store role | `bool` | `false` | no |
 | <a name="input_create_private_role"></a> [create\_private\_role](#input\_create\_private\_role) | Whether to create the private role | `bool` | `false` | no |
+| <a name="input_create_pulumi_github_sync_role"></a> [create\_pulumi\_github\_sync\_role](#input\_create\_pulumi\_github\_sync\_role) | Whether to create the pulumi-github-sync role | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment | `string` | n/a | yes |
 | <a name="input_exports_bucket_arn"></a> [exports\_bucket\_arn](#input\_exports\_bucket\_arn) | The bucket that will be used for data exports. Needed only when create\_exports\_users is set to true | `string` | `""` | no |
 | <a name="input_github_repos_sub"></a> [github\_repos\_sub](#input\_github\_repos\_sub) | Github repos sub | `list(string)` | `[]` | no |
