@@ -253,6 +253,7 @@ variable "ca_cert_identifier" {
 
 variable "password_encryption" {
   type        = string
+  default     = "scram-sha-256"
   description = "The password encryption method to use for the DB instance. Valid values: md5 or scram-sha-256"
 }
 
