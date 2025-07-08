@@ -3,7 +3,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.41.0"
+      version = "= 5.100.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
@@ -35,8 +35,7 @@ terraform {
 data "aws_eks_cluster_auth" "cluster_auth" {
   name = var.deployment_name
   depends_on = [
-    aws_eks_cluster.cluster,
-    aws_iam_role.lambda_role
+    aws_eks_cluster.cluster
   ]
 }
 
