@@ -1,6 +1,6 @@
 module "managed_node_group" {
   source  = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
-  version = "20.20.0"
+  version = "20.37.1"
 
   for_each = { for k, v in var.node_groups : k => v }
 
