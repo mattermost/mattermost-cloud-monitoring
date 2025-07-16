@@ -243,6 +243,13 @@ variable "eks_cluster_admin_policy_arn" {
 variable "wait_for_cluster_timeout" {
   description = "The timeout to wait for the EKS cluster to be ready"
   type        = string
+  default     = "3m"
+
+}
+
+variable "wait_for_utilities_timeout" {
+  description = "The timeout to wait for the EKS cluster to be ready"
+  type        = string
   default     = "5m"
 
 }
