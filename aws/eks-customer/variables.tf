@@ -79,12 +79,6 @@ variable "snapshot_controller_version" {
   type = string
 }
 
-# variable "node_groups" {
-#   description = "The list of node groups"
-#   type        = any
-#   default     = {}
-# }
-
 variable "node_groups" {
   description = "The list of node groups"
   type = map(object({
