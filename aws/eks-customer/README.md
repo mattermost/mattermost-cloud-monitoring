@@ -54,6 +54,7 @@
 | [null_resource.delete_aws_node](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.deploy-utilites](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.install_calico_operator](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.node_group_annotate](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.pgbouncer_initial_setup](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.tag_vpc](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [random_id.cluster](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
@@ -111,7 +112,7 @@
 | <a name="input_kube_proxy_version"></a> [kube\_proxy\_version](#input\_kube\_proxy\_version) | The version of the kube-proxy addon | `string` | n/a | yes |
 | <a name="input_lb_certificate_arn"></a> [lb\_certificate\_arn](#input\_lb\_certificate\_arn) | The certificate arn | `string` | n/a | yes |
 | <a name="input_lb_private_certificate_arn"></a> [lb\_private\_certificate\_arn](#input\_lb\_private\_certificate\_arn) | The private certificate arn | `string` | n/a | yes |
-| <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | The list of node groups | `any` | `{}` | no |
+| <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | The list of node groups | <pre>map(object({<br/>    min_size       = number<br/>    max_size       = number<br/>    desired_size   = number<br/>    instance_types = list(string)<br/>    ami_id         = string<br/>    taints = optional(map(object({<br/>      key    = string<br/>      value  = string<br/>      effect = string<br/>    })))<br/>    labels = optional(map(string))<br/>    network_interfaces = optional(list(object({<br/>      security_groups             = list(string)<br/>      associate_public_ip_address = bool<br/>    })))<br/>    public_subnet = optional(bool)<br/>    annotations   = optional(map(string), {})<br/>  }))</pre> | `{}` | no |
 | <a name="input_private_domain"></a> [private\_domain](#input\_private\_domain) | The private domain | `string` | n/a | yes |
 | <a name="input_provisioner_role_arn"></a> [provisioner\_role\_arn](#input\_provisioner\_role\_arn) | The provisioner role arn | `string` | n/a | yes |
 | <a name="input_push_utilities_to_main"></a> [push\_utilities\_to\_main](#input\_push\_utilities\_to\_main) | Indicates whether or not to automatically push utilities to the Gitops repository | `bool` | `true` | no |
