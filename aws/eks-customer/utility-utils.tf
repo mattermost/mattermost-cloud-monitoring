@@ -14,13 +14,20 @@ type: Opaque
 EOF
 }
 
+resource "time_sleep" "wait_for_utilities" {
+
+  create_duration = var.wait_for_utilities_timeout
+
+  depends_on = [null_resource.deploy-utilites, module.eks, module.managed_node_group.node_group_status]
+}
+
 resource "null_resource" "bifrost_config" {
   provisioner "local-exec" {
     command = <<EOF
       echo "${local.bifrost_secret}" | KUBECONFIG=${path.root}/kubeconfig-${module.eks.cluster_name} kubectl apply -f -
 EOF
   }
-  depends_on = [null_resource.deploy-utilites]
+  depends_on = [time_sleep.wait_for_utilities]
 }
 
 resource "null_resource" "bifrost_annotate_sa" {
@@ -32,7 +39,7 @@ resource "null_resource" "bifrost_annotate_sa" {
 EOF
   }
 
-  depends_on = [null_resource.deploy-utilites]
+  depends_on = [time_sleep.wait_for_utilities]
 }
 
 resource "null_resource" "pgbouncer_initial_setup" {
@@ -41,5 +48,5 @@ resource "null_resource" "pgbouncer_initial_setup" {
       KUBECONFIG=${path.root}/kubeconfig-${module.eks.cluster_name} kubectl apply -f ${path.module}/scripts/pgbouncer-initial-setup.yaml
 EOF
   }
-  depends_on = [module.managed_node_group.node_group_status]
+  depends_on = [time_sleep.wait_for_utilities]
 }

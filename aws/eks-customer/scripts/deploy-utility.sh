@@ -51,6 +51,7 @@ function deploy_utility() {
 
     add_utility_to_application_file $utility_name $cluster_label_type
     replace_custom_values $utility_name
+    replace_custom_manifests $utility_name
     commit_changes "CLUSTER_NAME: ${CLUSTER_NAME} Adding utility ${utility_name}" $application_yaml
     # wait_for_healthy $utility_name
 
@@ -82,22 +83,44 @@ function add_utility_to_application_file() {
 
 function replace_custom_values () {
   echo "Replacing custom values"
-	utility_name=$1
+  utility_name=$1
+
+  file_path="$gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml"
+  template_path="$gitops_apps_dir/custom-values-template/$utility_name-custom-values.yaml-template"
+
+  replace_file_values "$file_path" "$template_path" "$utility_name"
+}
+
+function replace_custom_manifests () {
+  echo "Replacing custom manifests"
+  utility_name=$1
+
+  file_path="$gitops_apps_dir/${ENV}/manifests/${CLUSTER_NAME}/$utility_name/$utility_name-custom-manifest.yaml"
+  template_path="$gitops_apps_dir/custom-manifests-template/$utility_name-custom-manifest.yaml-template"
+
+  replace_file_values "$file_path" "$template_path" "$utility_name"
+}
+
+function replace_file_values () {
+  echo "Replacing custom values"
+  local file_path=$1
+  local template_path=$2
+  local utility_name=$3
 
   certificate_arn=$(escape_string ${CERTIFICATE_ARN})
   private_certificate_arn=$(escape_string ${PRIVATE_CERTIFICATE_ARN})
   allow_list_cidr_range=$(escape_string ${ALLOW_LIST_CIDR_RANGE})
 
-  if [[ -f "$gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml" ]]; then
-    echo "Custom values file already exists, skipping"
-    return
+  target_dir=$(dirname "$file_path")
+  if [[ ! -d "$target_dir" ]]; then
+    echo "Directory $target_dir does not exist. Creating it."
+    mkdir -p "$target_dir" || { echo "Failed to create directory $target_dir"; return 1; }
   fi
 
-  if [[  -f $gitops_apps_dir/custom-values-template/$utility_name-custom-values.yaml-template ]]; then
-    cp $gitops_apps_dir/custom-values-template/$utility_name-custom-values.yaml-template $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
+  if [[ -f "$template_path" ]]; then
+    cp "$template_path" "$file_path" || { echo "Failed to copy template to $file_path"; return 1; }
     sed -i -z -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
               -e "s/<ENV>/${ENV}/g" \
-              -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
               -e "s/<AWS_ACCOUNT>/${AWS_ACCOUNT}/g" \
               -e "s/<CERTIFICATE_ARN>/$certificate_arn/g" \
               -e "s/<PRIVATE_CERTIFICATE_ARN>/$private_certificate_arn/g" \
@@ -105,12 +128,43 @@ function replace_custom_values () {
               -e "s/<PRIVATE_DOMAIN>/${PRIVATE_DOMAIN}/g" \
               -e "s/<IP_RANGE>/$allow_list_cidr_range/g" \
               -e "s/hostNetwork: false/hostNetwork: true/g" \
-              -e "s/hostNetwork:\n  enabled: false/hostNetwork:\n  enabled: true/" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
+              -e "s/hostNetwork:\n  enabled: false/hostNetwork:\n  enabled: true/" "$file_path" || { echo "Failed to replace values in $file_path"; return 1; }
 
-    stage_changes $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
+    stage_changes "$file_path"
   fi
-
 }
+
+# function replace_custom_values () {
+#   echo "Replacing custom values"
+# 	utility_name=$1
+
+#   certificate_arn=$(escape_string ${CERTIFICATE_ARN})
+#   private_certificate_arn=$(escape_string ${PRIVATE_CERTIFICATE_ARN})
+#   allow_list_cidr_range=$(escape_string ${ALLOW_LIST_CIDR_RANGE})
+
+#   if [[ -f "$gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml" ]]; then
+#     echo "Custom values file already exists, skipping"
+#     return
+#   fi
+
+#   if [[  -f $gitops_apps_dir/custom-values-template/$utility_name-custom-values.yaml-template ]]; then
+#     cp $gitops_apps_dir/custom-values-template/$utility_name-custom-values.yaml-template $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
+#     sed -i -z -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
+#               -e "s/<ENV>/${ENV}/g" \
+#               -e "s/<CLUSTER_ID>/${CLUSTER_NAME}/g" \
+#               -e "s/<AWS_ACCOUNT>/${AWS_ACCOUNT}/g" \
+#               -e "s/<CERTIFICATE_ARN>/$certificate_arn/g" \
+#               -e "s/<PRIVATE_CERTIFICATE_ARN>/$private_certificate_arn/g" \
+#               -e "s/<VPC_ID>/${VPC_ID}/g" \
+#               -e "s/<PRIVATE_DOMAIN>/${PRIVATE_DOMAIN}/g" \
+#               -e "s/<IP_RANGE>/$allow_list_cidr_range/g" \
+#               -e "s/hostNetwork: false/hostNetwork: true/g" \
+#               -e "s/hostNetwork:\n  enabled: false/hostNetwork:\n  enabled: true/" $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
+
+#     stage_changes $gitops_apps_dir/${ENV}/helm-values/${CLUSTER_NAME}/$utility_name-custom-values.yaml
+#   fi
+
+# }
 
 function wait_for_healthy() {
   utility_name=$1

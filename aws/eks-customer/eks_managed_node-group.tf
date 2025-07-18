@@ -37,5 +37,5 @@ module "managed_node_group" {
     Terraform   = "true"
   }
 
-  depends_on = [module.eks, time_sleep.wait_for_cluster]
+  depends_on = [module.eks]
 }
