@@ -37,7 +37,7 @@ module "managed_node_group" {
     Terraform   = "true"
   }
 
-  depends_on = [module.eks]
+  depends_on = [module.eks, time_sleep.wait_for_cluster]
 }
 
 resource "null_resource" "node_group_annotate" {

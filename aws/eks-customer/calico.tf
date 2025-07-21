@@ -11,7 +11,7 @@ resource "null_resource" "install_calico_operator" {
     command = "KUBECONFIG=${path.root}/kubeconfig-${module.eks.cluster_name} kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/${var.calico_operator_version}/manifests/tigera-operator.yaml"
   }
 
-  depends_on = [module.eks, time_sleep.wait_for_cluster, resource.local_file.kubeconfig]
+  depends_on = [null_resource.delete_aws_node]
 }
 
 resource "null_resource" "calico_operator_configuration" {
@@ -22,4 +22,14 @@ resource "null_resource" "calico_operator_configuration" {
   }
 
   depends_on = [null_resource.install_calico_operator]
+}
+
+resource "null_resource" "calico_felix_configuration" {
+  provisioner "local-exec" {
+    command = <<EOF
+      KUBECONFIG=${path.root}/kubeconfig-${module.eks.cluster_name} kubectl apply -f ${path.module}/calico_felix_config
+    EOF
+  }
+
+  depends_on = [null_resource.install_calico_operator, module.managed_node_group.node_group_status]
 }
