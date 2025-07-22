@@ -82,25 +82,26 @@ variable "snapshot_controller_version" {
 variable "node_groups" {
   description = "The list of node groups"
   type = map(object({
-    min_size       = number
-    max_size       = number
-    desired_size   = number
-    instance_types = list(string)
-    ami_id         = string
+    min_size          = number
+    max_size          = number
+    desired_size      = number
+    instance_types    = list(string)
+    ami_id            = string
+    max_pods          = optional(number, 110)
+    volume_throughput = optional(number, 125)
     taints = optional(map(object({
       key    = string
       value  = string
       effect = string
-    })))
-    labels = optional(map(string))
+    })), {})
+    labels = optional(map(string), {})
     network_interfaces = optional(list(object({
       security_groups             = list(string)
       associate_public_ip_address = bool
-    })))
-    public_subnet = optional(bool)
+    })), [])
+    public_subnet = optional(bool, false)
     annotations   = optional(map(string), {})
   }))
-  default = {}
 }
 
 # variable "cloud_provisioning_node_policy_arn" {
