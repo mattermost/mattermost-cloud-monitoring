@@ -37,5 +37,26 @@ module "managed_node_group" {
     Terraform   = "true"
   }
 
-  depends_on = [module.eks]
+  depends_on = [module.eks, time_sleep.wait_for_cluster]
+}
+
+resource "null_resource" "node_group_annotate" {
+  for_each = {
+    for k, v in var.node_groups :
+    k => v
+    if v.annotations != null && length(keys(v.annotations)) > 0
+  }
+
+  triggers = {
+    annotations = jsonencode(each.value.annotations)
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+      KUBECONFIG=${path.root}/kubeconfig-${module.eks.cluster_name} kubectl annotate nodes -l eks.amazonaws.com/nodegroup=${split(":", module.managed_node_group[each.key].node_group_id)[1]} \
+      ${join(" ", [for key, value in each.value.annotations : "${key}=${value}"])}
+    EOT
+  }
+
+  depends_on = [module.managed_node_group]
 }
