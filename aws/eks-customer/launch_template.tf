@@ -72,6 +72,8 @@ spec:
   kubelet:
     config:
       maxPods: ${lookup(each.value, "max_pods", 110)}
+  containerRuntime:
+    pauseContainerImage: "${var.pause_container_image}"
 EOF
 
 /usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml

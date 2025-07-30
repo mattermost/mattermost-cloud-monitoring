@@ -347,3 +347,9 @@ variable "ebs_optimized" {
   default     = null
   type        = bool
 }
+
+variable "pause_container_image" {
+  description = "The pause container image to use for the node group"
+  type        = string
+  default     = "602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/pause:3.5"
+}

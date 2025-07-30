@@ -35,6 +35,8 @@ spec:
     apiServerEndpoint: ${aws_eks_cluster.cluster.endpoint}
     certificateAuthority: ${aws_eks_cluster.cluster.certificate_authority[0].data}
     cidr: ${local.service_cidr}
+  containerRuntime:
+    pauseContainerImage: "${var.pause_container_image}"
 EOF
 
 /usr/local/bin/nodeadm --config /etc/eks/nodeadm-config.yaml
