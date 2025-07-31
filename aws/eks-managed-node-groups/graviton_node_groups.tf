@@ -37,6 +37,10 @@ spec:
   kubelet:
     config:
       maxPods: ${lookup(var.instance_type_max_pods_map, var.arm_instance_type, 17)}
+  containerd:
+    config: |
+      [plugins."io.containerd.grpc.v1.cri"]
+        sandbox_image = "${var.pause_container_image}"
 EOF
 
 /usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml
@@ -98,6 +102,10 @@ spec:
   kubelet:
     config:
       maxPods: ${var.calico_max_pods}
+  containerd:
+    config: |
+      [plugins."io.containerd.grpc.v1.cri"]
+        sandbox_image = "${var.pause_container_image}"
 EOF
 
 /usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml

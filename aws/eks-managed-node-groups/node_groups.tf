@@ -33,6 +33,10 @@ spec:
     certificateAuthority: |
       ${var.certificate_authority}
     cidr: ${var.service_ipv4_cidr}
+  containerd:
+    config: |
+      [plugins."io.containerd.grpc.v1.cri"]
+        sandbox_image = "${var.pause_container_image}"
 EOF
 
 /usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml
