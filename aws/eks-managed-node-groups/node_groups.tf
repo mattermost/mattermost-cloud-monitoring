@@ -22,6 +22,13 @@ resource "aws_launch_template" "cluster_nodes_eks_launch_template" {
 #!/bin/bash
 echo "export AWS_REGION=${data.aws_region.current.name}" >> /etc/environment
 source /etc/environment
+
+# Fix sandbox image before nodeadm runs
+sed -i 's|sandbox_image = .*|sandbox_image = "${var.pause_container_image}"|' /etc/containerd/config.toml
+
+# Restart containerd to apply config
+systemctl restart containerd
+
 cat <<EOF > /etc/eks/nodeadm-config.yaml
 apiVersion: node.eks.aws/v1alpha1
 kind: NodeConfig
@@ -33,10 +40,6 @@ spec:
     certificateAuthority: |
       ${var.certificate_authority}
     cidr: ${var.service_ipv4_cidr}
-  containerd:
-    config: |
-      [plugins."io.containerd.grpc.v1.cri"]
-        sandbox_image = "${var.pause_container_image}"
 EOF
 
 /usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml
