@@ -41,7 +41,7 @@ spec:
         sandbox_image = "${var.pause_container_image}"
 EOF
 
-/usr/local/bin/nodeadm --config /etc/eks/nodeadm-config.yaml
+/usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml
 
 # Fix sandbox image
 sed -i 's|sandbox_image = .*|sandbox_image = "${var.pause_container_image}"|' /etc/containerd/config.toml
