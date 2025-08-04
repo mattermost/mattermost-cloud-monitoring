@@ -62,6 +62,7 @@ No modules.
 | <a name="input_min_size"></a> [min\_size](#input\_min\_size) | The minimum number of nodes in the node group | `string` | n/a | yes |
 | <a name="input_node_group_name"></a> [node\_group\_name](#input\_node\_group\_name) | A name that can be used to identify the node group | `string` | n/a | yes |
 | <a name="input_node_role_arn"></a> [node\_role\_arn](#input\_node\_role\_arn) | The ARN of the IAM role attached to the node group | `string` | n/a | yes |
+| <a name="input_pause_container_image"></a> [pause\_container\_image](#input\_pause\_container\_image) | The pause container image to use for the node group | `string` | `"602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/pause:3.5"` | no |
 | <a name="input_service_ipv4_cidr"></a> [service\_ipv4\_cidr](#input\_service\_ipv4\_cidr) | The service IPv4 CIDR range for the EKS cluster | `string` | n/a | yes |
 | <a name="input_spot_desired_size"></a> [spot\_desired\_size](#input\_spot\_desired\_size) | The desired number of nodes in the spot node group | `number` | `0` | no |
 | <a name="input_spot_instance_type"></a> [spot\_instance\_type](#input\_spot\_instance\_type) | The instance type used for the nodes in the spot node group | `string` | n/a | yes |

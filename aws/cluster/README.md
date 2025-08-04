@@ -23,7 +23,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_managed_node_group"></a> [managed\_node\_group](#module\_managed\_node\_group) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups | v1.8.49 |
+| <a name="module_managed_node_group"></a> [managed\_node\_group](#module\_managed\_node\_group) | github.com/mattermost/mattermost-cloud-monitoring.git//aws/eks-managed-node-groups | v1.8.96 |
 
 ## Resources
 
@@ -125,6 +125,7 @@
 | <a name="input_node_group_name"></a> [node\_group\_name](#input\_node\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_node_volume_size"></a> [node\_volume\_size](#input\_node\_volume\_size) | n/a | `number` | n/a | yes |
 | <a name="input_node_volume_type"></a> [node\_volume\_type](#input\_node\_volume\_type) | n/a | `string` | n/a | yes |
+| <a name="input_pause_container_image"></a> [pause\_container\_image](#input\_pause\_container\_image) | The pause container image to use for the node group | `string` | `"602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/pause:3.5"` | no |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | n/a | `list(any)` | n/a | yes |
 | <a name="input_provider_role_arn"></a> [provider\_role\_arn](#input\_provider\_role\_arn) | n/a | `string` | `""` | no |
 | <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | n/a | `list(any)` | n/a | yes |

@@ -35,9 +35,23 @@ spec:
     apiServerEndpoint: ${aws_eks_cluster.cluster.endpoint}
     certificateAuthority: ${aws_eks_cluster.cluster.certificate_authority[0].data}
     cidr: ${local.service_cidr}
+  containerd:
+    config: |
+      [plugins."io.containerd.grpc.v1.cri"]
+        sandbox_image = "${var.pause_container_image}"
 EOF
 
-/usr/local/bin/nodeadm --config /etc/eks/nodeadm-config.yaml
+/usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml
+
+# Fix sandbox image
+sed -i 's|sandbox_image = .*|sandbox_image = "${var.pause_container_image}"|' /etc/containerd/config.toml
+
+# Remove any existing containerd config.d directory
+[ -d /etc/containerd/config.d ] && rm -rf /etc/containerd/config.d
+
+# Restart containerd to apply config
+systemctl restart containerd
+
 USERDATA
     ) : base64encode(<<USERDATA
 #!/bin/bash
