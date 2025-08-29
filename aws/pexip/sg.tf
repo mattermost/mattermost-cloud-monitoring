@@ -40,6 +40,18 @@ resource "aws_security_group" "pexip_conference_sg" {
     security_groups = [aws_security_group.pexip_conference_elb_sg.id]
     description     = "SIP/TLS"
   }
+
+  dynamic "ingress" {
+    for_each = var.initial_configuration ? [1] : []
+    content {
+      from_port       = 8443
+      to_port         = 8443
+      protocol        = "tcp"
+      security_groups = [aws_security_group.pexip_conference_elb_sg.id]
+      description     = "upload configuration/bootstrap port from ELB"
+    }
+  }
+
   ingress {
     from_port   = 0
     to_port     = 0
@@ -176,6 +188,17 @@ resource "aws_security_group" "pexip_conference_elb_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     description = "SIP TLS access"
+  }
+
+  dynamic "ingress" {
+    for_each = var.initial_configuration ? [1] : []
+    content {
+      from_port   = 8443
+      to_port     = 8443
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "upload configuration/bootstrap port"
+    }
   }
 
   egress {

@@ -58,11 +58,22 @@ resource "aws_elb" "pexip_conference_elb" {
     lb_protocol       = "tcp"
   }
 
+  dynamic "listener" {
+    for_each = var.initial_configuration ? [1] : []
+    content {
+      instance_port      = 8443
+      instance_protocol  = "https"
+      lb_port            = 8443
+      lb_protocol        = "https"
+      ssl_certificate_id = var.elb_ssl_certificate_arn_public
+    }
+  }
+
   health_check {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "TCP:443"
+    target              = var.initial_configuration ? "TCP:8443" : "TCP:443"
     interval            = 30
   }
 
