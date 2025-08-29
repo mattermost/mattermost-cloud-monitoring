@@ -97,7 +97,7 @@ resource "aws_load_balancer_policy" "pexip_management_ssl_policy" {
 
   policy_attribute {
     name  = "Reference-Security-Policy"
-    value = "ELBSecurityPolicy-TLS13-1-2-Res-2021-06"
+    value = "ELBSecurityPolicy-TLS-1-2-2017-01"
   }
 }
 
@@ -122,7 +122,7 @@ resource "aws_load_balancer_policy" "pexip_conference_ssl_policy" {
 
   policy_attribute {
     name  = "Reference-Security-Policy"
-    value = "ELBSecurityPolicy-TLS13-1-2-Res-2021-06"
+    value = "ELBSecurityPolicy-TLS-1-2-2017-01"
   }
 }
 
