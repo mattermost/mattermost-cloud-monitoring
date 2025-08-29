@@ -11,7 +11,6 @@ resource "aws_instance" "pexip_management" {
 
   primary_network_interface {
     network_interface_id = aws_network_interface.pexip_management.id
-    device_index         = 0
   }
 
   tags = {
@@ -38,7 +37,6 @@ resource "aws_instance" "pexip_conference" {
 
   primary_network_interface {
     network_interface_id = aws_network_interface.pexip_conference[each.key].id
-    device_index         = 0
   }
 
   tags = {
