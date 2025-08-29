@@ -9,7 +9,7 @@ resource "aws_instance" "pexip_management" {
   instance_type = var.management_ec2_type
   key_name      = var.initial_configuration ? var.ec2_key_pair : ""
 
-  network_interface {
+  primary_network_interface {
     network_interface_id = aws_network_interface.pexip_management.id
     device_index         = 0
   }
@@ -31,7 +31,7 @@ resource "aws_instance" "pexip_conference" {
   key_name      = var.initial_configuration ? var.ec2_key_pair : ""
   tenancy       = "dedicated"
 
-  network_interface {
+  primary_network_interface {
     network_interface_id = aws_network_interface.pexip_conference.id
     device_index         = 0
   }
