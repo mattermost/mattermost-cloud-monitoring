@@ -42,6 +42,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_api_gateway_vpc_endpoints"></a> [api\_gateway\_vpc\_endpoints](#input\_api\_gateway\_vpc\_endpoints) | n/a | `list(string)` | n/a | yes |
+| <a name="input_api_key_required"></a> [api\_key\_required](#input\_api\_key\_required) | Set to true if you want to require an API key to access the API Gateway | `bool` | `false` | no |
 | <a name="input_auth_private_subnet_ids"></a> [auth\_private\_subnet\_ids](#input\_auth\_private\_subnet\_ids) | The list of subnet IDs for VPC config of Lambda function | `list(string)` | n/a | yes |
 | <a name="input_auth_vpc_id"></a> [auth\_vpc\_id](#input\_auth\_vpc\_id) | The ID of the VPC which is used for security group | `string` | n/a | yes |
 | <a name="input_community_webhook"></a> [community\_webhook](#input\_community\_webhook) | The webhook URL to post notifications | `string` | n/a | yes |

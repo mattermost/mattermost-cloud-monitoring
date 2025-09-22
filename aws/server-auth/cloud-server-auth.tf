@@ -115,7 +115,7 @@ resource "aws_api_gateway_method" "cloud_server_auth_method" {
   resource_id      = aws_api_gateway_resource.cloud_server_auth_resource.id
   http_method      = "ANY"
   authorization    = "NONE"
-  api_key_required = true
+  api_key_required = var.api_key_required
 }
 
 resource "aws_api_gateway_deployment" "cloud_server_auth_deployment" {

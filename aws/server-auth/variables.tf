@@ -47,3 +47,9 @@ variable "enable_arm64" {
   type        = bool
   default     = false
 }
+
+variable "api_key_required" {
+  description = "Set to true if you want to require an API key to access the API Gateway"
+  type        = bool
+  default     = false
+}
