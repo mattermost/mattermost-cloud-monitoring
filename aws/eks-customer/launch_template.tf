@@ -50,26 +50,27 @@ resource "aws_launch_template" "node" {
     }
   }
 
-  image_id      = var.use_al2023 ? each.value.al2023_ami_id : each.value.ami_id
+  image_id      = each.value.ami_id
   instance_type = element(each.value.instance_types, 0)
   ebs_optimized = var.ebs_optimized
 
   user_data = var.use_al2023 ? base64encode(<<USERDATA
 #!/bin/bash
+set -ex
+
 echo "export AWS_REGION=${data.aws_region.current.name}" >> /etc/environment
 source /etc/environment
 
-echo Configuring nodeadm for AL2023
-cat <<EOF > /etc/eks/nodeadm-config.yaml
+echo "Configuring nodeadm for AL2023"
+cat <<'NODEADM_CONFIG' > /etc/eks/nodeadm-config.yaml
+---
 apiVersion: node.eks.aws/v1alpha1
 kind: NodeConfig
 spec:
   cluster:
     name: ${module.eks.cluster_name}
-    apiServerEndpoint: |
-      ${module.eks.cluster_endpoint}
-    certificateAuthority: |
-      ${module.eks.cluster_certificate_authority_data}
+    apiServerEndpoint: ${module.eks.cluster_endpoint}
+    certificateAuthority: ${module.eks.cluster_certificate_authority_data}
     cidr: ${module.eks.cluster_service_cidr}
   kubelet:
     config:
@@ -78,18 +79,12 @@ spec:
     config: |
       [plugins."io.containerd.grpc.v1.cri"]
         sandbox_image = "${var.pause_container_image}"
-EOF
+NODEADM_CONFIG
 
+echo "Running nodeadm init..."
 /usr/local/bin/nodeadm init -c file:///etc/eks/nodeadm-config.yaml
 
-# Fix sandbox image before nodeadm runs
-sed -i 's|sandbox_image = .*|sandbox_image = "${var.pause_container_image}"|' /etc/containerd/config.toml
-
-# Remove any existing containerd config.d directory
-[ -d /etc/containerd/config.d ] && rm -rf /etc/containerd/config.d
-
-# Restart containerd to apply config
-systemctl restart containerd
+echo "AL2023 node initialization complete"
 USERDATA
     ) : base64encode(<<USERDATA
 #!/bin/bash

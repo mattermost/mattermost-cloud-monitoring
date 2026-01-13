@@ -89,6 +89,7 @@ variable "node_groups" {
     ami_id            = string
     max_pods          = optional(number, 110)
     volume_throughput = optional(number, 125)
+    volume_iops       = optional(number, 3000)
     taints = optional(map(object({
       key    = string
       value  = string
