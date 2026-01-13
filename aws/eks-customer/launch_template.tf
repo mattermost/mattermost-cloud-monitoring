@@ -75,6 +75,10 @@ spec:
   kubelet:
     config:
       maxPods: ${lookup(each.value, "max_pods", 110)}
+  containerd:
+    config: |
+      [plugins."io.containerd.grpc.v1.cri"]
+        sandbox_image = "602401143452.dkr.ecr.${data.aws_region.current.name}.amazonaws.com/eks/pause:3.5"
 NODEADM_CONFIG
 
 echo "Running nodeadm init..."
