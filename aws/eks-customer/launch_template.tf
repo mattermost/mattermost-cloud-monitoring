@@ -75,10 +75,6 @@ spec:
   kubelet:
     config:
       maxPods: ${lookup(each.value, "max_pods", 110)}
-  containerd:
-    config: |
-      [plugins."io.containerd.grpc.v1.cri"]
-        sandbox_image = "${var.pause_container_image}"
 NODEADM_CONFIG
 
 echo "Running nodeadm init..."
