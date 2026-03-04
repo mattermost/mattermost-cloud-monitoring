@@ -5,9 +5,6 @@
 # Attach this policy to the Mimir ServiceAccount via IRSA.
 ################################################################################
 
-data "aws_caller_identity" "current" {}
-data "aws_region" "current" {}
-
 locals {
   s3_statements = [
     {
