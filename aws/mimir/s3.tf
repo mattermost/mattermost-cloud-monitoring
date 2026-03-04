@@ -52,8 +52,17 @@ resource "aws_s3_bucket_lifecycle_configuration" "mimir_blocks" {
       storage_class = "STANDARD_IA"
     }
 
+    noncurrent_version_transition {
+      noncurrent_days = 90
+      storage_class   = "STANDARD_IA"
+    }
+
     expiration {
       days = 365
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 365
     }
   }
 }
