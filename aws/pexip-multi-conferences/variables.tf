@@ -117,14 +117,7 @@ variable "management_public" {
 }
 
 variable "management_public_dns_name" {
-  description = "The Cloudflare DNS name for public management access (only used when management_public is true)"
+  description = "The Cloudflare DNS name for public management access (required when management_public is true)"
   type        = string
   default     = ""
-}
-
-check "management_public_dns_name_required" {
-  assert {
-    condition     = !var.management_public || trimspace(var.management_public_dns_name) != ""
-    error_message = "management_public_dns_name must be set when management_public is true."
-  }
 }

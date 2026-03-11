@@ -32,6 +32,13 @@ resource "cloudflare_dns_record" "pexip_management" {
   count   = var.management_public ? 1 : 0
   zone_id = var.cloudflare_zone_id
   name    = var.management_public_dns_name
+
+  lifecycle {
+    precondition {
+      condition     = trimspace(var.management_public_dns_name) != ""
+      error_message = "management_public_dns_name must be set when management_public is true."
+    }
+  }
   content = aws_elb.pexip_management_elb.dns_name
   type    = "CNAME"
   proxied = true
