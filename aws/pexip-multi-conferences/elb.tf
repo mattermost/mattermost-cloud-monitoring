@@ -1,15 +1,15 @@
 resource "aws_elb" "pexip_management_elb" {
   name            = "${var.name}-management-elb"
-  subnets         = [var.private_subnet_id]
+  subnets         = var.management_public ? [var.public_subnet_id] : [var.private_subnet_id]
   security_groups = [aws_security_group.pexip_management_elb_sg.id]
-  internal        = true
+  internal        = var.management_public ? false : true
 
   listener {
     instance_port      = 443
     instance_protocol  = "https"
     lb_port            = 443
     lb_protocol        = "https"
-    ssl_certificate_id = var.elb_ssl_certificate_arn_internal
+    ssl_certificate_id = var.management_public ? var.elb_ssl_certificate_arn_public : var.elb_ssl_certificate_arn_internal
   }
 
   health_check {

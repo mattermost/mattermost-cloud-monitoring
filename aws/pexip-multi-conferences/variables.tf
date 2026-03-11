@@ -109,3 +109,15 @@ variable "elb_ssl_certificate_arn_public" {
   type        = string
   description = "ARN of the SSL certificate to be used with the public ELB"
 }
+
+variable "management_public" {
+  description = "When true, creates a public-facing ELB and Cloudflare DNS record for the management node"
+  type        = bool
+  default     = false
+}
+
+variable "management_public_dns_name" {
+  description = "The Cloudflare DNS name for public management access (only used when management_public is true)"
+  type        = string
+  default     = ""
+}
