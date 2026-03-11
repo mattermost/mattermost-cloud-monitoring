@@ -121,3 +121,10 @@ variable "management_public_dns_name" {
   type        = string
   default     = ""
 }
+
+check "management_public_dns_name_required" {
+  assert {
+    condition     = !var.management_public || trimspace(var.management_public_dns_name) != ""
+    error_message = "management_public_dns_name must be set when management_public is true."
+  }
+}
