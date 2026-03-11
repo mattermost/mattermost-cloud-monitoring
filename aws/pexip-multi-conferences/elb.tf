@@ -59,11 +59,10 @@ resource "aws_elb" "pexip_conference_elb" {
   dynamic "listener" {
     for_each = var.initial_configuration ? [1] : []
     content {
-      instance_port      = 8443
-      instance_protocol  = "https"
-      lb_port            = 8443
-      lb_protocol        = "https"
-      ssl_certificate_id = var.elb_ssl_certificate_arn_public
+      instance_port     = 8443
+      instance_protocol = "tcp"
+      lb_port           = 8443
+      lb_protocol       = "tcp"
     }
   }
 
