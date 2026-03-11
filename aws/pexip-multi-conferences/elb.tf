@@ -12,6 +12,16 @@ resource "aws_elb" "pexip_management_elb" {
     ssl_certificate_id = var.management_public ? var.elb_ssl_certificate_arn_public : var.elb_ssl_certificate_arn_internal
   }
 
+  dynamic "listener" {
+    for_each = var.initial_configuration ? [1] : []
+    content {
+      instance_port     = 22
+      instance_protocol = "tcp"
+      lb_port           = 22
+      lb_protocol       = "tcp"
+    }
+  }
+
   health_check {
     healthy_threshold   = 2
     unhealthy_threshold = 2
