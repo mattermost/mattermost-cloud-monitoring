@@ -188,9 +188,9 @@ resource "aws_security_group_rule" "pexip_management_elb_https_vpn" {
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
-  cidr_blocks       = var.vpn_ips
+  cidr_blocks       = var.management_public ? ["0.0.0.0/0"] : var.vpn_ips
   security_group_id = aws_security_group.pexip_management_elb_sg.id
-  description       = "HTTPS access from VPN"
+  description       = var.management_public ? "HTTPS access (public)" : "HTTPS access from VPN"
 }
 
 # Management ELB SG egress rules
