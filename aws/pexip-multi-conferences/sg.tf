@@ -57,34 +57,34 @@ resource "aws_security_group_rule" "pexip_conference_vpn_access" {
   type              = "ingress"
   from_port         = 0
   to_port           = 0
-  protocol          = "tcp"
+  protocol          = "-1"
   cidr_blocks       = var.vpn_ips
   security_group_id = aws_security_group.pexip_conference_sg.id
   description       = "VPN access"
 }
 
-# Conference SG ingress rules - Inter-node communication
-resource "aws_security_group_rule" "pexip_conference_from_management_udp_500" {
-  type              = "ingress"
-  from_port         = 500
-  to_port           = 500
-  protocol          = "udp"
-  cidr_blocks       = [for ip in var.management_private_ips : "${ip}/32"]
-  security_group_id = aws_security_group.pexip_conference_sg.id
-  description       = "ISAKMP (IPsec) inter-node communication from management nodes"
-}
-
-resource "aws_security_group_rule" "pexip_conference_from_management_esp" {
+# Conference SG ingress rules - Inter-node communication (all protocols needed for config sync)
+resource "aws_security_group_rule" "pexip_conference_from_management" {
   type              = "ingress"
   from_port         = 0
   to_port           = 0
-  protocol          = "50"
+  protocol          = "-1"
   cidr_blocks       = [for ip in var.management_private_ips : "${ip}/32"]
   security_group_id = aws_security_group.pexip_conference_sg.id
-  description       = "IPsec / IP Protocol 50 inter-node communication from management nodes"
+  description       = "All access from management nodes"
 }
 
 # Conference SG ingress rules - From ELB
+resource "aws_security_group_rule" "pexip_conference_from_elb_5060" {
+  type                     = "ingress"
+  from_port                = 5060
+  to_port                  = 5060
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pexip_conference_elb_sg.id
+  security_group_id        = aws_security_group.pexip_conference_sg.id
+  description              = "SIP from ELB"
+}
+
 resource "aws_security_group_rule" "pexip_conference_from_elb_443" {
   type                     = "ingress"
   from_port                = 443
@@ -116,6 +116,17 @@ resource "aws_security_group_rule" "pexip_conference_from_elb_8443" {
   description              = "upload configuration/bootstrap port from ELB"
 }
 
+resource "aws_security_group_rule" "pexip_conference_bootstrap_direct" {
+  count             = var.initial_configuration ? 1 : 0
+  type              = "ingress"
+  from_port         = 8443
+  to_port           = 8443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.pexip_conference_sg.id
+  description       = "Direct bootstrap upload"
+}
+
 # Conference SG egress rules
 resource "aws_security_group_rule" "pexip_conference_egress_all" {
   type              = "egress"
@@ -139,25 +150,15 @@ resource "aws_security_group_rule" "pexip_management_initial_config" {
   description       = var.management_public ? "initial configuration of Pexip management node (public)" : "initial configuration of Pexip management node"
 }
 
-# Management SG ingress rules - Inter-node communication
-resource "aws_security_group_rule" "pexip_management_from_conference_udp_500" {
-  type              = "ingress"
-  from_port         = 500
-  to_port           = 500
-  protocol          = "udp"
-  cidr_blocks       = [for node in var.conference_nodes : "${node.private_ip}/32"]
-  security_group_id = aws_security_group.pexip_management_sg.id
-  description       = "ISAKMP (IPsec) inter-node communication from conference nodes"
-}
-
-resource "aws_security_group_rule" "pexip_management_from_conference_esp" {
+# Management SG ingress rules - Inter-node communication (all protocols needed for config sync)
+resource "aws_security_group_rule" "pexip_management_from_conference" {
   type              = "ingress"
   from_port         = 0
   to_port           = 0
-  protocol          = "50"
+  protocol          = "-1"
   cidr_blocks       = [for node in var.conference_nodes : "${node.private_ip}/32"]
   security_group_id = aws_security_group.pexip_management_sg.id
-  description       = "IPsec / IP Protocol 50 inter-node communication from conference nodes"
+  description       = "All access from conference nodes"
 }
 
 # Management SG ingress rules - From ELB
@@ -287,6 +288,16 @@ resource "aws_security_group_rule" "pexip_conference_elb_to_conf_443" {
   source_security_group_id = aws_security_group.pexip_conference_sg.id
   security_group_id        = aws_security_group.pexip_conference_elb_sg.id
   description              = "HTTPS to conference nodes"
+}
+
+resource "aws_security_group_rule" "pexip_conference_elb_to_conf_5060" {
+  type                     = "egress"
+  from_port                = 5060
+  to_port                  = 5060
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pexip_conference_sg.id
+  security_group_id        = aws_security_group.pexip_conference_elb_sg.id
+  description              = "SIP to conference nodes"
 }
 
 resource "aws_security_group_rule" "pexip_conference_elb_to_conf_5061" {
