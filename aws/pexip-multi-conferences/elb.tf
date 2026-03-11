@@ -145,15 +145,3 @@ resource "aws_load_balancer_listener_policy" "pexip_conference_listener_policy_4
     aws_load_balancer_policy.pexip_conference_ssl_policy[each.key].policy_name,
   ]
 }
-
-# SSL Negotiation Policy for Conference ELBs port 8443 (only when initial_configuration is true)
-resource "aws_load_balancer_listener_policy" "pexip_conference_listener_policy_8443" {
-  for_each = var.initial_configuration ? var.conference_nodes : {}
-
-  load_balancer_name = aws_elb.pexip_conference_elb[each.key].name
-  load_balancer_port = 8443
-
-  policy_names = [
-    aws_load_balancer_policy.pexip_conference_ssl_policy[each.key].policy_name,
-  ]
-}
