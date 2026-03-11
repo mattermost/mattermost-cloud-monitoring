@@ -22,7 +22,9 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_eip.pexip_conference_eip](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) | resource |
+| [aws_eip.pexip_management_eip](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) | resource |
 | [aws_eip_association.pexip_conference](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip_association) | resource |
+| [aws_eip_association.pexip_management](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip_association) | resource |
 | [aws_elb.pexip_conference_elb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elb) | resource |
 | [aws_elb.pexip_management_elb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elb) | resource |
 | [aws_instance.pexip_conference](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
@@ -58,9 +60,11 @@ No modules.
 | [aws_security_group_rule.pexip_management_egress_all](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.pexip_management_elb_egress_all](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.pexip_management_elb_https_vpn](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
+| [aws_security_group_rule.pexip_management_elb_ssh](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.pexip_management_elb_to_mgmt_443](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.pexip_management_from_conference_esp](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.pexip_management_from_conference_udp_500](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
+| [aws_security_group_rule.pexip_management_from_elb_22](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.pexip_management_from_elb_443](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.pexip_management_initial_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [cloudflare_dns_record.pexip_conference](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/dns_record) | resource |
@@ -82,7 +86,7 @@ No modules.
 | <a name="input_management_ec2_type"></a> [management\_ec2\_type](#input\_management\_ec2\_type) | The EC2 instance type for Pexip management node | `string` | n/a | yes |
 | <a name="input_management_private_ips"></a> [management\_private\_ips](#input\_management\_private\_ips) | List of the private IPs of the Pexip management node | `list(string)` | n/a | yes |
 | <a name="input_management_public"></a> [management\_public](#input\_management\_public) | When true, creates a public-facing ELB and Cloudflare DNS record for the management node | `bool` | `false` | no |
-| <a name="input_management_public_dns_name"></a> [management\_public\_dns\_name](#input\_management\_public\_dns\_name) | The Cloudflare DNS name for public management access (only used when management\_public is true) | `string` | `""` | no |
+| <a name="input_management_public_dns_name"></a> [management\_public\_dns\_name](#input\_management\_public\_dns\_name) | The Cloudflare DNS name for public management access (required when management\_public is true) | `string` | `""` | no |
 | <a name="input_management_route53_record_name"></a> [management\_route53\_record\_name](#input\_management\_route53\_record\_name) | The DNS name for the Pexip management node | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | n/a | `string` | `"pexip"` | no |
 | <a name="input_official_pexip_conference_ec2_ami"></a> [official\_pexip\_conference\_ec2\_ami](#input\_official\_pexip\_conference\_ec2\_ami) | The official AMI 686087431763/Pexip Infinity Conference Node 37.0.0 (build 80989.0.0) | `string` | `"ami-0d48fecb4209bb660"` | no |

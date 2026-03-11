@@ -1,7 +1,22 @@
 resource "aws_network_interface" "pexip_management" {
-  subnet_id       = var.private_subnet_id
+  subnet_id       = var.management_public ? var.public_subnet_id : var.private_subnet_id
   private_ips     = var.management_private_ips
   security_groups = [aws_security_group.pexip_management_sg.id]
+}
+
+resource "aws_eip" "pexip_management_eip" {
+  count = var.management_public ? 1 : 0
+
+  tags = {
+    "Name" = "${var.name}-management-eip"
+  }
+}
+
+resource "aws_eip_association" "pexip_management" {
+  count = var.management_public ? 1 : 0
+
+  instance_id   = aws_instance.pexip_management.id
+  allocation_id = aws_eip.pexip_management_eip[0].id
 }
 
 resource "aws_instance" "pexip_management" {

@@ -134,9 +134,9 @@ resource "aws_security_group_rule" "pexip_management_initial_config" {
   from_port         = 0
   to_port           = 0
   protocol          = "tcp"
-  cidr_blocks       = var.vpn_ips
+  cidr_blocks       = var.management_public ? ["0.0.0.0/0"] : var.vpn_ips
   security_group_id = aws_security_group.pexip_management_sg.id
-  description       = "initial configuration of Pexip management node"
+  description       = var.management_public ? "initial configuration of Pexip management node (public)" : "initial configuration of Pexip management node"
 }
 
 # Management SG ingress rules - Inter-node communication
@@ -180,6 +180,28 @@ resource "aws_security_group_rule" "pexip_management_egress_all" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.pexip_management_sg.id
   description       = "Allow all outbound traffic"
+}
+
+resource "aws_security_group_rule" "pexip_management_elb_ssh" {
+  count             = var.initial_configuration ? 1 : 0
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.pexip_management_elb_sg.id
+  description       = "SSH access for initial configuration (public management)"
+}
+
+resource "aws_security_group_rule" "pexip_management_from_elb_22" {
+  count                    = var.initial_configuration ? 1 : 0
+  type                     = "ingress"
+  from_port                = 22
+  to_port                  = 22
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pexip_management_elb_sg.id
+  security_group_id        = aws_security_group.pexip_management_sg.id
+  description              = "SSH from public management ELB for initial configuration"
 }
 
 # Management ELB SG ingress rules
