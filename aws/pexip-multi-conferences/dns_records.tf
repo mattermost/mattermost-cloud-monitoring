@@ -34,7 +34,7 @@ resource "cloudflare_dns_record" "pexip_management" {
   name    = var.management_public_dns_name
   content = aws_elb.pexip_management_elb.dns_name
   type    = "CNAME"
-  proxied = true
-  ttl     = 1
+  proxied = false
+  ttl     = 300
   comment = "Pexip management node DNS record"
 }
