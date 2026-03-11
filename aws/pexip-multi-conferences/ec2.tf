@@ -20,9 +20,9 @@ resource "aws_eip_association" "pexip_management" {
 }
 
 resource "aws_instance" "pexip_management" {
-  ami           = var.initial_configuration ? var.official_pexip_management_ec2_ami : var.custom_management_ec2_ami
+  ami           = var.official_pexip_management_ec2_ami
   instance_type = var.management_ec2_type
-  key_name      = var.initial_configuration ? var.ec2_key_pair : ""
+  key_name      = var.ec2_key_pair
 
   primary_network_interface {
     network_interface_id = aws_network_interface.pexip_management.id
@@ -45,9 +45,9 @@ resource "aws_network_interface" "pexip_conference" {
 resource "aws_instance" "pexip_conference" {
   for_each = var.conference_nodes
 
-  ami           = var.initial_configuration ? var.official_pexip_conference_ec2_ami : each.value.ami_id
+  ami           = var.official_pexip_conference_ec2_ami
   instance_type = each.value.ec2_type
-  key_name      = var.initial_configuration ? var.ec2_key_pair : ""
+  key_name      = var.ec2_key_pair
   tenancy       = "dedicated"
 
   primary_network_interface {

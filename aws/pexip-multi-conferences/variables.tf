@@ -33,7 +33,6 @@ variable "conference_nodes" {
     dns_name   = string
     ec2_type   = string
     private_ip = string
-    ami_id     = string
   }))
   description = "Map of conference nodes with their properties"
   default = {
@@ -41,13 +40,11 @@ variable "conference_nodes" {
       dns_name   = "random.mattermost.com"
       ec2_type   = "c6i.large"
       private_ip = "10.0.1.10"
-      ami_id     = "ami-0d48fecb4209bb660"
     },
     "example" = {
       dns_name   = "example.mattermost.com"
       ec2_type   = "c6i.xlarge"
       private_ip = "10.0.1.11"
-      ami_id     = "ami-0d48fecb4209bb660"
     }
   }
 }
@@ -79,11 +76,6 @@ variable "official_pexip_conference_ec2_ami" {
   description = "The official AMI 686087431763/Pexip Infinity Conference Node 37.0.0 (build 80989.0.0)"
 }
 
-variable "custom_management_ec2_ami" {
-  type        = string
-  description = "Customized with MM configuration Pexip AMI for management node"
-}
-
 variable "management_ec2_type" {
   type        = string
   description = "The EC2 instance type for Pexip management node"
@@ -95,7 +87,7 @@ variable "ec2_key_pair" {
 }
 
 variable "initial_configuration" {
-  description = "A boolean variable to control the initial configuration of Pexip setup, when true official AMI will be deployed and key-pairs will be added to EC2 nodes"
+  description = "When true, opens bootstrap port 8443, SSH port 22, and relaxed SG rules for initial Pexip setup. Set to false after configuration is complete."
   type        = bool
   default     = true
 }
