@@ -71,3 +71,26 @@ resource "aws_api_gateway_integration" "gitlab-webhook-integration" {
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.gitlab-webhook.invoke_arn
 }
+
+resource "aws_api_gateway_resource" "github-cursor-webhook-resource" {
+  rest_api_id = aws_api_gateway_rest_api.core-generic-webhook-notification.id
+  parent_id   = var.parent_id
+  path_part   = "github-cursor-webhook"
+}
+
+resource "aws_api_gateway_method" "github-cursor-webhook-post" {
+  rest_api_id   = aws_api_gateway_rest_api.core-generic-webhook-notification.id
+  resource_id   = aws_api_gateway_resource.github-cursor-webhook-resource.id
+  http_method   = "POST"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "github-cursor-webhook-integration" {
+  rest_api_id = aws_api_gateway_rest_api.core-generic-webhook-notification.id
+  resource_id = aws_api_gateway_resource.github-cursor-webhook-resource.id
+  http_method = aws_api_gateway_method.github-cursor-webhook-post.http_method
+
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.github-cursor-webhook.invoke_arn
+}

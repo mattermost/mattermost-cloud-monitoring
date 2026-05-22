@@ -54,6 +54,22 @@ variable "lambda_provisioner_notification_s3_key" {
   description = "The S3 key where the provisioner notification lambda function is stored"
 }
 
+variable "lambda_github_cursor_webhook_s3_key" {
+  type        = string
+  description = "The S3 key where the github-cursor-webhook lambda function is stored"
+}
+
+variable "github_cursor_webhook_n8n_url" {
+  type        = string
+  description = "Downstream n8n webhook URL that the github-cursor-webhook lambda forwards filtered events to"
+}
+
+variable "github_cursor_webhook_secret" {
+  type        = string
+  description = "Shared secret expected on the ?secret query string for inbound github-cursor-webhook requests"
+  sensitive   = true
+}
+
 variable "parent_id" {
   type = string
 }
