@@ -132,8 +132,9 @@ resource "aws_lambda_function" "github-cursor-webhook" {
 
   environment {
     variables = {
-      N8N_WEBHOOK_URL = var.github_cursor_webhook_n8n_url
-      WEBHOOK_SECRET  = var.github_cursor_webhook_secret
+      N8N_WEBHOOK_URL       = var.github_cursor_webhook_n8n_url
+      GITHUB_WEBHOOK_SECRET = var.github_cursor_webhook_github_secret
+      N8N_API_KEY           = var.github_cursor_webhook_n8n_api_key
     }
   }
 
