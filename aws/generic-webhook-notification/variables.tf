@@ -54,6 +54,43 @@ variable "lambda_provisioner_notification_s3_key" {
   description = "The S3 key where the provisioner notification lambda function is stored"
 }
 
+variable "lambda_github_cursor_webhook_s3_key" {
+  type        = string
+  description = "The S3 key where the github-cursor-webhook lambda function is stored"
+}
+
+variable "github_cursor_webhook_n8n_url" {
+  type        = string
+  description = "Downstream n8n webhook URL that the github-cursor-webhook lambda forwards filtered events to"
+
+  validation {
+    condition     = can(regex("^https://", var.github_cursor_webhook_n8n_url))
+    error_message = "github_cursor_webhook_n8n_url must be an https URL."
+  }
+}
+
+variable "github_cursor_webhook_github_secret" {
+  type        = string
+  description = "Shared secret configured on the GitHub webhook; used to verify the X-Hub-Signature-256 HMAC on inbound requests"
+  sensitive   = true
+
+  validation {
+    condition     = length(var.github_cursor_webhook_github_secret) >= 16
+    error_message = "github_cursor_webhook_github_secret must be at least 16 characters."
+  }
+}
+
+variable "github_cursor_webhook_n8n_api_key" {
+  type        = string
+  description = "API key sent as the X-API-KEY header on outbound forwards to the n8n workflow"
+  sensitive   = true
+
+  validation {
+    condition     = length(var.github_cursor_webhook_n8n_api_key) >= 16
+    error_message = "github_cursor_webhook_n8n_api_key must be at least 16 characters."
+  }
+}
+
 variable "parent_id" {
   type = string
 }

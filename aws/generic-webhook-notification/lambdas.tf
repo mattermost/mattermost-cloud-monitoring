@@ -109,6 +109,42 @@ resource "aws_lambda_function" "gitlab-webhook" {
 
 }
 
+resource "aws_lambda_function" "github-cursor-webhook" {
+  function_name = "${var.deployment_name}-github-cursor-webhook"
+  runtime       = "provided.al2"
+  role          = aws_iam_role.generic-webhook.arn
+  memory_size   = 128
+  timeout       = 30
+  handler       = "bootstrap"
+  architectures = var.enable_arm64 ? ["arm64"] : ["x86_64"]
+
+  s3_bucket = var.lambda_s3_bucket
+  s3_key    = var.lambda_github_cursor_webhook_s3_key
+
+  vpc_config {
+    subnet_ids         = flatten(var.private_subnet_ids)
+    security_group_ids = [aws_security_group.generic-lambda_sg.id]
+  }
+
+  tracing_config {
+    mode = "PassThrough"
+  }
+
+  environment {
+    variables = {
+      N8N_WEBHOOK_URL       = var.github_cursor_webhook_n8n_url
+      GITHUB_WEBHOOK_SECRET = var.github_cursor_webhook_github_secret
+      N8N_API_KEY           = var.github_cursor_webhook_n8n_api_key
+    }
+  }
+
+  ephemeral_storage {
+    size = 512
+  }
+
+  tags = var.tags
+}
+
 resource "aws_lambda_permission" "provisioner-notification-permission" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
@@ -135,6 +171,15 @@ resource "aws_lambda_permission" "gitlab-webhook-permission" {
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "${aws_api_gateway_rest_api.core-generic-webhook-notification.execution_arn}/*/${aws_api_gateway_method.gitlab-webhook-post.http_method}/${aws_api_gateway_resource.gitlab-webhook-resource.path_part}"
+}
+
+resource "aws_lambda_permission" "github-cursor-webhook-permission" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.github-cursor-webhook.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_api_gateway_rest_api.core-generic-webhook-notification.execution_arn}/*/${aws_api_gateway_method.github-cursor-webhook-post.http_method}/${aws_api_gateway_resource.github-cursor-webhook-resource.path_part}"
 }
 
 resource "aws_security_group" "generic-lambda_sg" {
