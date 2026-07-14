@@ -123,10 +123,10 @@ resource "aws_api_gateway_deployment" "cloud_server_auth_deployment" {
 
   triggers = {
     redeployment = sha1(jsonencode([
-      aws_api_gateway_rest_api.cloud_server_auth.policy,
-      aws_api_gateway_resource.cloud_server_auth_resource.id,
-      aws_api_gateway_method.cloud_server_auth_method.id,
-      aws_api_gateway_integration.cloud_server_auth_integration.id,
+      aws_api_gateway_rest_api.cloud_server_auth,
+      aws_api_gateway_resource.cloud_server_auth_resource,
+      aws_api_gateway_method.cloud_server_auth_method,
+      aws_api_gateway_integration.cloud_server_auth_integration,
     ]))
   }
 
