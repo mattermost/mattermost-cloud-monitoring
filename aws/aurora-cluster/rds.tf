@@ -185,6 +185,7 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql" 
 }
 
 resource "aws_cloudwatch_log_group" "rds-cluster-log-group" {
-  name       = format("%s/postgresql", local.cluster_identifier)
-  depends_on = [aws_rds_cluster.provisioning_rds_cluster]
+  name              = format("%s/postgresql", local.cluster_identifier)
+  retention_in_days = 30
+  depends_on        = [aws_rds_cluster.provisioning_rds_cluster]
 }
