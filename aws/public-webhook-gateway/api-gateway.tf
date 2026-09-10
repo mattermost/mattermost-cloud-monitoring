@@ -60,6 +60,18 @@ resource "aws_lambda_permission" "route" {
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "${aws_api_gateway_rest_api.public_webhook.execution_arn}/*/${aws_api_gateway_method.route[each.key].http_method}/${each.key}"
+
+  lifecycle {
+    # AWS caps StatementId at 100 characters. The composed value is
+    # "AllowInvokeFrom-" + deployment_name + "-public-webhook-" + route key, so a
+    # long deployment_name or route key can overflow it and fail at apply. This
+    # cannot be a variable validation block: those may only reference their own
+    # variable until Terraform 1.9, and this module supports >= 1.6.3.
+    precondition {
+      condition     = length("AllowInvokeFrom-${var.deployment_name}-public-webhook-${each.key}") <= 100
+      error_message = "Composed Lambda statement_id exceeds AWS's 100-character limit. Shorten deployment_name or the route key."
+    }
+  }
 }
 
 # The triggers hash is what makes routes actually go live.
