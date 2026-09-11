@@ -103,5 +103,9 @@ resource "aws_eks_node_group" "general_nodes_eks_cluster_ng" {
 
   lifecycle {
     create_before_destroy = true
+
+    # Tagged for cluster-autoscaler, which owns desired_size at runtime - see the
+    # note on general_arm_nodes_eks_cluster_ng. desired_size is a create-time seed.
+    ignore_changes = [scaling_config[0].desired_size]
   }
 }
