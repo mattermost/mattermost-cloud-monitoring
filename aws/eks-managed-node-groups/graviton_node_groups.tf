@@ -185,6 +185,13 @@ resource "aws_eks_node_group" "general_arm_nodes_eks_cluster_ng" {
 
   lifecycle {
     create_before_destroy = true
+
+    # This group is tagged for cluster-autoscaler, which owns desired_size at
+    # runtime. Leaving it under Terraform's control means the two fight: the
+    # autoscaler scales up, the next plan shows a diff back down to var.arm_desired_size,
+    # and any apply - including unrelated ones in the same project - quietly scales the
+    # group down. Ignoring it here keeps desired_size a create-time seed only.
+    ignore_changes = [scaling_config[0].desired_size]
   }
 }
 
