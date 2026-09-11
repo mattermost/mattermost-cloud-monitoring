@@ -605,6 +605,7 @@ resource "aws_rds_cluster_parameter_group" "cluster_parameter_group_postgresql_s
 }
 
 resource "aws_cloudwatch_log_group" "rds-cluster-log-group" {
-  name       = format("rds-cluster-multitenant-%s-%s/postgresql", split("-", var.primary_vpc_id)[1], local.database_id)
-  depends_on = [aws_rds_cluster.provisioning_rds_cluster_primary]
+  name              = format("rds-cluster-multitenant-%s-%s/postgresql", split("-", var.primary_vpc_id)[1], local.database_id)
+  retention_in_days = 30
+  depends_on        = [aws_rds_cluster.provisioning_rds_cluster_primary]
 }
