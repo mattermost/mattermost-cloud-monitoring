@@ -130,6 +130,12 @@ variable "enable_alertmanager_r53_record" {
   description = "Enable to create a private CNAME route53 record for Alertmanager."
 }
 
+variable "enable_mimir_gateway" {
+  default     = false
+  type        = bool
+  description = "Enables to create a private route53 record for Mimir Gateway"
+}
+
 variable "kubernetes_service_nginx_public" {
   default     = "nginx-ingress-nginx-controller"
   type        = string
