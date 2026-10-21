@@ -46,3 +46,39 @@ variable "allowed_cidrs" {
   description = "CIDR blocks allowed to access the Redis cluster"
   type        = list(string)
 }
+
+variable "maintenance_window" {
+  description = "Weekly maintenance window, e.g. sun:05:00-sun:06:00 (UTC). Leave null to keep the AWS-assigned window"
+  type        = string
+  default     = null
+}
+
+variable "tags" {
+  description = "Extra tags for all resources"
+  type        = map(string)
+  default     = {}
+}
+
+variable "alarm_sns_topic_arn" {
+  description = "SNS topic ARN for CloudWatch alarms. Alarms are created only when this is set"
+  type        = string
+  default     = ""
+}
+
+variable "alarm_engine_cpu_threshold" {
+  description = "EngineCPUUtilization (%) alarm threshold. Redis is single-threaded, so this is the main bottleneck"
+  type        = number
+  default     = 70
+}
+
+variable "alarm_memory_threshold" {
+  description = "DatabaseMemoryUsagePercentage (%) alarm threshold"
+  type        = number
+  default     = 80
+}
+
+variable "alarm_connections_threshold" {
+  description = "CurrConnections alarm threshold"
+  type        = number
+  default     = 5000
+}
