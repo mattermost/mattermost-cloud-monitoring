@@ -9,14 +9,19 @@ lint:
 	fi
 	bash -c "./scripts/format_lint.sh"
 
+TFLINT_VERSION ?= v0.64.0
+
 setup:
 ## setup: install tflint
 	@if [ "$(shell uname)" = "Darwin" ]; then \
 		echo "Installing tflint using brew on macOS"; \
 		brew install tflint; \
 	else \
-		echo "Installing tflint using install script on Linux"; \
-		curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash; \
+		echo "Installing tflint $(TFLINT_VERSION) from GitHub releases on Linux"; \
+		curl -sSfL -o /tmp/tflint.zip https://github.com/terraform-linters/tflint/releases/download/$(TFLINT_VERSION)/tflint_linux_amd64.zip; \
+		unzip -o -q /tmp/tflint.zip -d /tmp; \
+		sudo install /tmp/tflint /usr/local/bin/tflint; \
+		rm -f /tmp/tflint.zip /tmp/tflint; \
 	fi
 
 plugin:
