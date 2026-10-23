@@ -9,14 +9,25 @@ lint:
 	fi
 	bash -c "./scripts/format_lint.sh"
 
+TFLINT_VERSION ?= v0.64.0
+
 setup:
 ## setup: install tflint
 	@if [ "$(shell uname)" = "Darwin" ]; then \
 		echo "Installing tflint using brew on macOS"; \
 		brew install tflint; \
 	else \
-		echo "Installing tflint using install script on Linux"; \
-		curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash; \
+		set -e; \
+		case "$$(uname -m)" in \
+			x86_64) arch=amd64 ;; \
+			aarch64|arm64) arch=arm64 ;; \
+			*) echo "Unsupported architecture: $$(uname -m)"; exit 1 ;; \
+		esac; \
+		echo "Installing tflint $(TFLINT_VERSION) ($$arch) from GitHub releases on Linux"; \
+		tmp=$$(mktemp -d); trap 'rm -rf "$$tmp"' EXIT; \
+		curl -sSfL -o "$$tmp/tflint.zip" https://github.com/terraform-linters/tflint/releases/download/$(TFLINT_VERSION)/tflint_linux_$$arch.zip; \
+		unzip -o -q "$$tmp/tflint.zip" -d "$$tmp"; \
+		sudo install "$$tmp/tflint" /usr/local/bin/tflint; \
 	fi
 
 plugin:
