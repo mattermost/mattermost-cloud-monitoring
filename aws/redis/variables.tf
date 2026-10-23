@@ -63,6 +63,7 @@ variable "alarm_sns_topic_arn" {
   description = "SNS topic ARN for CloudWatch alarms. Alarms are created only when this is set"
   type        = string
   default     = ""
+  nullable    = false
 }
 
 variable "alarm_engine_cpu_threshold" {

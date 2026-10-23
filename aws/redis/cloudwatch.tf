@@ -50,7 +50,7 @@ resource "aws_cloudwatch_metric_alarm" "connections" {
   period              = 300
   statistic           = "Maximum"
   threshold           = var.alarm_connections_threshold
-  alarm_description   = "Redis connections on ${var.name} are above ${var.alarm_connections_threshold} for 15 minutes"
+  alarm_description   = "Peak Redis connections on ${var.name} are at or above ${var.alarm_connections_threshold} in 3 consecutive 5-minute periods"
   alarm_actions       = [var.alarm_sns_topic_arn]
   ok_actions          = [var.alarm_sns_topic_arn]
   treat_missing_data  = "ignore"
