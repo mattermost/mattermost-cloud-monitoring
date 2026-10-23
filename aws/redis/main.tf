@@ -6,9 +6,9 @@ resource "aws_elasticache_subnet_group" "redis_subnet_group" {
   name       = "${var.name}-redis-subnet-group"
   subnet_ids = var.subnet_ids
 
-  tags = {
+  tags = merge(var.tags, {
     Name = "${var.name}-redis-subnet-group"
-  }
+  })
 }
 
 resource "aws_elasticache_cluster" "redis_cluster" {
@@ -20,10 +20,11 @@ resource "aws_elasticache_cluster" "redis_cluster" {
   port               = var.port
   subnet_group_name  = aws_elasticache_subnet_group.redis_subnet_group.name
   security_group_ids = [aws_security_group.redis_sg.id]
+  maintenance_window = var.maintenance_window
 
-  tags = {
+  tags = merge(var.tags, {
     Name = var.name
-  }
+  })
 }
 
 resource "aws_security_group" "redis_sg" {
@@ -45,7 +46,7 @@ resource "aws_security_group" "redis_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
+  tags = merge(var.tags, {
     Name = "${var.name}-redis-sg"
-  }
+  })
 }
