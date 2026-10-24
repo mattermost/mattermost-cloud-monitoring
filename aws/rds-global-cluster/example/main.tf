@@ -12,7 +12,7 @@ module "global-db-cluster-test" {
   master_password                = "secretpassword" # MasterUserPassword should be >= 8 characters.
   primary_db_subnet_group_name   = "subnet-group-name-for-source-region"
   secondary_db_subnet_group_name = "subnet-group-name-for-target-region"
-  instance_class                 = "db.r4.large"
+  instance_class                 = "db.r5.large"
   backup_retention_period        = 5
   preferred_backup_window        = "02:00-03:00"
   skip_final_snapshot            = true
