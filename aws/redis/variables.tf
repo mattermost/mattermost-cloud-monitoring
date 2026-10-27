@@ -58,28 +58,3 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
-
-variable "alarm_sns_topic_arn" {
-  description = "SNS topic ARN for CloudWatch alarms. Alarms are created only when this is set"
-  type        = string
-  default     = ""
-  nullable    = false
-}
-
-variable "alarm_engine_cpu_threshold" {
-  description = "EngineCPUUtilization (%) alarm threshold. Redis is single-threaded, so this is the main bottleneck"
-  type        = number
-  default     = 70
-}
-
-variable "alarm_memory_threshold" {
-  description = "DatabaseMemoryUsagePercentage (%) alarm threshold"
-  type        = number
-  default     = 80
-}
-
-variable "alarm_connections_threshold" {
-  description = "CurrConnections alarm threshold"
-  type        = number
-  default     = 5000
-}
