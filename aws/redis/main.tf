@@ -13,6 +13,13 @@ resource "aws_elasticache_subnet_group" "redis_subnet_group" {
 
 # A replication group, even for a single node: ElastiCache only supports TLS
 # for Redis on replication groups.
+#
+# Upgrading a caller from aws_elasticache_cluster (v1.9.13 and earlier):
+# `moved` cannot change resource type, so without this the plan destroys the
+# old cluster. Convert the cluster to a replication group first, then in the
+# caller add
+#   import  { to = module.<name>.aws_elasticache_replication_group.redis, id = "<group id>" }
+#   removed { from = module.<name>.aws_elasticache_cluster.redis_cluster, lifecycle { destroy = false } }
 resource "aws_elasticache_replication_group" "redis" {
   replication_group_id = coalesce(var.replication_group_id, var.name)
   description          = var.description
