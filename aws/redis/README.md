@@ -33,7 +33,7 @@ No modules.
 | <a name="input_maintenance_window"></a> [maintenance\_window](#input\_maintenance\_window) | Weekly maintenance window, e.g. sun:05:00-sun:06:00 (UTC). Leave null to keep the AWS-assigned window | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | Base name for the subnet group, security group and (by default) the replication group | `string` | n/a | yes |
 | <a name="input_num_cache_nodes"></a> [num\_cache\_nodes](#input\_num\_cache\_nodes) | Number of cache clusters (nodes) in the replication group. Failover is disabled, so extra nodes are read replicas only | `number` | `1` | no |
-| <a name="input_parameter_group_name"></a> [parameter\_group\_name](#input\_parameter\_group\_name) | Cache parameter group name | `string` | `"default.redis7"` | no |
+| <a name="input_parameter_group_name"></a> [parameter\_group\_name](#input\_parameter\_group\_name) | Custom cache parameter group name. Leave null to use the engine default (default.redis7) | `string` | `null` | no |
 | <a name="input_port"></a> [port](#input\_port) | Port for Redis | `number` | `6379` | no |
 | <a name="input_redis_version"></a> [redis\_version](#input\_redis\_version) | The Redis version to use | `string` | `"7.1"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The AWS region to deploy resources in | `string` | n/a | yes |

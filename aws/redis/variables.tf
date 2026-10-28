@@ -72,9 +72,9 @@ variable "description" {
 }
 
 variable "parameter_group_name" {
-  description = "Cache parameter group name"
+  description = "Custom cache parameter group name. Leave null to use the engine default (default.redis7)"
   type        = string
-  default     = "default.redis7"
+  default     = null
 }
 
 variable "transit_encryption_enabled" {
