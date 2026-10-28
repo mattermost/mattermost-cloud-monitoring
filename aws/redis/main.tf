@@ -11,16 +11,28 @@ resource "aws_elasticache_subnet_group" "redis_subnet_group" {
   })
 }
 
-resource "aws_elasticache_cluster" "redis_cluster" {
-  cluster_id         = var.name
-  engine             = "redis"
-  engine_version     = var.redis_version
-  node_type          = var.instance_type
-  num_cache_nodes    = var.num_cache_nodes
-  port               = var.port
-  subnet_group_name  = aws_elasticache_subnet_group.redis_subnet_group.name
-  security_group_ids = [aws_security_group.redis_sg.id]
-  maintenance_window = var.maintenance_window
+# A replication group, even for a single node: ElastiCache only supports TLS
+# for Redis on replication groups.
+resource "aws_elasticache_replication_group" "redis" {
+  replication_group_id = coalesce(var.replication_group_id, var.name)
+  description          = var.description
+  engine               = "redis"
+  engine_version       = var.redis_version
+  node_type            = var.instance_type
+  num_cache_clusters   = var.num_cache_nodes
+  parameter_group_name = var.parameter_group_name
+  port                 = var.port
+  subnet_group_name    = aws_elasticache_subnet_group.redis_subnet_group.name
+  security_group_ids   = [aws_security_group.redis_sg.id]
+  maintenance_window   = var.maintenance_window
+
+  automatic_failover_enabled = false
+  multi_az_enabled           = false
+
+  # Changing this forces a replacement.
+  at_rest_encryption_enabled = false
+  transit_encryption_enabled = var.transit_encryption_enabled
+  transit_encryption_mode    = var.transit_encryption_enabled ? var.transit_encryption_mode : null
 
   tags = merge(var.tags, {
     Name = var.name

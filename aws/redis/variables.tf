@@ -1,5 +1,5 @@
 variable "name" {
-  description = "The name of the ElastiCache Redis cluster"
+  description = "Base name for the subnet group, security group and (by default) the replication group"
   type        = string
 }
 
@@ -31,7 +31,7 @@ variable "instance_type" {
 }
 
 variable "num_cache_nodes" {
-  description = "Number of cache nodes in the Redis cluster"
+  description = "Number of cache clusters (nodes) in the replication group. Failover is disabled, so extra nodes are read replicas only"
   type        = number
   default     = 1
 }
@@ -57,4 +57,39 @@ variable "tags" {
   description = "Extra tags for all resources"
   type        = map(string)
   default     = {}
+}
+
+variable "replication_group_id" {
+  description = "Replication group ID. Defaults to var.name; set it when importing an existing group with a different ID"
+  type        = string
+  default     = null
+}
+
+variable "description" {
+  description = "Replication group description"
+  type        = string
+  default     = "Mattermost Redis, managed by Terraform"
+}
+
+variable "parameter_group_name" {
+  description = "Cache parameter group name"
+  type        = string
+  default     = "default.redis7"
+}
+
+variable "transit_encryption_enabled" {
+  description = "Enable TLS in transit"
+  type        = bool
+  default     = true
+}
+
+variable "transit_encryption_mode" {
+  description = "TLS mode when transit encryption is enabled: preferred accepts both plaintext and TLS clients, required accepts TLS only"
+  type        = string
+  default     = "preferred"
+
+  validation {
+    condition     = contains(["preferred", "required"], var.transit_encryption_mode)
+    error_message = "transit_encryption_mode must be preferred or required."
+  }
 }
