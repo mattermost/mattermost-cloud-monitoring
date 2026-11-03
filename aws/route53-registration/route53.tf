@@ -186,6 +186,16 @@ resource "aws_route53_record" "loki_developers_frontend" {
 }
 
 
+resource "aws_route53_record" "mimir_gateway" {
+  count = var.enable_mimir_gateway ? 1 : 0
+
+  zone_id = var.private_hosted_zoneid
+  name    = "mimir-gateway"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [data.kubernetes_service.nginx-private.status[0].load_balancer[0].ingress[0].hostname]
+}
+
 resource "aws_route53_record" "elrond" {
   count = var.enable_elrond_private_r53_record ? 1 : 0
 
