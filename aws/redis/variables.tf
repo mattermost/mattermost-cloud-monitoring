@@ -68,7 +68,7 @@ variable "replication_group_id" {
 variable "description" {
   description = "Replication group description"
   type        = string
-  default     = "Mattermost Redis, managed by Terraform"
+  default     = "Managed by Terraform"
 }
 
 variable "parameter_group_name" {

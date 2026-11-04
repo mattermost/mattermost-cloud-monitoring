@@ -28,7 +28,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_allowed_cidrs"></a> [allowed\_cidrs](#input\_allowed\_cidrs) | CIDR blocks allowed to access the Redis cluster | `list(string)` | n/a | yes |
-| <a name="input_description"></a> [description](#input\_description) | Replication group description | `string` | `"Mattermost Redis, managed by Terraform"` | no |
+| <a name="input_description"></a> [description](#input\_description) | Replication group description | `string` | `"Managed by Terraform"` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The instance type for the Redis nodes | `string` | `"cache.t2.micro"` | no |
 | <a name="input_maintenance_window"></a> [maintenance\_window](#input\_maintenance\_window) | Weekly maintenance window, e.g. sun:05:00-sun:06:00 (UTC). Leave null to keep the AWS-assigned window | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | Base name for the subnet group, security group and (by default) the replication group | `string` | n/a | yes |
